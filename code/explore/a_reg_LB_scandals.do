@@ -106,7 +106,7 @@ egen group_cluster=group( country_id year grupo_dias)
 /* After 2010, No overlaps */
 eststo mm3 : reghdfe num_violent_MM post i.month i.day if year>2010 & LB == 1, absorb($fe1) vce(${CLUSTER2})
 estadd local cy_fe = "\checkmark"
-estadd local serr = "Country $\times$ Year $\times$ Days Bin"
+estadd local serr = "C $\times$ Y $\times$ DB"
 
 reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010 & LB == 1, absorb($fe1) vce(${CLUSTER2})
 

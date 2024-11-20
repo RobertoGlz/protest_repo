@@ -138,7 +138,7 @@ keep if overlap == 0
 /* After 2010, No overlaps */
 eststo mm1 : reghdfe num_violent_MM post i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
 estadd local cy_fe = "\checkmark"
-estadd local serr = "Country $\times$ Year $\times$ Days Bin"
+estadd local serr = "C $\times$ Y $\times$ DB"
 
 reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
 

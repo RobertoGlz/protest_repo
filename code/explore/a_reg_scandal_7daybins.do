@@ -119,7 +119,7 @@ replace s_lead7 = 0 // Base category
 /* After 2010, No overlaps */
 eststo mm4 : reghdfe num_violent_MM post i.month i.day if year>2010 & (inrange(window, -84, 84)), absorb($fe1) vce(${CLUSTER2})
 estadd local cy_fe = "\checkmark"
-estadd local serr = "Country $\times$ Year $\times$ Days Bin"
+estadd local serr = "C $\times$ Y $\times$ DB"
 
 reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010 & (inrange(window, -84, 84)), absorb($fe1) vce(${CLUSTER2})
 

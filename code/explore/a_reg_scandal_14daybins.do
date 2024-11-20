@@ -119,7 +119,7 @@ replace s_lead14 = 0 // Base category
 /* After 2010, No overlaps */
 eststo mm5 : reghdfe num_violent_MM post i.month i.day if year>2010 & (inrange(window, -84, 84)), absorb($fe1) vce(${CLUSTER2})
 estadd local cy_fe = "\checkmark"
-estadd local serr = "Country $\times$ Year $\times$ Days Bin"
+estadd local serr = "C $\times$ Y $\times$ DB"
 
 reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010 & (inrange(window, -84, 84)), absorb($fe1) vce(${CLUSTER2})
 
@@ -133,5 +133,8 @@ ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotpl
 graph export "${work}/results/figures/es_numviolentMM_84d_14dgroup_after2010_90ci.png", replace
 
 /* Make estimates table */
-esttab mm1 mm2 mm3 mm4 mm5 using "${work}/results/tables/es_exploratory_specs.tex", booktabs b(3) se(3) ${star} ///
-	stats(N r2 cy_fe serr, labels("Observations" "R2" "Country $\times$ Year FE" "Cluster SE's"))
+esttab mm1 mm2 mm3 mm4 mm5 using "${work}/results/tables/es_exploratory_specs.tex", replace booktabs b(3) se(3) ${star} ///
+	stats(N r2 cy_fe serr, labels("Observations" "R2" "Country $\times$ Year FE" "Cluster SE's")) ///
+	keep(post) coeflabels(post "Post Scandal") ///
+	mtitles("\shortstack{Violent \\ Protests}" "\shortstack{Violent \\ Protests}" "\shortstack{Violent \\ Protests}" ///
+		"\shortstack{Violent \\ Protests}" "\shortstack{Violent \\ Protests}") nonotes
