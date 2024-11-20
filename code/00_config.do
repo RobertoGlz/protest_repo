@@ -60,6 +60,10 @@ capture mkdir "${work}/results"
 capture mkdir "${work}/results/figures"
 capture mkdir "${work}/results/tables"
 
+/* Finala data folder */
+global datfin "${work}/data_final/"
+capture mkdir "${datfin}"
+
 /* Set significance levels for tables */
 global star "star(* 0.1 ** 0.05 *** 0.01)"
 
