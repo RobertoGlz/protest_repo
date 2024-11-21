@@ -207,7 +207,7 @@ estadd local serr = "C $\times$ Y $\times$ DB"
 levelsof id if e(sample) == 1
 estadd scalar nscand = r(r)
 
-reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
+reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($fe3) vce(${CLUSTER2})
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
@@ -365,7 +365,7 @@ reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($fe1)
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
-xtitle("Days around scandal") xscale(titlegap(2)) xline(3.5, lcolor(black))  ///
+xtitle("Days around scandal") xscale(titlegap(2)) xline(4.5, lcolor(black))  ///
 yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge)) xlabel(, labsize(medlarge)) ///
 graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
 ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
@@ -382,7 +382,7 @@ reghdfe government_response_violent ${leads} ${lags} i.month i.day if year>2010,
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
-xtitle("Days around scandal") xscale(titlegap(2)) xline(3.5, lcolor(black))  ///
+xtitle("Days around scandal") xscale(titlegap(2)) xline(4.5, lcolor(black))  ///
 yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ///
 graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
 ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
@@ -399,7 +399,7 @@ egen group_cluster=group(country_id year grupo_dias)
 /* Flag scandals for which there is overlap and drop them */
 generate date_0 = date if window == 0
 bysort id : ereplace date_0 = min(date_0) 
-
+local numbdays = 120
 generate window_start = date_0 - `numbdays'
 generate window_end = date_0 + `numbdays'
 
@@ -435,7 +435,7 @@ reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($fe1)
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
-xtitle("Days around scandal") xscale(titlegap(2)) xline(3.5, lcolor(black))  ///
+xtitle("Days around scandal") xscale(titlegap(2)) xline(4.5, lcolor(black))  ///
 yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge)) xlabel(, labsize(medlarge)) ///
 graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
 ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
@@ -452,7 +452,7 @@ reghdfe government_response_violent ${leads} ${lags} i.month i.day if year>2010,
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
-xtitle("Days around scandal") xscale(titlegap(2)) xline(3.5, lcolor(black))  ///
+xtitle("Days around scandal") xscale(titlegap(2)) xline(4.5, lcolor(black))  ///
 yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge)) xlabel(, labsize(medlarge)) ///
 graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
 ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
@@ -474,11 +474,11 @@ estadd local serr = "C $\times$ Y $\times$ DB"
 levelsof id if e(sample) == 1
 estadd scalar nscand = r(r)
 
-reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
+reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($fe3) vce(${CLUSTER2})
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
-xtitle("Days around scandal") xscale(titlegap(2)) xline(3.5, lcolor(black))  ///
+xtitle("Days around scandal") xscale(titlegap(2)) xline(4.5, lcolor(black))  ///
 yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge)) xlabel(, labsize(medlarge)) ///
 graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
 ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
@@ -495,7 +495,7 @@ reghdfe government_response_violent ${leads} ${lags} i.month i.day if year>2010,
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
-xtitle("Days around scandal") xscale(titlegap(2)) xline(3.5, lcolor(black))  ///
+xtitle("Days around scandal") xscale(titlegap(2)) xline(4.5, lcolor(black))  ///
 yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge)) xlabel(, labsize(medlarge)) ///
 graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
 ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
@@ -513,7 +513,7 @@ egen group_cluster=group(country_id year grupo_dias)
 /* Flag scandals for which there is overlap and drop them */
 generate date_0 = date if window == 0
 bysort id : ereplace date_0 = min(date_0) 
-
+local numbdays = 120
 generate window_start = date_0 - `numbdays'
 generate window_end = date_0 + `numbdays'
 
@@ -549,7 +549,7 @@ reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($fe3)
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
-xtitle("Days around scandal") xscale(titlegap(2)) xline(3.5, lcolor(black))  ///
+xtitle("Days around scandal") xscale(titlegap(2)) xline(4.5, lcolor(black))  ///
 yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge)) xlabel(, labsize(medlarge)) ///
 graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
 ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
@@ -566,7 +566,7 @@ reghdfe government_response_violent ${leads} ${lags} i.month i.day if year>2010,
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
-xtitle("Days around scandal") xscale(titlegap(2)) xline(3.5, lcolor(black))  ///
+xtitle("Days around scandal") xscale(titlegap(2)) xline(4.5, lcolor(black))  ///
 yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge)) xlabel(, labsize(medlarge)) ///
 graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
 ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
@@ -580,7 +580,7 @@ esttab mm1 mm2 mm3 mm4 mm5 mm6 mm7 mm8 using Panel1.tex, replace nonotes ///
 	"\shortstack{8 months \\ Overlap}" "\shortstack{8 months \\ No Overlap}" "\shortstack{8 months Overlap \\ Scandal FE }" ///
 	"\shortstack{8 months No Overlap \\ Scandal FE}") ///
 	keep(post) coeflabels(post "Post Scandal") ///
-	stats(N nscand R2, ///
+	stats(N nscand r2, ///
 		labels("Observations" "Scandals" "R2") fmt(0 0 3 0 0 0))
 		
 esttab gg1 gg2 gg3 gg4 gg5 gg6 gg7 gg8 using Panel2.tex, replace nonotes ///
@@ -590,7 +590,7 @@ esttab gg1 gg2 gg3 gg4 gg5 gg6 gg7 gg8 using Panel2.tex, replace nonotes ///
 	"\shortstack{8 months \\ Overlap}" "\shortstack{8 months \\ No Overlap}" "\shortstack{8 months Overlap \\ Scandal FE }" ///
 	"\shortstack{8 months No Overlap \\ Scandal FE}") ///
 	keep(post) coeflabels(post "Post Scandal") ///
-	stats(N nscand R2 cy_fe scandal_fe serr, ///
+	stats(N nscand r2 cy_fe scandal_fe serr, ///
 		labels("Observations" "Scandals" "R2" "C $\times$ Y FE" "Scandal FE" "Cluster SE") fmt(0 0 3 0 0 0))
 	
 include "https://raw.githubusercontent.com/steveofconnell/PanelCombine/master/PanelCombine.do"
