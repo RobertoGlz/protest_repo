@@ -69,9 +69,9 @@ forval i = 30(30)`numbdays' {
 }
 
 /* Define Cluster and FE */
-global fe1 "i.country_id#i.year"
+global CY_fe "i.country_id#i.year"
 global fe2 "i.country_id i.year"
-global fe3 "i.id_group"
+global scandal_fe "i.id_group"
 
 global CLUSTER1 = "cluster i.country_id#i.year"
 global CLUSTER2 = "cluster i.country_id#i.year#i.grupo_dias"
@@ -86,15 +86,14 @@ drop if (country == "Venezuela")
 egen grupo_dias=group(s_lag30 s_lag60 s_lag90 s_lead30 s_lead60 s_lead90)
 egen group_cluster=group( country_id year grupo_dias)
 
-
 /* Estimate regression for Violent Protests */
-eststo mm1 : reghdfe num_violent_MM post i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
+eststo mm1 : reghdfe num_violent_MM post i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
 estadd local cy_fe = "\checkmark"
 estadd local serr = "C $\times$ Y $\times$ DB"
 levelsof id if e(sample) == 1
 estadd scalar nscand = r(r)
 
-reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
+reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
@@ -105,13 +104,13 @@ ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotpl
 graph export "${work}/results/figures/es_numviolentMM_90d_after2010_overlaps_90ci.png", replace
 
 /* Estimate regression for Gvt Responses */
-eststo gg1 : reghdfe government_response_violent post i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
+eststo gg1 : reghdfe government_response_violent post i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
 estadd local cy_fe = "\checkmark"
 estadd local serr = "C $\times$ Y $\times$ DB"
 levelsof id if e(sample) == 1
 estadd scalar nscand = r(r)
 
-reghdfe government_response_violent ${leads} ${lags} i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
+reghdfe government_response_violent ${leads} ${lags} i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
@@ -120,6 +119,23 @@ yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge
 graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
 ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
 graph export "${work}/results/figures/es_gvtviolent_90d_after2010_overlaps_90ci.png", replace
+
+/* Estimate regression for Gvt Nonviolent Responses */
+eststo nv1 : reghdfe government_response_nonviolent post i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
+estadd local cy_fe = "\checkmark"
+estadd local serr = "C $\times$ Y $\times$ DB"
+levelsof id if e(sample) == 1
+estadd scalar nscand = r(r)
+
+reghdfe government_response_nonviolent ${leads} ${lags} i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
+
+coefplot, keep(${leads} ${lags}) levels(90) ///
+baselevels omitted vertical ///
+xtitle("Days around scandal") xscale(titlegap(2)) xline(3.5, lcolor(black))  ///
+yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge)) xlabel(, labsize(medlarge)) ///
+graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
+ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
+graph export "${work}/results/figures/es_gvtnonviolent_90d_after2010_overlaps_90ci.png", replace
 
 /* ----------------- Analysis without allowing for overlap ------------------*/
 /* Read in dataset */
@@ -158,13 +174,13 @@ drop _merge date_0 window_start window_end
 keep if overlap == 0
 
 /* Estimate regression for Violent Protests */
-eststo mm2 : reghdfe num_violent_MM post i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
+eststo mm2 : reghdfe num_violent_MM post i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
 estadd local cy_fe = "\checkmark"
 estadd local serr = "C $\times$ Y $\times$ DB"
 levelsof id if e(sample) == 1
 estadd scalar nscand = r(r)
 
-reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
+reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
@@ -175,13 +191,13 @@ ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotpl
 graph export "${work}/results/figures/es_numviolentMM_90d_after2010_nooverlaps_90ci.png", replace
 
 /* Estimate regression for Gvt Responses */
-eststo gg2 : reghdfe government_response_violent post i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
+eststo gg2 : reghdfe government_response_violent post i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
 estadd local cy_fe = "\checkmark"
 estadd local serr = "C $\times$ Y $\times$ DB"
 levelsof id if e(sample) == 1
 estadd scalar nscand = r(r)
 
-reghdfe government_response_violent ${leads} ${lags} i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
+reghdfe government_response_violent ${leads} ${lags} i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
@@ -190,6 +206,23 @@ yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge
 graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
 ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
 graph export "${work}/results/figures/es_gvtviolent_90d_after2010_nooverlaps_90ci.png", replace
+
+/* Estimate regression for Gvt Nonviolent Responses */
+eststo nv2 : reghdfe government_response_nonviolent post i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
+estadd local cy_fe = "\checkmark"
+estadd local serr = "C $\times$ Y $\times$ DB"
+levelsof id if e(sample) == 1
+estadd scalar nscand = r(r)
+
+reghdfe government_response_nonviolent ${leads} ${lags} i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
+
+coefplot, keep(${leads} ${lags}) levels(90) ///
+baselevels omitted vertical ///
+xtitle("Days around scandal") xscale(titlegap(2)) xline(3.5, lcolor(black))  ///
+yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge)) xlabel(, labsize(medlarge)) ///
+graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
+ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
+graph export "${work}/results/figures/es_gvtnonviolent_90d_after2010_nooverlaps_90ci.png", replace
 
 /* --------------------- Analysis allowing for overlap ----------------------*/
 /* --------------------------- Using scandal FE ---------------------------- */
@@ -201,13 +234,13 @@ egen grupo_dias=group(s_lag30 s_lag60 s_lag90 s_lead30 s_lead60 s_lead90)
 egen group_cluster=group( country_id year grupo_dias)
 
 /* Estimate regression for Violent Protests */
-eststo mm3 : reghdfe num_violent_MM post i.month i.day if year>2010, absorb($fe3) vce(${CLUSTER2})
+eststo mm3 : reghdfe num_violent_MM post i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
 estadd local scandal_fe = "\checkmark"
 estadd local serr = "C $\times$ Y $\times$ DB"
 levelsof id if e(sample) == 1
 estadd scalar nscand = r(r)
 
-reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($fe3) vce(${CLUSTER2})
+reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
@@ -218,13 +251,13 @@ ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotpl
 graph export "${work}/results/figures/es_numviolentMM_90d_after2010_overlaps_90ci_scandalfe.png", replace
 
 /* Estimate regression for Gvt Responses */
-eststo gg3 : reghdfe government_response_violent post i.month i.day if year>2010, absorb($fe3) vce(${CLUSTER2})
+eststo gg3 : reghdfe government_response_violent post i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
 estadd local scandal_fe = "\checkmark"
 estadd local serr = "C $\times$ Y $\times$ DB"
 levelsof id if e(sample) == 1
 estadd scalar nscand = r(r)
 
-reghdfe government_response_violent ${leads} ${lags} i.month i.day if year>2010, absorb($fe3) vce(${CLUSTER2})
+reghdfe government_response_violent ${leads} ${lags} i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
@@ -233,6 +266,23 @@ yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge
 graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
 ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
 graph export "${work}/results/figures/es_gvtviolent_90d_after2010_overlaps_90ci_scandalfe.png", replace
+
+/* Estimate regression for Gvt Nonviolent Responses */
+eststo nv3 : reghdfe government_response_nonviolent post i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
+estadd local scandal_fe = "\checkmark"
+estadd local serr = "C $\times$ Y $\times$ DB"
+levelsof id if e(sample) == 1
+estadd scalar nscand = r(r)
+
+reghdfe government_response_nonviolent ${leads} ${lags} i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
+
+coefplot, keep(${leads} ${lags}) levels(90) ///
+baselevels omitted vertical ///
+xtitle("Days around scandal") xscale(titlegap(2)) xline(3.5, lcolor(black))  ///
+yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge)) xlabel(, labsize(medlarge)) ///
+graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
+ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
+graph export "${work}/results/figures/es_gvtnonviolent_90d_after2010_overlaps_90ci_scandalfe.png", replace
 
 /* ----------------- Analysis without allowing for overlap ------------------*/
 /* -------------------------- Using scandal FE ----------------------------- */
@@ -272,13 +322,13 @@ drop _merge date_0 window_start window_end
 keep if overlap == 0
 
 /* Estimate regression for Violent Protests */
-eststo mm4 : reghdfe num_violent_MM post i.month i.day if year>2010, absorb($fe3) vce(${CLUSTER2})
+eststo mm4 : reghdfe num_violent_MM post i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
 estadd local scandal_fe = "\checkmark"
 estadd local serr = "C $\times$ Y $\times$ DB"
 levelsof id if e(sample) == 1
 estadd scalar nscand = r(r)
 
-reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($fe3) vce(${CLUSTER2})
+reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
@@ -289,13 +339,13 @@ ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotpl
 graph export "${work}/results/figures/es_numviolentMM_90d_after2010_nooverlaps_90ci_scandalfe.png", replace
 
 /* Estimate regression for Gvt Responses */
-eststo gg4 : reghdfe government_response_violent post i.month i.day if year>2010, absorb($fe3) vce(${CLUSTER2})
+eststo gg4 : reghdfe government_response_violent post i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
 estadd local scandal_fe = "\checkmark"
 estadd local serr = "C $\times$ Y $\times$ DB"
 levelsof id if e(sample) == 1
 estadd scalar nscand = r(r)
 
-reghdfe government_response_violent ${leads} ${lags} i.month i.day if year>2010, absorb($fe3) vce(${CLUSTER2})
+reghdfe government_response_violent ${leads} ${lags} i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
@@ -304,6 +354,23 @@ yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge
 graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
 ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
 graph export "${work}/results/figures/es_gvtviolent_90d_after2010_nooverlaps_90ci_scandalfe.png", replace
+
+/* Estimate regression for Gvt Nonviolent Responses */
+eststo nv4 : reghdfe government_response_nonviolent post i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
+estadd local scandal_fe = "\checkmark"
+estadd local serr = "C $\times$ Y $\times$ DB"
+levelsof id if e(sample) == 1
+estadd scalar nscand = r(r)
+
+reghdfe government_response_nonviolent ${leads} ${lags} i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
+
+coefplot, keep(${leads} ${lags}) levels(90) ///
+baselevels omitted vertical ///
+xtitle("Days around scandal") xscale(titlegap(2)) xline(3.5, lcolor(black))  ///
+yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge)) xlabel(, labsize(medlarge)) ///
+graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
+ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
+graph export "${work}/results/figures/es_gvtnonviolent_90d_after2010_nooverlaps_90ci_scandalfe.png", replace
 
 /* ----------------------------------------------------------------------------
 		Analysis for 4 months pre and 4 months post scandals
@@ -337,9 +404,9 @@ forval i = 30(30)`numbdays' {
 }
 
 /* Define Cluster and FE */
-global fe1 "i.country_id#i.year"
+global CY_fe "i.country_id#i.year"
 global fe2 "i.country_id i.year"
-global fe3 "i.id_group"
+global scandal_fe "i.id_group"
 
 global CLUSTER1 = "cluster i.country_id#i.year"
 global CLUSTER2 = "cluster i.country_id#i.year#i.grupo_dias"
@@ -355,13 +422,13 @@ egen grupo_dias=group(s_lag30 s_lag60 s_lag90 s_lag120 s_lead30 s_lead60 s_lead9
 egen group_cluster=group(country_id year grupo_dias)
 
 /* Estimate regression for Violent Protests */
-eststo mm5 : reghdfe num_violent_MM post i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
+eststo mm5 : reghdfe num_violent_MM post i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
 estadd local cy_fe = "\checkmark"
 estadd local serr = "C $\times$ Y $\times$ DB"
 levelsof id if e(sample) == 1
 estadd scalar nscand = r(r)
 
-reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
+reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
@@ -372,13 +439,13 @@ ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotpl
 graph export "${work}/results/figures/es_numviolentMM_120d_after2010_overlaps_90ci.png", replace
 
 /* Estimate regression for Gvt Responses */
-eststo gg5 : reghdfe government_response_violent post i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
+eststo gg5 : reghdfe government_response_violent post i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
 estadd local cy_fe = "\checkmark"
 estadd local serr = "C $\times$ Y $\times$ DB"
 levelsof id if e(sample) == 1
 estadd scalar nscand = r(r)
 
-reghdfe government_response_violent ${leads} ${lags} i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
+reghdfe government_response_violent ${leads} ${lags} i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
@@ -387,6 +454,23 @@ yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ///
 graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
 ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
 graph export "${work}/results/figures/es_gvtviolent_120d_after2010_overlaps_90ci.png", replace
+
+/* Estimate regression for Gvt Nonviolent Responses */
+eststo nv5 : reghdfe government_response_nonviolent post i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
+estadd local cy_fe = "\checkmark"
+estadd local serr = "C $\times$ Y $\times$ DB"
+levelsof id if e(sample) == 1
+estadd scalar nscand = r(r)
+
+reghdfe government_response_nonviolent ${leads} ${lags} i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
+
+coefplot, keep(${leads} ${lags}) levels(90) ///
+baselevels omitted vertical ///
+xtitle("Days around scandal") xscale(titlegap(2)) xline(4.5, lcolor(black))  ///
+yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ///
+graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
+ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
+graph export "${work}/results/figures/es_gvtnonviolent_120d_after2010_overlaps_90ci.png", replace
 
 /* ----------------- Analysis without allowing for overlap ------------------*/
 /* Read in dataset */
@@ -425,13 +509,13 @@ drop _merge date_0 window_start window_end
 keep if overlap == 0
 
 /* Estimate regression for Violent Protests */
-eststo mm6 : reghdfe num_violent_MM post i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
+eststo mm6 : reghdfe num_violent_MM post i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
 estadd local cy_fe = "\checkmark"
 estadd local serr = "C $\times$ Y $\times$ DB"
 levelsof id if e(sample) == 1
 estadd scalar nscand = r(r)
 
-reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
+reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
@@ -442,13 +526,13 @@ ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotpl
 graph export "${work}/results/figures/es_numviolentMM_120d_after2010_nooverlaps_90ci.png", replace
 
 /* Estimate regression for Gvt Responses */
-eststo gg6 : reghdfe government_response_violent post i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
+eststo gg6 : reghdfe government_response_violent post i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
 estadd local cy_fe = "\checkmark"
 estadd local serr = "C $\times$ Y $\times$ DB"
 levelsof id if e(sample) == 1
 estadd scalar nscand = r(r)
 
-reghdfe government_response_violent ${leads} ${lags} i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
+reghdfe government_response_violent ${leads} ${lags} i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
@@ -457,6 +541,23 @@ yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge
 graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
 ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
 graph export "${work}/results/figures/es_gvtviolent_120d_after2010_nooverlaps_90ci.png", replace
+
+/* Estimate regression for Gvt Nonviolent Responses */
+eststo nv6 : reghdfe government_response_nonviolent post i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
+estadd local cy_fe = "\checkmark"
+estadd local serr = "C $\times$ Y $\times$ DB"
+levelsof id if e(sample) == 1
+estadd scalar nscand = r(r)
+
+reghdfe government_response_nonviolent ${leads} ${lags} i.month i.day if year>2010, absorb($CY_fe) vce(${CLUSTER2})
+
+coefplot, keep(${leads} ${lags}) levels(90) ///
+baselevels omitted vertical ///
+xtitle("Days around scandal") xscale(titlegap(2)) xline(4.5, lcolor(black))  ///
+yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge)) xlabel(, labsize(medlarge)) ///
+graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
+ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
+graph export "${work}/results/figures/es_gvtnonviolent_120d_after2010_nooverlaps_90ci.png", replace
 
 /* --------------------- Analysis allowing for overlap ----------------------*/
 /* --------------------------- Using scandal FE ---------------------------- */
@@ -468,13 +569,13 @@ egen grupo_dias=group(s_lag30 s_lag60 s_lag90 s_lag120 s_lead30 s_lead60 s_lead9
 egen group_cluster=group(country_id year grupo_dias)
 
 /* Estimate regression for Violent Protests */
-eststo mm7 : reghdfe num_violent_MM post i.month i.day if year>2010, absorb($fe3) vce(${CLUSTER2})
+eststo mm7 : reghdfe num_violent_MM post i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
 estadd local scandal_fe = "\checkmark"
 estadd local serr = "C $\times$ Y $\times$ DB"
 levelsof id if e(sample) == 1
 estadd scalar nscand = r(r)
 
-reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($fe3) vce(${CLUSTER2})
+reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
@@ -485,13 +586,13 @@ ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotpl
 graph export "${work}/results/figures/es_numviolentMM_120d_after2010_overlaps_90ci_scandalfe.png", replace
 
 /* Estimate regression for Gvt Responses */
-eststo gg7 : reghdfe government_response_violent post i.month i.day if year>2010, absorb($fe3) vce(${CLUSTER2})
+eststo gg7 : reghdfe government_response_violent post i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
 estadd local scandal_fe = "\checkmark"
 estadd local serr = "C $\times$ Y $\times$ DB"
 levelsof id if e(sample) == 1
 estadd scalar nscand = r(r)
 
-reghdfe government_response_violent ${leads} ${lags} i.month i.day if year>2010, absorb($fe3) vce(${CLUSTER2})
+reghdfe government_response_violent ${leads} ${lags} i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
@@ -500,6 +601,23 @@ yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge
 graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
 ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
 graph export "${work}/results/figures/es_gvtviolent_120d_after2010_overlaps_90ci_scandalfe.png", replace
+
+/* Estimate regression for Gvt Nonviolent Responses */
+eststo nv7 : reghdfe government_response_nonviolent post i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
+estadd local scandal_fe = "\checkmark"
+estadd local serr = "C $\times$ Y $\times$ DB"
+levelsof id if e(sample) == 1
+estadd scalar nscand = r(r)
+
+reghdfe government_response_nonviolent ${leads} ${lags} i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
+
+coefplot, keep(${leads} ${lags}) levels(90) ///
+baselevels omitted vertical ///
+xtitle("Days around scandal") xscale(titlegap(2)) xline(4.5, lcolor(black))  ///
+yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge)) xlabel(, labsize(medlarge)) ///
+graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
+ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
+graph export "${work}/results/figures/es_gvtnonviolent_120d_after2010_overlaps_90ci_scandalfe.png", replace
 
 /* ----------------- Analysis without allowing for overlap ------------------*/
 /* -------------------------- Using scandal FE ----------------------------- */
@@ -539,13 +657,13 @@ drop _merge date_0 window_start window_end
 keep if overlap == 0
 
 /* Estimate regression for Violent Protests */
-eststo mm8 : reghdfe num_violent_MM post i.month i.day if year>2010, absorb($fe3) vce(${CLUSTER2})
+eststo mm8 : reghdfe num_violent_MM post i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
 estadd local scandal_fe = "\checkmark"
 estadd local serr = "C $\times$ Y $\times$ DB"
 levelsof id if e(sample) == 1
 estadd scalar nscand = r(r)
 
-reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($fe3) vce(${CLUSTER2})
+reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
@@ -556,13 +674,13 @@ ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotpl
 graph export "${work}/results/figures/es_numviolentMM_120d_after2010_nooverlaps_90ci_scandalfe.png", replace
 
 /* Estimate regression for Gvt Responses */
-eststo gg8 : reghdfe government_response_violent post i.month i.day if year>2010, absorb($fe3) vce(${CLUSTER2})
+eststo gg8 : reghdfe government_response_violent post i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
 estadd local scandal_fe = "\checkmark"
 estadd local serr = "C $\times$ Y $\times$ DB"
 levelsof id if e(sample) == 1
 estadd scalar nscand = r(r)
 
-reghdfe government_response_violent ${leads} ${lags} i.month i.day if year>2010, absorb($fe3) vce(${CLUSTER2})
+reghdfe government_response_violent ${leads} ${lags} i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
 
 coefplot, keep(${leads} ${lags}) levels(90) ///
 baselevels omitted vertical ///
@@ -571,6 +689,22 @@ yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge
 graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
 ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
 graph export "${work}/results/figures/es_gvtviolent_120d_after2010_nooverlaps_90ci_scandalfe.png", replace
+/* Estimate regression for Gvt Nonviolent Responses */
+eststo nv8 : reghdfe government_response_nonviolent post i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
+estadd local scandal_fe = "\checkmark"
+estadd local serr = "C $\times$ Y $\times$ DB"
+levelsof id if e(sample) == 1
+estadd scalar nscand = r(r)
+
+reghdfe government_response_nonviolent ${leads} ${lags} i.month i.day if year>2010, absorb($scandal_fe) vce(${CLUSTER2})
+
+coefplot, keep(${leads} ${lags}) levels(90) ///
+baselevels omitted vertical ///
+xtitle("Days around scandal") xscale(titlegap(2)) xline(4.5, lcolor(black))  ///
+yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ylabel(, labsize(medlarge)) xlabel(, labsize(medlarge)) ///
+graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
+ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
+graph export "${work}/results/figures/es_gvtnonviolent_120d_after2010_nooverlaps_90ci_scandalfe.png", replace
 
 /* ------------------------- Make regression tables ------------------------ */
 esttab mm1 mm2 mm3 mm4 mm5 mm6 mm7 mm8 using Panel1.tex, replace nonotes ///
@@ -590,10 +724,21 @@ esttab gg1 gg2 gg3 gg4 gg5 gg6 gg7 gg8 using Panel2.tex, replace nonotes ///
 	"\shortstack{8 months \\ Overlap}" "\shortstack{8 months \\ No Overlap}" "\shortstack{8 months Overlap \\ Scandal FE }" ///
 	"\shortstack{8 months No Overlap \\ Scandal FE}") ///
 	keep(post) coeflabels(post "Post Scandal") ///
+	stats(N nscand r2, ///
+		labels("Observations" "Scandals" "R2") fmt(0 0 3 0 0 0))
+		
+esttab nv1 nv2 nv3 nv4 nv5 nv6 nv7 nv8 using Panel3.tex, replace nonotes ///
+	b(3) se(3) star(* 0.1 ** 0.05 *** 0.01) ///
+	mtitles("\shortstack{6 months \\ Overlap}" "\shortstack{6 months \\ No Overlap}" "\shortstack{6 months Overlap \\ Scandal FE }" ///
+	"\shortstack{6 months No Overlap \\ Scandal FE}" ///
+	"\shortstack{8 months \\ Overlap}" "\shortstack{8 months \\ No Overlap}" "\shortstack{8 months Overlap \\ Scandal FE }" ///
+	"\shortstack{8 months No Overlap \\ Scandal FE}") ///
+	keep(post) coeflabels(post "Post Scandal") ///
 	stats(N nscand r2 cy_fe scandal_fe serr, ///
 		labels("Observations" "Scandals" "R2" "C $\times$ Y FE" "Scandal FE" "Cluster SE") fmt(0 0 3 0 0 0))
 	
 include "https://raw.githubusercontent.com/steveofconnell/PanelCombine/master/PanelCombine.do"
-panelcombine, use(Panel1.tex Panel2.tex) columncount(8) ///
-	paneltitles("\underline{Violent Protests}" "\underline{Gvt. Violent Response}") ///
+panelcombine, use(Panel1.tex Panel2.tex Panel3.tex) columncount(8) ///
+	paneltitles("\underline{Violent Protests}" "\underline{Gvt. Violent Response}" ///
+		"\underline{Non-violent Protests}") ///
 	save("${work}/results/tables/protests_gvtresp_alt_specs.tex") cleanup
