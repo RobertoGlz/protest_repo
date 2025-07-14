@@ -1,0 +1,14 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{3}{c}}
+\toprule
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
+            &\multicolumn{1}{c}{\shortstack{Violent \\ Protests}}&\multicolumn{1}{c}{\shortstack{Non-violent \\ Protests}}&\multicolumn{1}{c}{\shortstack{Gvt. Violent \\ Response}}\\
+\midrule
+1(Post Scandal = 1)&       0.491\sym{**} &      -0.203         &       0.533\sym{*}  \\
+            &     (0.195)         &     (0.137)         &     (0.300)         \\
+\midrule
+Observations&       21377         &       32902         &        5586         \\
+\bottomrule
+\end{tabular}
+}

@@ -29,8 +29,8 @@ if "${main}" == "" {
 	if "`c(username)'" == "Rob_9" {
 		global main "C:/Users/Rob_9/Dropbox/Corrupcion"
 	}
-	else if "`c(username)'" == "OtherCollaborator" {
-		global main "C:/Users/Other/Collaborator/Corrupcion"
+	else if "`c(username)'" == "rob98" {
+		global main "~/Dropbox/Corrupcion"
 	}
 	else {
 		display as error "User is not recognized."
