@@ -150,7 +150,8 @@ foreach numbdays in `window_length' {
 				yline(0, lcolor(black) lpattern(solid)) ///
 				xtitle("days since scandal", size(medium)) ytitle("average effect", size(medium)) ///
 				legend(off) ///
-				xlabel(, nogrid labsize(medlarge)) ylabel(, labsize(medlarge) format(%3.2fc)))
+				xlabel(-`window_length'(`bin_width')`window_length', nogrid labsize(medium)) ///
+				ylabel(, labsize(medlarge) format(%3.2fc)))
 		graph export "${work}/results/figures/bjs_`outcome'_`window'_cxyfe.pdf", replace
 		
 		/* Store effect estimates in a matrix to aggregate in bins */

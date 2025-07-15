@@ -107,7 +107,7 @@ foreach numbdays in /*90*/ 120 {
 		/* Estimate average coefficient */
 		eststo m_`y_counter'_`numbdays' : ppmlhdfe `outcome' post ///
 			if year >= `firstyear', absorb(month day ${CY_fe}) vce(cluster group_cluster) irr
-		local av_est = string(exp(_b[post])-1, "%3.2fc")
+		local av_est = string(exp(_b[post]), "%3.2fc")
 		local p_av_est = 2*normal(-abs(_b[post]/_se[post]))
 		if `p_av_est' < 0.01 {
 			local p_string = "p < 0.01"
