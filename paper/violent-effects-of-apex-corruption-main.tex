@@ -1,0 +1,112 @@
+\documentclass[11pt]{article}
+
+\input{preamble}
+
+% -----------------------------------------------------------------------
+% Fix-ups that the user's preamble doesn't include (kept here so the
+% preamble file itself stays untouched).
+% -----------------------------------------------------------------------
+
+% (1) Where to look for figures / tables produced by the Stata pipeline.
+\graphicspath{{../../Protest_Work/results/figures/}{./figures/}}
+\makeatletter
+\providecommand*{\input@path}{}
+\edef\input@path{{../../Protest_Work/results/tables/}{./tables/}\input@path}
+\makeatother
+
+% (2) Allow PDF figures up to v1.7 (Stata exports v1.6).
+\pdfminorversion=7
+
+% (3) Allow \DeclareGraphicsExtensions{.pdf} to coexist with the Stata
+%     event-study figures that ship as .png. Adding .png back lets us
+%     write \includegraphics{foo} without an explicit extension.
+\DeclareGraphicsExtensions{.pdf,.png}
+
+% (4) The Stata esttab Poisson tables write "exp(\beta)" outside math
+%     mode. Wrap \beta with \ensuremath so it resolves in either mode.
+\let\mathbetasym\beta
+\renewcommand{\beta}{\ensuremath{\mathbetasym}}
+
+% -----------------------------------------------------------------------
+
+\title{\bfseries\Large The Violent Effects of Apex Corruption}
+
+\author{%
+Eduardo Rivera\thanks{MIT, Department of Economics. \texttt{erivera@mit.edu}.}
+\and
+Enrique Seira\thanks{University of Notre Dame, Department of Economics and Kellogg Institute. \texttt{eseirabe@nd.edu}.}
+\and
+Saumitra Jha\thanks{Stanford Graduate School of Business. \texttt{saumitra@stanford.edu}.}
+\and
+Roberto Gonzalez-Tellez\thanks{Research Fellow, Stanford Graduate School of Business. \texttt{rob98@stanford.edu}. We thank seminar audiences at XXX for comments. All errors are our own.}%
+}
+
+\date{This draft: \today}
+
+\begin{document}
+
+\maketitle
+
+% =====================================================================
+% ABSTRACT
+% =====================================================================
+\begin{abstract}
+    \noindent We document that \textit{apex} corruption scandals---corrupt acts implicating top-level politicians---cause immediate and persistent increases in violent protests across Latin America. Using a panel of \hl{176} corruption scandals across \hl{23} countries from \hl{2008 to 2018}, merged with daily protest counts, we establish three facts: The daily count of violent protests increases by about 0.2 standard deviations in the month immediately after the scandal. The effect appears within a week of the scandal, and remains positive even 4 months later. The magnitude of the effect scales sharply with the political rank of the implicated agent: scandals involving sitting presidents show effects 2--3 times larger than those involving Governors or Congress members. Our findings identify a high-frequency, high-magnitude channel through which corruption shapes the political environment in democracies.
+\end{abstract}
+
+\noindent \textbf{Keywords:} \\ 
+\textbf{JEL Code:}
+
+\bigskip
+
+% =====================================================================
+% INTRODUCTION
+% =====================================================================
+\clearpage
+\section{Introduction}
+
+Political violence is among the most consequential outcomes a democracy can experience. Civil unrest disrupts economic activity, displaces investment, and---when met with state violence in return---erodes the social contract that legitimizes the regime. An influencial economic literature has linked political violence to economic shocks~\citep{miguel2004economic,mcguirk2020economic}, to commodity rents and network structure~\citep{koenig2017networks}, and---in the recent comparative work---to abrupt withdrawals of foreign assistance~\citep{rohner2026aidingpeace}. The contribution of political shocks to events that change citizens' beliefs about who governs them has received considerably less attention. In this paper, we argue that disclosures of apex corruption are one such shock, and that the behavioral consequences for political violence are large, immediate, and persistent. 
+
+Citizens' perceptions of corruption prevalence have risen in the past two decades~\citep{cantoni2024protests}. Moreover, corruption scandals associated to \textit{apex} politicians have drawn more attention from news outlets in recent years~\citep{ApexCorruption}; perhaps unsurprisingly due to the expansion of social media, which reduces the cost of diffusing information and enables news outlets to reach broader audiences \citep{enikolopov2018SocialMedia, tufekci2024twitter}. While exposing corruption scandals on news outlets can have positive desired effects, such as political accountability or crackdowns of corruption networks \citep{FerrazFinanAccount, horacio2019infonetwork, horacio2022metaketa}, it can also have negative undesired effects on democratic values \citep{ajzenman2021powerexample, ApexCorruption} and away from the polling booths. Public exposure of malfeasance by sitting officials changes what citizens believe about who governs them and about the rules under which the government operates. The most consequential corruption-related political moments of the last decade, such as Barzil's Lava Jato\footnote{See XXX link for more information on the scandal.}, were mobilization events, not electoral ones. 
+
+We document that apex corruption---corrupt acts implicating top-level politicians---triggers immediate and persistent increases in violent protests across Latin American democracies. Using a panel of \hl{176} corruption scandals across \hl{23} countries from \hl{2008 to 2018}, merged with daily protest counts from the Mass Mobilization (MM) project~\citep{clark2016mass}, we establish three facts. First, the daily count of violent protests increases by about 0.2 standard deviations in the month immediately after the scandal. The overall count of protests and the count of peaceful protests, however, remain largely unaffected. Second, the effect appears within a week of the scandal break out, and remains positive even 4 months later, relative to the immediate month before the scandal. Third, the magnitude of the effect scales sharply with the political rank of the implicated agent: scandals involving sitting presidents show effects 2--3 times larger than those involving Governors or members of Congress. Scandals involving Supreme Court justices, lower judiciary, and other non-apex officials leave protest patterns broadly unchanged.
+
+
+% =====================================================================
+% Method
+% =====================================================================
+\section{Method}
+\subsection{Study Design and Measures}
+
+To conduct the empirical analyses we exploit the randomness of corruption scandal breakthroughs in Latinamerican news outlets between 2008 and 2018. In particular, we use a stacked difference-in-differences design in which we compare the evolution of protest occurrences in countries with scandals to those without scandals. Our analysis dataset is created by: (i) Scraping the Twitter accounts from news outlets in Latin America to identify the calendar date in which a scandal in a given country is first reported\footnote{We keep the date of the first news report to (a) be able to estimate the effect of a scoop, and (b) avoid double-counting a scandal due to follow-up news reports on it.}, (ii) create an event-window of $T \in \{30, 120\}$ days before and after the scandal, (iii) merge the country-day count of protests from the MM data to create a `scandal-protest' for a given country in a given calendar-date window, and lastly, (iv) append all such scandal-protest datasets to build the analysis dataset.
+
+The MM dataset is available for the period 1990--2020, and it includes information on the date, size, and location of any episodes where 50 or more protesters publicly demonstrate against the State. If a protest lasts $X$ days, we code the occurrence of a protest at date $t, t+1, \dots, t+X-1$. Additionally, if the same protest is associated with more than one date (e.g., because the news source for the protest cannot accurately identify whether it is a continued or a new protest), then we keep the date of the earliest protest. For a protest to be qualified as ``violent'', ``[t]he violence could include anything from riotous behavior that destroys property to shooting at the police or military.'' Our main outcome is the number of protests occurring in a given country-date. We focus on the years \hl{2008--2018}, given that our corruption scandals data is available for those years.
+
+Our estimating equation is:
+\begin{equation}
+\label{eq:main}
+    Y_{c(s)t} = \beta \; \mathbbm{1}\{t \geq \text{Scandal Date}_{c(s)}\} + \alpha_{d} + \lambda_{m} + \theta_{cy} 
+\end{equation}
+where $\alpha_d$ denote day of the week fixed effects, $\lambda_m$ denote month of the year fixed effects, $\theta_cy$ denote country-year fixed effects, $\text{Scandal Date}_{c(s)}$ is the date in which corruption scandal $s$ in country $c$ occurs and $Y_{c(s)t}$ denotes the outcome of interest in country $c$ at date $t$. 
+
+To trace dynamics we replace $\mathbbm{1}\{t \geq \text{Scandal Date}_{c(s)}\}$ in \autoref{eq:main} with a saturated set of bin indicators. At the narrow window ($T=30$) we use 6-day bins, which strike a balance between the temporal resolution needed to detect a short-horizon response and the within-bin sample size needed to estimate each bin coefficient precisely. At the wide window ($T=120$) we use 30-day bins. The reference category in each event-study graph is the bin immediately before disclosure ($w_{s,t} \in [-6, -1]$ at the narrow window, $w_{s,t} \in [-30, -1]$ at the wide window).
+
+The identification assumption we rely on for our estimates to be interpreted as causal is that, conditional on country-year, month-of-year, and day-of-week fixed effects, the within-year date of disclosure of a scandal is as-good-as-randomly assigned in relation to the protest baseline of the country. The country-year fixed effects absorb every source of country-year-level confounding such as pre-existing political instability, electoral calendars, or institutional reforms. The day-of-week and month-of-year fixed effects absorb weekly and seasonal cycles in protest activity. 
+
+% =====================================================================
+% Results
+% =====================================================================
+\section{Results}
+
+% =====================================================================
+% Discussion
+% =====================================================================
+\section{Discussion}
+
+% =====================================================================
+% REFERENCES
+% =====================================================================
+\clearpage
+\bibliography{refs}
+
+\end{document}

@@ -25,6 +25,9 @@ if "`c(username)'" == "lalov" {
 if "`c(username)'" == "Rob_9" {
 	global identity "C:/Users/Rob_9/Dropbox"
 }
+if "`c(username)'" == "rob98" {
+	global identity "C:/Users/rob98/Dropbox"
+}
 ********************************************************************************
 
 ** Creating Global File Paths **
@@ -42,6 +45,7 @@ gl logs 	"${path}/Logs"
 gl graphs 	"${output}/Graphs"
 gl tables 	"${output}/Tables"
 gl overleaf	"${identity}/Apps/Overleaf"
+global work "${identity}/Corrupcion/Protest_Work"
 local date: dis %td_NN_DD_CCYY date(c(current_date), "DMY")
 gl date_string = subinstr(trim("`date'"), " " , "_", .)
 
@@ -108,8 +112,9 @@ egen group_cluster=group( country_id year grupo_dias)
 generate date_0 = date if window == 0
 bysort id : ereplace date_0 = min(date_0) 
 
-generate window_start = date_0 - 120
-generate window_end = date_0 + 120 
+local window_days = 120
+generate window_start = date_0 - `window_days'
+generate window_end = date_0 + `window_days' 
 
 sort country date_0
 preserve 
@@ -132,20 +137,35 @@ drop _merge date_0 window_start window_end
 
 /* Keep only scandals without overlap */
 keep if overlap == 0
-
+local cilevel = 90
 /* Estimate regression and plot coefficients */
+estimates clear
+local mmm = 0
+foreach outcome in "num_protests_MM" "num_violent_MM" "num_peaceful_MM" "government_response_violent" {
+	local ++mmm
+	/* No overlaps */
+	eststo m`mmm' : reghdfe `outcome' post i.month i.day if year>=2008, absorb($fe1) vce(${CLUSTER2})
+	quietly levelsof id if e(sample) == 1
+	estadd scalar num_scandals = r(r)
+	estadd local cy_fe = "\checkmark"
+	estadd local serr = "C $\times$ Y $\times$ DB"
 
-/* After 2010, No overlaps */
-eststo mm1 : reghdfe num_violent_MM post i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
-estadd local cy_fe = "\checkmark"
-estadd local serr = "C $\times$ Y $\times$ DB"
+	reghdfe `outcome' ${leads} ${lags} i.month i.day if year>=2008, absorb($fe1) vce(${CLUSTER2})
 
-reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010, absorb($fe1) vce(${CLUSTER2})
+	coefplot, keep(${leads} ${lags}) levels(`cilevel') ///
+	baselevels omitted vertical ///
+	xtitle("Days around scandal") xscale(titlegap(2)) xline(4.5, lcolor(black))  ///
+	yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ///
+	graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
+	ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
+	graph export "${work}/results/figures/es_`outcome'_`window_days'd_firstscandal_`cilevel'ci.png", replace
 
-coefplot, keep(${leads} ${lags}) levels(90) ///
-baselevels omitted vertical ///
-xtitle("Days around scandal") xscale(titlegap(2)) xline(4.5, lcolor(black))  ///
-yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ///
-graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
-ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
-graph export "${work}/results/figures/es_numviolentMM_120d_after2010_nooverlaps_90ci.png", replace
+}
+
+esttab _all using "${work}/results/tables/es_`window_days'd_firstscandal_`cilevel'ci.tex", ///
+	replace booktabs nonotes nogaps b(3) se(3) ///
+	mtitles("\shortstack{Protests}" "\shortstack{Violent\\Protests}" "\shortstack{Non-Violent\\Protests}" ///
+	"\shortstack{Gvt. Violent\\Response}") stats(N num_scandals r2 cy_fe serr, ///
+	label("Observations" "Number of Scandals" "R-squared" "Country $\times$ Year FE" "SE Cluster") ///
+	fmt(0 0 3 0 0)) keep(post) coeflabels(post "Post Scandal") 
+

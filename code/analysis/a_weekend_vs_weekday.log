@@ -1,0 +1,1124 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      StataNow 19.5
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2025 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-782-8272        https://www.stata.com
+                                   979-696-4600        service@stata.com
+
+Stata license: Unlimited-user 16-core network, expiring  2 Jul 2026
+Serial number: 501909320077
+  Licensed to: Roberto Gonzalez Tellez
+               Stanford University GSB
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do a_weekend_vs_weekday.do 
+
+. /* --------------------------------------------------------------------------
+> --
+>                                         Violent effects of apex corruption
+> 
+>         Code author: Roberto Gonzalez
+>         Date: 2026-05-20
+> 
+>         Objective (protests_plan.md, Task 4):
+>                 Sample-split the headline OLS / Poisson C x Y FE specificatio
+> ns by
+>                 whether the scandal date falls on a weekend (Sat/Sun) or a we
+> ekday
+>                 (Mon-Fri).  Two motivations:
+>                   (a) Weekend baselines are mechanically lower (less protest
+>                       activity on weekend days), so a post-scandal jump can l
+> ook
+>                       bigger.  The heterogeneity check disciplines this.
+>                   (b) Weekend scandals may be more "exogenously timed" relati
+> ve to
+>                       the news cycle (less strategic timing by political acto
+> rs).
+> 
+>         Audit note:
+>                 The plan asked to add i.dow to the main specs, but inspection
+>  of
+>                 ols_main.do and poisson_reg_main_countryxyear_fe.do shows day
+> -of-week
+>                 IS already in the spec (absorb(month day ...) in OLS;
+>                 `i.month i.day` in Poisson).  The plan's note was stale.  So 
+> this
+>                 task focuses on the heterogeneity split only.
+> 
+>         Spec mirrored exactly from the headline scripts:
+>                 OLS:  reghdfe outcome post, absorb(month day country#year)
+>                          cluster(group_cluster)
+>                 Poi:  poisson outcome post i.month i.day i.country_id#i.year,
+>                          vce(cluster group_cluster) irr
+>                 group_cluster = group(country_id year bin30), where bin30 is 
+> the
+>                 30-day window bin (matches PDF's "C x Y x DB" clustering).
+> 
+>         Outputs:
+>                 - Tex tables (OLS + Poisson, wide +-120 + narrow +-30):
+>                     ${work}/results/tables/wkd_vs_wkend_<estimator>_w<W>d.tex
+>                 - Console log: panelled coefficient tables to read into the
+>                   markdown results note.
+> ---------------------------------------------------------------------------- 
+> */
+. 
+. /* ------------------- Configuration for collaborators -------------------- *
+> /
+. if "`c(username)'" == "lalov" {
+.         gl identity "C:\Users\lalov\ITAM Seira Research Dropbox\Eduardo River
+> a"
+. }
+
+. if "`c(username)'" == "Rob_9" {
+.         global identity "C:/Users/Rob_9/Dropbox"
+. }
+
+. if "`c(username)'" == "rob98" {
+.         global identity "~/Dropbox"
+. }
+
+. 
+. global work "${identity}/Corrupcion/Protest_Work"
+
+. global path "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
+
+. global datfin "${path}/Data/final"
+
+. global tabout "${work}/results/tables"
+
+. 
+. /* All 4 outcomes from the PDF main tables */
+. global outcome_list "num_protests_MM num_violent_MM num_peaceful_MM governmen
+> t_response_violent"
+
+. 
+. local firstyear = 2011
+
+. 
+. /* Loop over the two windows used in the PDF: wide (Table 1 et al.) and
+>    narrow (Section 8, Tables 16-17) */
+. foreach numbdays in 120 30 {
+  2. 
+.         display in yellow as result "========================================
+> ========"
+  3.         display in yellow as result " WINDOW = +-`numbdays' days"
+  4.         display in yellow as result "=====================================
+> ==========="
+  5. 
+.         use "${datfin}/protests_scandals_30days_v3", clear
+  6.         drop if country == "Venezuela"
+  7.         keep if abs(window) <= `numbdays'
+  8.         keep if year >= `firstyear'
+  9. 
+.         /* Scandal date's day-of-week, then weekend flag */
+.         gen byte _sdow = day if window == 0
+ 10.         bysort id (_sdow): replace _sdow = _sdow[1]
+ 11.         label var _sdow "Day-of-week of the scandal date (0=Sun..6=Sat)"
+ 12.         gen byte weekend_scandal = (inlist(_sdow, 0, 6))
+ 13.         label var weekend_scandal "Scandal date is Sat/Sun"
+ 14.         label define WKE 0 "Weekday scandal (Mon-Fri)" 1 "Weekend scandal 
+> (Sat/Sun)", replace
+ 15.         label values weekend_scandal WKE
+ 16. 
+.         /* Tab the scandal-level distribution */
+.         preserve
+ 17.                 bysort id: keep if _n == 1
+ 18.                 display in yellow "=== one row per scandal: dow of scandal
+>  ==="
+ 19.                 tab _sdow, missing
+ 20.                 display in yellow "=== one row per scandal: weekday vs wee
+> kend ==="
+ 21.                 tab weekend_scandal, missing
+ 22.         restore
+ 23. 
+.         /* 30-day window bin for clustering (matches C x Y x DB convention) *
+> /
+.         gen long bin30 = floor(window/30)
+ 24.         egen group_cluster = group(country_id year bin30)
+ 25. 
+.         /* Estimate both estimators x {Full, Weekend, Weekday} x 4 outcomes *
+> /
+.         estimates clear
+ 26.         local oc = 0
+ 27.         foreach outcome in $outcome_list {
+ 28.                 local ++oc
+ 29. 
+.                 /* ---- OLS ---- */
+.                 eststo ols_full_`oc' : reghdfe `outcome' post, ///
+>                         absorb(month day i.country_id#i.year) ///
+>                         cluster(group_cluster)
+ 30.                 eststo ols_wend_`oc' : reghdfe `outcome' post if weekend_s
+> candal == 1, ///
+>                         absorb(month day i.country_id#i.year) ///
+>                         cluster(group_cluster)
+ 31.                 eststo ols_wday_`oc' : reghdfe `outcome' post if weekend_s
+> candal == 0, ///
+>                         absorb(month day i.country_id#i.year) ///
+>                         cluster(group_cluster)
+ 32. 
+.                 /* ---- Poisson (IRR) ---- */
+.                 capture eststo poi_full_`oc' : poisson `outcome' post i.month
+>  i.day i.country_id#i.year, ///
+>                         vce(cluster group_cluster) irr
+ 33.                 capture eststo poi_wend_`oc' : poisson `outcome' post i.mo
+> nth i.day i.country_id#i.year ///
+>                         if weekend_scandal == 1, vce(cluster group_cluster) i
+> rr
+ 34.                 capture eststo poi_wday_`oc' : poisson `outcome' post i.mo
+> nth i.day i.country_id#i.year ///
+>                         if weekend_scandal == 0, vce(cluster group_cluster) i
+> rr
+ 35.         }
+ 36. 
+.         /* ------------------ Export LaTeX tables ------------------ */
+.         /* Build the model list per panel from successfully-stored estimates
+>            (some cells -- gvt response on the 25-scandal weekend subsample --
+>            may fail to converge; capture eststo absorbs the error but esttab
+>            then errors if you reference a missing estimate name).
+>            esttab is invoked only over the existing models, with mtitles
+>            matched to that subset. */
+.         /* Note: ~ instead of a literal space inside the Gvt. Violent title -
+> -
+>            esttab's mtitles() option tokenises by whitespace, so a space insi
+> de
+>            one mtitle splits it into two, leaving "Gvt." in the header and th
+> e
+>            remainder leaking into the next column.  Using LaTeX's `~` keeps
+>            esttab from breaking the title and LaTeX renders it as a space. */
+.         local mt_protests  `"\shortstack{Protests}"'
+ 37.         local mt_violent   `"\shortstack{Violent\\Protests}"'
+ 38.         local mt_peaceful  `"\shortstack{Non-violent\\Protests}"'
+ 39.         local mt_gvr       `"\shortstack{Gvt.~Violent\\Response}"'
+ 40. 
+.         foreach est in ols poi {
+ 41.                 foreach sam in full wend wday {
+ 42.                         local mlist
+ 43.                         local mttls
+ 44.                         foreach oc of numlist 1/4 {
+ 45.                                 capture estimates restore `est'_`sam'_`oc'
+ 46.                                 if _rc == 0 {
+ 47.                                         local mlist `mlist' `est'_`sam'_`o
+> c'
+ 48.                                         if `oc' == 1 local mttls `mttls' `
+> mt_protests'
+ 49.                                         if `oc' == 2 local mttls `mttls' `
+> mt_violent'
+ 50.                                         if `oc' == 3 local mttls `mttls' `
+> mt_peaceful'
+ 51.                                         if `oc' == 4 local mttls `mttls' `
+> mt_gvr'
+ 52.                                 }
+ 53.                                 else display in red "skip: `est'_`sam'_`oc
+> ' (no estimate)"
+ 54.                         }
+ 55.                         if "`mlist'" == "" {
+ 56.                                 display in red "no estimates for `est' / `
+> sam' / w`numbdays'd"
+ 57.                                 continue
+ 58.                         }
+ 59.                         if "`est'" == "ols" {
+ 60.                                 esttab `mlist' ///
+>                                         using "${tabout}/wkd_vs_wkend_`est'_w
+> `numbdays'd_`sam'.tex", ///
+>                                         replace b(3) se(3) booktabs star(* 0.
+> 1 ** 0.05 *** 0.01) ///
+>                                         stats(N r2, labels("Observations" "R-
+> squared") fmt(0 3)) ///
+>                                         keep(post) varlabels(post "Post Scand
+> al") nonotes nonumber ///
+>                                         mtitles(`mttls')
+ 61.                         }
+ 62.                         else {
+ 63.                                 esttab `mlist' ///
+>                                         using "${tabout}/wkd_vs_wkend_`est'_w
+> `numbdays'd_`sam'.tex", ///
+>                                         replace b(3) se(3) booktabs star(* 0.
+> 1 ** 0.05 *** 0.01) eform ///
+>                                         stats(N, labels("Observations") fmt(0
+> )) ///
+>                                         keep(post) varlabels(post "Post Scand
+> al (IRR)") nonotes nonumber ///
+>                                         mtitles(`mttls')
+ 64.                         }
+ 65.                 }
+ 66.         }
+ 67. 
+.         /* ------------------ Print to log for the markdown note ------------
+> ------ */
+.         display in yellow as result "=== OLS coefficients on Post (w`numbdays
+> 'd) ==="
+ 68.         display in yellow "outcome  | sample   | b          | se         |
+>  N"
+ 69.         foreach oc of numlist 1/4 {
+ 70.                 local outcome : word `oc' of $outcome_list
+ 71.                 foreach sam in full wend wday {
+ 72.                         capture estimates restore ols_`sam'_`oc'
+ 73.                         if _rc == 0 {
+ 74.                                 local b  = string(_b[post], "%9.4f")
+ 75.                                 local se = string(_se[post], "%9.4f")
+ 76.                                 local N  = string(e(N), "%9.0fc")
+ 77.                                 display "`outcome'  `sam'  `b'  `se'  `N'"
+ 78.                         }
+ 79.                 }
+ 80.         }
+ 81. 
+.         display in yellow as result "=== Poisson IRR on Post (w`numbdays'd) =
+> =="
+ 82.         display in yellow "outcome  | sample   | b          | se         |
+>  IRR        | N"
+ 83.         foreach oc of numlist 1/4 {
+ 84.                 local outcome : word `oc' of $outcome_list
+ 85.                 foreach sam in full wend wday {
+ 86.                         capture estimates restore poi_`sam'_`oc'
+ 87.                         if _rc == 0 {
+ 88.                                 local b   = string(_b[post], "%9.4f")
+ 89.                                 local se  = string(_se[post], "%9.4f")
+ 90.                                 local irr = string(exp(_b[post]), "%9.4f")
+ 91.                                 local N   = string(e(N), "%9.0fc")
+ 92.                                 display "`outcome'  `sam'  `b'  `se'  `irr
+> '  `N'"
+ 93.                         }
+ 94.                 }
+ 95.         }
+ 96. }
+================================================
+ WINDOW = +-120 days
+================================================
+(3,374 observations deleted)
+(241 observations deleted)
+(1,119 observations deleted)
+(41,126 missing values generated)
+(41,040 real changes made)
+(41,125 observations deleted)
+=== one row per scandal: dow of scandal ===
+
+Day-of-week |
+     of the |
+    scandal |
+       date |
+(0=Sun..6=S |
+        at) |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |         14        8.14        8.14
+          1 |         37       21.51       29.65
+          2 |         30       17.44       47.09
+          3 |         27       15.70       62.79
+          4 |         30       17.44       80.23
+          5 |         22       12.79       93.02
+          6 |         11        6.40       99.42
+          . |          1        0.58      100.00
+------------+-----------------------------------
+      Total |        172      100.00
+=== one row per scandal: weekday vs weekend ===
+
+  Scandal date is Sat/Sun |      Freq.     Percent        Cum.
+--------------------------+-----------------------------------
+Weekday scandal (Mon-Fri) |        147       85.47       85.47
+Weekend scandal (Sat/Sun) |         25       14.53      100.00
+--------------------------+-----------------------------------
+                    Total |        172      100.00
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =     41,297
+Absorbing 3 HDFE groups                           F(   1,    706) =       0.84
+Statistics robust to heteroskedasticity           Prob > F        =     0.3587
+                                                  R-squared       =     0.2337
+                                                  Adj R-squared   =     0.2316
+                                                  Within R-sq.    =     0.0003
+Number of clusters (group_cluster) =        707   Root MSE        =     0.2510
+
+                        (Std. err. adjusted for 707 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+num_protes~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0088504   .0096353     0.92   0.359     -.010067    .0277677
+       _cons |   .0775387   .0070381    11.02   0.000     .0637206    .0913569
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        98           1          97    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      6,025
+Absorbing 3 HDFE groups                           F(   1,    203) =       1.03
+Statistics robust to heteroskedasticity           Prob > F        =     0.3114
+                                                  R-squared       =     0.2083
+                                                  Adj R-squared   =     0.2021
+                                                  Within R-sq.    =     0.0039
+Number of clusters (group_cluster) =        204   Root MSE        =     0.2584
+
+                        (Std. err. adjusted for 204 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+num_protes~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0474664   .0467772     1.01   0.311     -.044765    .1396978
+       _cons |   .0594878   .0248492     2.39   0.018     .0104923    .1084834
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        30           1          29    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =     35,272
+Absorbing 3 HDFE groups                           F(   1,    663) =       0.23
+Statistics robust to heteroskedasticity           Prob > F        =     0.6329
+                                                  R-squared       =     0.2506
+                                                  Adj R-squared   =     0.2483
+                                                  Within R-sq.    =     0.0001
+Number of clusters (group_cluster) =        664   Root MSE        =     0.2478
+
+                        (Std. err. adjusted for 664 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+num_protes~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0052362   .0109566     0.48   0.633    -.0162777    .0267501
+       _cons |   .0791292   .0077235    10.25   0.000     .0639637    .0942948
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        94           1          93    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =     41,297
+Absorbing 3 HDFE groups                           F(   1,    706) =       6.15
+Statistics robust to heteroskedasticity           Prob > F        =     0.0133
+                                                  R-squared       =     0.1270
+                                                  Adj R-squared   =     0.1246
+                                                  Within R-sq.    =     0.0022
+Number of clusters (group_cluster) =        707   Root MSE        =     0.1521
+
+                        (Std. err. adjusted for 707 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0156215    .006297     2.48   0.013     .0032584    .0279846
+       _cons |   .0189465   .0038784     4.89   0.000     .0113319    .0265611
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        98           1          97    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      6,025
+Absorbing 3 HDFE groups                           F(   1,    203) =       2.34
+Statistics robust to heteroskedasticity           Prob > F        =     0.1275
+                                                  R-squared       =     0.1546
+                                                  Adj R-squared   =     0.1480
+                                                  Within R-sq.    =     0.0138
+Number of clusters (group_cluster) =        204   Root MSE        =     0.1180
+
+                        (Std. err. adjusted for 204 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0408401   .0266906     1.53   0.128    -.0117863    .0934665
+       _cons |  -.0045712   .0110919    -0.41   0.681    -.0264414     .017299
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        30           1          29    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =     35,272
+Absorbing 3 HDFE groups                           F(   1,    663) =       4.75
+Statistics robust to heteroskedasticity           Prob > F        =     0.0296
+                                                  R-squared       =     0.1366
+                                                  Adj R-squared   =     0.1339
+                                                  Within R-sq.    =     0.0022
+Number of clusters (group_cluster) =        664   Root MSE        =     0.1561
+
+                        (Std. err. adjusted for 664 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0161834   .0074216     2.18   0.030     .0016108     .030756
+       _cons |    .020518    .004474     4.59   0.000     .0117331     .029303
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        94           1          93    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =     41,297
+Absorbing 3 HDFE groups                           F(   1,    706) =       0.95
+Statistics robust to heteroskedasticity           Prob > F        =     0.3305
+                                                  R-squared       =     0.3054
+                                                  Adj R-squared   =     0.3035
+                                                  Within R-sq.    =     0.0002
+Number of clusters (group_cluster) =        707   Root MSE        =     0.1999
+
+                        (Std. err. adjusted for 707 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |  -.0067711   .0069529    -0.97   0.330    -.0204219    .0068797
+       _cons |   .0585922   .0054867    10.68   0.000       .04782    .0693645
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        98           1          97    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      6,025
+Absorbing 3 HDFE groups                           F(   1,    203) =       0.03
+Statistics robust to heteroskedasticity           Prob > F        =     0.8603
+                                                  R-squared       =     0.2334
+                                                  Adj R-squared   =     0.2273
+                                                  Within R-sq.    =     0.0001
+Number of clusters (group_cluster) =        204   Root MSE        =     0.2317
+
+                        (Std. err. adjusted for 204 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0066263   .0376118     0.18   0.860    -.0675336    .0807862
+       _cons |    .064059   .0216372     2.96   0.003     .0213965    .1067214
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        30           1          29    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =     35,272
+Absorbing 3 HDFE groups                           F(   1,    663) =       2.02
+Statistics robust to heteroskedasticity           Prob > F        =     0.1558
+                                                  R-squared       =     0.3309
+                                                  Adj R-squared   =     0.3288
+                                                  Within R-sq.    =     0.0007
+Number of clusters (group_cluster) =        664   Root MSE        =     0.1926
+
+                        (Std. err. adjusted for 664 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |  -.0109472   .0077039    -1.42   0.156    -.0260741    .0041798
+       _cons |   .0586112   .0058894     9.95   0.000      .047047    .0701754
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        94           1          93    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =     41,297
+Absorbing 3 HDFE groups                           F(   1,    706) =       3.93
+Statistics robust to heteroskedasticity           Prob > F        =     0.0478
+                                                  R-squared       =     0.1765
+                                                  Adj R-squared   =     0.1742
+                                                  Within R-sq.    =     0.0019
+Number of clusters (group_cluster) =        707   Root MSE        =     0.1142
+
+                        (Std. err. adjusted for 707 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+gov~_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0109982   .0055461     1.98   0.048     .0001093    .0218871
+       _cons |   .0105574   .0034294     3.08   0.002     .0038245    .0172904
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        98           1          97    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      6,025
+Absorbing 3 HDFE groups                           F(   1,    203) =       1.55
+Statistics robust to heteroskedasticity           Prob > F        =     0.2138
+                                                  R-squared       =     0.1977
+                                                  Adj R-squared   =     0.1914
+                                                  Within R-sq.    =     0.0285
+Number of clusters (group_cluster) =        204   Root MSE        =     0.0695
+
+                        (Std. err. adjusted for 204 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+gov~_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |    .034866   .0279607     1.25   0.214    -.0202646    .0899966
+       _cons |  -.0114472   .0106232    -1.08   0.283    -.0323931    .0094986
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        30           1          29    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =     35,272
+Absorbing 3 HDFE groups                           F(   1,    663) =       2.61
+Statistics robust to heteroskedasticity           Prob > F        =     0.1067
+                                                  R-squared       =     0.1879
+                                                  Adj R-squared   =     0.1854
+                                                  Within R-sq.    =     0.0016
+Number of clusters (group_cluster) =        664   Root MSE        =     0.1193
+
+                        (Std. err. adjusted for 664 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+gov~_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |    .010373   .0064213     1.62   0.107    -.0022355    .0229816
+       _cons |   .0125839   .0039115     3.22   0.001     .0049034    .0202643
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        94           1          93    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(output written to ~/Dropbox/Corrupcion/Protest_Work/results/tables/wkd_vs_wken
+> d_ols_w120d_full.tex)
+(output written to ~/Dropbox/Corrupcion/Protest_Work/results/tables/wkd_vs_wken
+> d_ols_w120d_wend.tex)
+(output written to ~/Dropbox/Corrupcion/Protest_Work/results/tables/wkd_vs_wken
+> d_ols_w120d_wday.tex)
+(output written to ~/Dropbox/Corrupcion/Protest_Work/results/tables/wkd_vs_wken
+> d_poi_w120d_full.tex)
+skip: poi_wend_4 (no estimate)
+(output written to ~/Dropbox/Corrupcion/Protest_Work/results/tables/wkd_vs_wken
+> d_poi_w120d_wend.tex)
+(output written to ~/Dropbox/Corrupcion/Protest_Work/results/tables/wkd_vs_wken
+> d_poi_w120d_wday.tex)
+=== OLS coefficients on Post (w120d) ===
+outcome  | sample   | b          | se         | N
+num_protests_MM  full  0.0089  0.0096  41,297
+num_protests_MM  wend  0.0475  0.0468  6,025
+num_protests_MM  wday  0.0052  0.0110  35,272
+num_violent_MM  full  0.0156  0.0063  41,297
+num_violent_MM  wend  0.0408  0.0267  6,025
+num_violent_MM  wday  0.0162  0.0074  35,272
+num_peaceful_MM  full  -0.0068  0.0070  41,297
+num_peaceful_MM  wend  0.0066  0.0376  6,025
+num_peaceful_MM  wday  -0.0109  0.0077  35,272
+government_response_violent  full  0.0110  0.0055  41,297
+government_response_violent  wend  0.0349  0.0280  6,025
+government_response_violent  wday  0.0104  0.0064  35,272
+=== Poisson IRR on Post (w120d) ===
+outcome  | sample   | b          | se         | IRR        | N
+num_protests_MM  full  0.1385  0.1222  1.1485  41,297
+num_protests_MM  wend  0.6089  0.3402  1.8384  6,025
+num_protests_MM  wday  0.1027  0.1421  1.1081  35,272
+num_violent_MM  full  0.4793  0.1969  1.6149  41,297
+num_violent_MM  wend  0.2483  0.4353  1.2819  6,025
+num_violent_MM  wday  0.5093  0.2164  1.6640  35,272
+num_peaceful_MM  full  -0.2005  0.1369  0.8183  41,297
+num_peaceful_MM  wend  0.2486  0.3340  1.2823  6,025
+num_peaceful_MM  wday  -0.2859  0.1617  0.7513  35,272
+government_response_violent  full  0.5331  0.2989  1.7042  41,297
+government_response_violent  wday  0.4882  0.3209  1.6294  35,272
+================================================
+ WINDOW = +-30 days
+================================================
+(3,374 observations deleted)
+(31,921 observations deleted)
+(305 observations deleted)
+(10,260 missing values generated)
+(10,260 real changes made)
+(10,260 observations deleted)
+=== one row per scandal: dow of scandal ===
+
+Day-of-week |
+     of the |
+    scandal |
+       date |
+(0=Sun..6=S |
+        at) |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |         14        8.19        8.19
+          1 |         37       21.64       29.82
+          2 |         30       17.54       47.37
+          3 |         27       15.79       63.16
+          4 |         30       17.54       80.70
+          5 |         22       12.87       93.57
+          6 |         11        6.43      100.00
+------------+-----------------------------------
+      Total |        171      100.00
+=== one row per scandal: weekday vs weekend ===
+
+  Scandal date is Sat/Sun |      Freq.     Percent        Cum.
+--------------------------+-----------------------------------
+Weekday scandal (Mon-Fri) |        146       85.38       85.38
+Weekend scandal (Sat/Sun) |         25       14.62      100.00
+--------------------------+-----------------------------------
+                    Total |        171      100.00
+(MWFE estimator converged in 9 iterations)
+
+HDFE Linear regression                            Number of obs   =     10,431
+Absorbing 3 HDFE groups                           F(   1,    226) =       9.74
+Statistics robust to heteroskedasticity           Prob > F        =     0.0020
+                                                  R-squared       =     0.3703
+                                                  Adj R-squared   =     0.3644
+                                                  Within R-sq.    =     0.0032
+Number of clusters (group_cluster) =        227   Root MSE        =     0.2300
+
+                        (Std. err. adjusted for 227 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+num_protes~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0269591   .0086369     3.12   0.002     .0099398    .0439783
+       _cons |   .0676915   .0061409    11.02   0.000     .0555908    .0797922
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        79           1          78    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 12 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,525
+Absorbing 3 HDFE groups                           F(   1,     65) =       0.51
+Statistics robust to heteroskedasticity           Prob > F        =     0.4774
+                                                  R-squared       =     0.5983
+                                                  Adj R-squared   =     0.5872
+                                                  Within R-sq.    =     0.0011
+Number of clusters (group_cluster) =         66   Root MSE        =     0.2020
+
+                         (Std. err. adjusted for 66 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+num_protes~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0187773   .0262732     0.71   0.477    -.0336938    .0712484
+       _cons |   .0802935   .0184932     4.34   0.000     .0433601    .1172269
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        24           1          23    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 10 iterations)
+
+HDFE Linear regression                            Number of obs   =      8,906
+Absorbing 3 HDFE groups                           F(   1,    212) =       2.12
+Statistics robust to heteroskedasticity           Prob > F        =     0.1469
+                                                  R-squared       =     0.4042
+                                                  Adj R-squared   =     0.3980
+                                                  Within R-sq.    =     0.0010
+Number of clusters (group_cluster) =        213   Root MSE        =     0.2202
+
+                        (Std. err. adjusted for 213 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+num_protes~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0142153   .0097648     1.46   0.147    -.0050333    .0334638
+       _cons |   .0727219   .0067798    10.73   0.000     .0593574    .0860865
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        75           1          74    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 9 iterations)
+
+HDFE Linear regression                            Number of obs   =     10,431
+Absorbing 3 HDFE groups                           F(   1,    226) =      10.33
+Statistics robust to heteroskedasticity           Prob > F        =     0.0015
+                                                  R-squared       =     0.1606
+                                                  Adj R-squared   =     0.1528
+                                                  Within R-sq.    =     0.0030
+Number of clusters (group_cluster) =        227   Root MSE        =     0.1468
+
+                        (Std. err. adjusted for 227 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0166909    .005193     3.21   0.001      .006458    .0269238
+       _cons |   .0170186   .0038852     4.38   0.000     .0093628    .0246745
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        79           1          78    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 12 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,525
+Absorbing 3 HDFE groups                           F(   1,     65) =       0.40
+Statistics robust to heteroskedasticity           Prob > F        =     0.5283
+                                                  R-squared       =     0.5919
+                                                  Adj R-squared   =     0.5807
+                                                  Within R-sq.    =     0.0018
+Number of clusters (group_cluster) =         66   Root MSE        =     0.1385
+
+                         (Std. err. adjusted for 66 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0165073   .0260347     0.63   0.528    -.0354876    .0685023
+       _cons |   .0381684   .0189669     2.01   0.048     .0002889    .0760479
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        24           1          23    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 10 iterations)
+
+HDFE Linear regression                            Number of obs   =      8,906
+Absorbing 3 HDFE groups                           F(   1,    212) =       1.97
+Statistics robust to heteroskedasticity           Prob > F        =     0.1614
+                                                  R-squared       =     0.1551
+                                                  Adj R-squared   =     0.1463
+                                                  Within R-sq.    =     0.0010
+Number of clusters (group_cluster) =        213   Root MSE        =     0.1366
+
+                        (Std. err. adjusted for 213 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0092101    .006554     1.41   0.161    -.0037092    .0221294
+       _cons |   .0172148   .0045563     3.78   0.000     .0082335    .0261962
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        75           1          74    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 9 iterations)
+
+HDFE Linear regression                            Number of obs   =     10,431
+Absorbing 3 HDFE groups                           F(   1,    226) =       1.75
+Statistics robust to heteroskedasticity           Prob > F        =     0.1874
+                                                  R-squared       =     0.4762
+                                                  Adj R-squared   =     0.4713
+                                                  Within R-sq.    =     0.0008
+Number of clusters (group_cluster) =        227   Root MSE        =     0.1768
+
+                        (Std. err. adjusted for 227 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0102682   .0077658     1.32   0.187    -.0050345    .0255708
+       _cons |   .0506729   .0051357     9.87   0.000     .0405529    .0607928
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        79           1          78    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 12 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,525
+Absorbing 3 HDFE groups                           F(   1,     65) =       0.09
+Statistics robust to heteroskedasticity           Prob > F        =     0.7597
+                                                  R-squared       =     0.6251
+                                                  Adj R-squared   =     0.6147
+                                                  Within R-sq.    =     0.0000
+Number of clusters (group_cluster) =         66   Root MSE        =     0.1484
+
+                         (Std. err. adjusted for 66 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |     .00227   .0073896     0.31   0.760    -.0124881    .0170281
+       _cons |   .0421251   .0031548    13.35   0.000     .0358244    .0484257
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        24           1          23    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 9 iterations)
+
+HDFE Linear regression                            Number of obs   =      8,906
+Absorbing 3 HDFE groups                           F(   1,    212) =       0.41
+Statistics robust to heteroskedasticity           Prob > F        =     0.5223
+                                                  R-squared       =     0.5066
+                                                  Adj R-squared   =     0.5014
+                                                  Within R-sq.    =     0.0002
+Number of clusters (group_cluster) =        213   Root MSE        =     0.1721
+
+                        (Std. err. adjusted for 213 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0050052   .0078097     0.64   0.522    -.0103894    .0203998
+       _cons |   .0555071   .0052847    10.50   0.000     .0450898    .0659245
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        75           1          74    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 9 iterations)
+
+HDFE Linear regression                            Number of obs   =     10,431
+Absorbing 3 HDFE groups                           F(   1,    226) =       3.13
+Statistics robust to heteroskedasticity           Prob > F        =     0.0781
+                                                  R-squared       =     0.2188
+                                                  Adj R-squared   =     0.2115
+                                                  Within R-sq.    =     0.0009
+Number of clusters (group_cluster) =        227   Root MSE        =     0.1011
+
+                        (Std. err. adjusted for 227 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+gov~_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0062052   .0035062     1.77   0.078    -.0007039    .0131142
+       _cons |   .0099805   .0031589     3.16   0.002     .0037558    .0162052
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        79           1          78    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 12 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,525
+Absorbing 3 HDFE groups                           F(   1,     65) =       3.99
+Statistics robust to heteroskedasticity           Prob > F        =     0.0499
+                                                  R-squared       =     0.6443
+                                                  Adj R-squared   =     0.6345
+                                                  Within R-sq.    =     0.0379
+Number of clusters (group_cluster) =         66   Root MSE        =     0.0893
+
+                         (Std. err. adjusted for 66 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+gov~_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0494434   .0247488     2.00   0.050     .0000167    .0988701
+       _cons |  -.0028319   .0142035    -0.20   0.843    -.0311983    .0255345
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        24           1          23    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(MWFE estimator converged in 10 iterations)
+
+HDFE Linear regression                            Number of obs   =      8,906
+Absorbing 3 HDFE groups                           F(   1,    212) =       0.23
+Statistics robust to heteroskedasticity           Prob > F        =     0.6329
+                                                  R-squared       =     0.2209
+                                                  Adj R-squared   =     0.2128
+                                                  Within R-sq.    =     0.0001
+Number of clusters (group_cluster) =        213   Root MSE        =     0.0949
+
+                        (Std. err. adjusted for 213 clusters in group_cluster)
+------------------------------------------------------------------------------
+             |               Robust
+gov~_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |  -.0021932   .0045846    -0.48   0.633    -.0112303     .006844
+       _cons |   .0126798   .0038233     3.32   0.001     .0051432    .0202164
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        75           1          74    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+(output written to ~/Dropbox/Corrupcion/Protest_Work/results/tables/wkd_vs_wken
+> d_ols_w30d_full.tex)
+(output written to ~/Dropbox/Corrupcion/Protest_Work/results/tables/wkd_vs_wken
+> d_ols_w30d_wend.tex)
+(output written to ~/Dropbox/Corrupcion/Protest_Work/results/tables/wkd_vs_wken
+> d_ols_w30d_wday.tex)
+skip: poi_full_4 (no estimate)
+(output written to ~/Dropbox/Corrupcion/Protest_Work/results/tables/wkd_vs_wken
+> d_poi_w30d_full.tex)
+skip: poi_wend_4 (no estimate)
+(output written to ~/Dropbox/Corrupcion/Protest_Work/results/tables/wkd_vs_wken
+> d_poi_w30d_wend.tex)
+skip: poi_wday_4 (no estimate)
+(output written to ~/Dropbox/Corrupcion/Protest_Work/results/tables/wkd_vs_wken
+> d_poi_w30d_wday.tex)
+=== OLS coefficients on Post (w30d) ===
+outcome  | sample   | b          | se         | N
+num_protests_MM  full  0.0270  0.0086  10,431
+num_protests_MM  wend  0.0188  0.0263  1,525
+num_protests_MM  wday  0.0142  0.0098  8,906
+num_violent_MM  full  0.0167  0.0052  10,431
+num_violent_MM  wend  0.0165  0.0260  1,525
+num_violent_MM  wday  0.0092  0.0066  8,906
+num_peaceful_MM  full  0.0103  0.0078  10,431
+num_peaceful_MM  wend  0.0023  0.0074  1,525
+num_peaceful_MM  wday  0.0050  0.0078  8,906
+government_response_violent  full  0.0062  0.0035  10,431
+government_response_violent  wend  0.0494  0.0247  1,525
+government_response_violent  wday  -0.0022  0.0046  8,906
+=== Poisson IRR on Post (w30d) ===
+outcome  | sample   | b          | se         | IRR        | N
+num_protests_MM  full  0.4044  0.0878  1.4984  10,431
+num_protests_MM  wend  0.0700  0.3136  1.0725  1,525
+num_protests_MM  wday  0.1861  0.1335  1.2045  8,906
+num_violent_MM  full  0.4485  0.1013  1.5660  10,431
+num_violent_MM  wend  -0.0303  0.4192  0.9702  1,525
+num_violent_MM  wday  0.3786  0.2767  1.4603  8,906
+num_peaceful_MM  full  0.2451  0.1169  1.2778  10,431
+num_peaceful_MM  wend  0.2121  0.2407  1.2362  1,525
+num_peaceful_MM  wday  0.1239  0.1169  1.1319  8,906
+
+. 
+. display in green "a_weekend_vs_weekday.do finished OK"
+a_weekend_vs_weekday.do finished OK
+
+. 
+end of do-file

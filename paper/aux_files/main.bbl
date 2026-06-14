@@ -1,0 +1,88 @@
+\ifx\undefined\bysame
+\newcommand{\bysame}{\leavevmode\hbox to\leftmargin{\hrulefill\,\,}}
+\fi
+\begin{thebibliography}{xx}
+
+\harvarditem[Anduiza et al.]{Anduiza, Gallego and
+  Mu{\~n}oz}{2013}{anduiza2013turning}
+{\bf Anduiza, Eva, Aina Gallego, and Jordi Mu{\~n}oz}, ``Turning a blind eye:
+  experimental evidence of partisan bias in attitudes toward corruption,'' {\it
+  Comparative Political Studies}, 2013, {\it 46} (12), 1664--1692.
+
+\harvarditem[Avis et al.]{Avis, Ferraz and Finan}{2018}{ferraz2018audits}
+{\bf Avis, Eric, Claudio Ferraz, and Frederico Finan}, ``Do government audits
+  reduce corruption? Estimating the impacts of exposing corrupt politicians,''
+  {\it Journal of Political Economy}, 2018, {\it 126} (5), 1912--1964.
+
+\harvarditem[Chong et al.]{Chong, {De La O}, Karlan and
+  Wantchekon}{2015}{chong2015does}
+{\bf Chong, Alberto, Ana~L. {De La O}, Dean Karlan, and Leonard Wantchekon},
+  ``Does corruption information inspire the fight or quash the hope? A field
+  experiment in {Mexico} on voter turnout, choice, and party identification,''
+  {\it The Journal of Politics}, 2015, {\it 77} (1), 55--71.
+
+\harvarditem[Clark and Regan]{Clark and Regan}{2016}{clark2016mass}
+{\bf Clark, David and Patrick Regan}, ``Mass {Mobilization} Protest Data,''
+  2016.
+
+\harvarditem[Correia]{Correia}{2017}{correia2017reghdfe}
+{\bf Correia, Sergio}, ``Linear models with high-dimensional fixed effects: an
+  efficient and feasible estimator,'' 2017.
+\newblock Working paper, Duke University; documentation for Stata's
+  \texttt{reghdfe} package.
+
+\harvarditem[Ferraz and Finan]{Ferraz and Finan}{2008}{ferraz2008exposing}
+{\bf Ferraz, Claudio and Frederico Finan}, ``Exposing corrupt politicians: the
+  effects of {Brazil}'s publicly released audits on electoral outcomes,'' {\it
+  The Quarterly Journal of Economics}, 2008, {\it 123} (2), 703--745.
+
+\harvarditem[Ferraz and Finan]{Ferraz and Finan}{2011}{ferraz2011electoral}
+{\bf \bysame{} and \bysame{}}, ``Electoral accountability and corruption:
+  evidence from the audits of local governments,'' {\it American Economic
+  Review}, 2011, {\it 101} (4), 1274--1311.
+
+\harvarditem[Jha and Shayo]{Jha and Shayo}{2019}{jha2019valuing}
+{\bf Jha, Saumitra and Moses Shayo}, ``Valuing peace: the effects of financial
+  market exposure on votes and political attitudes,'' {\it Econometrica}, 2019,
+  {\it 87} (5), 1561--1588.
+
+\harvarditem[K{\"o}nig et al.]{K{\"o}nig, Rohner, Thoenig and
+  Zilibotti}{2017}{koenig2017networks}
+{\bf K{\"o}nig, Michael~D., Dominic Rohner, Mathias Thoenig, and Fabrizio
+  Zilibotti}, ``Networks in conflict: theory and evidence from the {Great War
+  of Africa},'' {\it Econometrica}, 2017, {\it 85} (4), 1093--1132.
+
+\harvarditem[McGuirk and Burke]{McGuirk and Burke}{2020}{mcguirk2020economic}
+{\bf McGuirk, Eoin and Marshall Burke}, ``The economic origins of conflict in
+  {Africa},'' {\it Journal of Political Economy}, 2020, {\it 128} (10),
+  3940--3997.
+
+\harvarditem[Miguel et al.]{Miguel, Satyanath and
+  Sergenti}{2004}{miguel2004economic}
+{\bf Miguel, Edward, Shanker Satyanath, and Ernest Sergenti}, ``Economic shocks
+  and civil conflict: an instrumental variables approach,'' {\it Journal of
+  Political Economy}, 2004, {\it 112} (4), 725--753.
+
+\harvarditem[Olken and Pande]{Olken and Pande}{2012}{olken2012corruption}
+{\bf Olken, Benjamin~A. and Rohini Pande}, ``Corruption in developing
+  countries,'' {\it Annual Review of Economics}, 2012, {\it 4}, 479--509.
+
+\harvarditem[Pav{\~a}o]{Pav{\~a}o}{2018}{pavao2018corruption}
+{\bf Pav{\~a}o, Natalia}, ``Corruption as the only option: the limits to
+  electoral accountability,'' {\it The Journal of Politics}, 2018, {\it 80}
+  (3), 996--1010.
+
+\harvarditem[Raleigh et al.]{Raleigh, Kishi and Linke}{2023}{raleigh2023acled}
+{\bf Raleigh, Clionadh, Roudabeh Kishi, and Andrew Linke}, ``Political
+  instability patterns are obscured by conflict dataset scope conditions,
+  sources, and coding choices,'' {\it Humanities and Social Sciences
+  Communications}, 2023, {\it 10}, 74.
+
+\harvarditem[Rivera et al.]{Rivera, Seira and Jha}{2024}{rivera2024apex}
+{\bf Rivera, Eduardo, Enrique Seira, and Saumitra Jha}, ``Apex Corruption
+  Erodes Democratic Values,'' 2024.
+\newblock Working paper, Stanford GSB and SSRN 4828243; also circulated as
+  ``Democracy Corrupted: Apex Corruption and the Erosion of Democratic
+  Values''.
+
+\end{thebibliography}

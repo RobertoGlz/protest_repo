@@ -54,7 +54,7 @@ local extra_fixedeff = "country year"
 local se_cluster = "country_id year grupo_dias"
 
 /* First year of data to use */
-local firstyear = 2011
+local firstyear = 2008
 
 /* Define confidence interval level wanted in coefficient plots */
 local ci_level = 90

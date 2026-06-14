@@ -1,0 +1,140 @@
+\usepackage[letterpaper, bottom=2cm, right=2cm]{geometry}
+\geometry{margin=2cm}
+
+\usepackage{amssymb,amsmath,amsthm} % Símbolos matemáticos
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc} % Acentos y otros símbolos 
+\usepackage{enumerate}
+
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.pdf}
+\pdfcompresslevel=9  % Maximum compression
+\pdfobjcompresslevel=3
+
+\usepackage{placeins}
+\usepackage{booktabs}
+\usepackage{etoolbox}
+\usepackage{bbm}
+\usepackage{tocloft}
+\usepackage{etoc}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{ifdraft}
+\usepackage{comment}
+\usepackage{lscape}
+\usepackage{pdfcomment}
+
+\usepackage[looser]{newpxtext} % LOOSER = BETTER WORD SPACE
+
+%\AtBeginEnvironment{table}{\scriptsize}
+\AtEndEnvironment{table}{\vspace{0.2in}}
+
+\AtEndEnvironment{figure}{\vspace{0.2in}}
+
+% Para eliminar guiones y justificar texto
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+\linespread{1.5} 
+
+\let\oldfootnote\footnote % Deja espacio entre el número del pie de página y el inicio del texto
+\renewcommand\footnote[1]{%
+\oldfootnote{\hspace{0.05mm}#1}}
+
+\renewcommand{\thefootnote} {\textcolor{black}{\arabic{footnote}}} % Súperindice a color negro
+
+\setlength{\footnotesep}{0.75\baselineskip} % Espaciado entre notas al pie
+
+\usepackage{fnpos} % Footnotes al final de pág.
+
+\usepackage[justification=centering, font=bf, labelsep=period, skip=5pt]{caption} % Centrar captions de tablas y ponerlas en negritas
+\usepackage{subcaption}
+
+\usepackage{tabularx} % Big tables
+\usepackage{multirow}
+\usepackage{adjustbox}
+\usepackage{longtable}
+\usepackage{lscape}
+
+\usepackage{float} % Float tables
+
+\usepackage{color, soul}
+\usepackage[dvipsnames]{xcolor} % Color
+% Define Maroon color
+\definecolor{Maroon}{RGB}{128,0,0}
+
+\usepackage{natbib}
+\bibliographystyle{aer}
+\setcitestyle{authoryear,aysep={},yysep={,}}
+%\setcitestyle{authoryear,open={(},close={)}} %Citation-related commands
+\renewcommand{\bibsection}{\section*{References}}
+
+\usepackage{pgfplots} % Gráficas
+\pgfplotsset{compat=newest}
+\pgfplotsset{width=7.5cm}
+\pgfkeys{/pgf/number format/1000 sep={}}
+
+\usepackage{tgpagella}
+\usepackage[T1]{fontenc}
+
+\addto\captionsspanish{
+    \renewcommand*{\contentsname}{Contents}
+    }
+
+\newcommand{\expectation}{\mathbb{E}}
+\newcommand{\indicator}{\mathbbm{1}}
+\newcommand{\bluetext}[1]{\textcolor{blue}{#1}}
+
+%Added by Roberto for to do notes
+\usepackage{marginnote}
+\renewcommand*{\marginfont}{\color{red}\sffamily}
+\usepackage[colorinlistoftodos]{todonotes}
+%\setuptodonotes{fancyline, color=yellow}
+
+\newcommand{\smalltodo}[2][]
+{\todo[caption={#2}, #1]
+{\begin{spacing}{0.5}#2\end{spacing}}}
+%\setlength{\marginparwidth}{2cm}
+
+% https://mirror.hmc.edu/ctan/macros/latex/contrib/todonotes/todonotes.pdf
+\newcounter{todoListItems}
+\newcommand{\todoLink}[2][ ]{
+% Increment counter
+\addtocounter{todoListItems}{1}
+\todo[%
+caption={\protect\hypertarget{todo\thetodoListItems}{}Translation},
+#1]
+{
+#2 \hfill
+\hyperlink{todo\thetodoListItems}{$\uparrow$}
+}
+}
+
+\newcommand{\td}{\todoLink}
+\newcommand{\forMW}[1]{\td[color=green!20,inline,caption={\thetodoListItems:
+    For @Maria}]{\textbf{@Maria} -- #1}}
+\newcommand{\forRG}[1]{\td[color=blue!20,inline,caption={\thetodoListItems:
+    For @Roberto}]{\textbf{@Roberto} -- #1}}
+\newcommand{\forES}[1]{\td[color=red!20,inline,caption={\thetodoListItems:
+    For @Enrique}]{\textbf{@Enrique} -- #1}}
+\newcommand{\forAll}[1]{\td[color=orange!20,inline,caption={\thetodoListItems:
+    For All}]{\textbf{@All} -- #1}}
+
+\newcommand{\notes}[1]{\footnotesize{#1}}
+
+\definecolor{ultramarine}{RGB}{4,55,242}
+
+\definecolor{LinkBlue}{RGB}{0,35,200}
+
+% For capitalizing first letter referencing sections
+\addto\extrasenglish{
+    \def\sectionautorefname{Section}
+}
+ 
+\usepackage{hyperref} % Hipervínculos en el índice
+
+% Set up configurations for hyperreferences
+\hypersetup{colorlinks=true, breaklinks=true, citecolor=Maroon, linkcolor=LinkBlue, menucolor=Maroon, urlcolor=Maroon}

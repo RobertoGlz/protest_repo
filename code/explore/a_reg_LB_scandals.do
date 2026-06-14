@@ -42,6 +42,7 @@ gl logs 	"${path}/Logs"
 gl graphs 	"${output}/Graphs"
 gl tables 	"${output}/Tables"
 gl overleaf	"${identity}/Apps/Overleaf"
+global work "${identity}/Corrupcion/Protest_Work"
 local date: dis %td_NN_DD_CCYY date(c(current_date), "DMY")
 gl date_string = subinstr(trim("`date'"), " " , "_", .)
 
@@ -104,16 +105,33 @@ egen group_cluster=group( country_id year grupo_dias)
 /* Estimate regression and plot coefficients */
 
 /* After 2010, No overlaps */
-eststo mm3 : reghdfe num_violent_MM post i.month i.day if year>2010 & LB == 1, absorb($fe1) vce(${CLUSTER2})
-estadd local cy_fe = "\checkmark"
-estadd local serr = "C $\times$ Y $\times$ DB"
+local cilevel = 90
+/* Estimate regression and plot coefficients */
+estimates clear
+local mmm = 0
+foreach outcome in "num_protests_MM" "num_violent_MM" "num_peaceful_MM" "government_response_violent" {
+	local ++mmm
+	eststo m`mmm' : reghdfe `outcome' post i.month i.day if year>=2008 & LB == 1, absorb($fe1) vce(${CLUSTER2})
+	quietly levelsof id if e(sample) == 1
+	estadd scalar num_scandals = r(r)
+	estadd local cy_fe = "\checkmark"
+	estadd local serr = "C $\times$ Y $\times$ DB"
 
-reghdfe num_violent_MM ${leads} ${lags} i.month i.day if year>2010 & LB == 1, absorb($fe1) vce(${CLUSTER2})
+	reghdfe `outcome' ${leads} ${lags} i.month i.day if year>=2008 & LB == 1, absorb($fe1) vce(${CLUSTER2})
 
-coefplot, keep(${leads} ${lags}) levels(90) ///
-baselevels omitted vertical ///
-xtitle("Days around scandal") xscale(titlegap(2)) xline(4.5, lcolor(black))  ///
-yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ///
-graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
-ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
-graph export "${work}/results/figures/es_numviolentMM_120d_after2010_LBscandals_90ci.png", replace
+	coefplot, keep(${leads} ${lags}) levels(90) ///
+	baselevels omitted vertical ///
+	xtitle("Days around scandal") xscale(titlegap(2)) xline(4.5, lcolor(black))  ///
+	yline(0, lwidth(vvvthin) lpattern(dash) lcolor(black)) ///
+	graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ifcolor(white) ilcolor(white)  ///
+	ilwidth(vvvthin)) ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain)
+	graph export "${work}/results/figures/es_`outcome'_120d_LBscandals_90ci.png", replace
+}
+
+esttab _all using "${work}/results/tables/es_120d_LBscandals_`cilevel'ci.tex", ///
+	replace booktabs nonotes nogaps b(3) se(3) ///
+	mtitles("\shortstack{Protests}" "\shortstack{Violent\\Protests}" "\shortstack{Non-Violent\\Protests}" ///
+	"\shortstack{Gvt. Violent\\Response}") stats(N num_scandals r2 cy_fe serr, ///
+	label("Observations" "Number of Scandals" "R-squared" "Country $\times$ Year FE" "SE Cluster") ///
+	fmt(0 0 3 0 0)) keep(post) coeflabels(post "Post Scandal") 
+	

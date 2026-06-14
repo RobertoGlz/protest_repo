@@ -1,0 +1,76 @@
+\ifx\undefined\bysame
+\newcommand{\bysame}{\leavevmode\hbox to\leftmargin{\hrulefill\,\,}}
+\fi
+\begin{thebibliography}{xx}
+
+\harvarditem[Ajzenman]{Ajzenman}{2021}{ajzenman2021powerexample}
+{\bf Ajzenman, Nicolás}, ``The Power of Example: Corruption Spurs
+  Corruption,'' {\it American Economic Journal: Applied Economics}, April 2021,
+  {\it 13} (2), 230–57.
+
+\harvarditem[Arias et al.]{Arias, Larreguy, Marshall and
+  Querubín}{2022}{horacio2022metaketa}
+{\bf Arias, Eric, Horacio Larreguy, John Marshall, and Pablo Querubín},
+  ``Priors Rule: When Do Malfeasance Revelations Help Or Hurt Incumbent
+  Parties?,'' {\it Journal of the European Economic Association}, 05 2022, {\it
+  20} (4), 1433--1477.
+
+\harvarditem[Arias et al.]{Arias, Balán, Larreguy, Marshall and
+  Querubín}{2019}{horacio2019infonetwork}
+{\bf \bysame{}, Pablo Balán, Horacio Larreguy, John Marshall, and Pablo
+  Querubín}, ``Information Provision, Voter Coordination, and Electoral
+  Accountability: Evidence from Mexican Social Networks,'' {\it American
+  Political Science Review}, 2019, {\it 113} (2), 475–498.
+
+\harvarditem[Cantoni et al.]{Cantoni, Kao, Yang and
+  Yuchtman}{2024}{cantoni2024protests}
+{\bf Cantoni, Davide, Andrew Kao, David~Y. Yang, and Noam Yuchtman},
+  ``Protests,'' {\it Annual Review of Economics}, 2024, {\it 16}, 519--543.
+
+\harvarditem[Clark and Regan]{Clark and Regan}{2016}{clark2016mass}
+{\bf Clark, David and Patrick Regan}, ``Mass {Mobilization} Protest Data,''
+  2016.
+
+\harvarditem[Enikolopov et al.]{Enikolopov, Petrova and
+  Sonin}{2018}{enikolopov2018SocialMedia}
+{\bf Enikolopov, Ruben, Maria Petrova, and Konstantin Sonin}, ``Social Media
+  and Corruption,'' {\it American Economic Journal: Applied Economics}, January
+  2018, {\it 10} (1), 150--174.
+
+\harvarditem[Ferraz and Finan]{Ferraz and Finan}{2011}{FerrazFinanAccount}
+{\bf Ferraz, Claudio and Frederico Finan}, ``Electoral Accountability and
+  Corruption: Evidence from the Audits of Local Governments,'' {\it American
+  Economic Review}, June 2011, {\it 101} (4), 1274–1311.
+
+\harvarditem[K{\"o}nig et al.]{K{\"o}nig, Rohner, Thoenig and
+  Zilibotti}{2017}{koenig2017networks}
+{\bf K{\"o}nig, Michael~D., Dominic Rohner, Mathias Thoenig, and Fabrizio
+  Zilibotti}, ``Networks in conflict: theory and evidence from the {Great War
+  of Africa},'' {\it Econometrica}, 2017, {\it 85} (4), 1093--1132.
+
+\harvarditem[McGuirk and Burke]{McGuirk and Burke}{2020}{mcguirk2020economic}
+{\bf McGuirk, Eoin and Marshall Burke}, ``The economic origins of conflict in
+  {Africa},'' {\it Journal of Political Economy}, 2020, {\it 128} (10),
+  3940--3997.
+
+\harvarditem[Miguel et al.]{Miguel, Satyanath and
+  Sergenti}{2004}{miguel2004economic}
+{\bf Miguel, Edward, Shanker Satyanath, and Ernest Sergenti}, ``Economic shocks
+  and civil conflict: an instrumental variables approach,'' {\it Journal of
+  Political Economy}, 2004, {\it 112} (4), 725--753.
+
+\harvarditem[Rivera et al.]{Rivera, Seira and Jha}{2024}{ApexCorruption}
+{\bf Rivera, Eduardo, Enrique Seira, and Saumitra Jha}, ``Apex Corruption
+  Erodes Democratic Values,'' {\it Working Paper}, 2024.
+
+\harvarditem[Rohner et al.]{Rohner, Sunde, Eynde, Wright and
+  Zeng}{2026}{rohner2026aidingpeace}
+{\bf Rohner, D., U.~Sunde, O.~Vanden Eynde, A.~L. Wright, and J.-R. Zeng},
+  ``Aiding peace or conflict? The impact of USAID cuts on violence,'' {\it
+  Science}, 2026, {\it 392} (6799), eaed6802.
+
+\harvarditem[Tufekci]{Tufekci}{2024}{tufekci2024twitter}
+{\bf Tufekci, Zeynep}, {\it Twitter and tear gas}, New Haven, CT: Yale
+  University Press, 2024.
+
+\end{thebibliography}

@@ -1,0 +1,2765 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      StataNow 19.5
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2025 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-782-8272        https://www.stata.com
+                                   979-696-4600        service@stata.com
+
+Stata license: Unlimited-user 16-core network, expiring  2 Jul 2026
+Serial number: 501909320077
+  Licensed to: Roberto Gonzalez Tellez
+               Stanford University GSB
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do a_did_modern_stacked.do 
+
+. /* --------------------------------------------------------------------------
+> --
+>                                         Violent effects of apex corruption
+> 
+>         Code author: Roberto Gonzalez
+>         Date: 2026-05-22
+> 
+>         Objective (Task 1, Design 2 -- "Cengiz stacked by scandal"):
+>                 Reproduce the Table 16 estimand with modern staggered-DiD
+>                 estimators on a Cengiz-Dube-Lindner-Zipperer stacked panel.
+>                 THE OBSERVATION IS A COUNTRY x 3-DAY BIN -- the same 3-day gr
+> ouping
+>                 used in the Latinobarometer modern-DiD code.
+> 
+>                 For each scandal s: the treated country c(s) over the +-30-da
+> y
+>                 window, PLUS every country with no scandal in that window, as
+>  the
+>                 clean control cohort; tagged with stack = s.  Stacks are pool
+> ed;
+>                 within each stack the treated country switches at event-bin 0
+>  and
+>                 control countries never switch.
+> 
+>         Time unit: 3-day bin.  Event window: +-10 bins (+-30 days); bin -1 =
+>         reference.  Venezuela dropped (as in Table 16).
+> 
+>         Estimators: OLS two-way FE, dCDH, BJS, SA.
+> 
+>         Outputs:
+>                 ${tabout}/did_modern_stk_main.tex
+>                 ${figout}/did_modern_stk_es_<outcome>.pdf
+> ---------------------------------------------------------------------------- 
+> */
+. 
+. if "`c(username)'" == "rob98" {
+.         global identity "~/Dropbox"
+. }
+
+. global work   "${identity}/Corrupcion/Protest_Work"
+
+. global path   "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
+
+. global datfin "${path}/Data/final"
+
+. global tabout "${work}/results/tables"
+
+. global figout "${work}/results/figures"
+
+. 
+. /* ============================================================
+>    1.  COLLAPSE DAILY PANEL TO COUNTRY x 3-DAY BIN
+>    ============================================================ */
+. use "${datfin}/panel_country_day.dta", clear
+
+. keep if year >= 2008
+(151,202 observations deleted)
+
+. drop if country == "Venezuela"
+(4,474 observations deleted)
+
+. 
+. quietly summarize date
+
+. local d0 = r(min)
+
+. gen long bin3 = floor((date - `d0')/3) + 1
+
+. 
+. /* scandal list: one row per scandal (country, scandal 3-day bin, id) */
+. preserve
+
+.         keep if scandal_today == 1
+(98,254 observations deleted)
+
+.         gen long scandal_bin = bin3
+
+.         keep country scandal_bin scandal_id
+
+.         tempfile sclist
+
+.         save `sclist'
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000002.tmp saved as .dta
+    format
+
+.         count
+  174
+
+.         local nscandals = r(N)
+
+. restore
+
+. 
+. /* collapsed country-bin panel + per-cell scandal indicator */
+. collapse (sum) mm_protests mm_violent mm_nonviolent mm_gvr ///
+>         (max) sc = scandal_today (firstnm) country_id, by(country bin3)
+
+. tempfile cbin
+
+. save `cbin'
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000003.tmp saved as .dta
+    format
+
+. 
+. display in yellow "Scandals to stack: `nscandals'"
+Scandals to stack: 174
+
+. 
+. /* ============================================================
+>    2.  BUILD THE STACKED PANEL  (+-10 three-day bins per scandal)
+>    ============================================================ */
+. clear
+
+. tempfile stack
+
+. save `stack', emptyok replace
+(dataset contains 0 observations)
+(file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp not found)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+
+. 
+. forvalues s = 1/`nscandals' {
+  2.         use `sclist' in `s', clear
+  3.         local scc = country[1]
+  4.         local scb = scandal_bin[1]
+  5.         local sid = scandal_id[1]
+  6. 
+.         use `cbin', clear
+  7.         keep if inrange(bin3, `scb'-10, `scb'+10)
+  8.         bysort country: egen _anysc = max(sc)
+  9.         keep if country == "`scc'" | _anysc == 0
+ 10.         gen long stack        = `s'
+ 11.         gen long etime        = bin3 - `scb'
+ 12.         gen byte treated_unit = (country == "`scc'")
+ 13.         drop _anysc
+ 14.         append using `stack'
+ 15.         save `stack', replace
+ 16. }
+(32,362 observations deleted)
+(0 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(126 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(63 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(168 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(168 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(126 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(147 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(63 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(105 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(147 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(147 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(63 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(105 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(168 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(105 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(105 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(126 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(147 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(126 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(63 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(147 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(63 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(126 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(147 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(105 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(168 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(168 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(168 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(105 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(126 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(126 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(168 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(0 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(147 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(168 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(105 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(147 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(168 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(168 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(105 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(0 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(0 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(0 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(105 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(63 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(147 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(147 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(63 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(126 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(168 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(105 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(63 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(63 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(63 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(105 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(105 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(63 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(0 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(63 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(0 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(105 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(105 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(63 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(147 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(105 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(126 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(126 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(105 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(63 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(126 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(126 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(63 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(126 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(0 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(126 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(126 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(126 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(147 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(168 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(63 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(0 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(147 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(126 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(0 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(0 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(63 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(105 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(147 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(126 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(147 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(168 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(63 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(84 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(42 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(63 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+(32,362 observations deleted)
+(21 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_d320_000004.tmp saved as .dta
+    format
+
+. 
+. use `stack', clear
+
+. egen long unit_id = group(stack country)
+
+. gen byte D = treated_unit == 1 & etime >= 0
+
+. label variable D "Treated country x post-scandal"
+
+. gen long cohort = 0 if treated_unit == 1
+(63,063 missing values generated)
+
+. gen byte I_never_treated = (treated_unit == 0)
+
+. 
+. di as result "=== Stacked country x 3-day-bin panel ==="
+=== Stacked country x 3-day-bin panel ===
+
+. count
+  66,717
+
+. quietly levelsof stack
+
+. di "Stacks (scandals): " r(r)
+Stacks (scandals): 174
+
+. quietly summarize etime
+
+. di "Event-bin range: " r(min) " .. " r(max)
+Event-bin range: -10 .. 10
+
+. 
+. /* ============================================================
+>    3.  EVENT-STUDY DUMMIES  (+-10 bins, omit bin -1)
+>    Plot grid = 20 cols, event bins -10..-1,0..9; reference = bin -1.
+>    ============================================================ */
+. forvalues k = 2/10 {
+  2.         gen byte ev_l`k' = (etime == -`k') & treated_unit == 1
+  3. }
+
+. forvalues k = 0/9 {
+  2.         gen byte ev_g`k' = (etime == `k') & treated_unit == 1
+  3. }
+
+. local es_dummies ev_l10 ev_l9 ev_l8 ev_l7 ev_l6 ev_l5 ev_l4 ev_l3 ev_l2 ///
+>         ev_g0 ev_g1 ev_g2 ev_g3 ev_g4 ev_g5 ev_g6 ev_g7 ev_g8 ev_g9
+
+. 
+. local outcomes mm_protests mm_violent mm_nonviolent mm_gvr
+
+. 
+. /* ============================================================
+>    4.  MAIN LOOP
+>    ============================================================ */
+. local oc = 0
+
+. foreach y of local outcomes {
+  2.         local ++oc
+  3. 
+.         if "`y'" == "mm_protests"   local ytitle "Number of protests"
+  4.         if "`y'" == "mm_violent"    local ytitle "Number of violent protes
+> ts"
+  5.         if "`y'" == "mm_nonviolent" local ytitle "Number of non-violent pr
+> otests"
+  6.         if "`y'" == "mm_gvr"        local ytitle "Number of govt. violent 
+> responses"
+  7. 
+.         matrix M_ols_b  = J(1,20,0)
+  8.         matrix M_ols_se = J(1,20,0)
+  9.         matrix M_dcdh_b  = J(1,20,0)
+ 10.         matrix M_dcdh_se = J(1,20,0)
+ 11.         matrix M_bjs_b  = J(1,20,0)
+ 12.         matrix M_bjs_se = J(1,20,0)
+ 13.         matrix M_sa_b  = J(1,20,0)
+ 14.         matrix M_sa_se = J(1,20,0)
+ 15. 
+.         /* ---------- (1) OLS two-way FE ---------- */
+.         di as result "--- OLS: `y' ---"
+ 16.         reghdfe `y' D, absorb(unit_id etime) cluster(country_id)
+ 17.         scalar b_ols_`oc'  = _b[D]
+ 18.         scalar se_ols_`oc' = _se[D]
+ 19.         scalar n_ols_`oc'  = e(N)
+ 20.         quietly reghdfe `y' `es_dummies', absorb(unit_id etime) cluster(co
+> untry_id)
+ 21.         local cc = 0
+ 22.         foreach k of numlist 10 9 8 7 6 5 4 3 2 {
+ 23.                 local ++cc
+ 24.                 matrix M_ols_b[1,`cc']  = _b[ev_l`k']
+ 25.                 matrix M_ols_se[1,`cc'] = _se[ev_l`k']
+ 26.         }
+ 27.         forvalues k = 0/9 {
+ 28.                 matrix M_ols_b[1, 11+`k']  = _b[ev_g`k']
+ 29.                 matrix M_ols_se[1, 11+`k'] = _se[ev_g`k']
+ 30.         }
+ 31. 
+.         /* ---------- (2) dCDH ---------- */
+.         di as result "--- dCDH: `y' ---"
+ 32.         capture noisily did_multiplegt_dyn `y' unit_id etime D, ///
+>                 effects(10) placebo(10) cluster(country_id) graph_off
+ 33.         if _rc == 0 {
+ 34.                 scalar b_dcdh_`oc'  = e(Av_tot_effect)
+ 35.                 scalar se_dcdh_`oc' = e(se_avg_total_effect)
+ 36.                 forvalues k = 1/10 {
+ 37.                         capture matrix M_dcdh_b[1, 11-`k']  = e(Placebo_`k
+> ')
+ 38.                         capture matrix M_dcdh_se[1, 11-`k'] = e(se_placebo
+> _`k')
+ 39.                 }
+ 40.                 forvalues k = 1/10 {
+ 41.                         capture matrix M_dcdh_b[1, 10+`k']  = e(Effect_`k'
+> )
+ 42.                         capture matrix M_dcdh_se[1, 10+`k'] = e(se_effect_
+> `k')
+ 43.                 }
+ 44.         }
+ 45.         else {
+ 46.                 scalar b_dcdh_`oc' = .
+ 47.                 scalar se_dcdh_`oc' = .
+ 48.                 display in red "dCDH failed for `y'"
+ 49.         }
+ 50. 
+.         /* ---------- (3) BJS (did_imputation) ---------- */
+.         di as result "--- BJS: `y' ---"
+ 51.         capture noisily did_imputation `y' unit_id etime cohort, ///
+>                 autosample minn(0) delta(1) cluster(country_id)
+ 52.         if _rc == 0 {
+ 53.                 scalar b_bjs_`oc'  = _b[tau]
+ 54.                 scalar se_bjs_`oc' = _se[tau]
+ 55.         }
+ 56.         else {
+ 57.                 scalar b_bjs_`oc' = .
+ 58.                 scalar se_bjs_`oc' = .
+ 59.                 display in red "BJS (static) failed for `y'"
+ 60.         }
+ 61.         capture noisily did_imputation `y' unit_id etime cohort, ///
+>                 horizons(0/9) pretrends(10) autosample minn(0) delta(1) clust
+> er(country_id)
+ 62.         if _rc == 0 {
+ 63.                 forvalues k = 2/10 {
+ 64.                         capture quietly lincom pre`k' - pre1
+ 65.                         if _rc == 0 {
+ 66.                                 matrix M_bjs_b[1, 11-`k']  = r(estimate)
+ 67.                                 matrix M_bjs_se[1, 11-`k'] = r(se)
+ 68.                         }
+ 69.                 }
+ 70.                 forvalues k = 0/9 {
+ 71.                         capture quietly lincom tau`k' - pre1
+ 72.                         if _rc == 0 {
+ 73.                                 matrix M_bjs_b[1, 11+`k']  = r(estimate)
+ 74.                                 matrix M_bjs_se[1, 11+`k'] = r(se)
+ 75.                         }
+ 76.                 }
+ 77.         }
+ 78.         else {
+ 79.                 display in red "BJS (event study) failed for `y'"
+ 80.         }
+ 81. 
+.         /* ---------- (4) SA (eventstudyinteract) ---------- */
+.         di as result "--- SA: `y' ---"
+ 82.         capture noisily eventstudyinteract `y' `es_dummies', ///
+>                 cohort(cohort) control_cohort(I_never_treated) ///
+>                 absorb(unit_id etime) vce(cluster country_id)
+ 83.         if _rc == 0 {
+ 84.                 matrix b_iw = e(b_iw)
+ 85.                 matrix V_iw = e(V_iw)
+ 86.                 local cc = 0
+ 87.                 foreach k of numlist 10 9 8 7 6 5 4 3 2 {
+ 88.                         local ++cc
+ 89.                         local j = colnumb(b_iw, "ev_l`k'")
+ 90.                         if `j' < . {
+ 91.                                 matrix M_sa_b[1,`cc']  = b_iw[1,`j']
+ 92.                                 matrix M_sa_se[1,`cc'] = sqrt(V_iw[`j',`j'
+> ])
+ 93.                         }
+ 94.                 }
+ 95.                 forvalues k = 0/9 {
+ 96.                         local j = colnumb(b_iw, "ev_g`k'")
+ 97.                         if `j' < . {
+ 98.                                 matrix M_sa_b[1, 11+`k']  = b_iw[1,`j']
+ 99.                                 matrix M_sa_se[1, 11+`k'] = sqrt(V_iw[`j',
+> `j'])
+100.                         }
+101.                 }
+102.                 matrix wgt = J(1, colsof(b_iw), 0)
+103.                 local npost = 0
+104.                 forvalues k = 0/9 {
+105.                         local j = colnumb(b_iw, "ev_g`k'")
+106.                         if `j' < . {
+107.                                 matrix wgt[1,`j'] = 1
+108.                                 local ++npost
+109.                         }
+110.                 }
+111.                 if `npost' > 0 {
+112.                         matrix wgt = wgt / `npost'
+113.                         matrix avg_b = wgt * b_iw'
+114.                         matrix avg_V = wgt * V_iw * wgt'
+115.                         scalar b_sa_`oc'  = avg_b[1,1]
+116.                         scalar se_sa_`oc' = sqrt(avg_V[1,1])
+117.                 }
+118.         }
+119.         else {
+120.                 scalar b_sa_`oc' = .
+121.                 scalar se_sa_`oc' = .
+122.                 display in red "SA failed for `y'"
+123.         }
+124. 
+.         /* ---------- combined event-study plot ---------- */
+.         preserve
+125.                 clear
+126.                 set obs 20
+127.                 gen bin = _n - 11
+128.                 foreach est in ols dcdh bjs sa {
+129.                         gen double b_`est'  = .
+130.                         gen double se_`est' = .
+131.                         forvalues j = 1/20 {
+132.                                 replace b_`est'  = M_`est'_b[1,`j']  in `j
+> '
+133.                                 replace se_`est' = M_`est'_se[1,`j'] in `j
+> '
+134.                         }
+135.                         gen double ci_lo_`est' = b_`est' - 1.645*se_`est'
+136.                         gen double ci_hi_`est' = b_`est' + 1.645*se_`est'
+137.                 }
+138.                 gen double bin_ols  = bin - 0.21
+139.                 gen double bin_dcdh = bin - 0.07
+140.                 gen double bin_bjs  = bin + 0.07
+141.                 gen double bin_sa   = bin + 0.21
+142. 
+.                 twoway ///
+>                         (rspike ci_lo_ols  ci_hi_ols  bin_ols,  lcolor(navy) 
+>         lwidth(medium)) ///
+>                         (scatter b_ols  bin_ols,  mcolor(navy)         msymbo
+> l(O)  msize(small)) ///
+>                         (rspike ci_lo_dcdh ci_hi_dcdh bin_dcdh, lcolor(cranbe
+> rry)    lwidth(medium)) ///
+>                         (scatter b_dcdh bin_dcdh, mcolor(cranberry)    msymbo
+> l(T)  msize(small)) ///
+>                         (rspike ci_lo_bjs  ci_hi_bjs  bin_bjs,  lcolor(forest
+> _green) lwidth(medium)) ///
+>                         (scatter b_bjs  bin_bjs,  mcolor(forest_green) msymbo
+> l(D)  msize(small)) ///
+>                         (rspike ci_lo_sa   ci_hi_sa   bin_sa,   lcolor(midblu
+> e)      lwidth(medium)) ///
+>                         (scatter b_sa   bin_sa,   mcolor(midblue)      msymbo
+> l(Oh) msize(small)), ///
+>                         yline(0, lcolor(red) lpattern(solid) lwidth(medthin))
+>  ///
+>                         xline(-0.5, lcolor(black%20) lpattern(solid) lwidth(v
+> thick)) ///
+>                         xtitle("Days since scandal (3-day bins)", size(medium
+> )) ///
+>                         ytitle("`ytitle'", size(medium)) ///
+>                         xlabel(-10 "-30" -8 "-24" -6 "-18" -4 "-12" -2 "-6" /
+> //
+>                                 0 "0" 2 "6" 4 "12" 6 "18" 8 "24", labsize(med
+> small)) ///
+>                         ylabel(, labsize(medsmall) format(%4.3fc)) ///
+>                         legend(order(2 "OLS (TWFE)" 4 "dCDH" 6 "BJS" 8 "SA") 
+> ///
+>                                 rows(1) size(small) position(6) region(lcolor
+> (none))) ///
+>                         graphregion(color(white)) scheme(s2color)
+143.                 graph export "${figout}/did_modern_stk_es_`y'.pdf", replac
+> e
+144.         restore
+145. }
+--- OLS: mm_protests ---
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =     66,717
+Absorbing 2 HDFE groups                           F(   1,     21) =       1.08
+Statistics robust to heteroskedasticity           Prob > F        =     0.3098
+                                                  R-squared       =     0.6385
+                                                  Adj R-squared   =     0.6203
+                                                  Within R-sq.    =     0.0001
+Number of clusters (country_id) =         22      Root MSE        =     0.3781
+
+                            (Std. err. adjusted for 22 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+ mm_protests | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+           D |   .0341706   .0328329     1.04   0.310    -.0341092    .1024504
+       _cons |   .1409026   .0009419   149.59   0.000     .1389437    .1428614
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+     unit_id |      3177        3177           0    *|
+       etime |        21           1          20     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+--- dCDH: mm_protests ---
+
+The number of placebos which can be estimated is at most 9. The command will th
+> erefore try to estimate 9 placebo(s).
+
+
+-------------------------------------------------------------------------------
+> -
+             Estimation of treatment effects: Event-study effects
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+    Effect_1 |   .001998   .0450489  -.0862963   .0902923       3177 
+    Effect_2 |  .0191533   .0399748  -.0591958   .0975023       3177 
+    Effect_3 |  .0194001   .0583431  -.0949502   .1337505       3177 
+    Effect_4 | -.0127516   .0730559  -.1559386   .1304353       3177 
+    Effect_5 |  .0172299   .0622694  -.1048159   .1392757       3177 
+    Effect_6 | -.0477396   .0807325  -.2059723   .1104931       3177 
+    Effect_7 |  -.023333   .0941124  -.2077898   .1611238       3177 
+    Effect_8 | -.0359124   .0887334  -.2098265   .1380018       3177 
+    Effect_9 |  -.024998   .0868282  -.1951782   .1451822       3177 
+   Effect_10 | -.0047596   .0903002  -.1817448   .1722256       3177 
+
+             | Switchers 
+-------------+----------
+    Effect_1 |       174 
+    Effect_2 |       174 
+    Effect_3 |       174 
+    Effect_4 |       174 
+    Effect_5 |       174 
+    Effect_6 |       174 
+    Effect_7 |       174 
+    Effect_8 |       174 
+    Effect_9 |       174 
+   Effect_10 |       174 
+-------------------------------------------------------------------------------
+> -
+The F-test that all effects are equal to zero may not be reliable, because the 
+> variance of the effects is close to not being invertible (the ratio of its la
+> rgest and smallest eigenvalues is larger than 1000). This can for instance ha
+> ppen when you compute many effects estimators, or when your effects are very 
+> strongly correlated. We recommend that you complement the F-test with a sup t
+> -test, see FAQ section of the help file for more details.
+
+Test of joint nullity of the effects : p-value = 6.090e-11
+
+
+-------------------------------------------------------------------------------
+> -
+               Average cumulative (total) effect per treatment unit
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+  Av_tot_eff | -.0091713   .0667163  -.1399328   .1215902      31770 
+
+             |    Switch  x Periods 
+-------------+---------------------
+  Av_tot_eff |      1740            
+-------------------------------------------------------------------------------
+> -
+Average number of time periods over which a treatment's effect is accumulated =
+>  5.5
+
+
+-------------------------------------------------------------------------------
+> -
+          Testing the parallel trends and no anticipation assumptions
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+   Placebo_1 | -.0156625   .0505348  -.1147089   .0833839       3177 
+   Placebo_2 | -.0268238   .0724838  -.1688894   .1152419       3177 
+   Placebo_3 | -.0229885   .0627097  -.1458972   .0999202       3177 
+   Placebo_4 | -.0103345   .0756202  -.1585473   .1378783       3177 
+   Placebo_5 | -.0555594   .0856777  -.2234845   .1123658       3177 
+   Placebo_6 | -.0921263   .0923249  -.2730797   .0888271       3177 
+   Placebo_7 | -.0830491     .10881  -.2963128   .1302146       3177 
+   Placebo_8 |  -.076636   .1066254  -.2856179   .1323459       3177 
+   Placebo_9 | -.0661408   .1318226  -.3245083   .1922268       3177 
+
+             | Switchers 
+-------------+----------
+   Placebo_1 |       174 
+   Placebo_2 |       174 
+   Placebo_3 |       174 
+   Placebo_4 |       174 
+   Placebo_5 |       174 
+   Placebo_6 |       174 
+   Placebo_7 |       174 
+   Placebo_8 |       174 
+   Placebo_9 |       174 
+-------------------------------------------------------------------------------
+> -
+The F-test that all pre-trends are equal to zero may not be reliable, because t
+> he variance of the placebos is close to not being invertible (the ratio of it
+> s largest and smallest eigenvalues is larger than 1000). This can for instanc
+> e happen when you compute many placebos estimators, or when your placebos are
+>  very strongly correlated. We recommend that you complement the F-test with a
+>  sup t-test, see FAQ section of the help file for more details.
+
+Test of joint nullity of the placebos : p-value = .00214425
+
+
+The development of this package was funded by the European Union (ERC, REALLYCR
+> EDIBLE,GA N°101043899).
+--- BJS: mm_protests ---
+
+                                                        Number of obs = 66,717
+------------------------------------------------------------------------------
+ mm_protests | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         tau |   .0341706   .0311172     1.10   0.272    -.0268179    .0951592
+------------------------------------------------------------------------------
+
+                                                        Number of obs = 66,543
+------------------------------------------------------------------------------
+ mm_protests | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        tau0 |   .0469301   .0485784     0.97   0.334    -.0482818    .1421419
+        tau1 |   .0640853   .0486122     1.32   0.187    -.0311927    .1593634
+        tau2 |   .0643322   .0504806     1.27   0.203     -.034608    .1632725
+        tau3 |   .0321805   .0295593     1.09   0.276    -.0257547    .0901156
+        tau4 |    .062162   .0416938     1.49   0.136    -.0195564    .1438804
+        tau5 |  -.0028075   .0430005    -0.07   0.948     -.087087     .081472
+        tau6 |   .0215991    .042267     0.51   0.609    -.0612427    .1044409
+        tau7 |   .0090197   .0394504     0.23   0.819    -.0683016     .086341
+        tau8 |   .0199341   .0451445     0.44   0.659    -.0685474    .1084156
+        tau9 |   .0401725    .051805     0.78   0.438    -.0613635    .1417085
+        pre1 |   .0661408   .1306774     0.51   0.613    -.1899823    .3222638
+        pre2 |   .0504783   .0944317     0.53   0.593    -.1346046    .2355611
+        pre3 |    .039317   .0701128     0.56   0.575    -.0981016    .1767356
+        pre4 |   .0431523   .0757907     0.57   0.569    -.1053949    .1916994
+        pre5 |   .0558063   .0672783     0.83   0.407    -.0760569    .1876694
+        pre6 |   .0105814    .059637     0.18   0.859     -.106305    .1274677
+        pre7 |  -.0259855    .052743    -0.49   0.622    -.1293598    .0773888
+        pre8 |  -.0169084   .0370875    -0.46   0.648    -.0895986    .0557818
+        pre9 |  -.0104953   .0338564    -0.31   0.757    -.0768526    .0558621
+       pre10 |          0  (omitted)
+------------------------------------------------------------------------------
+--- SA: mm_protests ---
+(obs=3,654)
+
+IW estimates for dynamic effects                        Number of obs = 66,717
+Absorbing 2 HDFE groups                                 F(19, 21)     = 212.46
+                                                        Prob > F      = 0.0000
+                                                        R-squared     = 0.6386
+                                                        Adj R-squared = 0.6203
+                                                        Root MSE      = 0.3781
+                            (Std. err. adjusted for 22 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+ mm_protests | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      ev_l10 |  -.0528093   .0902031    -0.59   0.564    -.2403969    .1347784
+       ev_l9 |  -.0633045   .0661306    -0.96   0.349    -.2008306    .0742215
+       ev_l8 |  -.0697176   .0657779    -1.06   0.301    -.2065103    .0670751
+       ev_l7 |  -.0787948   .0507308    -1.55   0.135    -.1842953    .0267057
+       ev_l6 |  -.0422279   .0434883    -0.97   0.343    -.1326668    .0482111
+       ev_l5 |    .002997   .0369887     0.08   0.936    -.0739252    .0799192
+       ev_l4 |   -.009657   .0315406    -0.31   0.762    -.0752493    .0559352
+       ev_l3 |  -.0134923    .039239    -0.34   0.734    -.0950942    .0681097
+       ev_l2 |   -.002331   .0367082    -0.06   0.950    -.0786699    .0740079
+       ev_g0 |   .0153295   .0321818     0.48   0.639    -.0515962    .0822552
+       ev_g1 |   .0324848    .036277     0.90   0.381    -.0429573    .1079268
+       ev_g2 |   .0327316   .0430972     0.76   0.456     -.056894    .1223572
+       ev_g3 |   .0005799   .0359455     0.02   0.987    -.0741729    .0753327
+       ev_g4 |   .0305614   .0317062     0.96   0.346    -.0353752     .096498
+       ev_g5 |  -.0344081   .0303501    -1.13   0.270    -.0975245    .0287083
+       ev_g6 |  -.0100015   .0413905    -0.24   0.811    -.0960777    .0760748
+       ev_g7 |  -.0225809   .0376448    -0.60   0.555    -.1008676    .0557058
+       ev_g8 |  -.0116665   .0343658    -0.34   0.738    -.0831342    .0598012
+       ev_g9 |   .0085719   .0433277     0.20   0.845    -.0815329    .0986767
+------------------------------------------------------------------------------
+Number of observations (_N) was 0, now 20.
+(20 missing values generated)
+(20 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(20 missing values generated)
+(20 missing values generated)
+(0 real changes made)
+(0 real changes made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 missing value generated)
+(1 missing value generated)
+(20 missing values generated)
+(20 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(20 missing values generated)
+(20 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/figures/did_modern
+    > _stk_es_mm_protests.pdf saved as PDF format
+--- OLS: mm_violent ---
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =     66,717
+Absorbing 2 HDFE groups                           F(   1,     21) =       5.25
+Statistics robust to heteroskedasticity           Prob > F        =     0.0324
+                                                  R-squared       =     0.7628
+                                                  Adj R-squared   =     0.7508
+                                                  Within R-sq.    =     0.0003
+Number of clusters (country_id) =         22      Root MSE        =     0.1824
+
+                            (Std. err. adjusted for 22 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+           D |   .0254986   .0111322     2.29   0.032     .0023479    .0486493
+       _cons |   .0461681   .0003194   144.56   0.000     .0455039    .0468322
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+     unit_id |      3177        3177           0    *|
+       etime |        21           1          20     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+--- dCDH: mm_violent ---
+
+The number of placebos which can be estimated is at most 9. The command will th
+> erefore try to estimate 9 placebo(s).
+
+
+-------------------------------------------------------------------------------
+> -
+             Estimation of treatment effects: Event-study effects
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+    Effect_1 |  .0149104   .0129908   -.010551   .0403718       3177 
+    Effect_2 |  .0398969   .0279546   -.014893   .0946868       3177 
+    Effect_3 |   .001998   .0253881  -.0477618   .0517578       3177 
+    Effect_4 |  .0164893   .0215603  -.0257682   .0587467       3177 
+    Effect_5 |  .0319795   .0232037   -.013499    .077458       3177 
+    Effect_6 |  .0029109   .0329873  -.0617431   .0675648       3177 
+    Effect_7 |  .0144051   .0362053  -.0565559   .0853662       3177 
+    Effect_8 |   .008658   .0367555  -.0633814   .0806975       3177 
+    Effect_9 |  .0225694   .0392157  -.0542921   .0994308       3177 
+   Effect_10 |  .0140721   .0349459  -.0544206   .0825649       3177 
+
+             | Switchers 
+-------------+----------
+    Effect_1 |       174 
+    Effect_2 |       174 
+    Effect_3 |       174 
+    Effect_4 |       174 
+    Effect_5 |       174 
+    Effect_6 |       174 
+    Effect_7 |       174 
+    Effect_8 |       174 
+    Effect_9 |       174 
+   Effect_10 |       174 
+-------------------------------------------------------------------------------
+> -
+The F-test that all effects are equal to zero may not be reliable, because the 
+> variance of the effects is close to not being invertible (the ratio of its la
+> rgest and smallest eigenvalues is larger than 1000). This can for instance ha
+> ppen when you compute many effects estimators, or when your effects are very 
+> strongly correlated. We recommend that you complement the F-test with a sup t
+> -test, see FAQ section of the help file for more details.
+
+Test of joint nullity of the effects : p-value = .00243041
+
+
+-------------------------------------------------------------------------------
+> -
+               Average cumulative (total) effect per treatment unit
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+  Av_tot_eff |   .016789   .0216768  -.0256968   .0592747      31770 
+
+             |    Switch  x Periods 
+-------------+---------------------
+  Av_tot_eff |      1740            
+-------------------------------------------------------------------------------
+> -
+Average number of time periods over which a treatment's effect is accumulated =
+>  5.5
+
+
+-------------------------------------------------------------------------------
+> -
+          Testing the parallel trends and no anticipation assumptions
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+   Placebo_1 | -.0094963   .0196186  -.0479479   .0289554       3177 
+   Placebo_2 |  .0114943   .0291702  -.0456783   .0686668       3177 
+   Placebo_3 | -.0246535    .033584   -.090477     .04117       3177 
+   Placebo_4 | -.0253195   .0343861   -.092715    .042076       3177 
+   Placebo_5 | -.0084111   .0358548  -.0786853   .0618631       3177 
+   Placebo_6 | -.0192394   .0297861  -.0776191   .0391403       3177 
+   Placebo_7 | -.0100761   .0377962  -.0841552    .064003       3177 
+   Placebo_8 | -.0080781   .0248337  -.0567512    .040595       3177 
+   Placebo_9 |  -.005328   .0378529  -.0795183   .0688622       3177 
+
+             | Switchers 
+-------------+----------
+   Placebo_1 |       174 
+   Placebo_2 |       174 
+   Placebo_3 |       174 
+   Placebo_4 |       174 
+   Placebo_5 |       174 
+   Placebo_6 |       174 
+   Placebo_7 |       174 
+   Placebo_8 |       174 
+   Placebo_9 |       174 
+-------------------------------------------------------------------------------
+> -
+The F-test that all pre-trends are equal to zero may not be reliable, because t
+> he variance of the placebos is close to not being invertible (the ratio of it
+> s largest and smallest eigenvalues is larger than 1000). This can for instanc
+> e happen when you compute many placebos estimators, or when your placebos are
+>  very strongly correlated. We recommend that you complement the F-test with a
+>  sup t-test, see FAQ section of the help file for more details.
+
+Test of joint nullity of the placebos : p-value = .01170437
+
+
+The development of this package was funded by the European Union (ERC, REALLYCR
+> EDIBLE,GA N°101043899).
+--- BJS: mm_violent ---
+
+                                                        Number of obs = 66,717
+------------------------------------------------------------------------------
+  mm_violent | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         tau |   .0254986   .0107567     2.37   0.018     .0044159    .0465814
+------------------------------------------------------------------------------
+
+                                                        Number of obs = 66,543
+------------------------------------------------------------------------------
+  mm_violent | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        tau0 |   .0248212   .0339037     0.73   0.464    -.0416289    .0912712
+        tau1 |   .0498077   .0390808     1.27   0.202    -.0267894    .1264047
+        tau2 |   .0119088   .0168888     0.71   0.481    -.0211926    .0450101
+        tau3 |      .0264   .0110204     2.40   0.017     .0048005    .0479996
+        tau4 |   .0418903   .0181501     2.31   0.021     .0063167    .0774639
+        tau5 |   .0128217   .0144816     0.89   0.376    -.0155618    .0412051
+        tau6 |   .0243159   .0200714     1.21   0.226    -.0150233    .0636551
+        tau7 |   .0185688   .0198684     0.93   0.350    -.0203725    .0575101
+        tau8 |   .0324802   .0239826     1.35   0.176    -.0145249    .0794853
+        tau9 |   .0239829   .0200447     1.20   0.232     -.015304    .0632699
+        pre1 |    .005328   .0375092     0.14   0.887    -.0681887    .0788447
+        pre2 |  -.0041682   .0355733    -0.12   0.907    -.0738907    .0655542
+        pre3 |   .0168223   .0309114     0.54   0.586     -.043763    .0774076
+        pre4 |  -.0193255   .0282699    -0.68   0.494    -.0747336    .0360826
+        pre5 |  -.0199915   .0207767    -0.96   0.336    -.0607131    .0207301
+        pre6 |  -.0030831   .0114029    -0.27   0.787    -.0254325    .0192662
+        pre7 |  -.0139114   .0197152    -0.71   0.480    -.0525524    .0247296
+        pre8 |  -.0047481   .0228612    -0.21   0.835    -.0495553     .040059
+        pre9 |  -.0027501   .0254369    -0.11   0.914    -.0526055    .0471053
+       pre10 |          0  (omitted)
+------------------------------------------------------------------------------
+--- SA: mm_violent ---
+(obs=3,654)
+
+IW estimates for dynamic effects                        Number of obs = 66,717
+Absorbing 2 HDFE groups                                 F(19, 21)     =      .
+                                                        Prob > F      =      .
+                                                        R-squared     = 0.7628
+                                                        Adj R-squared = 0.7508
+                                                        Root MSE      = 0.1824
+                            (Std. err. adjusted for 22 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      ev_l10 |  -.0071164    .019016    -0.37   0.712    -.0466624    .0324295
+       ev_l9 |  -.0098666   .0137311    -0.72   0.480    -.0384219    .0186888
+       ev_l8 |  -.0118646   .0206819    -0.57   0.572     -.054875    .0311459
+       ev_l7 |  -.0210278   .0129274    -1.63   0.119    -.0479117    .0058561
+       ev_l6 |  -.0101996   .0166304    -0.61   0.546    -.0447844    .0243853
+       ev_l5 |  -.0271079   .0185817    -1.46   0.159    -.0657507    .0115348
+       ev_l4 |  -.0264419   .0220374    -1.20   0.244    -.0722713    .0193874
+       ev_l3 |   .0097058   .0206173     0.47   0.643    -.0331701    .0525818
+       ev_l2 |  -.0112847   .0194807    -0.58   0.569     -.051797    .0292276
+       ev_g0 |   .0131219   .0282689     0.46   0.647    -.0456664    .0719102
+       ev_g1 |   .0381084   .0370667     1.03   0.316    -.0389759    .1151928
+       ev_g2 |   .0002096   .0172926     0.01   0.990    -.0357523    .0361714
+       ev_g3 |   .0147008   .0130756     1.12   0.274    -.0124915    .0418931
+       ev_g4 |   .0301911   .0187216     1.61   0.122    -.0087426    .0691248
+       ev_g5 |   .0011224   .0132184     0.08   0.933    -.0263666    .0286115
+       ev_g6 |   .0126167   .0176287     0.72   0.482    -.0240442    .0492776
+       ev_g7 |   .0068696   .0179538     0.38   0.706    -.0304675    .0442066
+       ev_g8 |   .0207809   .0215525     0.96   0.346    -.0240399    .0656018
+       ev_g9 |   .0122837   .0174402     0.70   0.489    -.0239851    .0485525
+------------------------------------------------------------------------------
+Number of observations (_N) was 0, now 20.
+(20 missing values generated)
+(20 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(20 missing values generated)
+(20 missing values generated)
+(0 real changes made)
+(0 real changes made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 missing value generated)
+(1 missing value generated)
+(20 missing values generated)
+(20 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(20 missing values generated)
+(20 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/figures/did_modern
+    > _stk_es_mm_violent.pdf saved as PDF format
+--- OLS: mm_nonviolent ---
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =     66,717
+Absorbing 2 HDFE groups                           F(   1,     21) =       0.07
+Statistics robust to heteroskedasticity           Prob > F        =     0.7953
+                                                  R-squared       =     0.5777
+                                                  Adj R-squared   =     0.5565
+                                                  Within R-sq.    =     0.0000
+Number of clusters (country_id) =         22      Root MSE        =     0.3317
+
+                            (Std. err. adjusted for 22 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+           D |    .008672   .0329992     0.26   0.795    -.0599535    .0772975
+       _cons |   .0947345   .0009467   100.07   0.000     .0927657    .0967033
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+     unit_id |      3177        3177           0    *|
+       etime |        21           1          20     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+--- dCDH: mm_nonviolent ---
+
+The number of placebos which can be estimated is at most 9. The command will th
+> erefore try to estimate 9 placebo(s).
+
+
+-------------------------------------------------------------------------------
+> -
+             Estimation of treatment effects: Event-study effects
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+    Effect_1 | -.0129124   .0531681  -.1171199   .0912951       3177 
+    Effect_2 | -.0207436   .0549102  -.1283656   .0868783       3177 
+    Effect_3 |  .0174021    .044144  -.0691184   .1039227       3177 
+    Effect_4 | -.0292409   .0546008  -.1362564   .0777747       3177 
+    Effect_5 | -.0147496   .0454271   -.103785   .0742858       3177 
+    Effect_6 | -.0506505   .0605374  -.1693016   .0680006       3177 
+    Effect_7 | -.0377381   .0723601  -.1795614   .1040851       3177 
+    Effect_8 | -.0445704   .0626017  -.1672674   .0781267       3177 
+    Effect_9 | -.0475674   .0647051  -.1743871   .0792523       3177 
+   Effect_10 | -.0188317   .0666953  -.1495522   .1118887       3177 
+
+             | Switchers 
+-------------+----------
+    Effect_1 |       174 
+    Effect_2 |       174 
+    Effect_3 |       174 
+    Effect_4 |       174 
+    Effect_5 |       174 
+    Effect_6 |       174 
+    Effect_7 |       174 
+    Effect_8 |       174 
+    Effect_9 |       174 
+   Effect_10 |       174 
+-------------------------------------------------------------------------------
+> -
+The F-test that all effects are equal to zero may not be reliable, because the 
+> variance of the effects is close to not being invertible (the ratio of its la
+> rgest and smallest eigenvalues is larger than 1000). This can for instance ha
+> ppen when you compute many effects estimators, or when your effects are very 
+> strongly correlated. We recommend that you complement the F-test with a sup t
+> -test, see FAQ section of the help file for more details.
+
+Test of joint nullity of the effects : p-value = 3.016e-07
+
+
+-------------------------------------------------------------------------------
+> -
+               Average cumulative (total) effect per treatment unit
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+  Av_tot_eff | -.0259602   .0538295  -.1314642   .0795437      31770 
+
+             |    Switch  x Periods 
+-------------+---------------------
+  Av_tot_eff |      1740            
+-------------------------------------------------------------------------------
+> -
+Average number of time periods over which a treatment's effect is accumulated =
+>  5.5
+
+
+-------------------------------------------------------------------------------
+> -
+          Testing the parallel trends and no anticipation assumptions
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+   Placebo_1 | -.0061662   .0366034  -.0779076   .0655751       3177 
+   Placebo_2 |  -.038318    .047838  -.1320788   .0554428       3177 
+   Placebo_3 |   .001665   .0460115  -.0885159   .0918459       3177 
+   Placebo_4 |   .014985   .0498844  -.0827867   .1127567       3177 
+   Placebo_5 | -.0471483   .0558557  -.1566234   .0623269       3177 
+   Placebo_6 | -.0728869   .0706746  -.2114065   .0656327       3177 
+   Placebo_7 |  -.072973   .0818411  -.2333786   .0874326       3177 
+   Placebo_8 | -.0685579   .0942757  -.2533349   .1162191       3177 
+   Placebo_9 | -.0608128   .1033575  -.2633898   .1417643       3177 
+
+             | Switchers 
+-------------+----------
+   Placebo_1 |       174 
+   Placebo_2 |       174 
+   Placebo_3 |       174 
+   Placebo_4 |       174 
+   Placebo_5 |       174 
+   Placebo_6 |       174 
+   Placebo_7 |       174 
+   Placebo_8 |       174 
+   Placebo_9 |       174 
+-------------------------------------------------------------------------------
+> -
+The F-test that all pre-trends are equal to zero may not be reliable, because t
+> he variance of the placebos is close to not being invertible (the ratio of it
+> s largest and smallest eigenvalues is larger than 1000). This can for instanc
+> e happen when you compute many placebos estimators, or when your placebos are
+>  very strongly correlated. We recommend that you complement the F-test with a
+>  sup t-test, see FAQ section of the help file for more details.
+
+Test of joint nullity of the placebos : p-value = .00589821
+
+
+The development of this package was funded by the European Union (ERC, REALLYCR
+> EDIBLE,GA N°101043899).
+--- BJS: mm_nonviolent ---
+
+                                                        Number of obs = 66,717
+------------------------------------------------------------------------------
+mm_nonviol~t | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         tau |    .008672   .0316389     0.27   0.784     -.053339     .070683
+------------------------------------------------------------------------------
+
+                                                        Number of obs = 66,543
+------------------------------------------------------------------------------
+mm_nonviol~t | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        tau0 |   .0221089   .0348664     0.63   0.526    -.0462279    .0904457
+        tau1 |   .0142777   .0307185     0.46   0.642    -.0459296    .0744849
+        tau2 |   .0524234   .0389189     1.35   0.178    -.0238562    .1287031
+        tau3 |   .0057804   .0260306     0.22   0.824    -.0452387    .0567995
+        tau4 |   .0202717     .04072     0.50   0.619     -.059538    .1000814
+        tau5 |  -.0156292   .0429826    -0.36   0.716    -.0998735    .0686151
+        tau6 |  -.0027168   .0418464    -0.06   0.948    -.0847342    .0793006
+        tau7 |  -.0095491   .0378211    -0.25   0.801     -.083677    .0645789
+        tau8 |  -.0125461   .0412585    -0.30   0.761    -.0934112     .068319
+        tau9 |   .0161896   .0461549     0.35   0.726    -.0742724    .1066515
+        pre1 |   .0608128   .1024826     0.59   0.553    -.1400494    .2616749
+        pre2 |   .0546465   .0777574     0.70   0.482    -.0977553    .2070483
+        pre3 |   .0224947   .0618459     0.36   0.716     -.098721    .1437105
+        pre4 |   .0624778   .0802115     0.78   0.436     -.094734    .2196895
+        pre5 |   .0757978   .0712641     1.06   0.288    -.0638773    .2154729
+        pre6 |   .0136645   .0590423     0.23   0.817    -.1020564    .1293853
+        pre7 |  -.0120741   .0475868    -0.25   0.800    -.1053425    .0811943
+        pre8 |  -.0121603   .0347264    -0.35   0.726    -.0802227    .0559022
+        pre9 |  -.0077451   .0215166    -0.36   0.719     -.049917    .0344267
+       pre10 |          0  (omitted)
+------------------------------------------------------------------------------
+--- SA: mm_nonviolent ---
+(obs=3,654)
+
+IW estimates for dynamic effects                        Number of obs = 66,717
+Absorbing 2 HDFE groups                                 F(19, 21)     =  51.76
+                                                        Prob > F      = 0.0000
+                                                        R-squared     = 0.5779
+                                                        Adj R-squared = 0.5565
+                                                        Root MSE      = 0.3317
+                            (Std. err. adjusted for 22 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      ev_l10 |  -.0456928   .0794044    -0.58   0.571    -.2108234    .1194377
+       ev_l9 |  -.0534379   .0680735    -0.79   0.441    -.1950046    .0881287
+       ev_l8 |  -.0578531   .0550858    -1.05   0.306    -.1724103    .0567042
+       ev_l7 |  -.0577669   .0451205    -1.28   0.214    -.1516002    .0360663
+       ev_l6 |  -.0320283   .0333097    -0.96   0.347    -.1012996    .0372429
+       ev_l5 |    .030105   .0299382     1.01   0.326    -.0321549    .0923648
+       ev_l4 |   .0167849   .0325133     0.52   0.611    -.0508302    .0844001
+       ev_l3 |  -.0231981   .0284748    -0.81   0.424    -.0824146    .0360185
+       ev_l2 |   .0089537   .0262677     0.34   0.737     -.045673    .0635804
+       ev_g0 |   .0022076   .0335009     0.07   0.948    -.0674613    .0718764
+       ev_g1 |  -.0056237   .0288914    -0.19   0.848    -.0657066    .0544592
+       ev_g2 |   .0325221   .0328637     0.99   0.334    -.0358217    .1008658
+       ev_g3 |  -.0141209   .0276271    -0.51   0.615    -.0715746    .0433327
+       ev_g4 |   .0003703   .0236754     0.02   0.988    -.0488653    .0496059
+       ev_g5 |  -.0355306     .02677    -1.33   0.199    -.0912019    .0201408
+       ev_g6 |  -.0226182   .0355541    -0.64   0.532     -.096557    .0513207
+       ev_g7 |  -.0294504   .0292765    -1.01   0.326    -.0903343    .0314334
+       ev_g8 |  -.0324474   .0289153    -1.12   0.274      -.09258    .0276852
+       ev_g9 |  -.0037118   .0328905    -0.11   0.911    -.0721113    .0646877
+------------------------------------------------------------------------------
+Number of observations (_N) was 0, now 20.
+(20 missing values generated)
+(20 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(20 missing values generated)
+(20 missing values generated)
+(0 real changes made)
+(0 real changes made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 missing value generated)
+(1 missing value generated)
+(20 missing values generated)
+(20 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(20 missing values generated)
+(20 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/figures/did_modern
+    > _stk_es_mm_nonviolent.pdf saved as PDF format
+--- OLS: mm_gvr ---
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =     66,717
+Absorbing 2 HDFE groups                           F(   1,     21) =       0.86
+Statistics robust to heteroskedasticity           Prob > F        =     0.3654
+                                                  R-squared       =     0.4037
+                                                  Adj R-squared   =     0.3737
+                                                  Within R-sq.    =     0.0013
+Number of clusters (country_id) =         22      Root MSE        =     0.0841
+
+                            (Std. err. adjusted for 22 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+      mm_gvr | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+           D |  -.0258501   .0279415    -0.93   0.365    -.0839577    .0322575
+       _cons |   .0049834   .0008016     6.22   0.000     .0033164    .0066504
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+     unit_id |      3177        3177           0    *|
+       etime |        21           1          20     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+--- dCDH: mm_gvr ---
+
+The number of placebos which can be estimated is at most 9. The command will th
+> erefore try to estimate 9 placebo(s).
+
+
+-------------------------------------------------------------------------------
+> -
+             Estimation of treatment effects: Event-study effects
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+    Effect_1 | -.0101623   .0123326  -.0343337   .0140092       3177 
+    Effect_2 | -.0114943   .0122733  -.0355495    .012561       3177 
+    Effect_3 | -.0124933   .0121993  -.0364034   .0114169       3177 
+    Effect_4 | -.0138253   .0121942  -.0377255    .010075       3177 
+    Effect_5 | -.0175744   .0183757  -.0535902   .0184414       3177 
+    Effect_6 | -.0297346   .0305782  -.0896669   .0301976       3177 
+    Effect_7 | -.0297346    .030584  -.0896783    .030209       3177 
+    Effect_8 | -.0284026   .0306022  -.0883818   .0315765       3177 
+    Effect_9 | -.0284026   .0306212  -.0884192   .0316139       3177 
+   Effect_10 | -.0223225   .0311828  -.0834396   .0387946       3177 
+
+             | Switchers 
+-------------+----------
+    Effect_1 |       174 
+    Effect_2 |       174 
+    Effect_3 |       174 
+    Effect_4 |       174 
+    Effect_5 |       174 
+    Effect_6 |       174 
+    Effect_7 |       174 
+    Effect_8 |       174 
+    Effect_9 |       174 
+   Effect_10 |       174 
+-------------------------------------------------------------------------------
+> -
+The F-test that all effects are equal to zero may not be reliable, because the 
+> variance of the effects is close to not being invertible (the ratio of its la
+> rgest and smallest eigenvalues is larger than 1000). This can for instance ha
+> ppen when you compute many effects estimators, or when your effects are very 
+> strongly correlated. We recommend that you complement the F-test with a sup t
+> -test, see FAQ section of the help file for more details.
+
+Test of joint nullity of the effects : p-value = .26099505
+
+
+-------------------------------------------------------------------------------
+> -
+               Average cumulative (total) effect per treatment unit
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+  Av_tot_eff | -.0204146   .0220247  -.0635822   .0227529      31770 
+
+             |    Switch  x Periods 
+-------------+---------------------
+  Av_tot_eff |      1740            
+-------------------------------------------------------------------------------
+> -
+Average number of time periods over which a treatment's effect is accumulated =
+>  5.5
+
+
+-------------------------------------------------------------------------------
+> -
+          Testing the parallel trends and no anticipation assumptions
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+   Placebo_1 |  .0064131   .0060679  -.0054798    .018306       3177 
+   Placebo_2 |  .0067461   .0061651  -.0053372   .0188295       3177 
+   Placebo_3 |  .0064131    .005878  -.0051076   .0179339       3177 
+   Placebo_4 |  .0060801   .0060942  -.0058644   .0180246       3177 
+   Placebo_5 |  .0057471   .0057735  -.0055687   .0170629       3177 
+   Placebo_6 |  .0040821   .0062864   -.008239   .0164032       3177 
+   Placebo_7 |  .0050811   .0062234  -.0071166   .0172788       3177 
+   Placebo_8 |  .0037491   .0063212  -.0086401   .0161384       3177 
+   Placebo_9 |  .0030831   .0067918  -.0102286   .0163949       3177 
+
+             | Switchers 
+-------------+----------
+   Placebo_1 |       174 
+   Placebo_2 |       174 
+   Placebo_3 |       174 
+   Placebo_4 |       174 
+   Placebo_5 |       174 
+   Placebo_6 |       174 
+   Placebo_7 |       174 
+   Placebo_8 |       174 
+   Placebo_9 |       174 
+-------------------------------------------------------------------------------
+> -
+The F-test that all pre-trends are equal to zero may not be reliable, because t
+> he variance of the placebos is close to not being invertible (the ratio of it
+> s largest and smallest eigenvalues is larger than 1000). This can for instanc
+> e happen when you compute many placebos estimators, or when your placebos are
+>  very strongly correlated. We recommend that you complement the F-test with a
+>  sup t-test, see FAQ section of the help file for more details.
+
+Test of joint nullity of the placebos : p-value = .37362847
+
+
+The development of this package was funded by the European Union (ERC, REALLYCR
+> EDIBLE,GA N°101043899).
+--- BJS: mm_gvr ---
+
+                                                        Number of obs = 66,717
+------------------------------------------------------------------------------
+      mm_gvr | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         tau |  -.0258501   .0264948    -0.98   0.329     -.077779    .0260788
+------------------------------------------------------------------------------
+
+                                                        Number of obs = 66,543
+------------------------------------------------------------------------------
+      mm_gvr | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        tau0 |  -.0149018   .0166849    -0.89   0.372    -.0476035       .0178
+        tau1 |  -.0162338   .0165803    -0.98   0.328    -.0487305    .0162629
+        tau2 |  -.0172328   .0165325    -1.04   0.297    -.0496359    .0151704
+        tau3 |  -.0185648   .0165118    -1.12   0.261    -.0509272    .0137977
+        tau4 |  -.0223139   .0223096    -1.00   0.317    -.0660399    .0214121
+        tau5 |  -.0344742    .033763    -1.02   0.307    -.1006485    .0317002
+        tau6 |  -.0344742   .0337729    -1.02   0.307    -.1006679    .0317196
+        tau7 |  -.0331422   .0338233    -0.98   0.327    -.0994347    .0331504
+        tau8 |  -.0331422    .033835    -0.98   0.327    -.0994575    .0331732
+        tau9 |   -.027062   .0343484    -0.79   0.431    -.0943837    .0402596
+        pre1 |  -.0030831   .0067433    -0.46   0.648    -.0162998    .0101335
+        pre2 |     .00333   .0030695     1.08   0.278    -.0026861    .0093461
+        pre3 |    .003663   .0036813     1.00   0.320    -.0035523    .0108783
+        pre4 |     .00333   .0037743     0.88   0.378    -.0040674    .0107274
+        pre5 |    .002997   .0026623     1.13   0.260     -.002221     .008215
+        pre6 |    .002664   .0027042     0.99   0.325    -.0026362    .0079642
+        pre7 |    .000999   .0017568     0.57   0.570    -.0024442    .0044422
+        pre8 |    .001998   .0016762     1.19   0.233    -.0012873    .0052833
+        pre9 |    .000666   .0008179     0.81   0.416    -.0009371    .0022691
+       pre10 |          0  (omitted)
+------------------------------------------------------------------------------
+--- SA: mm_gvr ---
+(obs=3,654)
+
+IW estimates for dynamic effects                        Number of obs = 66,717
+Absorbing 2 HDFE groups                                 F(19, 21)     =      .
+                                                        Prob > F      =      .
+                                                        R-squared     = 0.4038
+                                                        Adj R-squared = 0.3736
+                                                        Root MSE      = 0.0841
+                            (Std. err. adjusted for 22 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+      mm_gvr | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      ev_l10 |   .0171179   .0214924     0.80   0.435    -.0275779    .0618137
+       ev_l9 |   .0177839   .0211004     0.84   0.409    -.0260968    .0616646
+       ev_l8 |   .0191159   .0212608     0.90   0.379    -.0250982    .0633301
+       ev_l7 |   .0181169   .0213147     0.85   0.405    -.0262094    .0624433
+       ev_l6 |   .0197819   .0208691     0.95   0.354    -.0236178    .0631817
+       ev_l5 |   .0201149   .0211904     0.95   0.353    -.0239529    .0641828
+       ev_l4 |   .0204479   .0209037     0.98   0.339    -.0230237    .0639196
+       ev_l3 |   .0207809   .0212135     0.98   0.338    -.0233349    .0648968
+       ev_l2 |   .0204479   .0211746     0.97   0.345    -.0235871    .0644829
+       ev_g0 |   .0038726   .0030505     1.27   0.218    -.0024713    .0102164
+       ev_g1 |   .0025406   .0031186     0.81   0.424     -.003945    .0090261
+       ev_g2 |   .0015416   .0033367     0.46   0.649    -.0053974    .0084805
+       ev_g3 |   .0002096   .0037721     0.06   0.956     -.007635    .0080541
+       ev_g4 |  -.0035396   .0031828    -1.11   0.279    -.0101586    .0030795
+       ev_g5 |  -.0156998   .0151682    -1.04   0.312    -.0472438    .0158441
+       ev_g6 |  -.0156998   .0151896    -1.03   0.313    -.0472884    .0158887
+       ev_g7 |  -.0143678   .0151635    -0.95   0.354    -.0459021    .0171665
+       ev_g8 |  -.0143678   .0151864    -0.95   0.355    -.0459496     .017214
+       ev_g9 |  -.0082877   .0162319    -0.51   0.615    -.0420437    .0254683
+------------------------------------------------------------------------------
+Number of observations (_N) was 0, now 20.
+(20 missing values generated)
+(20 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(20 missing values generated)
+(20 missing values generated)
+(0 real changes made)
+(0 real changes made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 missing value generated)
+(1 missing value generated)
+(20 missing values generated)
+(20 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(20 missing values generated)
+(20 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/figures/did_modern
+    > _stk_es_mm_gvr.pdf saved as PDF format
+
+. 
+. /* ============================================================
+>    5.  4 x 4 RESULTS TABLE  ->  did_modern_stk_main.tex
+>    ============================================================ */
+. capture file close _tbl
+
+. file open _tbl using "${tabout}/did_modern_stk_main.tex", write replace
+
+. file write _tbl "{" _n
+
+. file write _tbl "\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}" _n
+
+. file write _tbl "\begin{tabular}{l*{4}{c}}" _n
+
+. file write _tbl "\toprule" _n
+
+. file write _tbl "            &\multicolumn{1}{c}{\shortstack{Protests}}&\mult
+> icolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{
+> Non-violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Gvt.~Violent\\Response
+> }}\\" _n
+
+. file write _tbl "\midrule" _n
+
+. foreach er in ols dcdh bjs sa {
+  2.         if "`er'" == "ols"  local rowlab "OLS (TWFE)"
+  3.         if "`er'" == "dcdh" local rowlab "dCDH"
+  4.         if "`er'" == "bjs"  local rowlab "BJS"
+  5.         if "`er'" == "sa"   local rowlab "SA"
+  6.         local brow "`rowlab'"
+  7.         local srow "            "
+  8.         foreach oc of numlist 1/4 {
+  9.                 local b = b_`er'_`oc'
+ 10.                 local s = se_`er'_`oc'
+ 11.                 if missing(`b') | missing(`s') | `s' <= 0 {
+ 12.                         local brow "`brow' & --"
+ 13.                         local srow "`srow' & "
+ 14.                 }
+ 15.                 else {
+ 16.                         local p = 2*normal(-abs(`b'/`s'))
+ 17.                         local st = ""
+ 18.                         if `p' < 0.10 local st = "*"
+ 19.                         if `p' < 0.05 local st = "**"
+ 20.                         if `p' < 0.01 local st = "***"
+ 21.                         if "`st'" != "" {
+ 22.                                 local bcell = string(`b',"%6.4f") + "\sym{
+> `st'}"
+ 23.                         }
+ 24.                         else {
+ 25.                                 local bcell = string(`b',"%6.4f")
+ 26.                         }
+ 27.                         local scell = "(" + string(`s',"%6.4f") + ")"
+ 28.                         local brow "`brow' & `bcell'"
+ 29.                         local srow "`srow' & `scell'"
+ 30.                 }
+ 31.         }
+ 32.         file write _tbl "`brow' \\" _n
+ 33.         file write _tbl "`srow' \\" _n
+ 34. }
+
+. file write _tbl "\midrule" _n
+
+. local nrow "Observations"
+
+. foreach oc of numlist 1/4 {
+  2.         local ncell = trim(string(n_ols_`oc', "%12.0fc"))
+  3.         local nrow "`nrow' & `ncell'"
+  4. }
+
+. file write _tbl "`nrow' \\" _n
+
+. file write _tbl "\bottomrule" _n
+
+. file write _tbl "\end{tabular}" _n
+
+. file write _tbl "}" _n
+
+. file close _tbl
+
+. display in green "did_modern_stk_main.tex written"
+did_modern_stk_main.tex written
+
+. 
+. di as result "=== Stacked 3-day-bin panel: post-scandal coefficient (se) ==="
+=== Stacked 3-day-bin panel: post-scandal coefficient (se) ===
+
+. foreach er in ols dcdh bjs sa {
+  2.         local row "`er'   "
+  3.         foreach oc of numlist 1/4 {
+  4.                 local b = b_`er'_`oc'
+  5.                 local s = se_`er'_`oc'
+  6.                 local bs = cond(missing(`b'), "    .    ", string(`b', "%9
+> .5f"))
+  7.                 local ss = cond(missing(`s'), "    .    ", string(`s', "%9
+> .5f"))
+  8.                 local row "`row'  `bs' (`ss')"
+  9.         }
+ 10.         display "`row'"
+ 11. }
+ols     0.03417 (0.03283)  0.02550 (0.01113)  0.00867 (0.03300)  -0.02585 (0.02
+> 794)
+dcdh     -0.00917 (0.06672)  0.01679 (0.02168)  -0.02596 (0.05383)  -0.02041 (0
+> .02202)
+bjs     0.03417 (0.03112)  0.02550 (0.01076)  0.00867 (0.03164)  -0.02585 (0.02
+> 649)
+sa     0.00416 (0.01766)  0.01500 (0.00486)  -0.01084 (0.01973)  -0.00638 (0.00
+> 670)
+
+. display in green "a_did_modern_stacked.do finished OK"
+a_did_modern_stacked.do finished OK
+
+. 
+end of do-file

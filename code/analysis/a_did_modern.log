@@ -1,0 +1,1672 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      StataNow 19.5
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2025 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-782-8272        https://www.stata.com
+                                   979-696-4600        service@stata.com
+
+Stata license: Unlimited-user 16-core network, expiring  2 Jul 2026
+Serial number: 501909320077
+  Licensed to: Roberto Gonzalez Tellez
+               Stanford University GSB
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do a_did_modern.do 
+
+. /* --------------------------------------------------------------------------
+> --
+>                                         Violent effects of apex corruption
+> 
+>         Code author: Roberto Gonzalez
+>         Date: 2026-05-22
+> 
+>         Objective (protests_plan.md, Task 1):
+>                 Re-estimate the headline "scandals raise (violent) protests" 
+> effect
+>                 on the *balanced country-week panel* (panel_country_week.dta)
+>                 using three modern staggered-DiD estimators against a TWFE OL
+> S
+>                 baseline:
+>                   - OLS   two-way FE (country + week)
+>                   - dCDH  (de Chaisemartin & D'Haultfoeuille):  did_multipleg
+> t_dyn
+>                   - BJS   (Borusyak, Jaravel & Spiess):         did_imputatio
+> n
+>                   - SA    (Sun & Abraham):                      eventstudyint
+> eract
+> 
+>         Design:
+>                 Unit:                country (23 LAC).
+>                 Time:                week (Monday-anchored), 2008-W1..2020-W1
+> 3.
+>                 Treatment date:      country's FIRST scandal week.
+>                 Treated cohort:      19 countries with >=1 scandal in the dat
+> a.
+>                 Never-treated cohort: Guyana, Haiti, Jamaica, Suriname.
+>                 Outcomes:            mm_protests, mm_violent, mm_nonviolent, 
+> mm_gvr.
+> 
+>         Event-study window: 4 placebo weeks + 8 post weeks (event weeks -4..+
+> 7,
+>         reference = week -1).
+> 
+>         Outputs:
+>                 ${tabout}/did_modern_main.tex          (4x4 estimator x outco
+> me,
+>                                                         two-row coef/SE, \sym
+>  stars)
+>                 ${figout}/did_modern_es_<outcome>.pdf  (combined event study,
+>  all
+>                                                         4 estimators overlaid
+> )
+> ---------------------------------------------------------------------------- 
+> */
+. 
+. if "`c(username)'" == "lalov" {
+.         gl identity "C:\Users\lalov\ITAM Seira Research Dropbox\Eduardo River
+> a"
+. }
+
+. if "`c(username)'" == "Rob_9" {
+.         global identity "C:/Users/Rob_9/Dropbox"
+. }
+
+. if "`c(username)'" == "rob98" {
+.         global identity "~/Dropbox"
+. }
+
+. 
+. global work   "${identity}/Corrupcion/Protest_Work"
+
+. global path   "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
+
+. global datfin "${path}/Data/final"
+
+. global tabout "${work}/results/tables"
+
+. global figout "${work}/results/figures"
+
+. 
+. /* ============================================================
+>    LOAD AND PREP
+>    ============================================================ */
+. use "${datfin}/panel_country_week.dta", clear
+
+. 
+. /* Restrict to 2008+ to match the rest of the analysis */
+. keep if year >= 2008
+(21,620 observations deleted)
+
+. 
+. /* Integer week index (anchor on the data's first week so week_idx >= 1) */
+. quietly summarize week_start
+
+. local week0 = r(min)
+
+. gen long week_idx = (week_start - `week0') / 7 + 1
+
+. label variable week_idx "Week index (1 = first week in the sample)"
+
+. assert week_idx >= 1
+
+. 
+. /* First-scandal week per country, aligned with week_idx */
+. gen long _fs_week_start = first_scandal_date - ///
+>         mod(first_scandal_date - mdy(1,4,2010), 7) if !missing(first_scandal_
+> date)
+(3,834 missing values generated)
+
+. gen long first_scandal_week_idx = (_fs_week_start - `week0') / 7 + 1 ///
+>         if !missing(_fs_week_start)
+(3,834 missing values generated)
+
+. drop _fs_week_start
+
+. label variable first_scandal_week_idx "Week index of country's first scandal"
+
+. 
+. gen byte ever_treated = !missing(first_scandal_date)
+
+. gen byte D = ever_treated == 1 & week_idx >= first_scandal_week_idx
+
+. label variable D "Treated x post first-scandal week"
+
+. 
+. /* SA cohort: sentinel for never-treated; never-treated indicator */
+. gen long cohort = first_scandal_week_idx
+(3,834 missing values generated)
+
+. replace cohort = 999999 if missing(cohort)
+(3,834 real changes made)
+
+. gen byte I_never_treated = (ever_treated == 0)
+
+. 
+. di as result "=== Treatment summary ==="
+=== Treatment summary ===
+
+. tab ever_treated, missing
+
+ever_treate |
+          d |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |      3,834       26.09       26.09
+          1 |     10,863       73.91      100.00
+------------+-----------------------------------
+      Total |     14,697      100.00
+
+. 
+. xtset country_id week_idx
+
+Panel variable: country_id (strongly balanced)
+ Time variable: week_idx, 1 to 639
+         Delta: 1 unit
+
+. 
+. /* ============================================================
+>    EVENT-TIME DUMMIES for OLS and SA
+>    Event weeks -4,-3,-2  (placebos)  /  -1 omitted (reference)  /
+>    0..7 (post).  12 plot positions in total.
+>    ============================================================ */
+. gen long etime = week_idx - first_scandal_week_idx if ever_treated == 1
+(3,834 missing values generated)
+
+. 
+. /* leads (omit -1 = reference) */
+. forvalues k = 2/4 {
+  2.         gen byte ev_lead`k' = (etime == -`k') & ever_treated == 1
+  3. }
+
+. /* lags */
+. forvalues k = 0/7 {
+  2.         gen byte ev_lag`k' = (etime == `k') & ever_treated == 1
+  3. }
+
+. local es_dummies ev_lead4 ev_lead3 ev_lead2 ev_lag0 ev_lag1 ev_lag2 ///
+>         ev_lag3 ev_lag4 ev_lag5 ev_lag6 ev_lag7
+
+. 
+. /* Plot grid: 12 columns -> event weeks -4,-3,-2,-1,0,1,2,3,4,5,6,7.
+>    Column 4 = week -1 = reference.  Matrix column <-> event week:
+>        col 1..3   = weeks -4,-3,-2
+>        col 4      = week -1 (reference, left at 0)
+>        col 5..12  = weeks 0..7                                        */
+. 
+. local outcomes mm_protests mm_violent mm_nonviolent mm_gvr
+
+. 
+. /* ============================================================
+>    MAIN LOOP OVER OUTCOMES: estimate all 4 estimators, build the
+>    combined event-study plot.
+>    ============================================================ */
+. local oc = 0
+
+. foreach y of local outcomes {
+  2.         local ++oc
+  3. 
+.         if "`y'" == "mm_protests"   local ytitle "Number of protests"
+  4.         if "`y'" == "mm_violent"    local ytitle "Number of violent protes
+> ts"
+  5.         if "`y'" == "mm_nonviolent" local ytitle "Number of non-violent pr
+> otests"
+  6.         if "`y'" == "mm_gvr"        local ytitle "Number of govt. violent 
+> responses"
+  7. 
+.         matrix M_ols_b  = J(1,12,0)
+  8.         matrix M_ols_se = J(1,12,0)
+  9.         matrix M_dcdh_b  = J(1,12,0)
+ 10.         matrix M_dcdh_se = J(1,12,0)
+ 11.         matrix M_bjs_b  = J(1,12,0)
+ 12.         matrix M_bjs_se = J(1,12,0)
+ 13.         matrix M_sa_b  = J(1,12,0)
+ 14.         matrix M_sa_se = J(1,12,0)
+ 15. 
+.         /* ---------- (1) OLS two-way FE ---------- */
+.         di as result "--- OLS: `y' ---"
+ 16.         /* static ATT */
+.         reghdfe `y' D, absorb(country_id week_idx) cluster(country_id)
+ 17.         scalar b_ols_`oc'  = _b[D]
+ 18.         scalar se_ols_`oc' = _se[D]
+ 19.         scalar n_ols_`oc'  = e(N)
+ 20.         /* event study */
+.         quietly reghdfe `y' `es_dummies', absorb(country_id week_idx) cluster
+> (country_id)
+ 21.         matrix M_ols_b[1,1] = _b[ev_lead4]
+ 22.         matrix M_ols_b[1,2] = _b[ev_lead3]
+ 23.         matrix M_ols_b[1,3] = _b[ev_lead2]
+ 24.         matrix M_ols_se[1,1] = _se[ev_lead4]
+ 25.         matrix M_ols_se[1,2] = _se[ev_lead3]
+ 26.         matrix M_ols_se[1,3] = _se[ev_lead2]
+ 27.         forvalues k = 0/7 {
+ 28.                 matrix M_ols_b[1, 5+`k']  = _b[ev_lag`k']
+ 29.                 matrix M_ols_se[1, 5+`k'] = _se[ev_lag`k']
+ 30.         }
+ 31. 
+.         /* ---------- (2) dCDH ---------- */
+.         di as result "--- dCDH: `y' ---"
+ 32.         capture noisily did_multiplegt_dyn `y' country_id week_idx D, ///
+>                 effects(8) placebo(4) cluster(country_id) graph_off
+ 33.         if _rc == 0 {
+ 34.                 scalar b_dcdh_`oc'  = e(Av_tot_effect)
+ 35.                 scalar se_dcdh_`oc' = e(se_avg_total_effect)
+ 36.                 /* placebos -> cols 1..4 (weeks -4..-1); effects -> cols 5
+> ..12 (weeks 0..7) */
+.                 forvalues k = 1/4 {
+ 37.                         capture matrix M_dcdh_b[1, 5-`k']  = e(Placebo_`k'
+> )
+ 38.                         capture matrix M_dcdh_se[1, 5-`k'] = e(se_placebo_
+> `k')
+ 39.                 }
+ 40.                 forvalues k = 1/8 {
+ 41.                         capture matrix M_dcdh_b[1, 4+`k']  = e(Effect_`k')
+ 42.                         capture matrix M_dcdh_se[1, 4+`k'] = e(se_effect_`
+> k')
+ 43.                 }
+ 44.         }
+ 45.         else {
+ 46.                 scalar b_dcdh_`oc' = .
+ 47.                 scalar se_dcdh_`oc' = .
+ 48.                 display in red "dCDH failed for `y'"
+ 49.         }
+ 50. 
+.         /* ---------- (3) BJS (did_imputation) ---------- */
+.         di as result "--- BJS: `y' ---"
+ 51.         /* static ATT */
+.         capture noisily did_imputation `y' country_id week_idx first_scandal_
+> week_idx, ///
+>                 autosample minn(0) delta(1) cluster(country_id)
+ 52.         if _rc == 0 {
+ 53.                 scalar b_bjs_`oc'  = _b[tau]
+ 54.                 scalar se_bjs_`oc' = _se[tau]
+ 55.         }
+ 56.         else {
+ 57.                 scalar b_bjs_`oc' = .
+ 58.                 scalar se_bjs_`oc' = .
+ 59.                 display in red "BJS (static) failed for `y'"
+ 60.         }
+ 61.         /* event study: 8 horizons, 4 pretrends; normalise to pre1 (week -
+> 1) */
+.         capture noisily did_imputation `y' country_id week_idx first_scandal_
+> week_idx, ///
+>                 horizons(0/7) pretrends(4) autosample minn(0) delta(1) cluste
+> r(country_id)
+ 62.         if _rc == 0 {
+ 63.                 forvalues k = 2/4 {
+ 64.                         capture quietly lincom pre`k' - pre1
+ 65.                         if _rc == 0 {
+ 66.                                 matrix M_bjs_b[1, 5-`k']  = r(estimate)
+ 67.                                 matrix M_bjs_se[1, 5-`k'] = r(se)
+ 68.                         }
+ 69.                 }
+ 70.                 forvalues k = 0/7 {
+ 71.                         capture quietly lincom tau`k' - pre1
+ 72.                         if _rc == 0 {
+ 73.                                 matrix M_bjs_b[1, 5+`k']  = r(estimate)
+ 74.                                 matrix M_bjs_se[1, 5+`k'] = r(se)
+ 75.                         }
+ 76.                 }
+ 77.         }
+ 78.         else {
+ 79.                 display in red "BJS (event study) failed for `y'"
+ 80.         }
+ 81. 
+.         /* ---------- (4) SA (eventstudyinteract) ---------- */
+.         di as result "--- SA: `y' ---"
+ 82.         capture noisily eventstudyinteract `y' `es_dummies', ///
+>                 cohort(cohort) control_cohort(I_never_treated) ///
+>                 absorb(country_id week_idx) vce(cluster country_id)
+ 83.         if _rc == 0 {
+ 84.                 matrix b_iw = e(b_iw)
+ 85.                 matrix V_iw = e(V_iw)
+ 86.                 /* leads -> cols 1..3 */
+.                 local cc = 0
+ 87.                 foreach d in ev_lead4 ev_lead3 ev_lead2 {
+ 88.                         local ++cc
+ 89.                         local j = colnumb(b_iw, "`d'")
+ 90.                         if `j' < . {
+ 91.                                 matrix M_sa_b[1, `cc']  = b_iw[1, `j']
+ 92.                                 matrix M_sa_se[1, `cc'] = sqrt(V_iw[`j', `
+> j'])
+ 93.                         }
+ 94.                 }
+ 95.                 /* lags -> cols 5..12 */
+.                 forvalues k = 0/7 {
+ 96.                         local j = colnumb(b_iw, "ev_lag`k'")
+ 97.                         if `j' < . {
+ 98.                                 matrix M_sa_b[1, 5+`k']  = b_iw[1, `j']
+ 99.                                 matrix M_sa_se[1, 5+`k'] = sqrt(V_iw[`j', 
+> `j'])
+100.                         }
+101.                 }
+102.                 /* static = equally weighted avg of the 8 post coefficient
+> s */
+.                 matrix wgt = J(1, colsof(b_iw), 0)
+103.                 local npost = 0
+104.                 forvalues k = 0/7 {
+105.                         local j = colnumb(b_iw, "ev_lag`k'")
+106.                         if `j' < . {
+107.                                 matrix wgt[1, `j'] = 1
+108.                                 local ++npost
+109.                         }
+110.                 }
+111.                 if `npost' > 0 {
+112.                         matrix wgt = wgt / `npost'
+113.                         matrix avg_b = wgt * b_iw'
+114.                         matrix avg_V = wgt * V_iw * wgt'
+115.                         scalar b_sa_`oc'  = avg_b[1,1]
+116.                         scalar se_sa_`oc' = sqrt(avg_V[1,1])
+117.                 }
+118.         }
+119.         else {
+120.                 scalar b_sa_`oc' = .
+121.                 scalar se_sa_`oc' = .
+122.                 display in red "SA failed for `y'"
+123.         }
+124. 
+.         /* ============================================================
+>            COMBINED EVENT-STUDY PLOT (all 4 estimators, dodged)
+>            ============================================================ */
+.         preserve
+125.                 clear
+126.                 set obs 12
+127.                 gen bin = _n - 5          /* event week: -4,-3,...,7 */
+128.                 foreach est in ols dcdh bjs sa {
+129.                         gen double b_`est'  = .
+130.                         gen double se_`est' = .
+131.                         forvalues j = 1/12 {
+132.                                 replace b_`est'  = M_`est'_b[1, `j']  in `
+> j'
+133.                                 replace se_`est' = M_`est'_se[1, `j'] in `
+> j'
+134.                         }
+135.                         /* drop the reference cell (week -1) for OLS/BJS/S
+> A so it shows
+>                            as a clean 0 dot without a spurious CI; dCDH keeps
+>  its placebo */
+.                         gen double ci_lo_`est' = b_`est' - 1.645 * se_`est'
+136.                         gen double ci_hi_`est' = b_`est' + 1.645 * se_`est
+> '
+137.                 }
+138.                 /* dodge x-positions so the 4 estimators don't overlap */
+.                 gen double bin_ols  = bin - 0.18
+139.                 gen double bin_dcdh = bin - 0.06
+140.                 gen double bin_bjs  = bin + 0.06
+141.                 gen double bin_sa   = bin + 0.18
+142. 
+.                 twoway ///
+>                         (rspike ci_lo_ols  ci_hi_ols  bin_ols,  lcolor(navy) 
+>         lwidth(medthick)) ///
+>                         (scatter b_ols  bin_ols,  mcolor(navy)         msymbo
+> l(O)  msize(medium)) ///
+>                         (rspike ci_lo_dcdh ci_hi_dcdh bin_dcdh, lcolor(cranbe
+> rry)    lwidth(medthick)) ///
+>                         (scatter b_dcdh bin_dcdh, mcolor(cranberry)    msymbo
+> l(T)  msize(medium)) ///
+>                         (rspike ci_lo_bjs  ci_hi_bjs  bin_bjs,  lcolor(forest
+> _green) lwidth(medthick)) ///
+>                         (scatter b_bjs  bin_bjs,  mcolor(forest_green) msymbo
+> l(D)  msize(medium)) ///
+>                         (rspike ci_lo_sa   ci_hi_sa   bin_sa,   lcolor(midblu
+> e)      lwidth(medthick)) ///
+>                         (scatter b_sa   bin_sa,   mcolor(midblue)      msymbo
+> l(Oh) msize(medium)), ///
+>                         yline(0, lcolor(red) lpattern(solid) lwidth(medthin))
+>  ///
+>                         xline(-0.5, lcolor(black%20) lpattern(solid) lwidth(v
+> thick)) ///
+>                         xtitle("Weeks since first scandal", size(medium)) ///
+>                         ytitle("`ytitle'", size(medium)) ///
+>                         xlabel(-4(1)7, labsize(medium)) ///
+>                         ylabel(, labsize(medium) format(%4.2fc)) ///
+>                         legend(order(2 "OLS (TWFE)" 4 "dCDH" 6 "BJS" 8 "SA") 
+> ///
+>                                 rows(1) size(small) position(6) region(lcolor
+> (none))) ///
+>                         graphregion(color(white)) scheme(s2color)
+143.                 graph export "${figout}/did_modern_es_`y'.pdf", replace
+144.         restore
+145. }
+--- OLS: mm_protests ---
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =     14,697
+Absorbing 2 HDFE groups                           F(   1,     22) =       0.02
+Statistics robust to heteroskedasticity           Prob > F        =     0.8970
+                                                  R-squared       =     0.1417
+                                                  Adj R-squared   =     0.1012
+                                                  Within R-sq.    =     0.0000
+Number of clusters (country_id) =         23      Root MSE        =     1.2215
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+ mm_protests | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+           D |   .0154192   .1177407     0.13   0.897    -.2287601    .2595985
+       _cons |   .2824059   .0542839     5.20   0.000     .1698279    .3949839
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+    week_idx |       639           1         638     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+--- dCDH: mm_protests ---
+
+
+-------------------------------------------------------------------------------
+> -
+             Estimation of treatment effects: Event-study effects
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+    Effect_1 |  .0614138    .108015  -.1502918   .2731193        255 
+    Effect_2 |  .1271111   .1137911  -.0959154   .3501376        253 
+    Effect_3 | -.1415862   .2617341  -.6545756   .3714031        252 
+    Effect_4 |  -.088228   .2588672  -.5955983   .4191424        252 
+    Effect_5 | -.1765893   .3393908  -.8417829   .4886044        252 
+    Effect_6 | -.2103325   .3254873  -.8482759   .4276109        252 
+    Effect_7 | -.2586994   .3613657  -.9669632   .4495644        252 
+    Effect_8 | -.2180658   .3240795  -.8532499   .4171183        251 
+
+             | Switchers 
+-------------+----------
+    Effect_1 |        17 
+    Effect_2 |        17 
+    Effect_3 |        17 
+    Effect_4 |        17 
+    Effect_5 |        17 
+    Effect_6 |        17 
+    Effect_7 |        17 
+    Effect_8 |        17 
+-------------------------------------------------------------------------------
+> -
+The F-test that all effects are equal to zero may not be reliable, because the 
+> variance of the effects is close to not being invertible (the ratio of its la
+> rgest and smallest eigenvalues is larger than 1000). This can for instance ha
+> ppen when you compute many effects estimators, or when your effects are very 
+> strongly correlated. We recommend that you complement the F-test with a sup t
+> -test, see FAQ section of the help file for more details.
+
+Test of joint nullity of the effects : p-value = .81208953
+
+
+-------------------------------------------------------------------------------
+> -
+               Average cumulative (total) effect per treatment unit
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+  Av_tot_eff |  -.113122   .2244235   -.552984   .3267399       1689 
+
+             |    Switch  x Periods 
+-------------+---------------------
+  Av_tot_eff |       136            
+-------------------------------------------------------------------------------
+> -
+Average number of time periods over which a treatment's effect is accumulated =
+>  4.5
+
+
+-------------------------------------------------------------------------------
+> -
+          Testing the parallel trends and no anticipation assumptions
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+   Placebo_1 |  .0628869   .1350044  -.2017169   .3274906        255 
+   Placebo_2 |  .0231226   .1253065  -.2224737   .2687189        253 
+   Placebo_3 |  .2050596   .2410036  -.2672988   .6774179        252 
+   Placebo_4 |  .6130339   .4830985  -.3338216    1.55989        252 
+
+             | Switchers 
+-------------+----------
+   Placebo_1 |        17 
+   Placebo_2 |        17 
+   Placebo_3 |        17 
+   Placebo_4 |        17 
+-------------------------------------------------------------------------------
+> -
+Test of joint nullity of the placebos : p-value = .5647048
+
+
+The development of this package was funded by the European Union (ERC, REALLYCR
+> EDIBLE,GA N°101043899).
+--- BJS: mm_protests ---
+
+                                                        Number of obs = 14,697
+------------------------------------------------------------------------------
+ mm_protests | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         tau |  -.0997395   .1048268    -0.95   0.341    -.3051964    .1057173
+------------------------------------------------------------------------------
+
+                                                         Number of obs = 8,057
+------------------------------------------------------------------------------
+ mm_protests | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        tau0 |   .0129475   .1059207     0.12   0.903    -.1946534    .2205483
+        tau1 |   .0726911    .086622     0.84   0.401    -.0970848     .242467
+        tau2 |  -.1984951   .0829781    -2.39   0.017    -.3611292   -.0358609
+        tau3 |  -.1451368   .0794841    -1.83   0.068    -.3009228    .0106492
+        tau4 |  -.2334981   .0714905    -3.27   0.001    -.3736169   -.0933794
+        tau5 |  -.2672413   .0664589    -4.02   0.000    -.3974984   -.1369843
+        tau6 |  -.3156082   .0721935    -4.37   0.000    -.4571049   -.1741115
+        tau7 |  -.2718055   .0484102    -5.61   0.000    -.3666878   -.1769232
+        pre1 |  -.0751241   .3333453    -0.23   0.822    -.7284689    .5782206
+        pre2 |  -.0163369    .387086    -0.04   0.966    -.7750115    .7423376
+        pre3 |  -.0503606   .3405739    -0.15   0.882    -.7178732    .6171521
+        pre4 |   .1347497    .372711     0.36   0.718    -.5957504    .8652497
+------------------------------------------------------------------------------
+--- SA: mm_protests ---
+(obs=10,863)
+
+IW estimates for dynamic effects                        Number of obs = 14,697
+Absorbing 2 HDFE groups                                 F(187, 22)    =      .
+                                                        Prob > F      =      .
+                                                        R-squared     = 0.1539
+                                                        Adj R-squared = 0.1021
+                                                        Root MSE      = 1.2209
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+ mm_protests | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead4 |   .2890921   .4432272     0.65   0.521    -.6301049    1.208289
+    ev_lead3 |   .0714356   .4201026     0.17   0.867    -.7998038    .9426749
+    ev_lead2 |   .0893374   .4827229     0.19   0.855    -.9117687    1.090444
+     ev_lag0 |   .0844443   .4577618     0.18   0.855    -.8648955    1.033784
+     ev_lag1 |   .1243185   .4028943     0.31   0.761    -.7112332    .9598702
+     ev_lag2 |  -.1646177   .1643497    -1.00   0.327    -.5054581    .1762227
+     ev_lag3 |  -.1282836   .1812751    -0.71   0.487    -.5042251    .2476578
+     ev_lag4 |  -.1986936   .1560924    -1.27   0.216    -.5224094    .1250222
+     ev_lag5 |  -.2720321    .150597    -1.81   0.085     -.584351    .0402869
+     ev_lag6 |  -.2906056   .1712794    -1.70   0.104    -.6458173    .0646061
+     ev_lag7 |  -.3461487   .1426214    -2.43   0.024    -.6419274     -.05037
+------------------------------------------------------------------------------
+Number of observations (_N) was 0, now 12.
+(12 missing values generated)
+(12 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(12 missing values generated)
+(12 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(12 missing values generated)
+(12 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(12 missing values generated)
+(12 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/figures/did_modern
+    > _es_mm_protests.pdf saved as PDF format
+--- OLS: mm_violent ---
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =     14,697
+Absorbing 2 HDFE groups                           F(   1,     22) =       0.57
+Statistics robust to heteroskedasticity           Prob > F        =     0.4564
+                                                  R-squared       =     0.0948
+                                                  Adj R-squared   =     0.0522
+                                                  Within R-sq.    =     0.0012
+Number of clusters (country_id) =         23      Root MSE        =     0.8001
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+           D |  -.0980864   .1293756    -0.76   0.456     -.366395    .1702223
+       _cons |   .1530675   .0596482     2.57   0.018     .0293648    .2767703
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+    week_idx |       639           1         638     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+--- dCDH: mm_violent ---
+
+
+-------------------------------------------------------------------------------
+> -
+             Estimation of treatment effects: Event-study effects
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+    Effect_1 |  .0078362   .0725761  -.1344103   .1500827        255 
+    Effect_2 |  -.010568   .0660023    -.13993   .1187941        253 
+    Effect_3 | -.0086697   .0741044  -.1539117   .1365723        252 
+    Effect_4 |  .0481931   .0950259  -.1380542   .2344403        252 
+    Effect_5 |  .0769303   .0631204  -.0467834   .2006441        252 
+    Effect_6 |  .0530133   .1077022  -.1580791   .2641057        252 
+    Effect_7 |  .0423871   .1109511  -.1750731   .2598473        252 
+    Effect_8 |  .0541423   .1085455  -.1586031   .2668876        251 
+
+             | Switchers 
+-------------+----------
+    Effect_1 |        17 
+    Effect_2 |        17 
+    Effect_3 |        17 
+    Effect_4 |        17 
+    Effect_5 |        17 
+    Effect_6 |        17 
+    Effect_7 |        17 
+    Effect_8 |        17 
+-------------------------------------------------------------------------------
+> -
+The F-test that all effects are equal to zero may not be reliable, because the 
+> variance of the effects is close to not being invertible (the ratio of its la
+> rgest and smallest eigenvalues is larger than 1000). This can for instance ha
+> ppen when you compute many effects estimators, or when your effects are very 
+> strongly correlated. We recommend that you complement the F-test with a sup t
+> -test, see FAQ section of the help file for more details.
+
+Test of joint nullity of the effects : p-value = .876352
+
+
+-------------------------------------------------------------------------------
+> -
+               Average cumulative (total) effect per treatment unit
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+  Av_tot_eff |  .0329081   .0777818  -.1195415   .1853576       1689 
+
+             |    Switch  x Periods 
+-------------+---------------------
+  Av_tot_eff |       136            
+-------------------------------------------------------------------------------
+> -
+Average number of time periods over which a treatment's effect is accumulated =
+>  4.5
+
+
+-------------------------------------------------------------------------------
+> -
+          Testing the parallel trends and no anticipation assumptions
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+   Placebo_1 | -.0374862   .0919263  -.2176584    .142686        255 
+   Placebo_2 | -.0882204    .078093  -.2412799   .0648391        253 
+   Placebo_3 | -.0688375   .0748311  -.2155038   .0778288        252 
+   Placebo_4 |  .0940964    .135328  -.1711417   .3593345        252 
+
+             | Switchers 
+-------------+----------
+   Placebo_1 |        17 
+   Placebo_2 |        17 
+   Placebo_3 |        17 
+   Placebo_4 |        17 
+-------------------------------------------------------------------------------
+> -
+Test of joint nullity of the placebos : p-value = .45241591
+
+
+The development of this package was funded by the European Union (ERC, REALLYCR
+> EDIBLE,GA N°101043899).
+--- BJS: mm_violent ---
+
+                                                        Number of obs = 14,697
+------------------------------------------------------------------------------
+  mm_violent | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         tau |  -.1114803   .0780401    -1.43   0.153     -.264436    .0414755
+------------------------------------------------------------------------------
+
+                                                         Number of obs = 8,057
+------------------------------------------------------------------------------
+  mm_violent | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        tau0 |  -.1787049    .076812    -2.33   0.020    -.3292536   -.0281562
+        tau1 |  -.1996195    .063196    -3.16   0.002    -.3234814   -.0757577
+        tau2 |    -.20059   .0571641    -3.51   0.000    -.3126296   -.0885504
+        tau3 |  -.1437273   .0580989    -2.47   0.013    -.2575991   -.0298555
+        tau4 |    -.11499   .0400549    -2.87   0.004    -.1934962   -.0364838
+        tau5 |   -.138907   .0350008    -3.97   0.000    -.2075072   -.0703068
+        tau6 |  -.1495332   .0319711    -4.68   0.000    -.2121954    -.086871
+        tau7 |  -.1384648   .0354901    -3.90   0.000     -.208024   -.0689056
+        pre1 |  -.1900848   .1636738    -1.16   0.245    -.5108795    .1307099
+        pre2 |  -.2359729   .1556575    -1.52   0.130    -.5410561    .0691103
+        pre3 |  -.2792947   .1532744    -1.82   0.068    -.5797069    .0211175
+        pre4 |  -.2602323   .1370002    -1.90   0.057    -.5287477    .0082832
+------------------------------------------------------------------------------
+--- SA: mm_violent ---
+(obs=10,863)
+
+IW estimates for dynamic effects                        Number of obs = 14,697
+Absorbing 2 HDFE groups                                 F(187, 22)    =      .
+                                                        Prob > F      =      .
+                                                        R-squared     = 0.0951
+                                                        Adj R-squared = 0.0397
+                                                        Root MSE      = 0.8054
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead4 |  -.1626186   .0837148    -1.94   0.065    -.3362324    .0109952
+    ev_lead3 |  -.1770347   .0820779    -2.16   0.042    -.3472539   -.0068155
+    ev_lead2 |  -.1114598   .1078598    -1.03   0.313    -.3351475    .1122278
+     ev_lag0 |  -.0808581   .0892682    -0.91   0.375    -.2659889    .1042728
+     ev_lag1 |  -.1049347   .0611187    -1.72   0.100    -.2316871    .0218177
+     ev_lag2 |  -.1027514   .0571261    -1.80   0.086    -.2212237    .0157208
+     ev_lag3 |  -.0395842   .0686403    -0.58   0.570    -.1819355    .1027671
+     ev_lag4 |   -.042258   .0821969    -0.51   0.612    -.2127239    .1282079
+     ev_lag5 |  -.1013362   .0604471    -1.68   0.108    -.2266957    .0240234
+     ev_lag6 |  -.1176421   .0675736    -1.74   0.096    -.2577812     .022497
+     ev_lag7 |  -.1274408   .0683391    -1.86   0.076    -.2691674    .0142859
+------------------------------------------------------------------------------
+Number of observations (_N) was 0, now 12.
+(12 missing values generated)
+(12 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(12 missing values generated)
+(12 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(12 missing values generated)
+(12 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(12 missing values generated)
+(12 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/figures/did_modern
+    > _es_mm_violent.pdf saved as PDF format
+--- OLS: mm_nonviolent ---
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =     14,697
+Absorbing 2 HDFE groups                           F(   1,     22) =       1.71
+Statistics robust to heteroskedasticity           Prob > F        =     0.2044
+                                                  R-squared       =     0.0982
+                                                  Adj R-squared   =     0.0558
+                                                  Within R-sq.    =     0.0011
+Number of clusters (country_id) =         23      Root MSE        =     0.9634
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+           D |   .1135056   .0867768     1.31   0.204    -.0664585    .2934696
+       _cons |   .1293384   .0400081     3.23   0.004     .0463666    .2123102
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+    week_idx |       639           1         638     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+--- dCDH: mm_nonviolent ---
+
+
+-------------------------------------------------------------------------------
+> -
+             Estimation of treatment effects: Event-study effects
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+    Effect_1 |  .0535776   .0567137  -.0575793   .1647344        255 
+    Effect_2 |  .1376791   .0907566  -.0402006   .3155588        253 
+    Effect_3 | -.1329166   .2539905  -.6307288   .3648957        252 
+    Effect_4 | -.1364211   .3117443  -.7474287   .4745866        252 
+    Effect_5 | -.2535196   .3594256  -.9579809   .4509416        252 
+    Effect_6 | -.2633458   .3653583   -.979435   .4527433        252 
+    Effect_7 | -.3010864   .3910691  -1.067568   .4653949        252 
+    Effect_8 | -.2722081    .361505  -.9807449   .4363287        251 
+
+             | Switchers 
+-------------+----------
+    Effect_1 |        17 
+    Effect_2 |        17 
+    Effect_3 |        17 
+    Effect_4 |        17 
+    Effect_5 |        17 
+    Effect_6 |        17 
+    Effect_7 |        17 
+    Effect_8 |        17 
+-------------------------------------------------------------------------------
+> -
+The F-test that all effects are equal to zero may not be reliable, because the 
+> variance of the effects is close to not being invertible (the ratio of its la
+> rgest and smallest eigenvalues is larger than 1000). This can for instance ha
+> ppen when you compute many effects estimators, or when your effects are very 
+> strongly correlated. We recommend that you complement the F-test with a sup t
+> -test, see FAQ section of the help file for more details.
+
+Test of joint nullity of the effects : p-value = .41507146
+
+
+-------------------------------------------------------------------------------
+> -
+               Average cumulative (total) effect per treatment unit
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+  Av_tot_eff | -.1460301   .2480004  -.6321021   .3400418       1689 
+
+             |    Switch  x Periods 
+-------------+---------------------
+  Av_tot_eff |       136            
+-------------------------------------------------------------------------------
+> -
+Average number of time periods over which a treatment's effect is accumulated =
+>  4.5
+
+
+-------------------------------------------------------------------------------
+> -
+          Testing the parallel trends and no anticipation assumptions
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+   Placebo_1 |  .1003731   .0813103  -.0589922   .2597383        255 
+   Placebo_2 |   .111343   .1139585  -.1120116   .3346976        253 
+   Placebo_3 |  .2738971   .2248658  -.1668318    .714626        252 
+   Placebo_4 |  .5189375   .4483622  -.3598363   1.397711        252 
+
+             | Switchers 
+-------------+----------
+   Placebo_1 |        17 
+   Placebo_2 |        17 
+   Placebo_3 |        17 
+   Placebo_4 |        17 
+-------------------------------------------------------------------------------
+> -
+Test of joint nullity of the placebos : p-value = .73484183
+
+
+The development of this package was funded by the European Union (ERC, REALLYCR
+> EDIBLE,GA N°101043899).
+--- BJS: mm_nonviolent ---
+
+                                                        Number of obs = 14,697
+------------------------------------------------------------------------------
+mm_nonviol~t | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         tau |   .0117407   .0365835     0.32   0.748    -.0599616    .0834431
+------------------------------------------------------------------------------
+
+                                                         Number of obs = 8,057
+------------------------------------------------------------------------------
+mm_nonviol~t | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        tau0 |   .1916523   .0450427     4.25   0.000     .1033702    .2799345
+        tau1 |   .2723107   .0364568     7.47   0.000     .2008567    .3437647
+        tau2 |    .002095    .040667     0.05   0.959    -.0776109    .0818009
+        tau3 |  -.0014095   .0380051    -0.04   0.970    -.0758981    .0730791
+        tau4 |  -.1185081    .040304    -2.94   0.003    -.1975025   -.0395138
+        tau5 |  -.1283343   .0362836    -3.54   0.000    -.1994489   -.0572198
+        tau6 |   -.166075   .0476451    -3.49   0.000    -.2594577   -.0726922
+        tau7 |  -.1333407   .0279166    -4.78   0.000    -.1880562   -.0786252
+        pre1 |   .1149607   .3449392     0.33   0.739    -.5611078    .7910292
+        pre2 |    .219636    .355716     0.62   0.537    -.4775546    .9168265
+        pre3 |   .2289341   .3591608     0.64   0.524    -.4750082    .9328764
+        pre4 |   .3949819   .3870718     1.02   0.308    -.3636649    1.153629
+------------------------------------------------------------------------------
+--- SA: mm_nonviolent ---
+(obs=10,863)
+
+IW estimates for dynamic effects                        Number of obs = 14,697
+Absorbing 2 HDFE groups                                 F(187, 22)    =      .
+                                                        Prob > F      =      .
+                                                        R-squared     = 0.1156
+                                                        Adj R-squared = 0.0615
+                                                        Root MSE      = 0.9604
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead4 |   .4517108   .4386503     1.03   0.314    -.4579943    1.361416
+    ev_lead3 |   .2484702   .4205515     0.59   0.561    -.6237002    1.120641
+    ev_lead2 |   .2007972   .4263314     0.47   0.642    -.6833599    1.084954
+     ev_lag0 |   .1653023   .4085347     0.40   0.690    -.6819469    1.012552
+     ev_lag1 |   .2292532   .4065541     0.56   0.579    -.6138883    1.072395
+     ev_lag2 |  -.0618663   .1464965    -0.42   0.677    -.3656815     .241949
+     ev_lag3 |  -.0886994   .1369369    -0.65   0.524    -.3726892    .1952903
+     ev_lag4 |  -.1564356   .1156219    -1.35   0.190    -.3962207    .0833494
+     ev_lag5 |  -.1706959   .1185396    -1.44   0.164     -.416532    .0751402
+     ev_lag6 |  -.1729635   .1283419    -1.35   0.191    -.4391282    .0932013
+     ev_lag7 |   -.218708   .1029585    -2.12   0.045    -.4322309   -.0051851
+------------------------------------------------------------------------------
+Number of observations (_N) was 0, now 12.
+(12 missing values generated)
+(12 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(12 missing values generated)
+(12 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(12 missing values generated)
+(12 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(12 missing values generated)
+(12 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/figures/did_modern
+    > _es_mm_nonviolent.pdf saved as PDF format
+--- OLS: mm_gvr ---
+(MWFE estimator converged in 2 iterations)
+
+HDFE Linear regression                            Number of obs   =     14,697
+Absorbing 2 HDFE groups                           F(   1,     22) =       1.85
+Statistics robust to heteroskedasticity           Prob > F        =     0.1877
+                                                  R-squared       =     0.0593
+                                                  Adj R-squared   =     0.0150
+                                                  Within R-sq.    =     0.0011
+Number of clusters (country_id) =         23      Root MSE        =     0.3048
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+      mm_gvr | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+           D |  -.0357047   .0262595    -1.36   0.188    -.0901637    .0187543
+       _cons |   .0326553   .0121069     2.70   0.013     .0075472    .0577634
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+    week_idx |       639           1         638     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+--- dCDH: mm_gvr ---
+
+
+-------------------------------------------------------------------------------
+> -
+             Estimation of treatment effects: Event-study effects
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+    Effect_1 |   .003096   .0043233  -.0053775   .0115695        255 
+    Effect_2 |  .0004222   .0058605  -.0110642   .0119086        253 
+    Effect_3 | -.2910217   .2725017  -.8251151   .2430718        252 
+    Effect_4 | -.4086687   .3814119  -1.156222   .3388849        252 
+    Effect_5 | -.4086687   .3814119  -1.156222   .3388849        252 
+    Effect_6 | -.4086687   .3814119  -1.156222   .3388849        252 
+    Effect_7 | -.4086687   .3814119  -1.156222   .3388849        252 
+    Effect_8 |  -.434404   .3814617  -1.182055   .3132473        251 
+
+             | Switchers 
+-------------+----------
+    Effect_1 |        17 
+    Effect_2 |        17 
+    Effect_3 |        17 
+    Effect_4 |        17 
+    Effect_5 |        17 
+    Effect_6 |        17 
+    Effect_7 |        17 
+    Effect_8 |        17 
+-------------------------------------------------------------------------------
+> -
+The F-test that all effects are equal to zero may not be reliable, because the 
+> variance of the effects is close to not being invertible (the ratio of its la
+> rgest and smallest eigenvalues is larger than 1000). This can for instance ha
+> ppen when you compute many effects estimators, or when your effects are very 
+> strongly correlated. We recommend that you complement the F-test with a sup t
+> -test, see FAQ section of the help file for more details.
+
+Test of joint nullity of the effects : p-value = .92625819
+
+
+-------------------------------------------------------------------------------
+> -
+               Average cumulative (total) effect per treatment unit
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+  Av_tot_eff | -.2945728   .2723201  -.8283105   .2391648       1689 
+
+             |    Switch  x Periods 
+-------------+---------------------
+  Av_tot_eff |       136            
+-------------------------------------------------------------------------------
+> -
+Average number of time periods over which a treatment's effect is accumulated =
+>  4.5
+
+
+-------------------------------------------------------------------------------
+> -
+          Testing the parallel trends and no anticipation assumptions
+-------------------------------------------------------------------------------
+> -
+
+             |  Estimate         SE      LB CI      UB CI          N 
+-------------+-------------------------------------------------------
+   Placebo_1 |   .003096   .0043233  -.0053775   .0115695        255 
+   Placebo_2 |   .003096   .0043233  -.0053775   .0115695        253 
+   Placebo_3 |   .003096   .0043233  -.0053775   .0115695        252 
+   Placebo_4 |   .003096   .0043233  -.0053775   .0115695        252 
+
+             | Switchers 
+-------------+----------
+   Placebo_1 |        17 
+   Placebo_2 |        17 
+   Placebo_3 |        17 
+   Placebo_4 |        17 
+-------------------------------------------------------------------------------
+> -
+The F-test that all pre-trends are equal to zero may not be reliable, because t
+> he variance of the placebos is close to not being invertible (the ratio of it
+> s largest and smallest eigenvalues is larger than 1000). This can for instanc
+> e happen when you compute many placebos estimators, or when your placebos are
+>  very strongly correlated. We recommend that you complement the F-test with a
+>  sup t-test, see FAQ section of the help file for more details.
+
+Test of joint nullity of the placebos : p-value = .97224095
+
+
+The development of this package was funded by the European Union (ERC, REALLYCR
+> EDIBLE,GA N°101043899).
+--- BJS: mm_gvr ---
+
+                                                        Number of obs = 14,697
+------------------------------------------------------------------------------
+      mm_gvr | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+         tau |   -.049154   .0266894    -1.84   0.066    -.1014642    .0031562
+------------------------------------------------------------------------------
+
+                                                         Number of obs = 8,057
+------------------------------------------------------------------------------
+      mm_gvr | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        tau0 |   .3901882   .0039456    98.89   0.000     .3824549    .3979214
+        tau1 |   .3863522    .004108    94.05   0.000     .3783008    .3944037
+        tau2 |   .0949346   .0031035    30.59   0.000     .0888519    .1010173
+        tau3 |  -.0227124   .0031035    -7.32   0.000    -.0287951   -.0166297
+        tau4 |  -.0227124   .0031035    -7.32   0.000    -.0287951   -.0166297
+        tau5 |  -.0227124   .0031035    -7.32   0.000    -.0287951   -.0166297
+        tau6 |  -.0227124   .0031035    -7.32   0.000    -.0287951   -.0166297
+        tau7 |  -.0484177   .0229006    -2.11   0.034     -.093302   -.0035334
+        pre1 |   .3713443   .3469743     1.07   0.285    -.3087129    1.051401
+        pre2 |   .3769221   .3484744     1.08   0.279    -.3060751    1.059919
+        pre3 |   .3768009   .3483997     1.08   0.279      -.30605    1.059652
+        pre4 |   .3740398   .3462972     1.08   0.280    -.3046903     1.05277
+------------------------------------------------------------------------------
+--- SA: mm_gvr ---
+(obs=10,863)
+
+IW estimates for dynamic effects                        Number of obs = 14,697
+Absorbing 2 HDFE groups                                 F(187, 22)    =      .
+                                                        Prob > F      =      .
+                                                        R-squared     = 0.2255
+                                                        Adj R-squared = 0.1781
+                                                        Root MSE      = 0.2784
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+      mm_gvr | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead4 |   .4073911   .3958251     1.03   0.315    -.4134999    1.228282
+    ev_lead3 |   .4069589   .3958453     1.03   0.315    -.4139741    1.227892
+    ev_lead2 |   .4069792   .3958449     1.03   0.315    -.4139529    1.227911
+     ev_lag0 |   .4074306   .3958231     1.03   0.315    -.4134562    1.228317
+     ev_lag1 |    .401609   .3962015     1.01   0.322    -.4200626    1.223281
+     ev_lag2 |    .104857   .1118968     0.94   0.359    -.1272028    .3369169
+     ev_lag3 |  -.0047767   .0113634    -0.42   0.678    -.0283428    .0187895
+     ev_lag4 |  -.0047767   .0113634    -0.42   0.678    -.0283428    .0187895
+     ev_lag5 |  -.0047767   .0113634    -0.42   0.678    -.0283428    .0187895
+     ev_lag6 |  -.0048052   .0113382    -0.42   0.676    -.0283193    .0187089
+     ev_lag7 |  -.0235855   .0239378    -0.99   0.335    -.0732294    .0260583
+------------------------------------------------------------------------------
+Number of observations (_N) was 0, now 12.
+(12 missing values generated)
+(12 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(12 missing values generated)
+(12 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(12 missing values generated)
+(12 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(12 missing values generated)
+(12 missing values generated)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+(1 real change made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/figures/did_modern
+    > _es_mm_gvr.pdf saved as PDF format
+
+. 
+. /* ============================================================
+>    COMBINED 4 x 4 RESULTS TABLE  ->  did_modern_main.tex
+>    Two-row (coef / se) layout matching the paper's esttab tables;
+>    \sym{} stars from p = 2*Phi(-|b/se|) at 0.10 / 0.05 / 0.01.
+>    ============================================================ */
+. capture file close _tbl
+
+. file open _tbl using "${tabout}/did_modern_main.tex", write replace
+
+. file write _tbl "{" _n
+
+. file write _tbl "\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}" _n
+
+. file write _tbl "\begin{tabular}{l*{4}{c}}" _n
+
+. file write _tbl "\toprule" _n
+
+. file write _tbl "            &\multicolumn{1}{c}{\shortstack{Protests}}&\mult
+> icolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{
+> Non-violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Gvt.~Violent\\Response
+> }}\\" _n
+
+. file write _tbl "\midrule" _n
+
+. 
+. foreach er in ols dcdh bjs sa {
+  2.         if "`er'" == "ols"  local rowlab "OLS (TWFE)"
+  3.         if "`er'" == "dcdh" local rowlab "dCDH"
+  4.         if "`er'" == "bjs"  local rowlab "BJS"
+  5.         if "`er'" == "sa"   local rowlab "SA"
+  6.         local brow "`rowlab'"
+  7.         local srow "            "
+  8.         foreach oc of numlist 1/4 {
+  9.                 local b = b_`er'_`oc'
+ 10.                 local s = se_`er'_`oc'
+ 11.                 if missing(`b') | missing(`s') | `s' <= 0 {
+ 12.                         local brow "`brow' & --"
+ 13.                         local srow "`srow' & "
+ 14.                 }
+ 15.                 else {
+ 16.                         local p = 2*normal(-abs(`b'/`s'))
+ 17.                         local st = ""
+ 18.                         if `p' < 0.10 local st = "*"
+ 19.                         if `p' < 0.05 local st = "**"
+ 20.                         if `p' < 0.01 local st = "***"
+ 21.                         if "`st'" != "" {
+ 22.                                 local bcell = string(`b',"%5.3f") + "\sym{
+> `st'}"
+ 23.                         }
+ 24.                         else {
+ 25.                                 local bcell = string(`b',"%5.3f")
+ 26.                         }
+ 27.                         local scell = "(" + string(`s',"%5.3f") + ")"
+ 28.                         local brow "`brow' & `bcell'"
+ 29.                         local srow "`srow' & `scell'"
+ 30.                 }
+ 31.         }
+ 32.         file write _tbl "`brow' \\" _n
+ 33.         file write _tbl "`srow' \\" _n
+ 34. }
+
+. file write _tbl "\midrule" _n
+
+. local nrow "Observations"
+
+. foreach oc of numlist 1/4 {
+  2.         local ncell = trim(string(n_ols_`oc', "%12.0fc"))
+  3.         local nrow "`nrow' & `ncell'"
+  4. }
+
+. file write _tbl "`nrow' \\" _n
+
+. file write _tbl "\bottomrule" _n
+
+. file write _tbl "\end{tabular}" _n
+
+. file write _tbl "}" _n
+
+. file close _tbl
+
+. display in green "did_modern_main.tex written"
+did_modern_main.tex written
+
+. 
+. /* ============================================================
+>    LOG SUMMARY
+>    ============================================================ */
+. di as result "================================================"
+================================================
+
+. di as result " 4 x 4 SUMMARY: post-treatment coefficient (se)"
+ 4 x 4 SUMMARY: post-treatment coefficient (se)
+
+. di as result "================================================"
+================================================
+
+. di "Estimator | mm_protests        mm_violent         mm_nonviolent      mm_g
+> vr"
+Estimator | mm_protests        mm_violent         mm_nonviolent      mm_gvr
+
+. foreach er in ols dcdh bjs sa {
+  2.         local row "`er'   "
+  3.         foreach oc of numlist 1/4 {
+  4.                 local b = b_`er'_`oc'
+  5.                 local s = se_`er'_`oc'
+  6.                 local bs = cond(missing(`b'), "    .   ", string(`b', "%9.
+> 4f"))
+  7.                 local ss = cond(missing(`s'), "    .   ", string(`s', "%9.
+> 4f"))
+  8.                 local row "`row'  `bs' (`ss')"
+  9.         }
+ 10.         display "`row'"
+ 11. }
+ols     0.0154 (0.1177)  -0.0981 (0.1294)  0.1135 (0.0868)  -0.0357 (0.0263)
+dcdh     -0.1131 (0.2244)  0.0329 (0.0778)  -0.1460 (0.2480)  -0.2946 (0.2723)
+bjs     -0.0997 (0.1048)  -0.1115 (0.0780)  0.0117 (0.0366)  -0.0492 (0.0267)
+sa     -0.1490 (0.1143)  -0.0896 (0.0406)  -0.0594 (0.0956)  0.1089 (0.0716)
+
+. 
+. display in green "a_did_modern.do finished OK"
+a_did_modern.do finished OK
+
+. 
+end of do-file

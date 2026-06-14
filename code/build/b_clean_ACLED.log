@@ -1,0 +1,264 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      StataNow 19.5
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2025 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-782-8272        https://www.stata.com
+                                   979-696-4600        service@stata.com
+
+Stata license: Unlimited-user 16-core network, expiring  2 Jul 2026
+Serial number: 501909320077
+  Licensed to: Roberto Gonzalez Tellez
+               Stanford University GSB
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do b_clean_ACLED.do 
+
+. /* --------------------------------------------------------------------------
+> --
+>                                         Violent effects of apex corruption
+> 
+>         Code author: Roberto Gonzalez
+>         Date: 2026-05-21
+> 
+>         Objective (protests_plan.md, Task 3):
+>                 Clean the ACLED extract and produce country-day counts of:
+>                   num_protests_ACLED  = #(event_type in {Protests, Riots})
+>                   num_violent_ACLED   = #(event_type == Riots)        i.e. al
+> l
+>                                         sub_event_type in {Violent demonstrat
+> ion,
+>                                         Mob violence} given the current data
+>                   num_peaceful_ACLED  = #(sub_event_type == "Peaceful protest
+> ")
+>                   num_gvr_ACLED       = #(sub_event_type == "Excessive force
+>                                           against protesters")
+> 
+>                 Saves a country-date panel parallel in shape to MMclean_full_
+> bydate.
+> 
+>         Source file (latest):
+>                 ${datraw}/ACLED/ACLED Data_2026-05-21.csv  (385,452 events,
+>                 2018-01-01..2025-05-21, 53 LAC + US/Canada countries)
+> ---------------------------------------------------------------------------- 
+> */
+. 
+. if "`c(username)'" == "lalov" {
+.         gl identity "C:\Users\lalov\ITAM Seira Research Dropbox\Eduardo River
+> a"
+. }
+
+. if "`c(username)'" == "Rob_9" {
+.         global identity "C:/Users/Rob_9/Dropbox"
+. }
+
+. if "`c(username)'" == "rob98" {
+.         global identity "~/Dropbox"
+. }
+
+. 
+. global work   "${identity}/Corrupcion/Protest_Work"
+
+. global path   "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
+
+. global datraw "${path}/Data/raw"
+
+. 
+. /* Make sure target temp folder exists */
+. capture mkdir "${work}/temp/ACLED"
+
+. 
+. local acled_csv "${datraw}/ACLED/ACLED Data_2026-05-21.csv"
+
+. 
+. /* ============================================================
+>    IMPORT
+>    ============================================================ */
+. import delimited using "`acled_csv'", ///
+>         clear varnames(1) bindquotes(strict) encoding(utf8) stringcols(_all)
+(35 vars, 385,452 obs)
+
+. 
+. /* keep only fields we need to limit memory */
+. keep event_id_cnty event_date country event_type sub_event_type
+
+. 
+. /* parse date */
+. gen date = date(event_date, "YMD")
+
+. format date %td
+
+. assert !missing(date)
+
+. 
+. /* ============================================================
+>    COUNTRY-NAME HARMONIZATION
+>    ACLED uses standard English names.  MM/scandals do too with minor
+>    exceptions (which are listed in b_clean_MMdata.do).  Apply the same
+>    harmonization here so country merges later work cleanly.
+>    ============================================================ */
+. replace country = strtrim(country)
+(0 real changes made)
+
+. /* These differences are the only ones that affect LAC overlap and would
+>    block a m:1 country merge with the MM/scandals tables: */
+. replace country = "Bolivia"           if strpos(country, "Bolivia") > 0
+(0 real changes made)
+
+. replace country = "Venezuela"         if strpos(country, "Venezuela") > 0
+(0 real changes made)
+
+. 
+. /* ============================================================
+>    OUTCOME FLAGS (one per row, then collapse)
+>    ============================================================ */
+. gen byte is_protest       = inlist(event_type, "Protests", "Riots")
+
+. gen byte is_violent       = (event_type == "Riots") | ///
+>         inlist(sub_event_type, "Violent demonstration", "Mob violence")
+
+. gen byte is_peaceful      = (sub_event_type == "Peaceful protest")
+
+. gen byte is_gvr           = (sub_event_type == "Excessive force against prote
+> sters")
+
+. 
+. /* Sanity: violence + peaceful + intervention + gvr should cover Protests/Rio
+> ts */
+. display in yellow "Row distribution under the mapping:"
+Row distribution under the mapping:
+
+. tabulate event_type, missing
+
+                event_type |      Freq.     Percent        Cum.
+---------------------------+-----------------------------------
+                  Protests |    247,543       64.22       64.22
+                     Riots |     29,302        7.60       71.82
+Violence against civilians |    108,607       28.18      100.00
+---------------------------+-----------------------------------
+                     Total |    385,452      100.00
+
+. tabulate is_protest is_violent
+
+           |      is_violent
+is_protest |         0          1 |     Total
+-----------+----------------------+----------
+         0 |   108,607          0 |   108,607 
+         1 |   247,543     29,302 |   276,845 
+-----------+----------------------+----------
+     Total |   356,150     29,302 |   385,452 
+
+. display in yellow "Any: " r(N)
+Any: 385452
+
+. 
+. /* ============================================================
+>    COLLAPSE to country-date
+>    ============================================================ */
+. collapse (sum) ///
+>         num_protests_ACLED   = is_protest ///
+>         num_violent_ACLED    = is_violent ///
+>         num_peaceful_ACLED   = is_peaceful ///
+>         num_gvr_ACLED        = is_gvr, ///
+>         by(country date)
+
+. 
+. label variable num_protests_ACLED "Number of protests (ACLED, Protests + Riot
+> s)"
+
+. label variable num_violent_ACLED  "Number of violent protests (ACLED, Riots e
+> vent_type)"
+
+. label variable num_peaceful_ACLED "Number of peaceful protests (ACLED, sub_ev
+> ent=Peaceful protest)"
+
+. label variable num_gvr_ACLED      "Government violent response (ACLED, sub_ev
+> ent=Excessive force against protesters)"
+note: label truncated to 80 characters
+
+. 
+. /* Indicators >0 (parallel to MM's protest_MM/peaceful_MM/violent_MM) */
+. gen byte protest_ACLED  = (num_protests_ACLED  > 0)
+
+. gen byte violent_ACLED  = (num_violent_ACLED   > 0)
+
+. gen byte peaceful_ACLED = (num_peaceful_ACLED  > 0)
+
+. gen byte gvr_ACLED      = (num_gvr_ACLED       > 0)
+
+. 
+. label variable protest_ACLED  "Incidence of a protest (ACLED)"
+
+. label variable violent_ACLED  "Incidence of a violent protest (ACLED)"
+
+. label variable peaceful_ACLED "Incidence of a peaceful protest (ACLED)"
+
+. label variable gvr_ACLED      "Incidence of govt violent response (ACLED)"
+
+. 
+. order country date num_protests_ACLED num_violent_ACLED num_peaceful_ACLED nu
+> m_gvr_ACLED ///
+>         protest_ACLED violent_ACLED peaceful_ACLED gvr_ACLED
+
+. compress
+  variable date was float now int
+  variable num_protests_ACLED was double now int
+  variable num_violent_ACLED was double now byte
+  variable num_peaceful_ACLED was double now int
+  variable num_gvr_ACLED was double now byte
+  (1,310,288 bytes saved)
+
+. 
+. di as result "=== ACLED clean: panel coverage ==="
+=== ACLED clean: panel coverage ===
+
+. count
+  46,796
+
+. quietly levelsof country
+
+. di "Countries: " r(r)
+Countries: 53
+
+. summarize date, format
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+        date |     46,796   04nov2021    758.2915  01jan2018  21may2025
+
+. 
+. di as result "=== ACLED clean: outcome means (country-day) ==="
+=== ACLED clean: outcome means (country-day) ===
+
+. summarize num_protests_ACLED num_violent_ACLED num_peaceful_ACLED num_gvr_ACL
+> ED
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+num_protes~D |     46,796    5.915997     16.0807          0       1071
+num_violen~D |     46,796    .6261646    1.778287          0         95
+num_peacef~D |     46,796    5.145077    15.08011          0       1071
+num_gvr_AC~D |     46,796    .0166467    .1906026          0         13
+
+. 
+. save "${work}/temp/ACLED/ACLEDclean_bydate.dta", replace
+(file
+    C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/temp/ACLED/ACLEDclean_byda
+    > te.dta not found)
+file ~/Dropbox/Corrupcion/Protest_Work/temp/ACLED/ACLEDclean_bydate.dta saved
+
+. display in green "b_clean_ACLED.do finished OK"
+b_clean_ACLED.do finished OK
+
+. 
+end of do-file

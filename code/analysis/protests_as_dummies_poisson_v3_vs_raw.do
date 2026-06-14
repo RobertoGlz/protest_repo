@@ -106,7 +106,7 @@ global cl_country = "cluster i.country_id"
 global cl_country_year_window = "cluster i.country_id#i.year#i.window"
 
 /* Define sample of years from which we want to use the data */
-local firstyear = 2011
+local firstyear = 2008
 
 /* Define confidence interval level wanted in coefficient plots */
 local ci_level = 90
