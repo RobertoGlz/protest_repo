@@ -184,13 +184,28 @@ foreach outcome of local outcome_list {
 	mean b_`outcome', over(apex_cat)
 
 	/* ---- (a) box plot ---- */
-	graph box b_`outcome', over(apex_cat, label(labsize(small))) ///
+	/* Build per-category median note for this outcome.
+	   Each category becomes its own quoted string so graph box renders
+	   one median per row in the figure note. */
+	quietly levelsof apex_cat, local(__cats)
+	local med_note `""'
+	foreach c of local __cats {
+		quietly summarize b_`outcome' if apex_cat == `c', detail
+		local __mstr = string(r(p50), "%5.3f")
+		local __lbl : label APEX `c'
+		local med_note `"`med_note' "Median `__lbl': `__mstr'""'
+	}
+
+	graph box b_`outcome', over(apex_cat, label(labsize(large))) ///
 		nooutsides ///
-		ytitle("Per-scandal effect on `ytitle'") ///
-		ylabel(, format(%4.2f) angle(0)) ///
+		ytitle("Per-scandal effect on `ytitle'", size(medlarge)) ///
+		ylabel(, format(%4.2f) angle(0) labsize(large)) ///
 		yline(0, lpattern(dash) lcolor(gs8)) ///
-		title("Per-scandal effect on `ytitle'", size(medium)) ///
-		note("Narrow +-`window_length'-day window; outliers hidden.") ///
+		note(`med_note', size(medlarge)) ///
+		medtype(line) ///
+		box(1, lcolor(black) lwidth(thick)) ///
+		box(2, lcolor(black) lwidth(thick)) ///
+		box(3, lcolor(black) lwidth(thick)) ///
 		scheme(s2color) graphregion(color(white))
 	graph export ///
 		"${figout}/per_scandal_box_`outcome'_w`window_length'_apex.pdf", replace

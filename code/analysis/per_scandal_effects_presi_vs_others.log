@@ -168,7 +168,7 @@ Per-scandal regressions: 176 scandals x 4 outcomes
 .         tempfile metadata
 
 .         save `metadata'
-file C:\Users\rob98\AppData\Local\Temp\ST_aab8_000002.tmp saved as .dta
+file C:\Users\rob98\AppData\Local\Temp\ST_526c_000002.tmp saved as .dta
     format
 
 . restore
@@ -248,7 +248,7 @@ Number of observations (_N) was 0, now 176.
 .         tempfile cls
 
 .         save `cls'
-file C:\Users\rob98\AppData\Local\Temp\ST_aab8_000004.tmp saved as .dta
+file C:\Users\rob98\AppData\Local\Temp\ST_526c_000004.tmp saved as .dta
     format
 
 . restore
@@ -350,44 +350,57 @@ file
   8.         mean b_`outcome', over(presi)
   9. 
 .         /* ---- (a) box plot ---- */
-.         graph box b_`outcome', over(presi, label(labsize(medsmall))) ///
+.         /* Build per-category median note for this outcome.
+>            Each category becomes its own quoted string so graph box renders
+>            one median per row in the figure note. */
+.         quietly levelsof presi, local(__cats)
+ 10.         local med_note `""'
+ 11.         foreach c of local __cats {
+ 12.                 quietly summarize b_`outcome' if presi == `c', detail
+ 13.                 local __mstr = string(r(p50), "%5.3f")
+ 14.                 local __lbl : label PRESI `c'
+ 15.                 local med_note `"`med_note' "Median `__lbl': `__mstr'""'
+ 16.         }
+ 17. 
+.         graph box b_`outcome', over(presi, label(labsize(large))) ///
 >                 nooutsides ///
->                 ytitle("Per-scandal effect on `ytitle'") ///
->                 ylabel(, format(%4.2f) angle(0)) ///
+>                 ytitle("Per-scandal effect on `ytitle'", size(medlarge)) ///
+>                 ylabel(, format(%4.2f) angle(0) labsize(large)) ///
 >                 yline(0, lpattern(dash) lcolor(gs8)) ///
->                 title("Per-scandal effect on `ytitle'", size(medium)) ///
->                 note("Narrow +-`window_length'-day window; outliers hidden.")
->  ///
+>                 note(`med_note', size(medlarge)) ///
+>                 medtype(line) ///
+>                 box(1, lcolor(black) lwidth(thick)) ///
+>                 box(2, lcolor(black) lwidth(thick)) ///
 >                 scheme(s2color) graphregion(color(white))
- 10.         graph export ///
+ 18.         graph export ///
 >                 "${figout}/per_scandal_box_`outcome'_w`window_length'_presi.p
 > df", replace
- 11. 
+ 19. 
 .         /* ---- (b) jittered scatter with category mean + 95% CI ---- */
 .         preserve
- 12.                 keep if !missing(b_`outcome') & !missing(presi)
- 13.                 generate double prec = 1 / se_`outcome'^2
- 14.                 quietly summarize prec
- 15.                 replace prec = prec / r(max)
- 16. 
+ 20.                 keep if !missing(b_`outcome') & !missing(presi)
+ 21.                 generate double prec = 1 / se_`outcome'^2
+ 22.                 quietly summarize prec
+ 23.                 replace prec = prec / r(max)
+ 24. 
 .                 quietly levelsof presi, local(cats)
- 17.                 gen double cmean = .
- 18.                 gen double clo   = .
- 19.                 gen double chi   = .
- 20.                 foreach c of local cats {
- 21.                         quietly count if presi == `c'
- 22.                         if r(N) >= 2 {
- 23.                                 quietly mean b_`outcome' if presi == `c'
- 24.                                 matrix mb = r(table)
- 25.                                 quietly replace cmean = mb[1,1] if presi =
+ 25.                 gen double cmean = .
+ 26.                 gen double clo   = .
+ 27.                 gen double chi   = .
+ 28.                 foreach c of local cats {
+ 29.                         quietly count if presi == `c'
+ 30.                         if r(N) >= 2 {
+ 31.                                 quietly mean b_`outcome' if presi == `c'
+ 32.                                 matrix mb = r(table)
+ 33.                                 quietly replace cmean = mb[1,1] if presi =
 > = `c'
- 26.                                 quietly replace clo   = mb[5,1] if presi =
+ 34.                                 quietly replace clo   = mb[5,1] if presi =
 > = `c'
- 27.                                 quietly replace chi   = mb[6,1] if presi =
+ 35.                                 quietly replace chi   = mb[6,1] if presi =
 > = `c'
- 28.                         }
- 29.                 }
- 30. 
+ 36.                         }
+ 37.                 }
+ 38. 
 .                 twoway ///
 >                         (scatter b_`outcome' presi [aw=prec], ///
 >                                 jitter(8) mcolor(navy%35) msymbol(O)) ///
@@ -409,11 +422,11 @@ file
 > onal to 1/SE^2." ///
 >                                 "Narrow +-`window_length'-day window.") ///
 >                         scheme(s2color) graphregion(color(white))
- 31.                 graph export ///
+ 39.                 graph export ///
 >                         "${figout}/per_scandal_jitter_`outcome'_w`window_leng
 > th'_presi.pdf", replace
- 32.         restore
- 33. }
+ 40.         restore
+ 41. }
 === Per-scandal num_protests_MM: President vs Others ===
 
 Summary for variables: b_num_protests_MM

@@ -3,48 +3,44 @@
 \fi
 \begin{thebibliography}{xx}
 
-\harvarditem[Anduiza et al.]{Anduiza, Gallego and
-  Mu{\~n}oz}{2013}{anduiza2013turning}
-{\bf Anduiza, Eva, Aina Gallego, and Jordi Mu{\~n}oz}, ``Turning a blind eye:
-  experimental evidence of partisan bias in attitudes toward corruption,'' {\it
-  Comparative Political Studies}, 2013, {\it 46} (12), 1664--1692.
+\harvarditem[Ajzenman]{Ajzenman}{2021}{ajzenman2021powerexample}
+{\bf Ajzenman, Nicolás}, ``The Power of Example: Corruption Spurs
+  Corruption,'' {\it American Economic Journal: Applied Economics}, April 2021,
+  {\it 13} (2), 230–57.
 
-\harvarditem[Avis et al.]{Avis, Ferraz and Finan}{2018}{ferraz2018audits}
-{\bf Avis, Eric, Claudio Ferraz, and Frederico Finan}, ``Do government audits
-  reduce corruption? Estimating the impacts of exposing corrupt politicians,''
-  {\it Journal of Political Economy}, 2018, {\it 126} (5), 1912--1964.
+\harvarditem[Arias et al.]{Arias, Larreguy, Marshall and
+  Querubín}{2022}{horacio2022metaketa}
+{\bf Arias, Eric, Horacio Larreguy, John Marshall, and Pablo Querubín},
+  ``Priors Rule: When Do Malfeasance Revelations Help Or Hurt Incumbent
+  Parties?,'' {\it Journal of the European Economic Association}, 05 2022, {\it
+  20} (4), 1433--1477.
 
-\harvarditem[Chong et al.]{Chong, {De La O}, Karlan and
-  Wantchekon}{2015}{chong2015does}
-{\bf Chong, Alberto, Ana~L. {De La O}, Dean Karlan, and Leonard Wantchekon},
-  ``Does corruption information inspire the fight or quash the hope? A field
-  experiment in {Mexico} on voter turnout, choice, and party identification,''
-  {\it The Journal of Politics}, 2015, {\it 77} (1), 55--71.
+\harvarditem[Arias et al.]{Arias, Balán, Larreguy, Marshall and
+  Querubín}{2019}{horacio2019infonetwork}
+{\bf \bysame{}, Pablo Balán, Horacio Larreguy, John Marshall, and Pablo
+  Querubín}, ``Information Provision, Voter Coordination, and Electoral
+  Accountability: Evidence from Mexican Social Networks,'' {\it American
+  Political Science Review}, 2019, {\it 113} (2), 475–498.
+
+\harvarditem[Cantoni et al.]{Cantoni, Kao, Yang and
+  Yuchtman}{2024}{cantoni2024protests}
+{\bf Cantoni, Davide, Andrew Kao, David~Y. Yang, and Noam Yuchtman},
+  ``Protests,'' {\it Annual Review of Economics}, 2024, {\it 16}, 519--543.
 
 \harvarditem[Clark and Regan]{Clark and Regan}{2016}{clark2016mass}
 {\bf Clark, David and Patrick Regan}, ``Mass {Mobilization} Protest Data,''
   2016.
 
-\harvarditem[Correia]{Correia}{2017}{correia2017reghdfe}
-{\bf Correia, Sergio}, ``Linear models with high-dimensional fixed effects: an
-  efficient and feasible estimator,'' 2017.
-\newblock Working paper, Duke University; documentation for Stata's
-  \texttt{reghdfe} package.
+\harvarditem[Enikolopov et al.]{Enikolopov, Petrova and
+  Sonin}{2018}{enikolopov2018SocialMedia}
+{\bf Enikolopov, Ruben, Maria Petrova, and Konstantin Sonin}, ``Social Media
+  and Corruption,'' {\it American Economic Journal: Applied Economics}, January
+  2018, {\it 10} (1), 150--174.
 
-\harvarditem[Ferraz and Finan]{Ferraz and Finan}{2008}{ferraz2008exposing}
-{\bf Ferraz, Claudio and Frederico Finan}, ``Exposing corrupt politicians: the
-  effects of {Brazil}'s publicly released audits on electoral outcomes,'' {\it
-  The Quarterly Journal of Economics}, 2008, {\it 123} (2), 703--745.
-
-\harvarditem[Ferraz and Finan]{Ferraz and Finan}{2011}{ferraz2011electoral}
-{\bf \bysame{} and \bysame{}}, ``Electoral accountability and corruption:
-  evidence from the audits of local governments,'' {\it American Economic
-  Review}, 2011, {\it 101} (4), 1274--1311.
-
-\harvarditem[Jha and Shayo]{Jha and Shayo}{2019}{jha2019valuing}
-{\bf Jha, Saumitra and Moses Shayo}, ``Valuing peace: the effects of financial
-  market exposure on votes and political attitudes,'' {\it Econometrica}, 2019,
-  {\it 87} (5), 1561--1588.
+\harvarditem[Ferraz and Finan]{Ferraz and Finan}{2011}{FerrazFinanAccount}
+{\bf Ferraz, Claudio and Frederico Finan}, ``Electoral Accountability and
+  Corruption: Evidence from the Audits of Local Governments,'' {\it American
+  Economic Review}, June 2011, {\it 101} (4), 1274–1311.
 
 \harvarditem[K{\"o}nig et al.]{K{\"o}nig, Rohner, Thoenig and
   Zilibotti}{2017}{koenig2017networks}
@@ -63,26 +59,18 @@
   and civil conflict: an instrumental variables approach,'' {\it Journal of
   Political Economy}, 2004, {\it 112} (4), 725--753.
 
-\harvarditem[Olken and Pande]{Olken and Pande}{2012}{olken2012corruption}
-{\bf Olken, Benjamin~A. and Rohini Pande}, ``Corruption in developing
-  countries,'' {\it Annual Review of Economics}, 2012, {\it 4}, 479--509.
-
-\harvarditem[Pav{\~a}o]{Pav{\~a}o}{2018}{pavao2018corruption}
-{\bf Pav{\~a}o, Natalia}, ``Corruption as the only option: the limits to
-  electoral accountability,'' {\it The Journal of Politics}, 2018, {\it 80}
-  (3), 996--1010.
-
-\harvarditem[Raleigh et al.]{Raleigh, Kishi and Linke}{2023}{raleigh2023acled}
-{\bf Raleigh, Clionadh, Roudabeh Kishi, and Andrew Linke}, ``Political
-  instability patterns are obscured by conflict dataset scope conditions,
-  sources, and coding choices,'' {\it Humanities and Social Sciences
-  Communications}, 2023, {\it 10}, 74.
-
-\harvarditem[Rivera et al.]{Rivera, Seira and Jha}{2024}{rivera2024apex}
+\harvarditem[Rivera et al.]{Rivera, Seira and Jha}{2024}{ApexCorruption}
 {\bf Rivera, Eduardo, Enrique Seira, and Saumitra Jha}, ``Apex Corruption
-  Erodes Democratic Values,'' 2024.
-\newblock Working paper, Stanford GSB and SSRN 4828243; also circulated as
-  ``Democracy Corrupted: Apex Corruption and the Erosion of Democratic
-  Values''.
+  Erodes Democratic Values,'' {\it Working Paper}, 2024.
+
+\harvarditem[Rohner et al.]{Rohner, Sunde, Eynde, Wright and
+  Zeng}{2026}{rohner2026aidingpeace}
+{\bf Rohner, D., U.~Sunde, O.~Vanden Eynde, A.~L. Wright, and J.-R. Zeng},
+  ``Aiding peace or conflict? The impact of USAID cuts on violence,'' {\it
+  Science}, 2026, {\it 392} (6799), eaed6802.
+
+\harvarditem[Tufekci]{Tufekci}{2024}{tufekci2024twitter}
+{\bf Tufekci, Zeynep}, {\it Twitter and tear gas}, New Haven, CT: Yale
+  University Press, 2024.
 
 \end{thebibliography}

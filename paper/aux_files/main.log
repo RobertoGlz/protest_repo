@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.12.10)  4 JUN 2026 16:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.12.10)  24 JUN 2026 18:49
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -732,7 +732,9 @@ Package: soul-ori 2023-06-14 v3.1 letterspacing/underlining (mf)
 \SOUL@ttwidth=\dimen305
 \SOUL@uldp=\dimen306
 \SOUL@ulht=\dimen307
-)) (C:\Users\rob98\AppData\Local\Programs\MiKTeX\tex/latex/natbib\natbib.sty
+)) (C:\Users\rob98\AppData\Local\Programs\MiKTeX\tex/latex/graphics\dvipsnam.def
+File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
+) (C:\Users\rob98\AppData\Local\Programs\MiKTeX\tex/latex/natbib\natbib.sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip113
 \bibsep=\skip114
@@ -979,28 +981,28 @@ Package hyperref Info: Option `colorlinks' set `true' on input line 140.
 Package hyperref Info: Option `breaklinks' set `true' on input line 140.
 )
 LaTeX Font Info:    Font shape `T1/zpltlf/m/n' will be
-(Font)              scaled to size 10.95pt on input line 47.
+(Font)              scaled to size 10.95pt on input line 46.
  (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1070,7 +1072,7 @@ Package caption Info: longtable package is loaded.
 Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 )
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring ON on input line 47.
+Package hyperref Info: Link coloring ON on input line 46.
  (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\main.out) (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\main.out)
 \@outlinefile=\write6
 \openout6 = `main.out'.
@@ -1081,153 +1083,118 @@ Package hyperref Info: Link coloring ON on input line 47.
 Package pgfplots notification 'compat/show suggested version=true': document has been generated with the most recent feature set (\pgfplotsset{compat=1.18}).
 
 LaTeX Font Info:    Font shape `T1/zpltlf/m/n' will be
-(Font)              scaled to size 17.28pt on input line 50.
+(Font)              scaled to size 17.28pt on input line 49.
 LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
-(Font)              scaled to size 17.28pt on input line 50.
+(Font)              scaled to size 17.28pt on input line 49.
 LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
-(Font)              scaled to size 14.4pt on input line 50.
+(Font)              scaled to size 14.4pt on input line 49.
 LaTeX Font Info:    Font shape `T1/zpltlf/m/n' will be
-(Font)              scaled to size 12.0pt on input line 50.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 50.
+(Font)              scaled to size 12.0pt on input line 49.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 49.
 (C:\Users\rob98\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 50.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 49.
  (C:\Users\rob98\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Font shape `T1/zpltlf/m/n' will be
-(Font)              scaled to size 8.0pt on input line 50.
-LaTeX Font Info:    Trying to load font information for TS1+zpltlf on input line 50.
+(Font)              scaled to size 8.0pt on input line 49.
+LaTeX Font Info:    Trying to load font information for TS1+zpltlf on input line 49.
  (C:\Users\rob98\AppData\Local\Programs\MiKTeX\tex/latex/newpx\ts1zpltlf.fd
 File: ts1zpltlf.fd 2021/11/24 v1.0 fd file for TS1/zpltlf
 )
 LaTeX Font Info:    Font shape `TS1/zpltlf/m/n' will be
-(Font)              scaled to size 8.0pt on input line 50.
+(Font)              scaled to size 8.0pt on input line 49.
 LaTeX Font Info:    Font shape `T1/zpltlf/m/n' will be
-(Font)              scaled to size 9.0pt on input line 50.
+(Font)              scaled to size 9.0pt on input line 49.
 LaTeX Font Info:    Font shape `T1/zpltlf/m/n' will be
-(Font)              scaled to size 6.0pt on input line 50.
+(Font)              scaled to size 6.0pt on input line 49.
 LaTeX Font Info:    Font shape `TS1/zpltlf/m/n' will be
-(Font)              scaled to size 6.0pt on input line 50.
-LaTeX Font Info:    Trying to load font information for T1+npxtt on input line 50.
+(Font)              scaled to size 6.0pt on input line 49.
+LaTeX Font Info:    Trying to load font information for T1+npxtt on input line 49.
  (C:\Users\rob98\AppData\Local\Programs\MiKTeX\tex/latex/newpx\t1npxtt.fd
 File: t1npxtt.fd 2000/12/14 v1.0
 )
 LaTeX Font Info:    Font shape `T1/npxtt/m/n' will be
-(Font)              scaled to size 9.0pt on input line 50.
+(Font)              scaled to size 9.0pt on input line 49.
 LaTeX Font Info:    Font shape `T1/zpltlf/m/n' will be
+(Font)              scaled to size 10.0pt on input line 53.
+LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
+(Font)              scaled to size 10.0pt on input line 53.
+LaTeX Font Info:    Font shape `T1/zpltlf/m/it' will be
 (Font)              scaled to size 10.0pt on input line 54.
 LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
-(Font)              scaled to size 10.0pt on input line 54.
-LaTeX Font Info:    Font shape `T1/zpltlf/m/n' will be
-(Font)              scaled to size 14.4pt on input line 64.
+(Font)              scaled to size 10.95pt on input line 57.
  (C:\Users\rob98\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\se-pdfdoc.def
 File: se-pdfdoc.def 2019/11/29 v1.12 stringenc: PDFDocEncoding
-)
-LaTeX Font Info:    Font shape `T1/zpltlf/m/it' will be
-(Font)              scaled to size 10.95pt on input line 66.
- [1
+) [1
 
 \openout4 = `main.upa'.
 
-{C:/Users/rob98/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/newtx/ntx-ec-tlf.enc}{C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/newpx/zpl_TOsF.enc}] [2]
-LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
-(Font)              scaled to size 12.0pt on input line 81.
- [3]
-LaTeX Font Info:    Font shape `T1/npxtt/m/n' will be
-(Font)              scaled to size 10.95pt on input line 84.
- [4] [5]
-LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
-(Font)              scaled to size 10.95pt on input line 113.
+{C:/Users/rob98/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/newtx/ntx-ec-tlf.enc}{C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/newpx/zpl_TOsF.enc}]
+LaTeX Font Info:    Font shape `T1/zpltlf/m/n' will be
+(Font)              scaled to size 14.4pt on input line 66.
 LaTeX Font Info:    Font shape `T1/zpltlf/m/it' will be
-(Font)              scaled to size 9.0pt on input line 121.
- [6]
-<../../Protest_Work/results/figures/es_num_violent_MM_30d_90ci.png, id=169, 903.375pt x 602.25pt>
+(Font)              scaled to size 10.95pt on input line 70.
+ [2
+
+]
+LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
+(Font)              scaled to size 12.0pt on input line 79.
+LaTeX Font Info:    Trying to load font information for U+bbm on input line 88.
+ (C:\Users\rob98\AppData\Local\Programs\MiKTeX\tex/latex/bbm\ubbm.fd
+File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
+) [3] (../../Protest_Work/results/tables/es_30d_90ci.tex)
+LaTeX Font Info:    Font shape `T1/zpltlf/m/it' will be
+(Font)              scaled to size 9.0pt on input line 111.
+ [4] (../../Protest_Work/results/tables/es_120d_90ci.tex) [5]
+<../../Protest_Work/results/figures/es_num_violent_MM_30d_90ci.png, id=133, 903.375pt x 602.25pt>
 File: ../../Protest_Work/results/figures/es_num_violent_MM_30d_90ci.png Graphic file (type png)
 <use ../../Protest_Work/results/figures/es_num_violent_MM_30d_90ci.png>
-Package pdftex.def Info: ../../Protest_Work/results/figures/es_num_violent_MM_30d_90ci.png  used on input line 152.
+Package pdftex.def Info: ../../Protest_Work/results/figures/es_num_violent_MM_30d_90ci.png  used on input line 133.
 (pdftex.def)             Requested size: 242.73503pt x 161.81937pt.
-<../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png, id=170, 903.375pt x 602.25pt>
+<../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png, id=134, 903.375pt x 602.25pt>
 File: ../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png Graphic file (type png)
 <use ../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png>
-Package pdftex.def Info: ../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png  used on input line 157.
+Package pdftex.def Info: ../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png  used on input line 138.
 (pdftex.def)             Requested size: 242.73503pt x 161.81937pt.
-<../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_presi.pdf, id=174, 397.485pt x 289.08pt>
+ [6 <../../Protest_Work/results/figures/es_num_violent_MM_30d_90ci.png (PNG copy)> <../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png (PNG copy)>]
+<../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_presi.pdf, id=144, 397.485pt x 289.08pt>
 File: ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_presi.pdf Graphic file (type pdf)
 <use ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_presi.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_presi.pdf  used on input line 173.
+Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_presi.pdf  used on input line 154.
 (pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
-<../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_presi.pdf, id=175, 397.485pt x 289.08pt>
+<../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_presi.pdf, id=145, 397.485pt x 289.08pt>
 File: ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_presi.pdf Graphic file (type pdf)
 <use ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_presi.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_presi.pdf  used on input line 177.
+Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_presi.pdf  used on input line 158.
 (pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
-<../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_presi.pdf, id=176, 397.485pt x 289.08pt>
+<../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_presi.pdf, id=146, 397.485pt x 289.08pt>
 File: ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_presi.pdf Graphic file (type pdf)
 <use ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_presi.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_presi.pdf  used on input line 181.
+Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_presi.pdf  used on input line 162.
 (pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
-<../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_apex.pdf, id=177, 397.485pt x 289.08pt>
+<../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_apex.pdf, id=147, 397.485pt x 289.08pt>
 File: ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_apex.pdf Graphic file (type pdf)
 <use ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_apex.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_apex.pdf  used on input line 185.
+Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_apex.pdf  used on input line 166.
 (pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
-<../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex.pdf, id=178, 397.485pt x 289.08pt>
+<../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex.pdf, id=148, 397.485pt x 289.08pt>
 File: ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex.pdf Graphic file (type pdf)
 <use ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex.pdf  used on input line 189.
+Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex.pdf  used on input line 170.
 (pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
-<../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex.pdf, id=179, 397.485pt x 289.08pt>
+<../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex.pdf, id=149, 397.485pt x 289.08pt>
 File: ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex.pdf Graphic file (type pdf)
 <use ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex.pdf  used on input line 193.
+Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex.pdf  used on input line 174.
 (pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
 LaTeX Font Info:    Font shape `T1/zpltlf/b/it' will be
-(Font)              scaled to size 10.95pt on input line 195.
- [7 <../../Protest_Work/results/figures/es_num_violent_MM_30d_90ci.png (PNG copy)> <../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png (PNG copy)>] [8 <../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_presi.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_presi.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_presi.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_apex.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex.pdf>] [9] (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\main.bbl [10]) [11]
-<../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_incpres.pdf, id=294, 397.485pt x 289.08pt>
-File: ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_incpres.pdf Graphic file (type pdf)
-<use ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_incpres.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_incpres.pdf  used on input line 242.
-(pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
-<../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_incpres.pdf, id=295, 397.485pt x 289.08pt>
-File: ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_incpres.pdf Graphic file (type pdf)
-<use ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_incpres.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_incpres.pdf  used on input line 246.
-(pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
-<../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_incpres.pdf, id=296, 397.485pt x 289.08pt>
-File: ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_incpres.pdf Graphic file (type pdf)
-<use ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_incpres.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_incpres.pdf  used on input line 250.
-(pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
- [12
+(Font)              scaled to size 10.95pt on input line 176.
+ [7 <../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_presi.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_presi.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_presi.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_apex.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex.pdf>] [8] [9] (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\main.bbl) [10
 
- <../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_incpres.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_incpres.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_incpres.pdf>]
-<../../Protest_Work/results/figures/es_government_response_violent_30d_90ci.png, id=333, 903.375pt x 602.25pt>
-File: ../../Protest_Work/results/figures/es_government_response_violent_30d_90ci.png Graphic file (type png)
-<use ../../Protest_Work/results/figures/es_government_response_violent_30d_90ci.png>
-Package pdftex.def Info: ../../Protest_Work/results/figures/es_government_response_violent_30d_90ci.png  used on input line 264.
-(pdftex.def)             Requested size: 242.73503pt x 161.81937pt.
-<../../Protest_Work/results/figures/es_government_response_violent_120d_90ci.png, id=334, 903.375pt x 602.25pt>
-File: ../../Protest_Work/results/figures/es_government_response_violent_120d_90ci.png Graphic file (type png)
-<use ../../Protest_Work/results/figures/es_government_response_violent_120d_90ci.png>
-Package pdftex.def Info: ../../Protest_Work/results/figures/es_government_response_violent_120d_90ci.png  used on input line 268.
-(pdftex.def)             Requested size: 242.73503pt x 161.81937pt.
-<../../Protest_Work/results/figures/per_scandal_box_government_response_violent_w30_presi.pdf, id=335, 397.485pt x 289.08pt>
-File: ../../Protest_Work/results/figures/per_scandal_box_government_response_violent_w30_presi.pdf Graphic file (type pdf)
-<use ../../Protest_Work/results/figures/per_scandal_box_government_response_violent_w30_presi.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_government_response_violent_w30_presi.pdf  used on input line 272.
-(pdftex.def)             Requested size: 242.73503pt x 176.53703pt.
-<../../Protest_Work/results/figures/per_scandal_box_government_response_violent_w30_apex.pdf, id=336, 397.485pt x 289.08pt>
-File: ../../Protest_Work/results/figures/per_scandal_box_government_response_violent_w30_apex.pdf Graphic file (type pdf)
-<use ../../Protest_Work/results/figures/per_scandal_box_government_response_violent_w30_apex.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_government_response_violent_w30_apex.pdf  used on input line 276.
-(pdftex.def)             Requested size: 242.73503pt x 176.53703pt.
- [13 <../../Protest_Work/results/figures/es_government_response_violent_30d_90ci.png (PNG copy)> <../../Protest_Work/results/figures/es_government_response_violent_120d_90ci.png (PNG copy)> <../../Protest_Work/results/figures/per_scandal_box_government_response_violent_w30_presi.pdf> <../../Protest_Work/results/figures/per_scandal_box_government_response_violent_w30_apex.pdf>]
-LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
-(Font)              scaled to size 9.0pt on input line 291.
- (../../Protest_Work/results/tables/poissreg_es_30d_90ci.tex) (../../Protest_Work/results/tables/poissreg_es_120d_90ci.tex) [14] [15] (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\main.aux * soulpos - computing points - it may take a few seconds *
+] (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\main.aux * soulpos - computing points - it may take a few seconds *
 \openout4 = `main.upb'.
 
  (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\main.upa))
@@ -1236,21 +1203,21 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2020/03/25>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 9E7C458E97E34B0839ECB0419EFBFA58;1156.
+(rerunfilecheck)             Checksum: 9DACE1F1C8775C03C8F3E3B32C7921E5;575.
  ) 
 Here is how much of TeX's memory you used:
- 43309 strings out of 467871
- 992057 string characters out of 5418375
- 1508415 words of memory out of 5000000
- 71365 multiletter control sequences out of 15000+600000
- 694114 words of font info for 109 fonts, out of 8000000 for 9000
+ 43304 strings out of 467871
+ 987988 string characters out of 5418375
+ 1511014 words of memory out of 5000000
+ 71367 multiletter control sequences out of 15000+600000
+ 692683 words of font info for 108 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 104i,12n,111p,1817b,709s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/t1xtt.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplb.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplbi.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplr.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplri.pfb>
-Output written on c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\main.pdf (15 pages, 902993 bytes).
+ 104i,12n,111p,1597b,704s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\rob98\AppData\Local\MiKTeX\fonts/pk/ljfour/public/bbm/dpi657\bbm10.pk><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/t1xtt.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplb.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplbi.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplr.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplri.pfb>
+Output written on c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\main.pdf (10 pages, 570833 bytes).
 PDF statistics:
- 479 PDF objects out of 1000 (max. 8388607)
- 371 compressed objects within 4 object streams
- 54 named destinations out of 1000 (max. 500000)
- 208 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 340 PDF objects out of 1000 (max. 8388607)
+ 269 compressed objects within 3 object streams
+ 41 named destinations out of 1000 (max. 500000)
+ 117 words of extra memory for PDF output out of 10000 (max. 10000000)
 

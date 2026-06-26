@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.12.10)  14 JUN 2026 11:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.12.10)  26 JUN 2026 15:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1145,12 +1145,64 @@ LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
 LaTeX Font Info:    Trying to load font information for U+bbm on input line 88.
  (C:\Users\rob98\AppData\Local\Programs\MiKTeX\tex/latex/bbm\ubbm.fd
 File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
-) [3] [4] (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\violent-effects-of-apex-corruption-main.bbl)
-
-Package caption Warning: Unused \captionsetup[sub] on input line 55.
-See the caption package documentation for explanation.
-
-[5
+) [3] [4] (../../Protest_Work/results/tables/three_outcomes_panels.tex
+LaTeX Font Info:    Font shape `T1/zpltlf/b/it' will be
+(Font)              scaled to size 10.95pt on input line 7.
+) [5]
+<../../Protest_Work/results/figures/es_num_violent_MM_30d_90ci.png, id=138, 903.375pt x 602.25pt>
+File: ../../Protest_Work/results/figures/es_num_violent_MM_30d_90ci.png Graphic file (type png)
+<use ../../Protest_Work/results/figures/es_num_violent_MM_30d_90ci.png>
+Package pdftex.def Info: ../../Protest_Work/results/figures/es_num_violent_MM_30d_90ci.png  used on input line 128.
+(pdftex.def)             Requested size: 225.21626pt x 150.1394pt.
+<../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png, id=139, 903.375pt x 602.25pt>
+File: ../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png Graphic file (type png)
+<use ../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png>
+Package pdftex.def Info: ../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png  used on input line 133.
+(pdftex.def)             Requested size: 225.21626pt x 150.1394pt.
+<../../Protest_Work/results/figures/es_num_peaceful_MM_30d_90ci.png, id=140, 903.375pt x 602.25pt>
+File: ../../Protest_Work/results/figures/es_num_peaceful_MM_30d_90ci.png Graphic file (type png)
+<use ../../Protest_Work/results/figures/es_num_peaceful_MM_30d_90ci.png>
+Package pdftex.def Info: ../../Protest_Work/results/figures/es_num_peaceful_MM_30d_90ci.png  used on input line 138.
+(pdftex.def)             Requested size: 225.21626pt x 150.1394pt.
+<../../Protest_Work/results/figures/es_num_peaceful_MM_120d_90ci.png, id=141, 903.375pt x 602.25pt>
+File: ../../Protest_Work/results/figures/es_num_peaceful_MM_120d_90ci.png Graphic file (type png)
+<use ../../Protest_Work/results/figures/es_num_peaceful_MM_120d_90ci.png>
+Package pdftex.def Info: ../../Protest_Work/results/figures/es_num_peaceful_MM_120d_90ci.png  used on input line 143.
+(pdftex.def)             Requested size: 225.21626pt x 150.1394pt.
+ [6]
+<../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_presi.pdf, id=151, 397.485pt x 289.08pt>
+File: ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_presi.pdf Graphic file (type pdf)
+<use ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_presi.pdf>
+Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_presi.pdf  used on input line 161.
+(pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
+<../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_presi.pdf, id=152, 397.485pt x 289.08pt>
+File: ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_presi.pdf Graphic file (type pdf)
+<use ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_presi.pdf>
+Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_presi.pdf  used on input line 165.
+(pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
+<../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_presi.pdf, id=153, 397.485pt x 289.08pt>
+File: ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_presi.pdf Graphic file (type pdf)
+<use ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_presi.pdf>
+Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_presi.pdf  used on input line 169.
+(pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
+<../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_apex.pdf, id=154, 397.485pt x 289.08pt>
+File: ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_apex.pdf Graphic file (type pdf)
+<use ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_apex.pdf>
+Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_apex.pdf  used on input line 173.
+(pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
+<../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex.pdf, id=155, 397.485pt x 289.08pt>
+File: ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex.pdf Graphic file (type pdf)
+<use ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex.pdf>
+Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex.pdf  used on input line 177.
+(pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
+<../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex.pdf, id=156, 397.485pt x 289.08pt>
+File: ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex.pdf Graphic file (type pdf)
+<use ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex.pdf>
+Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex.pdf  used on input line 181.
+(pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
+LaTeX Font Info:    Font shape `T1/zpltlf/m/it' will be
+(Font)              scaled to size 9.0pt on input line 184.
+ [7 <../../Protest_Work/results/figures/es_num_violent_MM_30d_90ci.png (PNG copy)> <../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png (PNG copy)> <../../Protest_Work/results/figures/es_num_peaceful_MM_30d_90ci.png (PNG copy)> <../../Protest_Work/results/figures/es_num_peaceful_MM_120d_90ci.png (PNG copy)>] [8 <../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_presi.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_presi.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_presi.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_apex.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex.pdf>] (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\violent-effects-of-apex-corruption-main.bbl) [9
 
 ] (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\violent-effects-of-apex-corruption-main.aux * soulpos - computing points - it may take a few seconds *
 \openout4 = `violent-effects-of-apex-corruption-main.upb'.
@@ -1161,21 +1213,21 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2020/03/25>
  ***********
 Package rerunfilecheck Info: File `violent-effects-of-apex-corruption-main.out' has not changed.
-(rerunfilecheck)             Checksum: B0E3473F7879448FBC5782A11EEC7332;258.
+(rerunfilecheck)             Checksum: F5D0261E6870A8E42D9589CCF9D6223C;562.
  ) 
 Here is how much of TeX's memory you used:
- 43150 strings out of 467871
- 981652 string characters out of 5418375
- 1503049 words of memory out of 5000000
- 71238 multiletter control sequences out of 15000+600000
- 685764 words of font info for 97 fonts, out of 8000000 for 9000
+ 43300 strings out of 467871
+ 989655 string characters out of 5418375
+ 1508992 words of memory out of 5000000
+ 71368 multiletter control sequences out of 15000+600000
+ 692683 words of font info for 108 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 104i,11n,111p,1377b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\rob98\AppData\Local\MiKTeX\fonts/pk/ljfour/public/bbm/dpi657\bbm10.pk><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/t1xtt.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplb.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplr.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplri.pfb>
-Output written on c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\violent-effects-of-apex-corruption-main.pdf (5 pages, 176616 bytes).
+ 104i,12n,111p,1431b,728s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\rob98\AppData\Local\MiKTeX\fonts/pk/ljfour/public/bbm/dpi657\bbm10.pk><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/t1xtt.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplb.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplbi.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplr.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplri.pfb>
+Output written on c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\violent-effects-of-apex-corruption-main.pdf (9 pages, 649887 bytes).
 PDF statistics:
- 161 PDF objects out of 1000 (max. 8388607)
- 133 compressed objects within 2 object streams
- 28 named destinations out of 1000 (max. 500000)
- 53 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 326 PDF objects out of 1000 (max. 8388607)
+ 249 compressed objects within 3 object streams
+ 39 named destinations out of 1000 (max. 500000)
+ 127 words of extra memory for PDF output out of 10000 (max. 10000000)
 
