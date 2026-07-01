@@ -16,8 +16,8 @@ The single most important concept the protests paper inherits from the
 team's prior work is the distinction between **apex** corruption and the
 better-studied municipal-level corruption that the audit-report
 literature has analysed. The distinction is not semantic. The audit
-literature (`ferraz2008exposing`, `ferraz2011electoral`,
-`ferraz2018audits`) documents the consequences of disclosing
+literature (`ferraz2008exposing` ("Exposing Corrupt Politicians", QJE 2008), `ferraz2011electoral` ("Electoral Accountability and Corruption", AER 2011),
+`ferraz2018audits` ("Do Government Audits Reduce Corruption?", JPE 2018)) documents the consequences of disclosing
 malfeasance at a level of the political hierarchy --- mayors of small
 Brazilian municipalities --- where the implicated official is one of
 thousands, the constituency is local, the political stakes of
@@ -28,7 +28,7 @@ one of a small number of politically central agents, and the
 constituency of citizens for whom the disclosure changes the political
 calculus is the entire country.
 
-In Rivera, Seira, and Jha (`rivera2024apex`) we coined the term and
+In Rivera, Seira, and Jha (`ApexCorruption` ("Apex Corruption Erodes Democratic Values", Working Paper 2024)) we coined the term and
 provided the first systematic evidence on its consequences. The
 companion paper documents that exposure to apex scandals erodes
 citizens' attitudinal commitment to democracy: support for democratic
@@ -38,7 +38,7 @@ exposure to footage of apex corruption lowers stated support for
 democracy by 0.15 standard deviations, lowers willingness to volunteer
 as election observers by 45%, and lowers actual voter turnout in
 subsequent local elections by approximately 5 percentage points. The
-asymmetry of the effect against `chong2015does` and `anduiza2013turning`
+asymmetry of the effect against `chong2015does` ("Does Corruption Information Inspire the Fight or Quash the Hope?", JoP 2015) and `anduiza2013turning` ("Turning a Blind Eye", CPS 2013)
 is informative: at the municipal level, voter responses to disclosure
 are partisan-mediated and often demobilising; at the apex, the
 response is bipartisan and substitutes democratic commitment with
@@ -67,7 +67,7 @@ shifted political attitudes toward parties more supportive of the peace
 process, with no political message attached. The reading is that what
 moves political behaviour is not information about politics per se but
 *the stakeholder structure of voters' exposure to political outcomes*.
-`jha2022markets` extends this argument: financial markets respond not
+`jha2022markets` ("Markets under Siege", Stanford GSB WP 2022) extends this argument: financial markets respond not
 to objective shifts in political risk but to differences in beliefs
 about how political events will play out, with the effect concentrated
 in agents whose stake in the relevant asset is largest.
@@ -100,21 +100,21 @@ research programme is well positioned to address.
 ## 3. Electoral accountability for corruption --- the canon and its limits
 
 The electoral-accountability literature is the natural counterpoint
-for the protest-channel argument. `ferraz2008exposing` and
-`ferraz2011electoral` are the empirical anchor: random release of
+for the protest-channel argument. `ferraz2008exposing` ("Exposing Corrupt Politicians", QJE 2008) and
+`ferraz2011electoral` ("Electoral Accountability and Corruption", AER 2011) are the empirical anchor: random release of
 municipal audit reports in Brazil reduced vote shares of corrupt
-incumbents in the next election. `ferraz2018audits` shows that the
+incumbents in the next election. `ferraz2018audits` ("Do Government Audits Reduce Corruption?", JPE 2018) shows that the
 audit programme itself disciplined future incumbents.
-`costasperez2012corruption` document analogous electoral penalties in
+`costasperez2012corruption` ("Corruption Scandals, Voter Information, and Accountability", EJPE 2012) document analogous electoral penalties in
 Spain.
 
 But the electoral channel is conditional and slow-moving.
-`chong2015does` document that disclosures in Mexican municipal
+`chong2015does` ("Does Corruption Information Inspire the Fight or Quash the Hope?", JoP 2015) document that disclosures in Mexican municipal
 elections demobilised voters --- they reduced support for the
-incumbent and the challenger and lowered turnout. `anduiza2013turning`
+incumbent and the challenger and lowered turnout. `anduiza2013turning` ("Turning a Blind Eye", CPS 2013)
 document partisan motivated reasoning that blunts the response to
 information about corruption inside the voter's own party.
-`pavao2018corruption` argues that in the least competitive party
+`pavao2018corruption` ("Corruption as the Only Option", JoP 2018) argues that in the least competitive party
 systems of Latin America, voters often have no clean defection option,
 which renders the electoral channel toothless.
 
@@ -124,7 +124,7 @@ days-to-months horizon, before any election can adjudicate, and that
 responds preferentially to disclosures involving the politically
 central agent rather than to disclosures of corruption per se. That
 the same scandals that demobilise voters at the municipal level (in
-`chong2015does`) mobilise streets at the national level when they
+`chong2015does` ("Does Corruption Information Inspire the Fight or Quash the Hope?", JoP 2015)) mobilise streets at the national level when they
 involve the apex is one of the project's most-counterintuitive
 contributions.
 
@@ -132,7 +132,7 @@ contributions.
 
 ## 4. Presidential approval, salience, and the incumbent contrast
 
-`carlin2015cushioning` examines Latin American presidential approval
+`carlin2015cushioning` ("Cushioning the Fall", Political Behavior 2015) examines Latin American presidential approval
 and finds that scandals against sitting Presidents reduce approval
 more sharply in periods of weak economic growth. Two pieces of that
 result map directly into our story. First, Carlin et al. identify the
@@ -152,16 +152,28 @@ contrast.
 
 ## 5. Democratic backsliding --- the cumulative diagnosis
 
-`levitsky2010competitive` describe the family of regimes in which
+`levitsky2010competitive` ("Competitive Authoritarianism", CUP 2010) describe the family of regimes in which
 formal democratic procedures coexist with informal authoritarian
 practices --- precisely the regime type that has emerged in several
-Latin American countries over the last decade. `mainwaring2018party`
+Latin American countries over the last decade. `mainwaring2018party` ("Party Systems in Latin America", CUP 2018)
 documents the cumulative decay of Latin American party systems and
 argues that repeated apex scandals are one of the principal mechanisms
-through which the cumulative decay occurs. Seira's policy work focuses
-on this question for the Mexican case: how do the cumulative effects
-of corruption and weak judicial independence translate into the
-erosion of democratic bargaining?
+through which the cumulative decay occurs. `foa2020global` ("Global Satisfaction with Democracy Report 2020", Cambridge CFD) provides
+the global comparative evidence on falling satisfaction with democracy
+that places the LAC trajectory in a broader cross-country context.
+`acemoglu2012nations` ("Why Nations Fail", Crown 2012) and `acemoglu2006origins` ("Economic Origins of Dictatorship and Democracy", CUP 2006) provide the
+institutional-theoretical foundation for understanding why apex
+corruption matters: institutions determine the long-run trajectory of
+economic and political development, and apex corruption is a direct
+attack on those institutions. `acemoglu2019DemoEcoGrowth` ("Democracy Does Cause Growth", JPE 2019) and
+`acemoglu2024demobreedsupport` ("(Successful) Democracies Breed Their Own Support", REStud 2024) document the long-run consequences of
+democratic vs. non-democratic transitions and the cumulative-feedback
+nature of democratic legitimacy. `martinezbravo2022elites` ("The Rise and Fall of Local Elections in China", AER 2022) provides a
+comparative reference on how local-elections dynamics interact with
+elite-level governance to shape political outcomes. Seira's policy
+work focuses on this question for the Mexican case: how do the
+cumulative effects of corruption and weak judicial independence
+translate into the erosion of democratic bargaining?
 
 For our paper, this literature pins down the substantive stakes of the
 empirical exercise. The behavioural mobilisation we document --- and
@@ -179,19 +191,26 @@ enough to matter substantively for the trajectory of regime type.
 The empirical strategy of the protests paper --- an event-study on
 event-window panels with country-by-year fixed effects, identified
 against pre-trend tests --- is in the lineage of the economics-of-
-conflict literature. `miguel2004economic` is the foundational paper
+conflict literature. `miguel2004economic` ("Economic Shocks and Civil Conflict", JPE 2004) is the foundational paper
 on the use of weather-induced economic shocks as an instrument for
-civil conflict in sub-Saharan Africa. `mcguirk2020economic` extends
-the framework to commodity price shocks. `koenig2017networks` provides
-the network-of-conflict reading of the Great War of Africa with
-fine-grained ACLED-based identification.
+civil conflict in sub-Saharan Africa. `mcguirk2020economic` ("The Economic Origins of Conflict in Africa", JPE 2020) extends
+the framework to commodity price shocks, `dube2013commodity` ("Commodity Price Shocks and Civil Conflict", REStud 2013) to the
+commodity-price-and-conflict link in Colombia, and `koenig2017networks` ("Networks in Conflict", Econometrica 2017)
+provides the network-of-conflict reading of the Great War of Africa
+with fine-grained ACLED-based identification. `berman2011hearts` ("Can Hearts and Minds Be Bought?", JPE 2011)
+examine the economics of counterinsurgency in Iraq, showing that
+income-generating programs reduce insurgent violence at the local
+level. `besley2011logic` ("The Logic of Political Violence", QJE 2011) provide a unified theoretical framework for
+when violence emerges as repression vs. civil war, with implications
+for our finding on the joint dynamics of violent protest and violent
+state response.
 
 These references matter for two reasons. First, they ground our
 event-study approach methodologically: the country-by-year fixed
 effects and the pre-trend graphs are the standard for the literature.
 Second, they pin down a substantive contrast. The conflict-economics
 literature has emphasised *economic* shocks (income, commodity prices,
-opportunity cost of fighting) as the principal driver of political
+aid, opportunity cost of fighting) as the principal driver of political
 violence. The protests paper introduces a *political* shock --- the
 disclosure of apex corruption --- and documents that the response on
 the protest margin is of comparable magnitude to the responses that
@@ -200,7 +219,7 @@ income shocks. The substantive implication is that political shocks
 operate as drivers of political violence at the same order of
 magnitude as the economic shocks the literature has emphasised.
 
-`davenport2007state` is the standard reference on state response to
+`davenport2007state` ("State Repression and the Tyrannical Peace", JPR 2007) is the standard reference on state response to
 mobilisation. The empirical record is mixed: democracies are more
 reluctant than authoritarian regimes to deploy force against
 protesters, but the *intensity* of repression is poorly predicted by
@@ -212,16 +231,64 @@ protest-and-repression dynamic in the LAC setting.
 
 ---
 
-## 7. Protest and conflict data
+## 7. Protests as a behavioural channel of political accountability
 
-`clark2016mass` provides the country-day protest counts that anchor
+Where the audit-report literature has treated voting at the next
+election as the principal margin of accountability, a growing body of
+empirical work documents that *protests themselves* produce durable
+political effects. `madestam2013protests` ("Do Political Protests Matter? Evidence from the Tea Party Movement", QJE 2013) use rainfall on the day of
+the Tea Party's coordinating rallies as an exogenous source of
+variation in attendance and find that the protests increased
+subsequent local strength of the movement, raised public support for
+Tea Party positions, and translated into more Republican votes in the
+2010 midterm elections. `bursztyn2021persistent` ("Persistent Political Engagement", AERI 2021) document the dynamic
+side of the same channel: in a randomised study of Hong Kong
+university students, exposure to one anti-authoritarian protest
+raises subsequent participation, with the effect mediated by social
+network density. The substantive lesson for our paper is that the
+violent-protest mobilisation we document is not a one-off response to
+a scandal that fades with the news cycle; it can plausibly seed
+durable political engagement of the kind that
+`acemoglu2024demobreedsupport` ("(Successful) Democracies Breed Their Own Support", REStud 2024) and `acemoglu2019DemoEcoGrowth` ("Democracy Does Cause Growth", JPE 2019) argue
+matters for the long-run trajectory of regime type. `DuranteFutbol` ("Building Nations through Shared Experiences: African Football", AER 2020)
+provides a related example from a non-political domain --- shared
+football experiences building national identity in Africa --- that
+illustrates how high-salience collective events shape political
+attitudes on the multi-month horizon.
+
+---
+
+## 8. Media exposure and political behaviour
+
+Our identification rests partly on assuming that the timing of a
+scandal's *public disclosure* is independent of the country's protest
+baseline, conditional on fixed effects. The media-effects literature
+provides important context for this assumption. `dellavigna2007fox` ("The Fox News Effect", QJE 2007)
+document that media exposure shifts political behaviour independently
+of the underlying news content. `enikolopov2018SocialMedia` ("Social Media and Corruption", AEJ:Applied 2018) and
+`tufekci2024twitter` ("Twitter and Tear Gas", Yale UP 2017) document the structural role of social media in
+reducing the cost of diffusing political information. These references
+matter for our limitations section: in the observational sample, we
+cannot fully separate the political stakes of an apex scandal from the
+press salience that disclosure brings. The companion paper's
+randomised field experiment (`ApexCorruption` ("Apex Corruption Erodes Democratic Values", Working Paper 2024)) addresses this concern
+by experimentally varying the rank of the implicated official while
+holding coverage constant.
+
+---
+
+---
+
+## 9. Protest and conflict data
+
+`clark2016mass` ("Mass Mobilization Protest Data", Harvard Dataverse 2016) provides the country-day protest counts that anchor
 the headline analysis. MM coverage of LAC is broad (all 23 countries
 in the analysis sample) and distinguishes violent from peaceful
 protests and tracks government violent response. As of 2024, updates
 to MM may have slowed; we cap the headline analysis at 2020-03 to use
 only the period of confirmed uniform coverage.
 
-`raleigh2023acled` provides an independent cross-validation source
+`raleigh2023acled` ("Political instability patterns are obscured by conflict dataset scope conditions", HSSC 2023) provides an independent cross-validation source
 from 2018 onward. The project memo `memo-task3-acled-validation.md`
 reports the agreement statistics and the partial Table 1 replication
 with ACLED on the LHS; the headline signs survive, providing some
@@ -229,14 +296,14 @@ reassurance that the result is not artefactual to the MM sourcing.
 
 ---
 
-## 8. Modern difference-in-differences methodology
+## 10. Modern difference-in-differences methodology
 
 The headline OLS estimates of `main.tex` are paired in robustness
 exercises with modern DiD estimators that allow for treatment
 heterogeneity and staggered adoption: `sun2021estimating` (SA),
 `borusyak2024revisiting` (BJS), and `decade2024dcdh` (dCDH). The
 stacked-by-scandal design we use for the modern-DiD robustness checks
-in the project follows the `cengiz2019effect` template, building a
+in the project follows the `cengiz2019effect` ("The Effect of Minimum Wages on Low-Wage Jobs", QJE 2019) template, building a
 clean ±30-day panel of the implicated country plus never-treated
 controls per scandal and pooling. These exercises live in
 `code/analysis/a_did_modern_countrypanel.do` and
@@ -245,7 +312,7 @@ robustness substitution.
 
 ---
 
-## 9. What this paper does not address
+## 11. What this paper does not address
 
 Three open questions remain for follow-on work.
 

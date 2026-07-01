@@ -168,7 +168,7 @@ Per-scandal regressions: 176 scandals x 4 outcomes
 .         tempfile metadata
 
 .         save `metadata'
-file C:\Users\rob98\AppData\Local\Temp\ST_61c8_000002.tmp saved as .dta
+file C:\Users\rob98\AppData\Local\Temp\ST_a230_000002.tmp saved as .dta
     format
 
 . restore
@@ -247,7 +247,7 @@ Number of observations (_N) was 0, now 176.
 .         tempfile cls
 
 .         save `cls'
-file C:\Users\rob98\AppData\Local\Temp\ST_61c8_000004.tmp saved as .dta
+file C:\Users\rob98\AppData\Local\Temp\ST_a230_000004.tmp saved as .dta
     format
 
 . restore
@@ -382,16 +382,20 @@ Other Non-Apex |        100       56.82       97.73
 .         /* ---- (a) box plot ---- */
 .         /* Build per-category median note for this outcome.
 >            Each category becomes its own quoted string so graph box renders
->            one median per row in the figure note. */
+>            one median per row in the figure note; the count of scandals
+>            contributing to each category appears in parentheses. */
 .         quietly levelsof apex_cat, local(__cats)
  10.         local med_note `""'
  11.         foreach c of local __cats {
  12.                 quietly summarize b_`outcome' if apex_cat == `c', detail
  13.                 local __mstr = string(r(p50), "%5.3f")
- 14.                 local __lbl : label APEX `c'
- 15.                 local med_note `"`med_note' "Median `__lbl': `__mstr'""'
- 16.         }
- 17. 
+ 14.                 quietly count if !missing(b_`outcome') & apex_cat == `c'
+ 15.                 local __nstr = r(N)
+ 16.                 local __lbl : label APEX `c'
+ 17.                 local med_note `"`med_note' "Median `__lbl' = `__mstr'    
+>  (Scandals = `__nstr')""'
+ 18.         }
+ 19. 
 .         graph box b_`outcome', over(apex_cat, label(labsize(large))) ///
 >                 nooutsides ///
 >                 ytitle("Per-scandal effect on `ytitle'", size(medlarge)) ///
@@ -403,36 +407,36 @@ Other Non-Apex |        100       56.82       97.73
 >                 box(2, lcolor(black) lwidth(thick)) ///
 >                 box(3, lcolor(black) lwidth(thick)) ///
 >                 scheme(s2color) graphregion(color(white))
- 18.         graph export ///
+ 20.         graph export ///
 >                 "${figout}/per_scandal_box_`outcome'_w`window_length'_apex.pd
 > f", replace
- 19. 
+ 21. 
 .         /* ---- (b) jittered scatter with category mean + 95% CI ---- */
 .         preserve
- 20.                 keep if !missing(b_`outcome') & !missing(apex_cat)
- 21.                 generate double prec = 1 / se_`outcome'^2
- 22.                 quietly summarize prec
- 23.                 replace prec = prec / r(max)
- 24. 
+ 22.                 keep if !missing(b_`outcome') & !missing(apex_cat)
+ 23.                 generate double prec = 1 / se_`outcome'^2
+ 24.                 quietly summarize prec
+ 25.                 replace prec = prec / r(max)
+ 26. 
 .                 quietly levelsof apex_cat, local(cats)
- 25.                 gen double cmean = .
- 26.                 gen double clo   = .
- 27.                 gen double chi   = .
- 28.                 foreach c of local cats {
- 29.                         quietly count if apex_cat == `c'
- 30.                         if r(N) >= 2 {
- 31.                                 quietly mean b_`outcome' if apex_cat == `c
+ 27.                 gen double cmean = .
+ 28.                 gen double clo   = .
+ 29.                 gen double chi   = .
+ 30.                 foreach c of local cats {
+ 31.                         quietly count if apex_cat == `c'
+ 32.                         if r(N) >= 2 {
+ 33.                                 quietly mean b_`outcome' if apex_cat == `c
 > '
- 32.                                 matrix mb = r(table)
- 33.                                 quietly replace cmean = mb[1,1] if apex_ca
+ 34.                                 matrix mb = r(table)
+ 35.                                 quietly replace cmean = mb[1,1] if apex_ca
 > t == `c'
- 34.                                 quietly replace clo   = mb[5,1] if apex_ca
+ 36.                                 quietly replace clo   = mb[5,1] if apex_ca
 > t == `c'
- 35.                                 quietly replace chi   = mb[6,1] if apex_ca
+ 37.                                 quietly replace chi   = mb[6,1] if apex_ca
 > t == `c'
- 36.                         }
- 37.                 }
- 38. 
+ 38.                         }
+ 39.                 }
+ 40. 
 .                 twoway ///
 >                         (scatter b_`outcome' apex_cat [aw=prec], ///
 >                                 jitter(8) mcolor(navy%35) msymbol(O)) ///
@@ -455,11 +459,11 @@ Other Non-Apex |        100       56.82       97.73
 > onal to 1/SE^2." ///
 >                                 "Narrow +-`window_length'-day window.") ///
 >                         scheme(s2color) graphregion(color(white))
- 39.                 graph export ///
+ 41.                 graph export ///
 >                         "${figout}/per_scandal_jitter_`outcome'_w`window_leng
 > th'_apex.pdf", replace
- 40.         restore
- 41. }
+ 42.         restore
+ 43. }
 === Per-scandal num_protests_MM: by apex_cat ===
 
 Summary for variables: b_num_protests_MM

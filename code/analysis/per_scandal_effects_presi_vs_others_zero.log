@@ -1,0 +1,490 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      StataNow 19.5
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2025 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-782-8272        https://www.stata.com
+                                   979-696-4600        service@stata.com
+
+Stata license: Unlimited-user 16-core network, expiring  2 Jul 2026
+Serial number: 501909320077
+  Licensed to: Roberto Gonzalez Tellez
+               Stanford University GSB
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do per_scandal_effects_presi_vs_others_zero.do 
+
+. /* --------------------------------------------------------------------------
+> --
+>                         Violent effects of apex corruption
+>         Per-scandal box / jitter plots: President vs Others,
+>         ZERO-IMPUTED variant.
+> 
+>     Code author: Roberto Gonzalez
+>     Date: 2026-06-28
+> 
+>     Difference from per_scandal_effects_presi_vs_others.do:
+>         Scandals whose outcome has zero within-window variation are
+>         entered into the box plot at b_s = 0 rather than being silently
+>         dropped by the regression's SE filter.
+> 
+>     Outputs (under ${work}/results/figures/):
+>         per_scandal_box_<outcome>_w30_presi_zero.pdf
+>         per_scandal_jitter_<outcome>_w30_presi_zero.pdf
+> ---------------------------------------------------------------------------- 
+> */
+. 
+. if "`c(username)'" == "lalov" {
+.         gl identity "C:/Users/lalov/ITAM Seira Research Dropbox/Eduardo River
+> a"
+. }
+
+. if "`c(username)'" == "Rob_9" {
+.         global identity "C:/Users/Rob_9/Dropbox"
+. }
+
+. if "`c(username)'" == "rob98" {
+.         global identity "~/Dropbox"
+. }
+
+. 
+. global work   "${identity}/Corrupcion/Protest_Work"
+
+. global path   "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
+
+. global datfin "${path}/Data/final"
+
+. global resout "${work}/results"
+
+. global figout "${work}/results/figures"
+
+. 
+. local window_length = 30
+
+. local outcome_list = "num_protests_MM num_violent_MM num_peaceful_MM governme
+> nt_response_violent"
+
+. local outcome_number : word count `outcome_list'
+
+. local ci_level = 95
+
+. local zcrit = invnormal(1 - (100-`ci_level')/200)
+
+. 
+. use "${datfin}/protests_scandals_30days_v3_with_lv_of_agent_involved.dta", cl
+> ear
+
+. drop if country == "Venezuela"
+(3,374 observations deleted)
+
+. keep if abs(window) <= `window_length'
+(31,921 observations deleted)
+
+. 
+. egen scandal_enc = group(id)
+
+. egen scandal_tag = tag(id)
+
+. 
+. gen double _sd = date if window == 0
+(10,562 missing values generated)
+
+. bysort scandal_enc (_sd): replace _sd = _sd[1]
+(10440 real changes made)
+
+. format _sd %td
+
+. 
+. bysort scandal_enc: egen _pm = mean(post)
+
+. drop if _pm == 0 | _pm == 1
+(0 observations deleted)
+
+. drop _pm
+
+. 
+. quietly levelsof scandal_enc, local(slevels)
+
+. local n_scandals : word count `slevels'
+
+. display in yellow "Per-scandal regressions: `n_scandals' scandals (ZERO-IMPUT
+> ED)"
+Per-scandal regressions: 176 scandals (ZERO-IMPUTED)
+
+. 
+. preserve
+
+.         keep if scandal_tag == 1
+(10,560 observations deleted)
+
+.         keep scandal_enc id country official_involved _sd
+
+.         rename _sd scandal_date
+
+.         tempfile metadata
+
+.         save `metadata'
+file C:\Users\rob98\AppData\Local\Temp\ST_6ec0_000002.tmp saved as .dta
+    format
+
+. restore
+
+. 
+. matrix define scandal_info = J(`n_scandals', 3*`outcome_number', .)
+
+. matrix define zero_flag    = J(`n_scandals',   `outcome_number', 0)
+
+. 
+. forvalues s = 1/`n_scandals' {
+  2.         local oc = 0
+  3.         foreach outcome of local outcome_list {
+  4.                 local ++oc
+  5.                 quietly summarize `outcome' if scandal_enc == `s'
+  6.                 local n_obs  = r(N)
+  7.                 local sd_out = cond(r(N) > 1, r(sd), .)
+  8.                 if `n_obs' > 30 {
+  9.                         if `sd_out' == 0 & !missing(`sd_out') {
+ 10.                                 matrix scandal_info[`s', 3*`oc'-2] = 0
+ 11.                                 matrix scandal_info[`s', 3*`oc'-1] = .
+ 12.                                 matrix scandal_info[`s', 3*`oc']   = `n_ob
+> s'
+ 13.                                 matrix zero_flag[`s', `oc']        = 1
+ 14.                         }
+ 15.                         else {
+ 16.                                 capture reghdfe `outcome' post if scandal_
+> enc == `s', ///
+>                                         absorb(month day) vce(robust)
+ 17.                                 if _rc == 0 & !missing(_b[post]) & _se[pos
+> t] < . & _se[post] > 0 {
+ 18.                                         matrix scandal_info[`s', 3*`oc'-2]
+>  = _b[post]
+ 19.                                         matrix scandal_info[`s', 3*`oc'-1]
+>  = _se[post]
+ 20.                                         matrix scandal_info[`s', 3*`oc']  
+>  = `n_obs'
+ 21.                                 }
+ 22.                         }
+ 23.                 }
+ 24.         }
+ 25. }
+
+. 
+. clear
+
+. svmat scandal_info
+number of observations will be reset to 176
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 176.
+
+. svmat zero_flag, names(zflag)
+
+. generate scandal_enc = _n
+
+. merge 1:1 scandal_enc using `metadata', nogenerate
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               176  
+    -----------------------------------------
+
+. 
+. local oc = 0
+
+. foreach outcome of local outcome_list {
+  2.         local ++oc
+  3.         rename scandal_info`=3*`oc'-2' b_`outcome'
+  4.         rename scandal_info`=3*`oc'-1' se_`outcome'
+  5.         rename scandal_info`=3*`oc''   n_`outcome'
+  6.         rename zflag`oc' zero_`outcome'
+  7. }
+
+. 
+. preserve
+
+.         import delimited using "${datfin}/scandals_classified.csv", ///
+>                 clear varnames(1) bindquotes(strict)
+(encoding automatically selected: UTF-8)
+(7 vars, 190 obs)
+
+.         keep id country position
+
+.         tempfile cls
+
+.         save `cls'
+file C:\Users\rob98\AppData\Local\Temp\ST_6ec0_000004.tmp saved as .dta
+    format
+
+. restore
+
+. merge 1:1 id country using `cls', keep(1 3) nogenerate
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               176  
+    -----------------------------------------
+
+. 
+. gen byte presi = .
+(176 missing values generated)
+
+. replace presi = 1 if position == "president"
+(45 real changes made)
+
+. replace presi = 2 if !missing(position) & position != "president"
+(131 real changes made)
+
+. label define PRESI 1 "President" 2 "Others", replace
+
+. label values presi PRESI
+
+. 
+. order scandal_enc id country official_involved position presi scandal_date //
+> /
+>         b_* se_* n_* zero_*
+
+. compress
+  variable scandal_enc was float now int
+  variable official_involved was float now byte
+  variable n_num_protests_MM was float now byte
+  variable n_num_violent_MM was float now byte
+  variable n_num_peaceful_MM was float now byte
+  variable n_government_response_violent was float now byte
+  variable zero_num_protests_MM was float now byte
+  variable zero_num_violent_MM was float now byte
+  variable zero_num_peaceful_MM was float now byte
+  variable zero_government_response_violent was float now byte
+  variable scandal_date was double now int
+  variable country was str44 now str18
+  (10,736 bytes saved)
+
+. save "${resout}/per_scandal_effects_w`window_length'_presi_zero.dta", replace
+(file
+    C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/per_scandal_effect
+    > s_w30_presi_zero.dta not found)
+file
+    ~/Dropbox/Corrupcion/Protest_Work/results/per_scandal_effects_w30_presi_z
+    > ero.dta saved
+
+. 
+. display _newline "=== Zero-imputed counts per outcome ==="
+
+=== Zero-imputed counts per outcome ===
+
+. foreach outcome of local outcome_list {
+  2.         quietly count if zero_`outcome' == 1
+  3.         display "    `outcome': " r(N) " zero-imputed"
+  4. }
+    num_protests_MM: 99 zero-imputed
+    num_violent_MM: 145 zero-imputed
+    num_peaceful_MM: 110 zero-imputed
+    government_response_violent: 168 zero-imputed
+
+. 
+. foreach outcome of local outcome_list {
+  2. 
+.         if "`outcome'" == "num_protests_MM"             local ytitle "protest
+> s (any)"
+  3.         if "`outcome'" == "num_violent_MM"              local ytitle "viol
+> ent protests"
+  4.         if "`outcome'" == "num_peaceful_MM"             local ytitle "peac
+> eful protests"
+  5.         if "`outcome'" == "government_response_violent" local ytitle "gvt.
+>  violent response"
+  6. 
+.         display in yellow "=== Per-scandal `outcome': President vs Others (ze
+> ro-imputed) ==="
+  7.         tabstat b_`outcome', by(presi) ///
+>                 statistics(n mean p50 sd min max) columns(statistics)
+  8. 
+.         quietly levelsof presi, local(__cats)
+  9.         local med_note `""'
+ 10.         foreach c of local __cats {
+ 11.                 quietly summarize b_`outcome' if presi == `c', detail
+ 12.                 local __mstr = string(r(p50), "%5.3f")
+ 13.                 quietly count if !missing(b_`outcome') & presi == `c'
+ 14.                 local __nstr = r(N)
+ 15.                 local __lbl : label PRESI `c'
+ 16.                 local med_note `"`med_note' "Median `__lbl' = `__mstr'    
+>  (Scandals = `__nstr')""'
+ 17.         }
+ 18. 
+.         graph box b_`outcome', over(presi, label(labsize(large))) ///
+>                 nooutsides ///
+>                 ytitle("Per-scandal effect on `ytitle'", size(medlarge)) ///
+>                 ylabel(, format(%4.2f) angle(0) labsize(large)) ///
+>                 yline(0, lpattern(dash) lcolor(gs8)) ///
+>                 note(`med_note', size(medlarge)) ///
+>                 medtype(line) ///
+>                 box(1, lcolor(black) lwidth(thick)) ///
+>                 box(2, lcolor(black) lwidth(thick)) ///
+>                 scheme(s2color) graphregion(color(white))
+ 19.         graph export ///
+>                 "${figout}/per_scandal_box_`outcome'_w`window_length'_presi_z
+> ero.pdf", replace
+ 20. 
+.         preserve
+ 21.                 keep if !missing(b_`outcome') & !missing(presi) & !missing
+> (se_`outcome')
+ 22.                 generate double prec = 1 / se_`outcome'^2
+ 23.                 quietly summarize prec
+ 24.                 replace prec = prec / r(max)
+ 25. 
+.                 quietly levelsof presi, local(cats)
+ 26.                 gen double cmean = .
+ 27.                 gen double clo   = .
+ 28.                 gen double chi   = .
+ 29.                 foreach c of local cats {
+ 30.                         quietly count if presi == `c'
+ 31.                         if r(N) >= 2 {
+ 32.                                 quietly mean b_`outcome' if presi == `c'
+ 33.                                 matrix mb = r(table)
+ 34.                                 quietly replace cmean = mb[1,1] if presi =
+> = `c'
+ 35.                                 quietly replace clo   = mb[5,1] if presi =
+> = `c'
+ 36.                                 quietly replace chi   = mb[6,1] if presi =
+> = `c'
+ 37.                         }
+ 38.                 }
+ 39. 
+.                 twoway ///
+>                         (scatter b_`outcome' presi [aw=prec], ///
+>                                 jitter(8) mcolor(navy%35) msymbol(O)) ///
+>                         (rcap clo chi presi, lcolor(black) lwidth(medthick)) 
+> ///
+>                         (scatter cmean presi, mcolor(black) msymbol(D) msize(
+> medlarge)), ///
+>                         yline(0, lpattern(dash) lcolor(gs8)) ///
+>                         ytitle("Per-scandal effect on `ytitle'") ///
+>                         xtitle("Type of official involved") ///
+>                         xlabel(1 "President" 2 "Others", noticks) ///
+>                         xscale(range(0.5 2.5)) ///
+>                         ylabel(, format(%4.2f) angle(0)) ///
+>                         legend(order(3 "Category mean" 2 "95% CI" 1 "Per-scan
+> dal b") ///
+>                                 pos(1) ring(0) region(lcolor(gs10)) size(smal
+> l) cols(1)) ///
+>                         note("Each point is one scandal; marker size proporti
+> onal to 1/SE^2." ///
+>                                 "Narrow +-`window_length'-day window; zero-va
+> riation scandals excluded from jitter.") ///
+>                         scheme(s2color) graphregion(color(white))
+ 40.                 graph export ///
+>                         "${figout}/per_scandal_jitter_`outcome'_w`window_leng
+> th'_presi_zero.pdf", replace
+ 41.         restore
+ 42. }
+=== Per-scandal num_protests_MM: President vs Others (zero-imputed) ===
+
+Summary for variables: b_num_protests_MM
+Group variable: presi 
+
+    presi |         N      Mean       p50        SD       Min       Max
+----------+------------------------------------------------------------
+President |        45  .0387985         0  .1104767 -.0571414  .4634052
+   Others |       129 -.0026179         0  .1911123 -.5945849  1.017755
+----------+------------------------------------------------------------
+    Total |       174  .0080932         0  .1745235 -.5945849  1.017755
+-----------------------------------------------------------------------
+file
+    C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/figures/per_scanda
+    > l_box_num_protests_MM_w30_presi_zero.pdf saved as PDF format
+(101 observations deleted)
+(75 real changes made)
+(75 missing values generated)
+(75 missing values generated)
+(75 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/figures/per_scanda
+    > l_jitter_num_protests_MM_w30_presi_zero.pdf saved as PDF format
+=== Per-scandal num_violent_MM: President vs Others (zero-imputed) ===
+
+Summary for variables: b_num_violent_MM
+Group variable: presi 
+
+    presi |         N      Mean       p50        SD       Min       Max
+----------+------------------------------------------------------------
+President |        45  .0261987         0  .1021657 -.0451923  .5285069
+   Others |       131 -.0027698         0  .1193762 -.6025954   .564778
+----------+------------------------------------------------------------
+    Total |       176  .0046369         0  .1156339 -.6025954   .564778
+-----------------------------------------------------------------------
+file
+    C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/figures/per_scanda
+    > l_box_num_violent_MM_w30_presi_zero.pdf saved as PDF format
+(145 observations deleted)
+(31 real changes made)
+(31 missing values generated)
+(31 missing values generated)
+(31 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/figures/per_scanda
+    > l_jitter_num_violent_MM_w30_presi_zero.pdf saved as PDF format
+=== Per-scandal num_peaceful_MM: President vs Others (zero-imputed) ===
+
+Summary for variables: b_num_peaceful_MM
+Group variable: presi 
+
+    presi |         N      Mean       p50        SD       Min       Max
+----------+------------------------------------------------------------
+President |        45  .0125998         0  .0812619 -.1291681  .4740385
+   Others |       128  .0001964         0  .1626132  -.525011  1.010711
+----------+------------------------------------------------------------
+    Total |       173  .0034227         0  .1457528  -.525011  1.010711
+-----------------------------------------------------------------------
+file
+    C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/figures/per_scanda
+    > l_box_num_peaceful_MM_w30_presi_zero.pdf saved as PDF format
+(113 observations deleted)
+(63 real changes made)
+(63 missing values generated)
+(63 missing values generated)
+(63 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/figures/per_scanda
+    > l_jitter_num_peaceful_MM_w30_presi_zero.pdf saved as PDF format
+=== Per-scandal government_response_violent: President vs Others (zero-imputed)
+>  ===
+
+Summary for variables: b_government_response_violent
+Group variable: presi 
+
+    presi |         N      Mean       p50        SD       Min       Max
+----------+------------------------------------------------------------
+President |        45  .0010612         0  .0071186         0  .0477528
+   Others |       131  .0011326         0  .0767417 -.3784527  .5070117
+----------+------------------------------------------------------------
+    Total |       176  .0011143         0  .0662393 -.3784527  .5070117
+-----------------------------------------------------------------------
+file
+    C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/figures/per_scanda
+    > l_box_government_response_violent_w30_presi_zero.pdf saved as PDF
+    format
+(168 observations deleted)
+(8 real changes made)
+(8 missing values generated)
+(8 missing values generated)
+(8 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/figures/per_scanda
+    > l_jitter_government_response_violent_w30_presi_zero.pdf saved as PDF
+    format
+
+. 
+. display in green "per_scandal_effects_presi_vs_others_zero.do finished OK"
+per_scandal_effects_presi_vs_others_zero.do finished OK
+
+. 
+end of do-file

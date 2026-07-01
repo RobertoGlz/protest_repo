@@ -51,7 +51,14 @@ use `temp`num'', clear
 	if `num'==1 { //process first panel -- clip bottom
 	drop if strpos(v1,"Note:")>0 | strpos(v1,"in parentheses")>0 | strpos(v1,"p<0")>0
 	drop if v1=="\end{tabular}" | v1=="}"
-	replace v1 = "\midrule \multicolumn{`columncount'}{l}{\textbf{\textit{Panel `panellabel': `panel1title'}}} \\" if v1=="\midrule" & _n<8
+	/* Replace ONLY the first occurrence of \midrule with the Panel A
+	   header. Using cumulative-sum-of-flag is robust to the row
+	   position changing because of mgroups, multi-row column
+	   headers, etc. */
+	gen byte _is_mid = (v1 == "\midrule")
+	gen long _midnum = sum(_is_mid)
+	replace v1 = "\midrule \multicolumn{`columncount'}{l}{\textbf{\textit{Panel `panellabel': `panel1title'}}} \\" if _is_mid == 1 & _midnum == 1
+	drop _is_mid _midnum
 	replace v1 = "\midrule" if v1=="\bottomrule" & _n>4 //this is intended to replace the bottom double line; more robust condition probably exists
 	}
 	else if `num'==`max' { //process final panel -- clip top

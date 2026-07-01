@@ -1,0 +1,134 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      StataNow 19.5
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2025 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-782-8272        https://www.stata.com
+                                   979-696-4600        service@stata.com
+
+Stata license: Unlimited-user 16-core network, expiring  2 Jul 2026
+Serial number: 501909320077
+  Licensed to: Roberto Gonzalez Tellez
+               Stanford University GSB
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do _inspect_event_study_120d.do 
+
+. /* Diagnostic: extract the unrounded event-study point estimates and
+>    standard errors for the +-120-day window, both violent and peaceful
+>    protests. Bin indicators are 30 days wide: s_lead120, s_lead90,
+>    s_lead60, s_lead30 (pre) and s_lag30, s_lag60, s_lag90, s_lag120
+>    (post). One bin is omitted by reghdfe as the reference. */
+. 
+. if "`c(username)'" == "rob98" {
+.         global identity "~/Dropbox"
+. }
+
+. global path   "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
+
+. global datfin "${path}/Data/final"
+
+. 
+. use "${datfin}/protests_scandals_30days_v3", clear
+
+. drop if country == "Venezuela"
+(3,374 observations deleted)
+
+. egen grupo_dias = group(s_lag30 s_lag60 s_lag90 s_lag120 ///
+>                         s_lead30 s_lead60 s_lead90 s_lead120)
+
+. 
+. global fe1      "i.country_id#i.year"
+
+. global CLUSTER2 "cluster i.country_id#i.year#i.grupo_dias"
+
+. 
+. /* leads (pre): s_lead120 ... s_lead30; lags (post): s_lag30 ... s_lag120 */
+. global leads "s_lead120 s_lead90 s_lead60 s_lead30"
+
+. global lags  "s_lag30 s_lag60 s_lag90 s_lag120"
+
+. 
+. local firstyear = 2008
+
+. 
+. foreach outcome in num_violent_MM num_peaceful_MM {
+  2.         quietly reghdfe `outcome' ${leads} ${lags} i.month i.day ///
+>                 if year >= `firstyear', absorb($fe1) vce($CLUSTER2)
+  3. 
+.         display _newline _newline "==========================================
+> ======================"
+  4.         display "  Event-study coefficients, outcome = `outcome', +-120-da
+> y window"
+  5.         display "=========================================================
+> ======="
+  6.         display "  Bin label             coef             SE              
+> t           p-value(2-sided)"
+  7.         display "  ------------------    -----------      -----------     
+> --------    -----------"
+  8. 
+.         foreach v of varlist ${leads} ${lags} {
+  9.                 capture local b  = _b[`v']
+ 10.                 capture local se = _se[`v']
+ 11.                 if _rc == 0 & "`b'" != "" {
+ 12.                         local t  = `b' / `se'
+ 13.                         local p  = 2 * ttail(e(df_r), abs(`t'))
+ 14.                         display "  " %-20s "`v'" "    " %10.6f `b' "      
+> " %10.6f `se' "     " %8.4f `t' "    " %10.6f `p'
+ 15.                 }
+ 16.                 else {
+ 17.                         display "  " %-20s "`v'" "    (omitted as referenc
+> e)"
+ 18.                 }
+ 19.         }
+ 20.         display "  df_r = " e(df_r)
+ 21. }
+
+
+================================================================
+  Event-study coefficients, outcome = num_violent_MM, +-120-day window
+================================================================
+  Bin label             coef             SE              t           p-value(2-
+> sided)
+  ------------------    -----------      -----------     --------    ----------
+> -
+  s_lead120                -0.001579        0.011316      -0.1395      0.889061
+  s_lead90                  0.008580        0.008858       0.9687      0.333057
+  s_lead60                  0.000533        0.010241       0.0520      0.958518
+  s_lead30                  0.000000        0.000000            .             .
+  s_lag30                   0.013681        0.008540       1.6020      0.109637
+  s_lag60                   0.017021        0.010969       1.5517      0.121214
+  s_lag90                   0.017585        0.011065       1.5893      0.112475
+  s_lag120                  0.020667        0.011271       1.8336      0.067161
+  df_r = 669
+
+
+================================================================
+  Event-study coefficients, outcome = num_peaceful_MM, +-120-day window
+================================================================
+  Bin label             coef             SE              t           p-value(2-
+> sided)
+  ------------------    -----------      -----------     --------    ----------
+> -
+  s_lead120                 0.013774        0.013591       1.0135      0.311205
+  s_lead90                  0.011965        0.011188       1.0695      0.285243
+  s_lead60                  0.009736        0.016129       0.6036      0.546282
+  s_lead30                  0.000000        0.000000            .             .
+  s_lag30                   0.003626        0.011155       0.3251      0.745199
+  s_lag60                   0.001390        0.010763       0.1292      0.897263
+  s_lag90                   0.002507        0.011554       0.2170      0.828289
+  s_lag120                 -0.007441        0.011368      -0.6546      0.512952
+  df_r = 669
+
+. 
+end of do-file

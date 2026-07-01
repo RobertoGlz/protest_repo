@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.12.10)  24 JUN 2026 18:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.12.10)  29 JUN 2026 14:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1124,8 +1124,6 @@ LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
 (Font)              scaled to size 10.0pt on input line 53.
 LaTeX Font Info:    Font shape `T1/zpltlf/m/it' will be
 (Font)              scaled to size 10.0pt on input line 54.
-LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
-(Font)              scaled to size 10.95pt on input line 57.
  (C:\Users\rob98\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\se-pdfdoc.def
 File: se-pdfdoc.def 2019/11/29 v1.12 stringenc: PDFDocEncoding
 ) [1
@@ -1133,66 +1131,807 @@ File: se-pdfdoc.def 2019/11/29 v1.12 stringenc: PDFDocEncoding
 \openout4 = `main.upa'.
 
 {C:/Users/rob98/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/newtx/ntx-ec-tlf.enc}{C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/newpx/zpl_TOsF.enc}]
-LaTeX Font Info:    Font shape `T1/zpltlf/m/n' will be
-(Font)              scaled to size 14.4pt on input line 66.
 LaTeX Font Info:    Font shape `T1/zpltlf/m/it' will be
-(Font)              scaled to size 10.95pt on input line 70.
+(Font)              scaled to size 10.95pt on input line 63.
  [2
 
 ]
+LaTeX Font Info:    Font shape `T1/zpltlf/m/n' will be
+(Font)              scaled to size 14.4pt on input line 72.
 LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
-(Font)              scaled to size 12.0pt on input line 79.
-LaTeX Font Info:    Trying to load font information for U+bbm on input line 88.
+(Font)              scaled to size 12.0pt on input line 73.
+LaTeX Font Info:    Font shape `T1/npxtt/m/n' will be
+(Font)              scaled to size 10.95pt on input line 79.
+LaTeX Font Info:    Trying to load font information for U+bbm on input line 82.
  (C:\Users\rob98\AppData\Local\Programs\MiKTeX\tex/latex/bbm\ubbm.fd
 File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
-) [3] (../../Protest_Work/results/tables/es_30d_90ci.tex)
-LaTeX Font Info:    Font shape `T1/zpltlf/m/it' will be
-(Font)              scaled to size 9.0pt on input line 111.
- [4] (../../Protest_Work/results/tables/es_120d_90ci.tex) [5]
-<../../Protest_Work/results/figures/es_num_violent_MM_30d_90ci.png, id=133, 903.375pt x 602.25pt>
-File: ../../Protest_Work/results/figures/es_num_violent_MM_30d_90ci.png Graphic file (type png)
-<use ../../Protest_Work/results/figures/es_num_violent_MM_30d_90ci.png>
-Package pdftex.def Info: ../../Protest_Work/results/figures/es_num_violent_MM_30d_90ci.png  used on input line 133.
-(pdftex.def)             Requested size: 242.73503pt x 161.81937pt.
-<../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png, id=134, 903.375pt x 602.25pt>
+) [3]
+LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
+(Font)              scaled to size 10.95pt on input line 96.
+ (../../Protest_Work/results/tables/violent_peaceful_ols_poi_panels.tex
+LaTeX Font Info:    Font shape `T1/zpltlf/b/it' will be
+(Font)              scaled to size 10.95pt on input line 8.
+)
+<../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png, id=164, 903.375pt x 602.25pt>
 File: ../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png Graphic file (type png)
 <use ../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png>
-Package pdftex.def Info: ../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png  used on input line 138.
+Package pdftex.def Info: ../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png  used on input line 112.
 (pdftex.def)             Requested size: 242.73503pt x 161.81937pt.
- [6 <../../Protest_Work/results/figures/es_num_violent_MM_30d_90ci.png (PNG copy)> <../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png (PNG copy)>]
-<../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_presi.pdf, id=144, 397.485pt x 289.08pt>
-File: ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_presi.pdf Graphic file (type pdf)
-<use ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_presi.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_presi.pdf  used on input line 154.
-(pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
-<../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_presi.pdf, id=145, 397.485pt x 289.08pt>
-File: ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_presi.pdf Graphic file (type pdf)
-<use ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_presi.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_presi.pdf  used on input line 158.
-(pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
-<../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_presi.pdf, id=146, 397.485pt x 289.08pt>
-File: ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_presi.pdf Graphic file (type pdf)
-<use ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_presi.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_presi.pdf  used on input line 162.
-(pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
-<../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_apex.pdf, id=147, 397.485pt x 289.08pt>
-File: ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_apex.pdf Graphic file (type pdf)
-<use ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_apex.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_apex.pdf  used on input line 166.
-(pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
-<../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex.pdf, id=148, 397.485pt x 289.08pt>
-File: ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex.pdf Graphic file (type pdf)
-<use ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex.pdf  used on input line 170.
-(pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
-<../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex.pdf, id=149, 397.485pt x 289.08pt>
-File: ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex.pdf Graphic file (type pdf)
-<use ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex.pdf  used on input line 174.
-(pdftex.def)             Requested size: 160.15854pt x 116.48126pt.
-LaTeX Font Info:    Font shape `T1/zpltlf/b/it' will be
-(Font)              scaled to size 10.95pt on input line 176.
- [7 <../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_presi.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_presi.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_presi.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_protests_MM_w30_apex.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex.pdf>] [8] [9] (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\main.bbl) [10
+<../../Protest_Work/results/figures/es_num_peaceful_MM_120d_90ci.png, id=165, 903.375pt x 602.25pt>
+File: ../../Protest_Work/results/figures/es_num_peaceful_MM_120d_90ci.png Graphic file (type png)
+<use ../../Protest_Work/results/figures/es_num_peaceful_MM_120d_90ci.png>
+Package pdftex.def Info: ../../Protest_Work/results/figures/es_num_peaceful_MM_120d_90ci.png  used on input line 117.
+(pdftex.def)             Requested size: 242.73503pt x 161.81937pt.
+ [4]
+<../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex_v2.pdf, id=177, 397.485pt x 289.08pt>
+File: ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex_v2.pdf Graphic file (type pdf)
+<use ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex_v2.pdf>
+Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex_v2.pdf  used on input line 132.
+(pdftex.def)             Requested size: 242.73503pt x 176.53703pt.
+<../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex_v2.pdf, id=178, 397.485pt x 289.08pt>
+File: ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex_v2.pdf Graphic file (type pdf)
+<use ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex_v2.pdf>
+Package pdftex.def Info: ../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex_v2.pdf  used on input line 136.
+(pdftex.def)             Requested size: 242.73503pt x 176.53703pt.
+ [5]
+
+LaTeX Warning: Text page 6 contains only floats.
+
+[6 <../../Protest_Work/results/figures/es_num_violent_MM_120d_90ci.png (PNG copy)> <../../Protest_Work/results/figures/es_num_peaceful_MM_120d_90ci.png (PNG copy)> <../../Protest_Work/results/figures/per_scandal_box_num_violent_MM_w30_apex_v2.pdf> <../../Protest_Work/results/figures/per_scandal_box_num_peaceful_MM_w30_apex_v2.pdf>] [7] [8] [9] (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\main.bbl [10
+
+] [11] [12]) [13]
+
+LaTeX Warning: Reference `fig:rawcount30' on page 14 undefined on input line 170.
+
+
+LaTeX Warning: Reference `fig:rawcount120' on page 14 undefined on input line 170.
+
+<../../Protest_Work/results/figures/raw_count_protests_w30.pdf, id=354, 397.485pt x 289.08pt>
+File: ../../Protest_Work/results/figures/raw_count_protests_w30.pdf Graphic file (type pdf)
+<use ../../Protest_Work/results/figures/raw_count_protests_w30.pdf>
+Package pdftex.def Info: ../../Protest_Work/results/figures/raw_count_protests_w30.pdf  used on input line 178.
+(pdftex.def)             Requested size: 242.73503pt x 176.53703pt.
+<../../Protest_Work/results/figures/raw_count_violent_w30.pdf, id=355, 397.485pt x 289.08pt>
+File: ../../Protest_Work/results/figures/raw_count_violent_w30.pdf Graphic file (type pdf)
+<use ../../Protest_Work/results/figures/raw_count_violent_w30.pdf>
+Package pdftex.def Info: ../../Protest_Work/results/figures/raw_count_violent_w30.pdf  used on input line 182.
+(pdftex.def)             Requested size: 242.73503pt x 176.53703pt.
+<../../Protest_Work/results/figures/raw_count_peaceful_w30.pdf, id=356, 397.485pt x 289.08pt>
+File: ../../Protest_Work/results/figures/raw_count_peaceful_w30.pdf Graphic file (type pdf)
+<use ../../Protest_Work/results/figures/raw_count_peaceful_w30.pdf>
+Package pdftex.def Info: ../../Protest_Work/results/figures/raw_count_peaceful_w30.pdf  used on input line 186.
+(pdftex.def)             Requested size: 242.73503pt x 176.53703pt.
+<../../Protest_Work/results/figures/raw_count_gvtresp_w30.pdf, id=357, 397.485pt x 289.08pt>
+File: ../../Protest_Work/results/figures/raw_count_gvtresp_w30.pdf Graphic file (type pdf)
+<use ../../Protest_Work/results/figures/raw_count_gvtresp_w30.pdf>
+Package pdftex.def Info: ../../Protest_Work/results/figures/raw_count_gvtresp_w30.pdf  used on input line 190.
+(pdftex.def)             Requested size: 242.73503pt x 176.53703pt.
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:193: Incompatible list can't be unboxed.
+\SOUL@ulunderline ...men \kern \z@ }}\unhcopy \z@ 
+                                                  }
+l.193 ...r bin aggregates $\hl{176 \times 3 = 528}
+                                                  $ country-day cells. Navy ...
+Sorry, Pandora. (You sneaky devil.)
+I refuse to unbox an \hbox in vertical mode or vice versa.
+And I can't open any boxes in math mode.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:193: Missing $ inserted.
+<inserted text> 
+                $
+l.193 ...r bin aggregates $\hl{176 \times 3 = 528}
+                                                  $ country-day cells. Navy ...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:193: Extra }, or forgotten $.
+\SOUL@doword ...hskip \z@ \relax \the \SOUL@word }
+                                                  \let \SOUL@errmsg \SOUL@er...
+l.193 ...r bin aggregates $\hl{176 \times 3 = 528}
+                                                  $ country-day cells. Navy ...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:193: Missing $ inserted.
+<inserted text> 
+                $
+l.193 ...r bin aggregates $\hl{176 \times 3 = 528}
+                                                  $ country-day cells. Navy ...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:193: Extra }, or forgotten $.
+\SOUL@dosyllable ...x {\SOUL@tt \the \SOUL@token }
+                                                  \advance \SOUL@syllwidth \...
+l.193 ...r bin aggregates $\hl{176 \times 3 = 528}
+                                                  $ country-day cells. Navy ...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:193: Missing $ inserted.
+<inserted text> 
+                $
+l.193 ...r bin aggregates $\hl{176 \times 3 = 528}
+                                                  $ country-day cells. Navy ...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:193: Extra }, or forgotten $.
+\SOUL@getkern #1#2#3->\setbox \tw@ \hbox {#1#3}
+                                               #2\wd \tw@ \setbox \tw@ \hbox...
+l.193 ...r bin aggregates $\hl{176 \times 3 = 528}
+                                                  $ country-day cells. Navy ...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:193: Missing $ inserted.
+<inserted text> 
+                $
+l.193 ...r bin aggregates $\hl{176 \times 3 = 528}
+                                                  $ country-day cells. Navy ...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:193: Extra }, or forgotten $.
+\SOUL@getkern ...@ \setbox \tw@ \hbox {#1\null #3}
+                                                  \advance #2-\wd \tw@ 
+l.193 ...r bin aggregates $\hl{176 \times 3 = 528}
+                                                  $ country-day cells. Navy ...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:193: Package soul Error: Reconstruction failed.
+
+See the soul package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.193 ...r bin aggregates $\hl{176 \times 3 = 528}
+                                                  $ country-day cells. Navy ...
+I came across hyphenatable material enclosed in group braces,
+which I can't handle. Either drop the braces or make the material
+unbreakable using an \mbox (\hbox). Note that a space
+also counts as possible hyphenation point. See page 4 of the manual.
+I'm leaving a black square so that you can see where I am right now.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:193: Extra }, or forgotten $.
+\SOUL@analyze ... \else \SOUL@dosyllable \fi \fi }
+                                                  
+l.193 ...r bin aggregates $\hl{176 \times 3 = 528}
+                                                  $ country-day cells. Navy ...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:193: Incompatible list can't be unboxed.
+\SOUL@ulunderline ...men \kern \z@ }}\unhcopy \z@ 
+                                                  }
+l.193 ...r bin aggregates $\hl{176 \times 3 = 528}
+                                                  $ country-day cells. Navy ...
+Sorry, Pandora. (You sneaky devil.)
+I refuse to unbox an \hbox in vertical mode or vice versa.
+And I can't open any boxes in math mode.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:193: Incompatible list can't be unboxed.
+\SOUL@ulunderline ...men \kern \z@ }}\unhcopy \z@ 
+                                                  }
+l.193 ...r bin aggregates $\hl{176 \times 3 = 528}
+                                                  $ country-day cells. Navy ...
+Sorry, Pandora. (You sneaky devil.)
+I refuse to unbox an \hbox in vertical mode or vice versa.
+And I can't open any boxes in math mode.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:193: Extra }, or forgotten $.
+\SOUL@n ...rave \z@ \SOUL@do {#1}\SOUL@postamble }
+                                                  
+l.193 ...r bin aggregates $\hl{176 \times 3 = 528}
+                                                  $ country-day cells. Navy ...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:194: Missing $ inserted.
+<inserted text> 
+                $
+l.194 \end{figure}
+                  
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:194: Missing } inserted.
+<inserted text> 
+                }
+l.194 \end{figure}
+                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:194: Missing $ inserted.
+<inserted text> 
+                $
+l.194 \end{figure}
+                  
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:194: Missing } inserted.
+<inserted text> 
+                }
+l.194 \end{figure}
+                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:194: Missing $ inserted.
+<inserted text> 
+                $
+l.194 \end{figure}
+                  
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:194: Missing } inserted.
+<inserted text> 
+                }
+l.194 \end{figure}
+                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:194: Missing $ inserted.
+<inserted text> 
+                $
+l.194 \end{figure}
+                  
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:194: Missing } inserted.
+<inserted text> 
+                }
+l.194 \end{figure}
+                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:194: Missing } inserted.
+<inserted text> 
+                }
+l.194 \end{figure}
+                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:194: Missing } inserted.
+<inserted text> 
+                }
+l.194 \end{figure}
+                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+<../../Protest_Work/results/figures/raw_count_protests_w120.pdf, id=358, 397.485pt x 289.08pt>
+File: ../../Protest_Work/results/figures/raw_count_protests_w120.pdf Graphic file (type pdf)
+<use ../../Protest_Work/results/figures/raw_count_protests_w120.pdf>
+Package pdftex.def Info: ../../Protest_Work/results/figures/raw_count_protests_w120.pdf  used on input line 202.
+(pdftex.def)             Requested size: 242.73503pt x 176.53703pt.
+<../../Protest_Work/results/figures/raw_count_violent_w120.pdf, id=359, 397.485pt x 289.08pt>
+File: ../../Protest_Work/results/figures/raw_count_violent_w120.pdf Graphic file (type pdf)
+<use ../../Protest_Work/results/figures/raw_count_violent_w120.pdf>
+Package pdftex.def Info: ../../Protest_Work/results/figures/raw_count_violent_w120.pdf  used on input line 206.
+(pdftex.def)             Requested size: 242.73503pt x 176.53703pt.
+<../../Protest_Work/results/figures/raw_count_peaceful_w120.pdf, id=360, 397.485pt x 289.08pt>
+File: ../../Protest_Work/results/figures/raw_count_peaceful_w120.pdf Graphic file (type pdf)
+<use ../../Protest_Work/results/figures/raw_count_peaceful_w120.pdf>
+Package pdftex.def Info: ../../Protest_Work/results/figures/raw_count_peaceful_w120.pdf  used on input line 210.
+(pdftex.def)             Requested size: 242.73503pt x 176.53703pt.
+<../../Protest_Work/results/figures/raw_count_gvtresp_w120.pdf, id=361, 397.485pt x 289.08pt>
+File: ../../Protest_Work/results/figures/raw_count_gvtresp_w120.pdf Graphic file (type pdf)
+<use ../../Protest_Work/results/figures/raw_count_gvtresp_w120.pdf>
+Package pdftex.def Info: ../../Protest_Work/results/figures/raw_count_gvtresp_w120.pdf  used on input line 214.
+(pdftex.def)             Requested size: 242.73503pt x 176.53703pt.
+LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
+(Font)              scaled to size 9.0pt on input line 217.
+
+LaTeX Warning: Reference `fig:rawcount30' on page 14 undefined on input line 217.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:217: Incompatible list can't be unboxed.
+\SOUL@ulunderline ...men \kern \z@ }}\unhcopy \z@ 
+                                                  }
+l.217 ...ounts across the $\hl{176 \times 3 = 528}
+                                                  $ country-day cells inside...
+Sorry, Pandora. (You sneaky devil.)
+I refuse to unbox an \hbox in vertical mode or vice versa.
+And I can't open any boxes in math mode.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:217: Missing $ inserted.
+<inserted text> 
+                $
+l.217 ...ounts across the $\hl{176 \times 3 = 528}
+                                                  $ country-day cells inside...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:217: Extra }, or forgotten $.
+\SOUL@doword ...hskip \z@ \relax \the \SOUL@word }
+                                                  \let \SOUL@errmsg \SOUL@er...
+l.217 ...ounts across the $\hl{176 \times 3 = 528}
+                                                  $ country-day cells inside...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:217: Missing $ inserted.
+<inserted text> 
+                $
+l.217 ...ounts across the $\hl{176 \times 3 = 528}
+                                                  $ country-day cells inside...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:217: Extra }, or forgotten $.
+\SOUL@dosyllable ...x {\SOUL@tt \the \SOUL@token }
+                                                  \advance \SOUL@syllwidth \...
+l.217 ...ounts across the $\hl{176 \times 3 = 528}
+                                                  $ country-day cells inside...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:217: Missing $ inserted.
+<inserted text> 
+                $
+l.217 ...ounts across the $\hl{176 \times 3 = 528}
+                                                  $ country-day cells inside...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:217: Extra }, or forgotten $.
+\SOUL@getkern #1#2#3->\setbox \tw@ \hbox {#1#3}
+                                               #2\wd \tw@ \setbox \tw@ \hbox...
+l.217 ...ounts across the $\hl{176 \times 3 = 528}
+                                                  $ country-day cells inside...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:217: Missing $ inserted.
+<inserted text> 
+                $
+l.217 ...ounts across the $\hl{176 \times 3 = 528}
+                                                  $ country-day cells inside...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:217: Extra }, or forgotten $.
+\SOUL@getkern ...@ \setbox \tw@ \hbox {#1\null #3}
+                                                  \advance #2-\wd \tw@ 
+l.217 ...ounts across the $\hl{176 \times 3 = 528}
+                                                  $ country-day cells inside...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:217: Package soul Error: Reconstruction failed.
+
+See the soul package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.217 ...ounts across the $\hl{176 \times 3 = 528}
+                                                  $ country-day cells inside...
+I came across hyphenatable material enclosed in group braces,
+which I can't handle. Either drop the braces or make the material
+unbreakable using an \mbox (\hbox). Note that a space
+also counts as possible hyphenation point. See page 4 of the manual.
+I'm leaving a black square so that you can see where I am right now.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:217: Extra }, or forgotten $.
+\SOUL@analyze ... \else \SOUL@dosyllable \fi \fi }
+                                                  
+l.217 ...ounts across the $\hl{176 \times 3 = 528}
+                                                  $ country-day cells inside...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:217: Incompatible list can't be unboxed.
+\SOUL@ulunderline ...men \kern \z@ }}\unhcopy \z@ 
+                                                  }
+l.217 ...ounts across the $\hl{176 \times 3 = 528}
+                                                  $ country-day cells inside...
+Sorry, Pandora. (You sneaky devil.)
+I refuse to unbox an \hbox in vertical mode or vice versa.
+And I can't open any boxes in math mode.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:217: Incompatible list can't be unboxed.
+\SOUL@ulunderline ...men \kern \z@ }}\unhcopy \z@ 
+                                                  }
+l.217 ...ounts across the $\hl{176 \times 3 = 528}
+                                                  $ country-day cells inside...
+Sorry, Pandora. (You sneaky devil.)
+I refuse to unbox an \hbox in vertical mode or vice versa.
+And I can't open any boxes in math mode.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:217: Extra }, or forgotten $.
+\SOUL@n ...rave \z@ \SOUL@do {#1}\SOUL@postamble }
+                                                  
+l.217 ...ounts across the $\hl{176 \times 3 = 528}
+                                                  $ country-day cells inside...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:218: Missing $ inserted.
+<inserted text> 
+                $
+l.218 \end{figure}
+                  
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:218: Missing } inserted.
+<inserted text> 
+                }
+l.218 \end{figure}
+                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:218: Missing $ inserted.
+<inserted text> 
+                $
+l.218 \end{figure}
+                  
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:218: Missing } inserted.
+<inserted text> 
+                }
+l.218 \end{figure}
+                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:218: Missing $ inserted.
+<inserted text> 
+                $
+l.218 \end{figure}
+                  
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:218: Missing } inserted.
+<inserted text> 
+                }
+l.218 \end{figure}
+                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:218: Missing $ inserted.
+<inserted text> 
+                $
+l.218 \end{figure}
+                  
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:218: Missing } inserted.
+<inserted text> 
+                }
+l.218 \end{figure}
+                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:218: Missing } inserted.
+<inserted text> 
+                }
+l.218 \end{figure}
+                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:218: Missing } inserted.
+<inserted text> 
+                }
+l.218 \end{figure}
+                  
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+[14
+
+]
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:220: Output loop---100 consecutive dead cycles.
+\clearpage ...rite \m@ne {}\vbox {}\penalty -\@Mi 
+                                                  
+l.220 \end{document}
+                    
+I've concluded that your \output is awry; it never does a
+\shipout, so I'm shipping \box255 out myself. Next time
+increase \maxdeadcycles if you want me to be more patient!
+
+[15
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]
+c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/main.tex:220: Output loop---100 consecutive dead cycles.
+\clearpage ...rite \m@ne {}\vbox {}\penalty -\@Mi 
+                                                  
+l.220 \end{document}
+                    
+I've concluded that your \output is awry; it never does a
+\shipout, so I'm shipping \box255 out myself. Next time
+increase \maxdeadcycles if you want me to be more patient!
+
+[15
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ] (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\main.aux * soulpos - computing points - it may take a few seconds *
 \openout4 = `main.upb'.
@@ -1202,22 +1941,26 @@ LaTeX Font Info:    Font shape `T1/zpltlf/b/it' will be
 LaTeX2e <2025-11-01>
 L3 programming layer <2020/03/25>
  ***********
+
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 9DACE1F1C8775C03C8F3E3B32C7921E5;575.
+(rerunfilecheck)             Checksum: 347137AAB563DD500397328D28E13789;306.
  ) 
 Here is how much of TeX's memory you used:
- 43304 strings out of 467871
- 987988 string characters out of 5418375
- 1511014 words of memory out of 5000000
- 71367 multiletter control sequences out of 15000+600000
- 692683 words of font info for 108 fonts, out of 8000000 for 9000
+ 43460 strings out of 467871
+ 992752 string characters out of 5418375
+ 1517957 words of memory out of 5000000
+ 71489 multiletter control sequences out of 15000+600000
+ 691556 words of font info for 102 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 104i,12n,111p,1597b,704s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\rob98\AppData\Local\MiKTeX\fonts/pk/ljfour/public/bbm/dpi657\bbm10.pk><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/t1xtt.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplb.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplbi.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplr.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplri.pfb>
-Output written on c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\main.pdf (10 pages, 570833 bytes).
+ 104i,18n,111p,2813b,730s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\rob98\AppData\Local\MiKTeX\fonts/pk/ljfour/public/bbm/dpi657\bbm10.pk><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/t1xtt.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplb.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplbi.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplr.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplri.pfb>
+Output written on c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\main.pdf (16 pages, 452018 bytes).
 PDF statistics:
- 340 PDF objects out of 1000 (max. 8388607)
- 269 compressed objects within 3 object streams
- 41 named destinations out of 1000 (max. 500000)
- 117 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 472 PDF objects out of 1000 (max. 8388607)
+ 397 compressed objects within 4 object streams
+ 79 named destinations out of 1000 (max. 500000)
+ 113 words of extra memory for PDF output out of 10000 (max. 10000000)
 

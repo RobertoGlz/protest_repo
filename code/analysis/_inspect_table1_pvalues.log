@@ -1,0 +1,219 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      StataNow 19.5
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2025 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-782-8272        https://www.stata.com
+                                   979-696-4600        service@stata.com
+
+Stata license: Unlimited-user 16-core network, expiring  2 Jul 2026
+Serial number: 501909320077
+  Licensed to: Roberto Gonzalez Tellez
+               Stanford University GSB
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do _inspect_table1_pvalues.do 
+
+. /* Diagnostic: exact unrounded coefficients, SEs, t/z stats, and 2-sided
+>    p-values for all 8 cells of Table 1 (Panel A OLS + Panel B Poisson,
+>    each with Violent / Peaceful on 30d / 120d windows). */
+. 
+. if "`c(username)'" == "rob98" {
+.         global identity "~/Dropbox"
+. }
+
+. global path   "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
+
+. global datfin "${path}/Data/final"
+
+. 
+. use "${datfin}/protests_scandals_30days_v3", clear
+
+. drop if country == "Venezuela"
+(3,374 observations deleted)
+
+. egen grupo_dias = group(s_lag30 s_lag60 s_lag90 s_lag120 ///
+>                         s_lead30 s_lead60 s_lead90 s_lead120)
+
+. 
+. global fe1      "i.country_id#i.year"
+
+. global CLUSTER2 "cluster i.country_id#i.year#i.grupo_dias"
+
+. local firstyear = 2008
+
+. 
+. display _newline _newline "==================================================
+> =============="
+
+
+================================================================
+
+. display "  PANEL A:  OLS via reghdfe"
+  PANEL A:  OLS via reghdfe
+
+. display "================================================================"
+================================================================
+
+. 
+. local outcomes "num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM
+> "
+
+. local windows  "30 30 120 120"
+
+. local labels   `""Violent 30d" "Peaceful 30d" "Violent 120d" "Peaceful 120d""
+> '
+
+. local nspecs : word count `outcomes'
+
+. 
+. forvalues k = 1/`nspecs' {
+  2.         local outcome : word `k' of `outcomes'
+  3.         local window  : word `k' of `windows'
+  4.         local lbl     : word `k' of `labels'
+  5. 
+.         if `window' == 30 {
+  6.                 quietly reghdfe `outcome' post i.month i.day ///
+>                         if year >= `firstyear' & abs(window) <= 30, ///
+>                         absorb($fe1) vce($CLUSTER2)
+  7.         }
+  8.         else {
+  9.                 quietly reghdfe `outcome' post i.month i.day ///
+>                         if year >= `firstyear', ///
+>                         absorb($fe1) vce($CLUSTER2)
+ 10.         }
+ 11. 
+.         local b   = _b[post]
+ 12.         local se  = _se[post]
+ 13.         local t   = `b' / `se'
+ 14.         local df  = e(df_r)
+ 15.         local p_t = 2 * ttail(`df', abs(`t'))
+ 16. 
+.         display _newline "  Col `k': `lbl'"
+ 17.         display "    coef            = " %12.8f `b'
+ 18.         display "    SE              = " %12.8f `se'
+ 19.         display "    t-statistic     = " %10.6f `t'
+ 20.         display "    df_r            = " `df'
+ 21.         display "    p-value (2-sided, t-dist) = " %10.6f `p_t'
+ 22. }
+
+  Col 1: Violent 30d
+    coef            =   0.01573045
+    SE              =   0.00529198
+    t-statistic     =   2.972509
+    df_r            = 162
+    p-value (2-sided, t-dist) =   0.003405
+
+  Col 2: Peaceful 30d
+    coef            =   0.00966842
+    SE              =   0.00784016
+    t-statistic     =   1.233192
+    df_r            = 162
+    p-value (2-sided, t-dist) =   0.219291
+
+  Col 3: Violent 120d
+    coef            =   0.01561828
+    SE              =   0.00621036
+    t-statistic     =   2.514876
+    df_r            = 669
+    p-value (2-sided, t-dist) =   0.012141
+
+  Col 4: Peaceful 120d
+    coef            =  -0.00865562
+    SE              =   0.00693189
+    t-statistic     =  -1.248666
+    df_r            = 669
+    p-value (2-sided, t-dist) =   0.212224
+
+. 
+. display _newline _newline "==================================================
+> =============="
+
+
+================================================================
+
+. display "  PANEL B:  Poisson QML via ppmlhdfe"
+  PANEL B:  Poisson QML via ppmlhdfe
+
+. display "================================================================"
+================================================================
+
+. 
+. forvalues k = 1/`nspecs' {
+  2.         local outcome : word `k' of `outcomes'
+  3.         local window  : word `k' of `windows'
+  4.         local lbl     : word `k' of `labels'
+  5. 
+.         if `window' == 30 {
+  6.                 quietly ppmlhdfe `outcome' post ///
+>                         if year >= `firstyear' & abs(window) <= 30, ///
+>                         absorb(month day $fe1) vce($CLUSTER2)
+  7.         }
+  8.         else {
+  9.                 quietly ppmlhdfe `outcome' post ///
+>                         if year >= `firstyear', ///
+>                         absorb(month day $fe1) vce($CLUSTER2)
+ 10.         }
+ 11. 
+.         local b   = _b[post]
+ 12.         local se  = _se[post]
+ 13.         local z   = `b' / `se'
+ 14.         local p_n = 2 * (1 - normal(abs(`z')))
+ 15. 
+.         /* Implied proportional effect: exp(b) - 1, delta-method SE */
+.         local imp_b  = exp(`b') - 1
+ 16.         local imp_se = exp(`b') * `se'
+ 17. 
+.         display _newline "  Col `k': `lbl'"
+ 18.         display "    log coef        = " %12.8f `b'
+ 19.         display "    SE              = " %12.8f `se'
+ 20.         display "    z-statistic     = " %10.6f `z'
+ 21.         display "    p-value (2-sided, normal) = " %10.6f `p_n'
+ 22.         display "    Implied Prop Eff= " %10.6f `imp_b'
+ 23.         display "    delta-method SE = " %10.6f `imp_se'
+ 24. }
+
+  Col 1: Violent 30d
+    log coef        =   0.43279019
+    SE              =   0.09666483
+    z-statistic     =   4.477225
+    p-value (2-sided, normal) =   0.000008
+    Implied Prop Eff=   0.541553
+    delta-method SE =   0.149014
+
+  Col 2: Peaceful 30d
+    log coef        =   0.22662870
+    SE              =   0.12151047
+    z-statistic     =   1.865096
+    p-value (2-sided, normal) =   0.062168
+    Implied Prop Eff=   0.254364
+    delta-method SE =   0.152418
+
+  Col 3: Violent 120d
+    log coef        =   0.48978121
+    SE              =   0.19481533
+    z-statistic     =   2.514079
+    p-value (2-sided, normal) =   0.011934
+    Implied Prop Eff=   0.631959
+    delta-method SE =   0.317931
+
+  Col 4: Peaceful 120d
+    log coef        =  -0.23976214
+    SE              =   0.13780131
+    z-statistic     =  -1.739912
+    p-value (2-sided, normal) =   0.081874
+    Implied Prop Eff=  -0.213185
+    delta-method SE =   0.108424
+
+. 
+end of do-file

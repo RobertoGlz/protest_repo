@@ -1,0 +1,957 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      StataNow 19.5
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2025 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-782-8272        https://www.stata.com
+                                   979-696-4600        service@stata.com
+
+Stata license: Unlimited-user 16-core network, expiring  2 Jul 2026
+Serial number: 501909320077
+  Licensed to: Roberto Gonzalez Tellez
+               Stanford University GSB
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do a_reg_violent_peaceful_panels.do 
+
+. /* --------------------------------------------------------------------------
+> --
+>    Project: Apex corruption protests paper
+> 
+>    Code author: Roberto Gonzalez
+>    Date: 2026-06-27
+> 
+>    Objective:
+>         Combined table with two panels (Panel A: OLS, Panel B: Poisson QML)
+>         and four columns:
+>             (1) Violent protests, +-30-day window
+>             (2) Peaceful protests, +-30-day window
+>             (3) Violent protests, +-120-day window
+>             (4) Peaceful protests, +-120-day window
+>         Same specification as \autoref{eq:main} (country-by-year, day-of-week
+> ,
+>         and month-of-year fixed effects; standard errors clustered at
+>         country x year x day-bin).  Reports the Pre-Scandal Bin Mean as a
+>         reporting statistic; Country x Year FE and SE Cluster rows appear
+>         only once, at the very bottom of the combined table.
+> 
+>    Inputs:
+>         - ${datfin}/protests_scandals_30days_v3.dta
+>         - ${progdir}/define_panelcombine.do
+> 
+>    Outputs (under ${work}/results/tables/):
+>         - violent_peaceful_ols_temp.tex      (intermediate; deleted via clean
+> up)
+>         - violent_peaceful_poi_temp.tex      (intermediate; deleted via clean
+> up)
+>         - violent_peaceful_ols_poi_panels.tex  (final combined two-panel tabl
+> e)
+> ---------------------------------------------------------------------------- 
+> */
+. 
+. set more off
+
+. clear all
+
+. 
+. /* ----------------------- User-specific paths ----------------------- */
+. if "`c(username)'" == "Diego" {
+.         gl identity "D:/Documents/Dropbox"
+. }
+
+. if "`c(username)'" == "dtocre" {
+.         gl identity "C:/Users/dtocre/Dropbox"
+. }
+
+. if "`c(username)'" == "lalov" {
+.         gl identity "C:/Users/lalov/ITAM Seira Research Dropbox/Eduardo River
+> a"
+. }
+
+. if "`c(username)'" == "Rob_9" {
+.         global identity "C:/Users/Rob_9/Dropbox"
+. }
+
+. if "`c(username)'" == "rob98" {
+.         global identity "~/Dropbox"
+. }
+
+. 
+. global path    "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
+
+. global datfin  "${path}/Data/final"
+
+. global work    "${identity}/Corrupcion/Protest_Work"
+
+. global tables  "${work}/results/tables"
+
+. global progdir "${identity}/Corrupcion/protest_repo/code/programs"
+
+. 
+. /* --------------- Load the panelcombine program --------------- */
+. do "${progdir}/define_panelcombine.do"
+
+. /* --------------------------------------------------------------------------
+> --
+>    Project: Apex corruption protests paper
+> 
+>    Code author: steveofconnell (original)
+>    Modifications: Roberto Gonzalez
+> 
+>    Objective: Define a panelcombine program that handles booktabs rules
+>               rather than hlines. Source the program at the top of any
+>               analysis do-file that builds a multi-panel table.
+> 
+>    Source of the original program:
+>      https://raw.githubusercontent.com/steveofconnell/PanelCombine/master/Pan
+> elCombine.do
+>    Copied verbatim from the religion_project_repo project's
+>      code/programs/define_panelcombine.do
+>    so this project does not depend on a sibling repository at build time.
+> ---------------------------------------------------------------------------- 
+> */
+. 
+. cap prog drop panelcombine
+
+. prog define panelcombine
+  1. qui {
+  2. syntax, use(str asis) paneltitles(str asis) columncount(integer) save(str)
+>  [CLEANup]
+  3. preserve
+  4. 
+. tokenize `"`paneltitles'"'
+  5. //read in loop
+. local num 1
+  6. while "``num''"~="" {
+  7. local panel`num'title="``num''"
+  8. local num=`num'+1
+  9. }
+ 10. 
+. 
+. tokenize `"`use'"'
+ 11. //read in loop
+. local num 1
+ 12. while `"``num''"'~="" {
+ 13. local filepath `"``num''"'
+ 14. tempfile temp`num'
+ 15. insheet using `"`filepath'"', clear
+ 16. save `temp`num''
+ 17. local max = `num'
+ 18. local num=`num'+1
+ 19. }
+ 20. 
+. //conditional processing loop
+. tokenize `"`use'"'
+ 21. local num 1
+ 22. while `"``num''"'~="" {
+ 23. local panellabel : word `num' of `c(ALPHA)'
+ 24. use `temp`num'', clear
+ 25.         if `num'==1 { //process first panel -- clip bottom
+ 26.         drop if strpos(v1,"Note:")>0 | strpos(v1,"in parentheses")>0 | str
+> pos(v1,"p<0")>0
+ 27.         drop if v1=="\end{tabular}" | v1=="}"
+ 28.         /* Replace ONLY the first occurrence of \midrule with the Panel A
+>            header. Using cumulative-sum-of-flag is robust to the row
+>            position changing because of mgroups, multi-row column
+>            headers, etc. */
+.         gen byte _is_mid = (v1 == "\midrule")
+ 29.         gen long _midnum = sum(_is_mid)
+ 30.         replace v1 = "\midrule \multicolumn{`columncount'}{l}{\textbf{\tex
+> tit{Panel `panellabel': `panel1title'}}} \\" if _is_mid == 1 & _midnum == 1
+ 31.         drop _is_mid _midnum
+ 32.         replace v1 = "\midrule" if v1=="\bottomrule" & _n>4 //this is inte
+> nded to replace the bottom double line; more robust condition probably exists
+ 33.         }
+ 34.         else if `num'==`max' { //process final panel -- clip top
+ 35.         //process header to drop everything until first hline
+.         g temp = (v1 == "\midrule")
+ 36.         replace temp = temp+temp[_n-1] if _n>1
+ 37.         drop if temp==0
+ 38.         drop temp
+ 39. 
+.         replace v1 = " \multicolumn{`columncount'}{l}{\textbf{\textit{Panel `
+> panellabel': `panel`num'title'}}} \\" if _n==1
+ 40.         }
+ 41.         else { //process middle panels -- clip top and bottom
+ 42.         //process header to drop everything until first hline
+.         g temp = (v1 == "\midrule")
+ 43.         replace temp = temp+temp[_n-1] if _n>1
+ 44.         drop if temp==0
+ 45.         drop temp
+ 46. 
+.         replace v1 = " \multicolumn{`columncount'}{l}{\textbf{\textit{Panel `
+> panellabel': `panel`num'title'}}} \\" if _n==1
+ 47.         drop if strpos(v1,"Note:")>0 | strpos(v1,"in parentheses")>0 | str
+> pos(v1,"p<0")>0
+ 48.         drop if v1=="\end{tabular}" | v1=="}"
+ 49.         replace v1 = "\bottomrule" if v1=="\bottomrule\bottomrule"
+ 50.         }
+ 51.         save `temp`num'', replace
+ 52. local num=`num'+1
+ 53. }
+ 54. 
+. use `temp1',clear
+ 55. local num 2
+ 56. while "``num''"~="" {
+ 57. append using `temp`num''
+ 58. local num=`num'+1
+ 59. }
+ 60. 
+. outsheet using `save', noname replace noquote
+ 61. 
+. 
+.         if "`cleanup'"!="" { //erasure loop
+ 62.         tokenize `"`use'"'
+ 63.         local num 1
+ 64.                 while `"``num''"'~="" {
+ 65.                 local filepath `"``num''"'
+ 66.                 erase `"`filepath'"'
+ 67.                 local num=`num'+1
+ 68.                 }
+ 69.         }
+ 70. 
+. restore
+ 71. }
+ 72. end
+
+. 
+end of do-file
+
+. 
+. /* --------------- Read the event-window panel --------------- */
+. use "${datfin}/protests_scandals_30days_v3", clear
+
+. drop if country == "Venezuela"
+(3,374 observations deleted)
+
+. 
+. egen grupo_dias = group(s_lag30 s_lag60 s_lag90 s_lag120 ///
+>                         s_lead30 s_lead60 s_lead90 s_lead120)
+
+. 
+. global fe1      "i.country_id#i.year"
+
+. global CLUSTER2 "cluster i.country_id#i.year#i.grupo_dias"
+
+. 
+. local firstyear = 2008
+
+. 
+. /* Order of columns: violent 30d, peaceful 30d, violent 120d, peaceful 120d *
+> /
+. local outcomes "num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM
+> "
+
+. local windows  "30 30 120 120"
+
+. local nspecs : word count `outcomes'
+
+. 
+. /* ============================================================
+>    PANEL A: OLS via reghdfe
+>    ============================================================ */
+. eststo clear
+
+. forvalues k = 1/`nspecs' {
+  2.         local outcome : word `k' of `outcomes'
+  3.         local window  : word `k' of `windows'
+  4.         local bin_size = cond(`window' == 30, 6, 30)
+  5. 
+.         if `window' == 30 {
+  6.                 eststo m`k': reghdfe `outcome' post i.month i.day ///
+>                         if year >= `firstyear' & abs(window) <= 30, ///
+>                         absorb($fe1) vce($CLUSTER2)
+  7.         }
+  8.         else {
+  9.                 eststo m`k': reghdfe `outcome' post i.month i.day ///
+>                         if year >= `firstyear', ///
+>                         absorb($fe1) vce($CLUSTER2)
+ 10.         }
+ 11. 
+.         quietly summarize `outcome' if e(sample) ///
+>                 & window >= -`bin_size' & window <= -1
+ 12.         estadd scalar baseline = r(mean)
+ 13. 
+.         quietly levelsof id if e(sample) == 1
+ 14.         estadd scalar num_scandals = r(r)
+ 15. }
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     10,736
+Absorbing 1 HDFE group                            F(  18,    162) =       2.82
+Statistics robust to heteroskedasticity           Prob > F        =     0.0003
+                                                  R-squared       =     0.1597
+                                                  Adj R-squared   =     0.1517
+                                                  Within R-sq.    =     0.0540
+Number of clusters (country_id#year#grupo_dias) =        163Root MSE=     0.145
+> 3
+
+           (Std. err. adjusted for 163 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0157304    .005292     2.97   0.003     .0052803    .0261806
+             |
+       month |
+          2  |  -.0945679   .0400031    -2.36   0.019    -.1735627   -.0155731
+          3  |  -.1658525    .061296    -2.71   0.008    -.2868947   -.0448103
+          4  |  -.1510304   .0614722    -2.46   0.015    -.2724205   -.0296403
+          5  |  -.1264197   .0602519    -2.10   0.037    -.2454002   -.0074393
+          6  |  -.1138305   .0626658    -1.82   0.071    -.2375777    .0099168
+          7  |  -.1051709   .0670508    -1.57   0.119    -.2375772    .0272355
+          8  |  -.1239614   .0660725    -1.88   0.062    -.2544358     .006513
+          9  |  -.1425388    .062427    -2.28   0.024    -.2658143   -.0192633
+         10  |  -.1395418   .0617111    -2.26   0.025    -.2614036   -.0176799
+         11  |  -.1249227   .0622983    -2.01   0.047    -.2479441   -.0019013
+         12  |  -.0774967   .0732028    -1.06   0.291    -.2220514     .067058
+             |
+         day |
+          1  |   .0011697    .002481     0.47   0.638    -.0037294    .0060689
+          2  |   .0023464   .0038334     0.61   0.541    -.0052235    .0099163
+          3  |   .0035423   .0038056     0.93   0.353    -.0039726    .0110572
+          4  |   .0003023   .0029716     0.10   0.919    -.0055658    .0061703
+          5  |  -.0029696   .0024455    -1.21   0.226    -.0077987    .0018595
+          6  |  -.0047326   .0021178    -2.23   0.027    -.0089146   -.0005506
+             |
+       _cons |   .1302574    .052976     2.46   0.015     .0256449    .2348699
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        84           0          84     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .02746212
+
+added scalar:
+       e(num_scandals) =  176
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     10,736
+Absorbing 1 HDFE group                            F(  18,    162) =       0.95
+Statistics robust to heteroskedasticity           Prob > F        =     0.5151
+                                                  R-squared       =     0.4727
+                                                  Adj R-squared   =     0.4677
+                                                  Within R-sq.    =     0.0319
+Number of clusters (country_id#year#grupo_dias) =        163Root MSE=     0.175
+> 6
+
+           (Std. err. adjusted for 163 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0096684   .0078402     1.23   0.219    -.0058137    .0251505
+             |
+       month |
+          2  |  -.0073289   .0244411    -0.30   0.765    -.0555932    .0409353
+          3  |   .0205808   .0311484     0.66   0.510    -.0409284      .08209
+          4  |   .0475362   .0406151     1.17   0.244     -.032667    .1277394
+          5  |    .100308   .0484016     2.07   0.040     .0047287    .1958873
+          6  |   .1012004   .0413481     2.45   0.015     .0195497    .1828511
+          7  |   .0347958   .0286866     1.21   0.227     -.021852    .0914437
+          8  |   .0370422   .0294157     1.26   0.210    -.0210455      .09513
+          9  |   .0853766    .046257     1.85   0.067    -.0059679    .1767211
+         10  |   .0511625   .0455057     1.12   0.263    -.0386983    .1410233
+         11  |   .0090863    .038713     0.23   0.815    -.0673608    .0855334
+         12  |   .0013674   .0363983     0.04   0.970     -.070509    .0732437
+             |
+         day |
+          1  |  -.0054603   .0039276    -1.39   0.166    -.0132162    .0022956
+          2  |  -.0069031   .0041721    -1.65   0.100    -.0151419    .0013356
+          3  |  -.0069582   .0050377    -1.38   0.169    -.0169062    .0029898
+          4  |  -.0061127   .0042066    -1.45   0.148    -.0144196    .0021942
+          5  |  -.0045298   .0055064    -0.82   0.412    -.0154035    .0063438
+          6  |  -.0066843    .005738    -1.16   0.246    -.0180153    .0046467
+             |
+       _cons |   .0080907   .0299263     0.27   0.787    -.0510051    .0671866
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        84           0          84     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .06912879
+
+added scalar:
+       e(num_scandals) =  176
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     42,657
+Absorbing 1 HDFE group                            F(  18,    669) =       2.58
+Statistics robust to heteroskedasticity           Prob > F        =     0.0004
+                                                  R-squared       =     0.1257
+                                                  Adj R-squared   =     0.1232
+                                                  Within R-sq.    =     0.0362
+Number of clusters (country_id#year#grupo_dias) =        670Root MSE=     0.150
+> 6
+
+           (Std. err. adjusted for 670 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0156183   .0062104     2.51   0.012     .0034241    .0278124
+             |
+       month |
+          2  |  -.0745325   .0270892    -2.75   0.006    -.1277226   -.0213425
+          3  |  -.1060632   .0284446    -3.73   0.000    -.1619146   -.0502118
+          4  |   -.115323   .0286276    -4.03   0.000    -.1715339   -.0591122
+          5  |  -.1068616   .0295311    -3.62   0.000    -.1648464   -.0488768
+          6  |  -.1052685    .030341    -3.47   0.001    -.1648437   -.0456934
+          7  |   -.095226   .0321249    -2.96   0.003    -.1583038   -.0321483
+          8  |  -.0926913   .0326454    -2.84   0.005    -.1567912   -.0285915
+          9  |  -.1249399   .0320524    -3.90   0.000    -.1878753   -.0620045
+         10  |  -.1248224   .0309408    -4.03   0.000    -.1855751   -.0640697
+         11  |  -.1165116   .0314681    -3.70   0.000    -.1782997   -.0547235
+         12  |  -.0777428   .0338852    -2.29   0.022    -.1442769   -.0112086
+             |
+         day |
+          1  |   .0007858   .0013642     0.58   0.565    -.0018928    .0034644
+          2  |   .0008614    .001508     0.57   0.568    -.0020996    .0038224
+          3  |   .0021568   .0015673     1.38   0.169    -.0009205    .0052342
+          4  |     .00121   .0014456     0.84   0.403    -.0016285    .0040485
+          5  |  -.0002561   .0013112    -0.20   0.845    -.0028307    .0023185
+          6  |  -.0010926   .0011844    -0.92   0.357    -.0034183     .001233
+             |
+       _cons |   .1140993   .0271002     4.21   0.000     .0608876    .1673111
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |       107           0         107     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .02045455
+
+added scalar:
+       e(num_scandals) =  176
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     42,657
+Absorbing 1 HDFE group                            F(  18,    669) =       2.68
+Statistics robust to heteroskedasticity           Prob > F        =     0.0002
+                                                  R-squared       =     0.2997
+                                                  Adj R-squared   =     0.2976
+                                                  Within R-sq.    =     0.0107
+Number of clusters (country_id#year#grupo_dias) =        670Root MSE=     0.199
+> 7
+
+           (Std. err. adjusted for 670 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |  -.0086556   .0069319    -1.25   0.212    -.0222665    .0049553
+             |
+       month |
+          2  |   .0141511   .0110553     1.28   0.201    -.0075562    .0358583
+          3  |   .0220578   .0125072     1.76   0.078    -.0025002    .0466159
+          4  |   .0665623   .0177264     3.75   0.000     .0317562    .1013683
+          5  |   .0448505   .0162038     2.77   0.006     .0130341    .0766668
+          6  |     .06562   .0171979     3.82   0.000     .0318517    .0993883
+          7  |    .027927   .0118083     2.37   0.018     .0047413    .0511127
+          8  |   .0339532   .0145196     2.34   0.020     .0054436    .0624627
+          9  |   .0428631   .0147743     2.90   0.004     .0138537    .0718726
+         10  |   .0688579   .0206865     3.33   0.001     .0282397    .1094762
+         11  |   .0411611   .0177146     2.32   0.020     .0063781    .0759441
+         12  |   .0138624   .0138839     1.00   0.318    -.0133989    .0411237
+             |
+         day |
+          1  |  -.0048274   .0021716    -2.22   0.027    -.0090915   -.0005633
+          2  |  -.0038734    .002279    -1.70   0.090    -.0083484    .0006015
+          3  |  -.0010566    .002486    -0.42   0.671     -.005938    .0038248
+          4  |   .0001041   .0024054     0.04   0.965     -.004619    .0048272
+          5  |   .0019926   .0035931     0.55   0.579    -.0050625    .0090477
+          6  |  -.0032237   .0027398    -1.18   0.240    -.0086033    .0021558
+             |
+       _cons |   .0226614   .0097369     2.33   0.020     .0035428      .04178
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |       107           0         107     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .0532197
+
+added scalar:
+       e(num_scandals) =  176
+
+. 
+. esttab _all using "${tables}/violent_peaceful_ols_temp.tex", ///
+>         replace booktabs nonotes nogaps b(3) se(3) ///
+>         star(* 0.10 ** 0.05 *** 0.01) ///
+>         mtitles("\shortstack{Violent\\Protests}" ///
+>                 "\shortstack{Peaceful\\Protests}" ///
+>                 "\shortstack{Violent\\Protests}" ///
+>                 "\shortstack{Peaceful\\Protests}") ///
+>         mgroups("$\pm 30$-Day Window" "$\pm 120$-Day Window", ///
+>                 pattern(1 0 1 0) ///
+>                 prefix(\multicolumn{2}{c}{) suffix(}) span ///
+>                 erepeat(\cmidrule(lr){@span})) ///
+>         stats(baseline N num_scandals r2, ///
+>               label("Mean (Pre-Scandal Bin)" ///
+>                     "Observations" ///
+>                     "Number of Scandals" ///
+>                     "R-squared") ///
+>               fmt(3 0 0 3)) ///
+>         keep(post) coeflabels(post "Post Scandal")
+(file
+    C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/tables/violent_pea
+    > ceful_ols_temp.tex not found)
+(output written to ~/Dropbox/Corrupcion/Protest_Work/results/tables/violent_pea
+> ceful_ols_temp.tex)
+
+. 
+. /* ============================================================
+>    PANEL B: Poisson QML via ppmlhdfe
+>    ============================================================ */
+. eststo clear
+
+. forvalues k = 1/`nspecs' {
+  2.         local outcome : word `k' of `outcomes'
+  3.         local window  : word `k' of `windows'
+  4.         local bin_size = cond(`window' == 30, 6, 30)
+  5. 
+.         /* For ppmlhdfe we absorb month and day rather than including
+>            them as i.month i.day covariates, matching the existing
+>            convention in a_poissreg_allscandals.do (avoids the separation
+>            pre-solver tripping over high-cardinality dummy controls). */
+.         if `window' == 30 {
+  6.                 eststo m`k': ppmlhdfe `outcome' post ///
+>                         if year >= `firstyear' & abs(window) <= 30, ///
+>                         absorb(month day $fe1) vce($CLUSTER2)
+  7.         }
+  8.         else {
+  9.                 eststo m`k': ppmlhdfe `outcome' post ///
+>                         if year >= `firstyear', ///
+>                         absorb(month day $fe1) vce($CLUSTER2)
+ 10.         }
+ 11. 
+.         quietly summarize `outcome' if e(sample) ///
+>                 & window >= -`bin_size' & window <= -1
+ 12.         estadd scalar baseline = r(mean)
+ 13. 
+.         quietly levelsof id if e(sample) == 1
+ 14.         estadd scalar num_scandals = r(r)
+ 15. 
+.         /* Implied proportional effect with delta-method SE and stars.
+>            For a Poisson regression with log link, exp(beta) is the
+>            incidence-rate ratio, exp(beta) - 1 is the implied proportional
+>            change, and the delta-method SE of the transformed coefficient
+>            is exp(beta) * SE(beta).
+>            We compute the 2-sided p-value from the delta-method
+>            z-statistic imp_b / imp_se and attach the standard 3-tier
+>            significance stars (1%/5%/10%) using string() concatenation,
+>            so the displayed row carries its own stars instead of inheriting
+>            the log-coefficient's stars. */
+.         local imp_b   = exp(_b[post]) - 1
+ 16.         local imp_se  = exp(_b[post]) * _se[post]
+ 17.         local imp_z   = `imp_b' / `imp_se'
+ 18.         local imp_p   = 2 * (1 - normal(abs(`imp_z')))
+ 19.         local stars   = cond(`imp_p' < 0.01, "\sym{***}", ///
+>                         cond(`imp_p' < 0.05, "\sym{**}", ///
+>                         cond(`imp_p' < 0.10, "\sym{*}", "")))
+ 20.         local imp_b_str  = string(`imp_b',  "%5.3f") + "`stars'"
+ 21.         local imp_se_str = "(" + string(`imp_se', "%5.3f") + ")"
+ 22.         estadd local imp_eff_lbl = "`imp_b_str'"
+ 23.         estadd local imp_se_lbl  = "`imp_se_str'"
+ 24. }
+(dropped 6740 observations that are either singletons or separated by a fixed e
+> ffect)
+ $$ Stopping (no negative residuals); separation found in 0 observations (1 ite
+> rations and 14 subiterations)
+Iteration 1:   deviance = 1.1406e+03  eps = .         iters = 6    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -4.92  P   
+Iteration 2:   deviance = 8.7781e+02  eps = 2.99e-01  iters = 6    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -6.20      
+Iteration 3:   deviance = 8.3092e+02  eps = 5.64e-02  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -7.41      
+Iteration 4:   deviance = 8.2665e+02  eps = 5.17e-03  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -8.17      
+Iteration 5:   deviance = 8.2656e+02  eps = 1.15e-04  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -8.39      
+Iteration 6:   deviance = 8.2656e+02  eps = 4.23e-07  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -8.41      
+Iteration 7:   deviance = 8.2656e+02  eps = 3.32e-11  iters = 4    tol = 1.0e-0
+> 5                                                                            
+>    min(eta) =  -8.41   S  
+Iteration 8:   deviance = 8.2656e+02  eps = 5.29e-15  iters = 4    tol = 1.0e-0
+> 8                                                                            
+>    min(eta) =  -8.41   S  
+Iteration 9:   deviance = 8.2656e+02  eps = 6.96e-16  iters = 2    tol = 1.0e-0
+> 9                                                                            
+>    min(eta) =  -8.41   S O
+-------------------------------------------------------------------------------
+> -----------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon 
+> below tolerance)
+Converged in 9 iterations and 41 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      3,996
+Absorbing 3 HDFE groups                           Residual df     =         37
+Statistics robust to heteroskedasticity           Wald chi2(1)    =      20.05
+Deviance             =    826.55556               Prob > chi2     =     0.0000
+Log pseudolikelihood = -679.1983385               Pseudo R2       =     0.3169
+
+Number of clusters (country_id#year#grupo_dias)=        38
+            (Std. err. adjusted for 38 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .4327902   .0966648     4.48   0.000     .2433306    .6222498
+       _cons |  -1.784945   .0960539   -18.58   0.000    -1.973207   -1.596683
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        11           0          11     |
+               day |         7           1           6     |
+   country_id#year |        19           1          18    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+
+added scalar:
+           e(baseline) =  .0719603
+
+added scalar:
+       e(num_scandals) =  74
+
+added macro:
+        e(imp_eff_lbl) : "0.542\sym{***}"
+
+added macro:
+         e(imp_se_lbl) : "(0.149)"
+(dropped 4282 observations that are either singletons or separated by a fixed e
+> ffect)
+Iteration 1:   deviance = 1.4662e+03  eps = .         iters = 7    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -3.78  P   
+Iteration 2:   deviance = 1.2261e+03  eps = 1.96e-01  iters = 6    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -4.87      
+Iteration 3:   deviance = 1.1994e+03  eps = 2.23e-02  iters = 6    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -5.82      
+Iteration 4:   deviance = 1.1980e+03  eps = 1.17e-03  iters = 7    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -6.30      
+Iteration 5:   deviance = 1.1979e+03  eps = 1.47e-05  iters = 7    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -6.38      
+Iteration 6:   deviance = 1.1979e+03  eps = 7.38e-09  iters = 6    tol = 1.0e-0
+> 5                                                                            
+>    min(eta) =  -6.38   S  
+Iteration 7:   deviance = 1.1979e+03  eps = 1.70e-14  iters = 4    tol = 1.0e-0
+> 6                                                                            
+>    min(eta) =  -6.38   S  
+Iteration 8:   deviance = 1.1979e+03  eps = 3.47e-16  iters = 7    tol = 1.0e-0
+> 9                                                                            
+>    min(eta) =  -6.38   S O
+-------------------------------------------------------------------------------
+> -----------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon 
+> below tolerance)
+Converged in 8 iterations and 50 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =      6,454
+Absorbing 3 HDFE groups                           Residual df     =         74
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       3.48
+Deviance             =  1197.947699               Prob > chi2     =     0.0622
+Log pseudolikelihood = -1164.099992               Pseudo R2       =     0.4236
+
+Number of clusters (country_id#year#grupo_dias)=        75
+            (Std. err. adjusted for 75 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .2266287   .1215105     1.87   0.062    -.0115274    .4647848
+       _cons |  -1.059186   .0724826   -14.61   0.000    -1.201249   -.9171223
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        38           1          37    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+
+added scalar:
+           e(baseline) =  .11442006
+
+added scalar:
+       e(num_scandals) =  108
+
+added macro:
+        e(imp_eff_lbl) : "0.254\sym"
+
+added macro:
+         e(imp_se_lbl) : "(0.152)"
+(dropped 21072 observations that are either singletons or separated by a fixed 
+> effect)
+Iteration 1:   deviance = 7.1708e+03  eps = .         iters = 6    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -4.26  P   
+Iteration 2:   deviance = 4.9219e+03  eps = 4.57e-01  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -5.22      
+Iteration 3:   deviance = 4.4118e+03  eps = 1.16e-01  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -6.10      
+Iteration 4:   deviance = 4.3461e+03  eps = 1.51e-02  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -6.83      
+Iteration 5:   deviance = 4.3438e+03  eps = 5.28e-04  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -7.09      
+Iteration 6:   deviance = 4.3438e+03  eps = 1.36e-06  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -7.12      
+Iteration 7:   deviance = 4.3438e+03  eps = 8.83e-11  iters = 3    tol = 1.0e-0
+> 5                                                                            
+>    min(eta) =  -7.12   S  
+Iteration 8:   deviance = 4.3438e+03  eps = 3.74e-16  iters = 2    tol = 1.0e-0
+> 7                                                                            
+>    min(eta) =  -7.12   S  
+Iteration 9:   deviance = 4.3438e+03  eps = 0.00e+00  iters = 1    tol = 1.0e-0
+> 9                                                                            
+>    min(eta) =  -7.12   S O
+-------------------------------------------------------------------------------
+> -----------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon 
+> below tolerance)
+Converged in 9 iterations and 28 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =     21,585
+Absorbing 3 HDFE groups                           Residual df     =        228
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       6.32
+Deviance             =  4343.773762               Prob > chi2     =     0.0119
+Log pseudolikelihood = -3285.034851               Pseudo R2       =     0.2589
+
+Number of clusters (country_id#year#grupo_dias)=       229
+           (Std. err. adjusted for 229 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .4897812   .1948153     2.51   0.012     .1079502    .8716122
+       _cons |  -2.208654   .1671402   -13.21   0.000    -2.536243   -1.881066
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        29           1          28    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+
+added scalar:
+           e(baseline) =  .03901734
+
+added scalar:
+       e(num_scandals) =  98
+
+added macro:
+        e(imp_eff_lbl) : "0.632\sym{**}"
+
+added macro:
+         e(imp_se_lbl) : "(0.318)"
+(dropped 9128 observations that are either singletons or separated by a fixed e
+> ffect)
+Iteration 1:   deviance = 9.6478e+03  eps = .         iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -3.65  P   
+Iteration 2:   deviance = 7.8487e+03  eps = 2.29e-01  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -4.65      
+Iteration 3:   deviance = 7.6453e+03  eps = 2.66e-02  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -5.52      
+Iteration 4:   deviance = 7.6383e+03  eps = 9.17e-04  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -5.99      
+Iteration 5:   deviance = 7.6383e+03  eps = 8.12e-06  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -6.10      
+Iteration 6:   deviance = 7.6383e+03  eps = 1.54e-08  iters = 3    tol = 1.0e-0
+> 5                                                                            
+>    min(eta) =  -6.11   S  
+Iteration 7:   deviance = 7.6383e+03  eps = 1.29e-13  iters = 2    tol = 1.0e-0
+> 7                                                                            
+>    min(eta) =  -6.11   S  
+Iteration 8:   deviance = 7.6383e+03  eps = 1.27e-16  iters = 3    tol = 1.0e-0
+> 9                                                                            
+>    min(eta) =  -6.11   S O
+-------------------------------------------------------------------------------
+> -----------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon 
+> below tolerance)
+Converged in 8 iterations and 28 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =     33,529
+Absorbing 3 HDFE groups                           Residual df     =        430
+Statistics robust to heteroskedasticity           Wald chi2(1)    =       3.03
+Deviance             =  7638.260506               Prob > chi2     =     0.0819
+Log pseudolikelihood = -6070.884063               Pseudo R2       =     0.2952
+
+Number of clusters (country_id#year#grupo_dias)=       431
+           (Std. err. adjusted for 431 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |  -.2397621   .1378013    -1.74   0.082    -.5098477    .0303235
+       _cons |  -1.460182   .0964627   -15.14   0.000    -1.649245   -1.271118
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+             month |        12           0          12     |
+               day |         7           1           6     |
+   country_id#year |        58           1          57    ?|
+-----------------------------------------------------------+
+? = number of redundant parameters may be higher
+
+added scalar:
+           e(baseline) =  .06735379
+
+added scalar:
+       e(num_scandals) =  149
+
+added macro:
+        e(imp_eff_lbl) : "-0.213\sym{**}"
+
+added macro:
+         e(imp_se_lbl) : "(0.108)"
+
+. 
+. esttab _all using "${tables}/violent_peaceful_poi_temp.tex", ///
+>         replace booktabs nonotes nogaps b(3) se(3) ///
+>         star(* 0.10 ** 0.05 *** 0.01) ///
+>         mtitles("\shortstack{Violent\\Protests}" ///
+>                 "\shortstack{Peaceful\\Protests}" ///
+>                 "\shortstack{Violent\\Protests}" ///
+>                 "\shortstack{Peaceful\\Protests}") ///
+>         mgroups("$\pm 30$-Day Window" "$\pm 120$-Day Window", ///
+>                 pattern(1 0 1 0) ///
+>                 prefix(\multicolumn{2}{c}{) suffix(}) span ///
+>                 erepeat(\cmidrule(lr){@span})) ///
+>         stats(imp_eff_lbl imp_se_lbl baseline N num_scandals r2_p, ///
+>               label("Implied Prop. Effect" ///
+>                     " " ///
+>                     "Mean (Pre-Scandal Bin)" ///
+>                     "Observations" ///
+>                     "Number of Scandals" ///
+>                     "Pseudo R-squared") ///
+>               fmt(%s %s 3 0 0 3)) ///
+>         keep(post) coeflabels(post "Post Scandal")
+(file
+    C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/tables/violent_pea
+    > ceful_poi_temp.tex not found)
+(output written to ~/Dropbox/Corrupcion/Protest_Work/results/tables/violent_pea
+> ceful_poi_temp.tex)
+
+. 
+. /* ============================================================
+>    COMBINE PANELS
+>    ============================================================ */
+. panelcombine, ///
+>         use("${tables}/violent_peaceful_ols_temp.tex" ///
+>             "${tables}/violent_peaceful_poi_temp.tex") ///
+>         paneltitles("OLS" "Poisson QML") ///
+>         columncount(5) ///
+>         save("${tables}/violent_peaceful_ols_poi_panels.tex") ///
+>         cleanup
+
+. 
+. /* --------------- Append global FE / Cluster rows at the bottom --------- */
+. local d  = char(36)
+
+. local fe_row  = "Country `d'\times`d' Year FE&  \checkmark         &  \checkm
+> ark         &  \checkmark         &  \checkmark         \\"
+
+. local se_row  = "SE Cluster  &C `d'\times`d' Y `d'\times`d' DB         &C `d'
+> \times`d' Y `d'\times`d' DB         &C `d'\times`d' Y `d'\times`d' DB        
+>  &C `d'\times`d' Y `d'\times`d' DB         \\"
+
+. 
+. tempfile patched
+
+. tempname fin fout
+
+. file open `fin'  using "${tables}/violent_peaceful_ols_poi_panels.tex", read 
+>  text
+
+. file open `fout' using "`patched'",                                      writ
+> e text replace
+(file C:\Users\rob98\AppData\Local\Temp\ST_6834_000001.tmp not found)
+
+. 
+. file read `fin' line
+
+. while r(eof) == 0 {
+  2.         if `"`macval(line)'"' == "\bottomrule" {
+  3.                 file write `fout' "\midrule"   _n
+  4.                 file write `fout' "`fe_row'"   _n
+  5.                 file write `fout' "`se_row'"   _n
+  6.         }
+  7.         file write `fout' `"`macval(line)'"' _n
+  8.         file read `fin' line
+  9. }
+
+. file close `fin'
+
+. file close `fout'
+
+. 
+. copy "`patched'" "${tables}/violent_peaceful_ols_poi_panels.tex", replace
+
+. 
+. display in green "a_reg_violent_peaceful_panels.do finished OK"
+a_reg_violent_peaceful_panels.do finished OK
+
+. 
+end of do-file

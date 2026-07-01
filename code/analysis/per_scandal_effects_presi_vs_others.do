@@ -182,14 +182,17 @@ foreach outcome of local outcome_list {
 	/* ---- (a) box plot ---- */
 	/* Build per-category median note for this outcome.
 	   Each category becomes its own quoted string so graph box renders
-	   one median per row in the figure note. */
+	   one median per row in the figure note; the count of scandals
+	   contributing to each category appears in parentheses. */
 	quietly levelsof presi, local(__cats)
 	local med_note `""'
 	foreach c of local __cats {
 		quietly summarize b_`outcome' if presi == `c', detail
 		local __mstr = string(r(p50), "%5.3f")
+		quietly count if !missing(b_`outcome') & presi == `c'
+		local __nstr = r(N)
 		local __lbl : label PRESI `c'
-		local med_note `"`med_note' "Median `__lbl': `__mstr'""'
+		local med_note `"`med_note' "Median `__lbl' = `__mstr'     (Scandals = `__nstr')""'
 	}
 
 	graph box b_`outcome', over(presi, label(labsize(large))) ///

@@ -168,7 +168,7 @@ Per-scandal regressions: 176 scandals x 4 outcomes
 .         tempfile metadata
 
 .         save `metadata'
-file C:\Users\rob98\AppData\Local\Temp\ST_526c_000002.tmp saved as .dta
+file C:\Users\rob98\AppData\Local\Temp\ST_cd00_000002.tmp saved as .dta
     format
 
 . restore
@@ -241,14 +241,14 @@ Number of observations (_N) was 0, now 176.
 .         import delimited using "${datfin}/scandals_classified.csv", ///
 >                 clear varnames(1) bindquotes(strict)
 (encoding automatically selected: UTF-8)
-(7 vars, 186 obs)
+(7 vars, 190 obs)
 
 .         keep id country position
 
 .         tempfile cls
 
 .         save `cls'
-file C:\Users\rob98\AppData\Local\Temp\ST_526c_000004.tmp saved as .dta
+file C:\Users\rob98\AppData\Local\Temp\ST_cd00_000004.tmp saved as .dta
     format
 
 . restore
@@ -257,11 +257,8 @@ file C:\Users\rob98\AppData\Local\Temp\ST_526c_000004.tmp saved as .dta
 
     Result                      Number of obs
     -----------------------------------------
-    Not matched                             4
-        from master                         4  
-        from using                          0  
-
-    Matched                               172  
+    Not matched                             0
+    Matched                               176  
     -----------------------------------------
 
 . 
@@ -280,7 +277,7 @@ file C:\Users\rob98\AppData\Local\Temp\ST_526c_000004.tmp saved as .dta
 (45 real changes made)
 
 . replace presi = 2 if !missing(position) & position != "president"
-(127 real changes made)
+(131 real changes made)
 
 . label define PRESI 1 "President" 2 "Others", replace
 
@@ -322,8 +319,7 @@ file
  vs Others) |      Freq.     Percent        Cum.
 ------------+-----------------------------------
   President |         45       25.57       25.57
-     Others |        127       72.16       97.73
-          . |          4        2.27      100.00
+     Others |        131       74.43      100.00
 ------------+-----------------------------------
       Total |        176      100.00
 
@@ -352,16 +348,20 @@ file
 .         /* ---- (a) box plot ---- */
 .         /* Build per-category median note for this outcome.
 >            Each category becomes its own quoted string so graph box renders
->            one median per row in the figure note. */
+>            one median per row in the figure note; the count of scandals
+>            contributing to each category appears in parentheses. */
 .         quietly levelsof presi, local(__cats)
  10.         local med_note `""'
  11.         foreach c of local __cats {
  12.                 quietly summarize b_`outcome' if presi == `c', detail
  13.                 local __mstr = string(r(p50), "%5.3f")
- 14.                 local __lbl : label PRESI `c'
- 15.                 local med_note `"`med_note' "Median `__lbl': `__mstr'""'
- 16.         }
- 17. 
+ 14.                 quietly count if !missing(b_`outcome') & presi == `c'
+ 15.                 local __nstr = r(N)
+ 16.                 local __lbl : label PRESI `c'
+ 17.                 local med_note `"`med_note' "Median `__lbl' = `__mstr'    
+>  (Scandals = `__nstr')""'
+ 18.         }
+ 19. 
 .         graph box b_`outcome', over(presi, label(labsize(large))) ///
 >                 nooutsides ///
 >                 ytitle("Per-scandal effect on `ytitle'", size(medlarge)) ///
@@ -372,35 +372,35 @@ file
 >                 box(1, lcolor(black) lwidth(thick)) ///
 >                 box(2, lcolor(black) lwidth(thick)) ///
 >                 scheme(s2color) graphregion(color(white))
- 18.         graph export ///
+ 20.         graph export ///
 >                 "${figout}/per_scandal_box_`outcome'_w`window_length'_presi.p
 > df", replace
- 19. 
+ 21. 
 .         /* ---- (b) jittered scatter with category mean + 95% CI ---- */
 .         preserve
- 20.                 keep if !missing(b_`outcome') & !missing(presi)
- 21.                 generate double prec = 1 / se_`outcome'^2
- 22.                 quietly summarize prec
- 23.                 replace prec = prec / r(max)
- 24. 
+ 22.                 keep if !missing(b_`outcome') & !missing(presi)
+ 23.                 generate double prec = 1 / se_`outcome'^2
+ 24.                 quietly summarize prec
+ 25.                 replace prec = prec / r(max)
+ 26. 
 .                 quietly levelsof presi, local(cats)
- 25.                 gen double cmean = .
- 26.                 gen double clo   = .
- 27.                 gen double chi   = .
- 28.                 foreach c of local cats {
- 29.                         quietly count if presi == `c'
- 30.                         if r(N) >= 2 {
- 31.                                 quietly mean b_`outcome' if presi == `c'
- 32.                                 matrix mb = r(table)
- 33.                                 quietly replace cmean = mb[1,1] if presi =
+ 27.                 gen double cmean = .
+ 28.                 gen double clo   = .
+ 29.                 gen double chi   = .
+ 30.                 foreach c of local cats {
+ 31.                         quietly count if presi == `c'
+ 32.                         if r(N) >= 2 {
+ 33.                                 quietly mean b_`outcome' if presi == `c'
+ 34.                                 matrix mb = r(table)
+ 35.                                 quietly replace cmean = mb[1,1] if presi =
 > = `c'
- 34.                                 quietly replace clo   = mb[5,1] if presi =
+ 36.                                 quietly replace clo   = mb[5,1] if presi =
 > = `c'
- 35.                                 quietly replace chi   = mb[6,1] if presi =
+ 37.                                 quietly replace chi   = mb[6,1] if presi =
 > = `c'
- 36.                         }
- 37.                 }
- 38. 
+ 38.                         }
+ 39.                 }
+ 40. 
 .                 twoway ///
 >                         (scatter b_`outcome' presi [aw=prec], ///
 >                                 jitter(8) mcolor(navy%35) msymbol(O)) ///
@@ -422,11 +422,11 @@ file
 > onal to 1/SE^2." ///
 >                                 "Narrow +-`window_length'-day window.") ///
 >                         scheme(s2color) graphregion(color(white))
- 39.                 graph export ///
+ 41.                 graph export ///
 >                         "${figout}/per_scandal_jitter_`outcome'_w`window_leng
 > th'_presi.pdf", replace
- 40.         restore
- 41. }
+ 42.         restore
+ 43. }
 === Per-scandal num_protests_MM: President vs Others ===
 
 Summary for variables: b_num_protests_MM
@@ -435,28 +435,28 @@ Group variable: presi (Type of official involved (President vs Others))
     presi |         N      Mean       p50        SD       Min       Max
 ----------+------------------------------------------------------------
 President |        17  .1027018  .0365265  .1630671 -.0571414  .4634052
-   Others |        56 -.0084234 -.0053219  .2911662 -.5945849  1.017755
+   Others |        58 -.0058226 -.0051316  .2863557 -.5945849  1.017755
 ----------+------------------------------------------------------------
-    Total |        73  .0174551  -.000574  .2700121 -.5945849  1.017755
+    Total |        75  .0187762  1.83e-18   .266465 -.5945849  1.017755
 -----------------------------------------------------------------------
 
-Mean estimation                                          Number of obs = 73
+Mean estimation                                          Number of obs = 75
 
 ---------------------------------------------------------------------------
                           |       Mean   Std. err.     [95% conf. interval]
 --------------------------+------------------------------------------------
 c.b_num_protests_MM@presi |
-               President  |   .1027018   .0395496      .0238612    .1815424
-                  Others  |  -.0084234   .0389087     -.0859865    .0691397
+               President  |   .1027018   .0395496      .0238975    .1815061
+                  Others  |  -.0058226   .0376003      -.080743    .0690977
 ---------------------------------------------------------------------------
 file
     C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/figures/per_scanda
     > l_box_num_protests_MM_w30_presi.pdf saved as PDF format
-(103 observations deleted)
-(73 real changes made)
-(73 missing values generated)
-(73 missing values generated)
-(73 missing values generated)
+(101 observations deleted)
+(75 real changes made)
+(75 missing values generated)
+(75 missing values generated)
+(75 missing values generated)
 file
     C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/figures/per_scanda
     > l_jitter_num_protests_MM_w30_presi.pdf saved as PDF format
@@ -501,28 +501,28 @@ Group variable: presi (Type of official involved (President vs Others))
     presi |         N      Mean       p50        SD       Min       Max
 ----------+------------------------------------------------------------
 President |        14  .0404992  .0026841  .1453735 -.1291681  .4740385
-   Others |        47 -.0023162  -.005053  .2698159  -.525011  1.010711
+   Others |        49  .0005129 -.0044748  .2645067  -.525011  1.010711
 ----------+------------------------------------------------------------
-    Total |        61  .0075103 -.0044748  .2464189  -.525011  1.010711
+    Total |        63  .0093988 -.0018138  .2426469  -.525011  1.010711
 -----------------------------------------------------------------------
 
-Mean estimation                                          Number of obs = 61
+Mean estimation                                          Number of obs = 63
 
 ---------------------------------------------------------------------------
                           |       Mean   Std. err.     [95% conf. interval]
 --------------------------+------------------------------------------------
 c.b_num_peaceful_MM@presi |
-               President  |   .0404992   .0388527     -.0372178    .1182162
-                  Others  |  -.0023162   .0393567     -.0810413    .0764089
+               President  |   .0404992   .0388527     -.0371662    .1181647
+                  Others  |   .0005129   .0377867     -.0750215    .0760474
 ---------------------------------------------------------------------------
 file
     C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/figures/per_scanda
     > l_box_num_peaceful_MM_w30_presi.pdf saved as PDF format
-(115 observations deleted)
-(61 real changes made)
-(61 missing values generated)
-(61 missing values generated)
-(61 missing values generated)
+(113 observations deleted)
+(63 real changes made)
+(63 missing values generated)
+(63 missing values generated)
+(63 missing values generated)
 file
     C:\Users\rob98/Dropbox/Corrupcion/Protest_Work/results/figures/per_scanda
     > l_jitter_num_peaceful_MM_w30_presi.pdf saved as PDF format

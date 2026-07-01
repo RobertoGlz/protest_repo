@@ -1,0 +1,162 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      StataNow 19.5
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2025 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-782-8272        https://www.stata.com
+                                   979-696-4600        service@stata.com
+
+Stata license: Unlimited-user 16-core network, expiring  2 Jul 2026
+Serial number: 501909320077
+  Licensed to: Roberto Gonzalez Tellez
+               Stanford University GSB
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do _inspect_missing_4_scandals.do 
+
+. /* Diagnostic v2 -- compare master corruption_news_v2 vs scandals_classified.
+> csv
+>    to find the 5 master IDs NOT in the manual-classification CSV, and to see
+>    whether any field (importance, LB, date2 != date, etc.) distinguishes them
+>    from the 186 IDs that DO appear in the manual classification. */
+. 
+. if "`c(username)'" == "rob98" {
+.         global identity "~/Dropbox"
+. }
+
+. global path   "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
+
+. global datfin "${path}/Data/final"
+
+. global datwrk "${path}/Data/working"
+
+. 
+. /* 1. Load master and tag which IDs are in the CSV */
+. use "${datwrk}/News/corruption_news_v2.dta", clear
+
+. 
+. /* Merge in the CSV's id+position to flag classified vs not */
+. preserve
+
+.         import delimited using "${datfin}/scandals_classified.csv", ///
+>                 clear varnames(1) bindquotes(strict)
+(encoding automatically selected: UTF-8)
+(7 vars, 190 obs)
+
+.         keep id country position
+
+.         tempfile cls
+
+.         save `cls'
+file C:\Users\rob98\AppData\Local\Temp\ST_9870_000002.tmp saved as .dta
+    format
+
+. restore
+
+. 
+. display _newline "=== Duplicates on (id, country) in master ==="
+
+=== Duplicates on (id, country) in master ===
+
+. duplicates report id country
+
+Duplicates in terms of id country
+
+--------------------------------------
+   Copies | Observations       Surplus
+----------+---------------------------
+        1 |          189             0
+        2 |            2             1
+--------------------------------------
+
+. duplicates list id country, sepby(id)
+
+Duplicates in terms of id country
+
+  +---------------------+
+  | Obs    id   country |
+  |---------------------|
+  |  13   105    Brazil |
+  | 111   105    Brazil |
+  +---------------------+
+
+. 
+. /* Master has duplicates on (id, country); use m:1 merge to flag */
+. merge m:1 id country using `cls', keep(1 3) generate(_in_csv)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               191  (_in_csv==3)
+    -----------------------------------------
+
+. gen byte unclassified = (_in_csv == 1)
+
+. label define UNCLASS 0 "In CSV" 1 "Missing from CSV", replace
+
+. label values unclassified UNCLASS
+
+. 
+. display _newline "=== How many master rows are missing from CSV ==="
+
+=== How many master rows are missing from CSV ===
+
+. tab unclassified, missing
+
+    unclassified |      Freq.     Percent        Cum.
+-----------------+-----------------------------------
+          In CSV |        191      100.00      100.00
+-----------------+-----------------------------------
+           Total |        191      100.00
+
+. 
+. display _newline "=== All master rows MISSING from CSV ==="
+
+=== All master rows MISSING from CSV ===
+
+. list id country date date2 importance LB if unclassified == 1, ///
+>     noobs string(20) sepby(id)
+
+. 
+. display _newline "=== importance distribution, classified vs not ==="
+
+=== importance distribution, classified vs not ===
+
+. tab importance unclassified, missing
+
+           | unclassifi
+           |     ed
+Importance |    In CSV |     Total
+-----------+-----------+----------
+         1 |       106 |       106 
+         2 |        85 |        85 
+-----------+-----------+----------
+     Total |       191 |       191 
+
+. display _newline "=== LB distribution, classified vs not ==="
+
+=== LB distribution, classified vs not ===
+
+. tab LB unclassified, missing
+
+           | unclassifi
+Latinobaro |     ed
+     metro |    In CSV |     Total
+-----------+-----------+----------
+         0 |       157 |       157 
+         1 |        34 |        34 
+-----------+-----------+----------
+     Total |       191 |       191 
+
+. 
+end of do-file

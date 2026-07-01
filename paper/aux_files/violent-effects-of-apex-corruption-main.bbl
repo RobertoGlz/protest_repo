@@ -3,10 +3,38 @@
 \fi
 \begin{thebibliography}{xx}
 
+\harvarditem[Acemoglu and Robinson]{Acemoglu and
+  Robinson}{2006}{acemoglu2006origins}
+{\bf Acemoglu, Daron and James~A. Robinson}, {\it Economic Origins of
+  Dictatorship and Democracy}, Cambridge University Press, 2006.
+
+\harvarditem[Acemoglu and Robinson]{Acemoglu and
+  Robinson}{2012}{acemoglu2012nations}
+{\bf \bysame{} and \bysame{}}, {\it Why Nations Fail: The Origins of Power,
+  Prosperity, and Poverty}, Crown Business, 2012.
+
+\harvarditem[Acemoglu et al.]{Acemoglu, Ajzenman, Aksoy, Fiszbein and
+  Molina}{2024}{acemoglu2024demobreedsupport}
+{\bf \bysame{}, Nicol{\'a}s Ajzenman, Cevat~Giray Aksoy, Martin Fiszbein, and
+  Carlos Molina}, ``(Successful) Democracies Breed Their Own Support,'' {\it
+  The Review of Economic Studies}, 2024, {\it rdae051.}
+
+\harvarditem[Acemoglu et al.]{Acemoglu, Naidu, Restrepo and
+  Robinson}{2019}{acemoglu2019DemoEcoGrowth}
+{\bf \bysame{}, Suresh Naidu, Pascual Restrepo, and James~A. Robinson},
+  ``Democracy Does Cause Growth,'' {\it Journal of Political Economy}, February
+  2019, {\it 127} (1).
+
 \harvarditem[Ajzenman]{Ajzenman}{2021}{ajzenman2021powerexample}
 {\bf Ajzenman, Nicolás}, ``The Power of Example: Corruption Spurs
   Corruption,'' {\it American Economic Journal: Applied Economics}, April 2021,
   {\it 13} (2), 230–57.
+
+\harvarditem[Anduiza et al.]{Anduiza, Gallego and
+  Mu{\~n}oz}{2013}{anduiza2013turning}
+{\bf Anduiza, Eva, Aina Gallego, and Jordi Mu{\~n}oz}, ``Turning a blind eye:
+  experimental evidence of partisan bias in attitudes toward corruption,'' {\it
+  Comparative Political Studies}, 2013, {\it 46} (12), 1664--1692.
 
 \harvarditem[Arias et al.]{Arias, Larreguy, Marshall and
   Querubín}{2022}{horacio2022metaketa}
@@ -22,14 +50,72 @@
   Accountability: Evidence from Mexican Social Networks,'' {\it American
   Political Science Review}, 2019, {\it 113} (2), 475–498.
 
+\harvarditem[Avis et al.]{Avis, Ferraz and Finan}{2018}{ferraz2018audits}
+{\bf Avis, Eric, Claudio Ferraz, and Frederico Finan}, ``Do government audits
+  reduce corruption? Estimating the impacts of exposing corrupt politicians,''
+  {\it Journal of Political Economy}, 2018, {\it 126} (5), 1912--1964.
+
+\harvarditem[Berman et al.]{Berman, Shapiro and Felter}{2011}{berman2011hearts}
+{\bf Berman, Eli, Jacob~N. Shapiro, and Joseph~H. Felter}, ``Can hearts and
+  minds be bought? The economics of counterinsurgency in {Iraq},'' {\it Journal
+  of Political Economy}, 2011, {\it 119} (4), 766--819.
+
+\harvarditem[Besley and Persson]{Besley and Persson}{2011}{besley2011logic}
+{\bf Besley, Timothy and Torsten Persson}, ``The logic of political violence,''
+  {\it The Quarterly Journal of Economics}, 2011, {\it 126} (3), 1411--1445.
+
+\harvarditem[Bursztyn et al.]{Bursztyn, Cantoni, Yang, Yuchtman and
+  Zhang}{2021}{bursztyn2021persistent}
+{\bf Bursztyn, Leonardo, Davide Cantoni, David~Y. Yang, Noam Yuchtman, and
+  Y.~Jane Zhang}, ``Persistent political engagement: social interactions and
+  the dynamics of protest movements,'' {\it American Economic Review:
+  Insights}, 2021, {\it 3} (2), 233--250.
+
 \harvarditem[Cantoni et al.]{Cantoni, Kao, Yang and
   Yuchtman}{2024}{cantoni2024protests}
 {\bf Cantoni, Davide, Andrew Kao, David~Y. Yang, and Noam Yuchtman},
   ``Protests,'' {\it Annual Review of Economics}, 2024, {\it 16}, 519--543.
 
+\harvarditem[Carlin et al.]{Carlin, Love and
+  Mart{\'\i}nez-Gallardo}{2015}{carlin2015cushioning}
+{\bf Carlin, Ryan~E., Gregory~J. Love, and Cecilia Mart{\'\i}nez-Gallardo},
+  ``Cushioning the fall: scandals, economic conditions, and executive
+  approval,'' {\it Political Behavior}, 2015, {\it 37} (1), 109--130.
+
+\harvarditem[Chong et al.]{Chong, {De La O}, Karlan and
+  Wantchekon}{2015}{chong2015does}
+{\bf Chong, Alberto, Ana~L. {De La O}, Dean Karlan, and Leonard Wantchekon},
+  ``Does corruption information inspire the fight or quash the hope? A field
+  experiment in {Mexico} on voter turnout, choice, and party identification,''
+  {\it The Journal of Politics}, 2015, {\it 77} (1), 55--71.
+
 \harvarditem[Clark and Regan]{Clark and Regan}{2016}{clark2016mass}
 {\bf Clark, David and Patrick Regan}, ``Mass {Mobilization} Protest Data,''
   2016.
+
+\harvarditem[Costas-P{\'e}rez et al.]{Costas-P{\'e}rez, Sol{\'e}-Oll{\'e} and
+  Sorribas-Navarro}{2012}{costasperez2012corruption}
+{\bf Costas-P{\'e}rez, Elena, Albert Sol{\'e}-Oll{\'e}, and Pilar
+  Sorribas-Navarro}, ``Corruption scandals, voter information, and
+  accountability,'' {\it European Journal of Political Economy}, 2012, {\it 28}
+  (4), 469--484.
+
+\harvarditem[DellaVigna and Kaplan]{DellaVigna and
+  Kaplan}{2007}{dellavigna2007fox}
+{\bf DellaVigna, Stefano and Ethan Kaplan}, ``The {Fox News} effect: media bias
+  and voting,'' {\it The Quarterly Journal of Economics}, 2007, {\it 122} (3),
+  1187--1234.
+
+\harvarditem[Depetris-Chauvin et al.]{Depetris-Chauvin, Durante and
+  Campante}{2020}{DuranteFutbol}
+{\bf Depetris-Chauvin, Emilio, Ruben Durante, and Filipe Campante}, ``Building
+  Nations through Shared Experiences: Evidence from {African} Football,'' {\it
+  American Economic Review}, May 2020, {\it 110} (5), 1572--1602.
+
+\harvarditem[Dube and Vargas]{Dube and Vargas}{2013}{dube2013commodity}
+{\bf Dube, Oeindrila and Juan~F. Vargas}, ``Commodity price shocks and civil
+  conflict: evidence from {Colombia},'' {\it The Review of Economic Studies},
+  2013, {\it 80} (4), 1384--1421.
 
 \harvarditem[Enikolopov et al.]{Enikolopov, Petrova and
   Sonin}{2018}{enikolopov2018SocialMedia}
@@ -37,16 +123,61 @@
   and Corruption,'' {\it American Economic Journal: Applied Economics}, January
   2018, {\it 10} (1), 150--174.
 
-\harvarditem[Ferraz and Finan]{Ferraz and Finan}{2011}{FerrazFinanAccount}
-{\bf Ferraz, Claudio and Frederico Finan}, ``Electoral Accountability and
-  Corruption: Evidence from the Audits of Local Governments,'' {\it American
-  Economic Review}, June 2011, {\it 101} (4), 1274–1311.
+\harvarditem[Ferraz and Finan]{Ferraz and Finan}{2008}{ferraz2008exposing}
+{\bf Ferraz, Claudio and Frederico Finan}, ``Exposing corrupt politicians: the
+  effects of {Brazil}'s publicly released audits on electoral outcomes,'' {\it
+  The Quarterly Journal of Economics}, 2008, {\it 123} (2), 703--745.
+
+\harvarditem[Ferraz and Finan]{Ferraz and Finan}{2011a}{ferraz2011electoral}
+{\bf \bysame{} and \bysame{}}, ``Electoral accountability and corruption:
+  evidence from the audits of local governments,'' {\it American Economic
+  Review}, 2011, {\it 101} (4), 1274--1311.
+
+\harvarditem[Ferraz and Finan]{Ferraz and Finan}{2011b}{FerrazFinanAccount}
+{\bf \bysame{} and \bysame{}}, ``Electoral Accountability and Corruption:
+  Evidence from the Audits of Local Governments,'' {\it American Economic
+  Review}, June 2011, {\it 101} (4), 1274–1311.
+
+\harvarditem[Glaeser and Saks]{Glaeser and Saks}{2006}{glaeser2006corruption}
+{\bf Glaeser, Edward~L. and Raven~E. Saks}, ``Corruption in {America},'' {\it
+  Journal of Public Economics}, 2006, {\it 90} (6--7), 1053--1072.
+
+\harvarditem[Jha]{Jha}{2013}{jha2013trade}
+{\bf Jha, Saumitra}, ``Trade, institutions, and ethnic tolerance: evidence from
+  {South Asia},'' {\it American Political Science Review}, 2013, {\it 107} (4),
+  806--832.
+
+\harvarditem[Jha]{Jha}{2022}{jha2022markets}
+{\bf \bysame{}}, ``Markets under siege: how differences in political beliefs
+  can move financial markets,'' 2022.
+\newblock Stanford GSB Working Paper No.\ 4012.
+
+\harvarditem[Jha and Shayo]{Jha and Shayo}{2019}{jha2019valuing}
+{\bf \bysame{} and Moses Shayo}, ``Valuing peace: the effects of financial
+  market exposure on votes and political attitudes,'' {\it Econometrica}, 2019,
+  {\it 87} (5), 1561--1588.
 
 \harvarditem[K{\"o}nig et al.]{K{\"o}nig, Rohner, Thoenig and
   Zilibotti}{2017}{koenig2017networks}
 {\bf K{\"o}nig, Michael~D., Dominic Rohner, Mathias Thoenig, and Fabrizio
   Zilibotti}, ``Networks in conflict: theory and evidence from the {Great War
   of Africa},'' {\it Econometrica}, 2017, {\it 85} (4), 1093--1132.
+
+\harvarditem[Madestam et al.]{Madestam, Shoag, Veuger and
+  Yanagizawa-Drott}{2013}{madestam2013protests}
+{\bf Madestam, Andreas, Daniel Shoag, Stan Veuger, and David Yanagizawa-Drott},
+  ``Do political protests matter? Evidence from the {Tea Party} movement,''
+  {\it The Quarterly Journal of Economics}, 2013, {\it 128} (4), 1633--1685.
+
+\harvarditem[Martinez-Bravo et al.]{Martinez-Bravo, Padr{\'o}~i Miquel, Qian
+  and Yao}{2022}{martinezbravo2022elites}
+{\bf Martinez-Bravo, Monica, Gerard~Padr{\'o} i~Miquel, Nancy Qian, and Yang
+  Yao}, ``The rise and fall of local elections in {China},'' {\it American
+  Economic Review}, 2022, {\it 112} (9), 2921--2958.
+
+\harvarditem[Mauro]{Mauro}{1995}{mauro1995corruption}
+{\bf Mauro, Paolo}, ``Corruption and growth,'' {\it The Quarterly Journal of
+  Economics}, 1995, {\it 110} (3), 681--712.
 
 \harvarditem[McGuirk and Burke]{McGuirk and Burke}{2020}{mcguirk2020economic}
 {\bf McGuirk, Eoin and Marshall Burke}, ``The economic origins of conflict in
@@ -59,6 +190,20 @@
   and civil conflict: an instrumental variables approach,'' {\it Journal of
   Political Economy}, 2004, {\it 112} (4), 725--753.
 
+\harvarditem[Olken]{Olken}{2007}{olken2007monitoring}
+{\bf Olken, Benjamin~A.}, ``Monitoring corruption: evidence from a field
+  experiment in {Indonesia},'' {\it Journal of Political Economy}, 2007, {\it
+  115} (2), 200--249.
+
+\harvarditem[Olken and Pande]{Olken and Pande}{2012}{olken2012corruption}
+{\bf \bysame{} and Rohini Pande}, ``Corruption in developing countries,'' {\it
+  Annual Review of Economics}, 2012, {\it 4}, 479--509.
+
+\harvarditem[Pav{\~a}o]{Pav{\~a}o}{2018}{pavao2018corruption}
+{\bf Pav{\~a}o, Natalia}, ``Corruption as the only option: the limits to
+  electoral accountability,'' {\it The Journal of Politics}, 2018, {\it 80}
+  (3), 996--1010.
+
 \harvarditem[Rivera et al.]{Rivera, Seira and Jha}{2024}{ApexCorruption}
 {\bf Rivera, Eduardo, Enrique Seira, and Saumitra Jha}, ``Apex Corruption
   Erodes Democratic Values,'' {\it Working Paper}, 2024.
@@ -68,6 +213,11 @@
 {\bf Rohner, D., U.~Sunde, O.~Vanden Eynde, A.~L. Wright, and J.-R. Zeng},
   ``Aiding peace or conflict? The impact of USAID cuts on violence,'' {\it
   Science}, 2026, {\it 392} (6799), eaed6802.
+
+\harvarditem[Treisman]{Treisman}{2007}{treisman2007what}
+{\bf Treisman, Daniel}, ``What have we learned about the causes of corruption
+  from ten years of cross-national empirical research?,'' {\it Annual Review of
+  Political Science}, 2007, {\it 10}, 211--244.
 
 \harvarditem[Tufekci]{Tufekci}{2024}{tufekci2024twitter}
 {\bf Tufekci, Zeynep}, {\it Twitter and tear gas}, New Haven, CT: Yale

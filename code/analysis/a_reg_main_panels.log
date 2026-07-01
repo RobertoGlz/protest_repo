@@ -154,62 +154,69 @@ Notes:
  26.         drop if strpos(v1,"Note:")>0 | strpos(v1,"in parentheses")>0 | str
 > pos(v1,"p<0")>0
  27.         drop if v1=="\end{tabular}" | v1=="}"
- 28.         replace v1 = "\midrule \multicolumn{`columncount'}{l}{\textbf{\tex
-> tit{Panel `panellabel': `panel1title'}}} \\" if v1=="\midrule" & _n<8
- 29.         replace v1 = "\midrule" if v1=="\bottomrule" & _n>4 //this is inte
+ 28.         /* Replace ONLY the first occurrence of \midrule with the Panel A
+>            header. Using cumulative-sum-of-flag is robust to the row
+>            position changing because of mgroups, multi-row column
+>            headers, etc. */
+.         gen byte _is_mid = (v1 == "\midrule")
+ 29.         gen long _midnum = sum(_is_mid)
+ 30.         replace v1 = "\midrule \multicolumn{`columncount'}{l}{\textbf{\tex
+> tit{Panel `panellabel': `panel1title'}}} \\" if _is_mid == 1 & _midnum == 1
+ 31.         drop _is_mid _midnum
+ 32.         replace v1 = "\midrule" if v1=="\bottomrule" & _n>4 //this is inte
 > nded to replace the bottom double line; more robust condition probably exists
- 30.         }
- 31.         else if `num'==`max' { //process final panel -- clip top
- 32.         //process header to drop everything until first hline
+ 33.         }
+ 34.         else if `num'==`max' { //process final panel -- clip top
+ 35.         //process header to drop everything until first hline
 .         g temp = (v1 == "\midrule")
- 33.         replace temp = temp+temp[_n-1] if _n>1
- 34.         drop if temp==0
- 35.         drop temp
- 36. 
+ 36.         replace temp = temp+temp[_n-1] if _n>1
+ 37.         drop if temp==0
+ 38.         drop temp
+ 39. 
 .         replace v1 = " \multicolumn{`columncount'}{l}{\textbf{\textit{Panel `
 > panellabel': `panel`num'title'}}} \\" if _n==1
- 37.         }
- 38.         else { //process middle panels -- clip top and bottom
- 39.         //process header to drop everything until first hline
+ 40.         }
+ 41.         else { //process middle panels -- clip top and bottom
+ 42.         //process header to drop everything until first hline
 .         g temp = (v1 == "\midrule")
- 40.         replace temp = temp+temp[_n-1] if _n>1
- 41.         drop if temp==0
- 42.         drop temp
- 43. 
+ 43.         replace temp = temp+temp[_n-1] if _n>1
+ 44.         drop if temp==0
+ 45.         drop temp
+ 46. 
 .         replace v1 = " \multicolumn{`columncount'}{l}{\textbf{\textit{Panel `
 > panellabel': `panel`num'title'}}} \\" if _n==1
- 44.         drop if strpos(v1,"Note:")>0 | strpos(v1,"in parentheses")>0 | str
+ 47.         drop if strpos(v1,"Note:")>0 | strpos(v1,"in parentheses")>0 | str
 > pos(v1,"p<0")>0
- 45.         drop if v1=="\end{tabular}" | v1=="}"
- 46.         replace v1 = "\bottomrule" if v1=="\bottomrule\bottomrule"
- 47.         }
- 48.         save `temp`num'', replace
- 49. local num=`num'+1
- 50. }
- 51. 
+ 48.         drop if v1=="\end{tabular}" | v1=="}"
+ 49.         replace v1 = "\bottomrule" if v1=="\bottomrule\bottomrule"
+ 50.         }
+ 51.         save `temp`num'', replace
+ 52. local num=`num'+1
+ 53. }
+ 54. 
 . use `temp1',clear
- 52. local num 2
- 53. while "``num''"~="" {
- 54. append using `temp`num''
- 55. local num=`num'+1
- 56. }
- 57. 
+ 55. local num 2
+ 56. while "``num''"~="" {
+ 57. append using `temp`num''
+ 58. local num=`num'+1
+ 59. }
+ 60. 
 . outsheet using `save', noname replace noquote
- 58. 
+ 61. 
 . 
 .         if "`cleanup'"!="" { //erasure loop
- 59.         tokenize `"`use'"'
- 60.         local num 1
- 61.                 while `"``num''"'~="" {
- 62.                 local filepath `"``num''"'
- 63.                 erase `"`filepath'"'
- 64.                 local num=`num'+1
- 65.                 }
- 66.         }
- 67. 
+ 62.         tokenize `"`use'"'
+ 63.         local num 1
+ 64.                 while `"``num''"'~="" {
+ 65.                 local filepath `"``num''"'
+ 66.                 erase `"`filepath'"'
+ 67.                 local num=`num'+1
+ 68.                 }
+ 69.         }
+ 70. 
 . restore
- 68. }
- 69. end
+ 71. }
+ 72. end
 
 . 
 end of do-file
@@ -666,7 +673,7 @@ added scalar:
 
 . file open `fout' using "`patched'",                            write text rep
 > lace
-(file C:\Users\rob98\AppData\Local\Temp\ST_8c88_000001.tmp not found)
+(file C:\Users\rob98\AppData\Local\Temp\ST_6edc_000001.tmp not found)
 
 . 
 . file read `fin' line
