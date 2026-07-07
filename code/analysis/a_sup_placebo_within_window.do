@@ -58,7 +58,7 @@ global path    "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
 global datfin  "${path}/Data/final"
 global work    "${identity}/Corrupcion/Protest_Work"
 global resout  "${work}/results"
-global figout  "${work}/results/figures"
+global figout  "${identity}/Corrupcion/protest_repo/paper/figures"
 
 local outcome_list = "num_violent_MM num_peaceful_MM"
 local firstyear    = 2008

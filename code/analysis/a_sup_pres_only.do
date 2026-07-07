@@ -46,7 +46,7 @@ if "`c(username)'" == "rob98" {
 global path    "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
 global datfin  "${path}/Data/final"
 global work    "${identity}/Corrupcion/Protest_Work"
-global tables  "${work}/results/tables"
+global tables  "${identity}/Corrupcion/protest_repo/paper/tables"
 global progdir "${identity}/Corrupcion/protest_repo/code/programs"
 
 do "${progdir}/define_panelcombine.do"

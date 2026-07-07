@@ -1,32 +1,29 @@
 {
 \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
-\begin{tabular}{l*{4}{c}}
+\begin{tabular}{l*{8}{c}}
 \toprule
-&\multicolumn{2}{c}{$\pm 30$-Day Window}    &\multicolumn{2}{c}{$\pm 120$-Day Window}   \\\cmidrule(lr){2-3}\cmidrule(lr){4-5}
-&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
-&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}\\
-\midrule \multicolumn{5}{l}{\textbf{\textit{Panel A: OLS}}} \\
-Post Scandal&       0.016\sym{***}&       0.010         &       0.016\sym{**} &      -0.009         \\
-&     (0.005)         &     (0.008)         &     (0.006)         &     (0.007)         \\
+&\multicolumn{2}{c}{$\pm 30$-Day Window}    &\multicolumn{2}{c}{$\pm 120$-Day Window}   &\multicolumn{2}{c}{Shares ($\pm 30$-Day)}  &\multicolumn{2}{c}{Shares ($\pm 120$-Day)} \\\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
+&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}\\
+&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Share\\Violent}}&\multicolumn{1}{c}{\shortstack{Share\\Peaceful}}&\multicolumn{1}{c}{\shortstack{Share\\Violent}}&\multicolumn{1}{c}{\shortstack{Share\\Peaceful}}\\
+\midrule \multicolumn{9}{l}{\textbf{\textit{Panel A: OLS}}} \\
+Post Scandal&       0.016\sym{***}&       0.010         &       0.016\sym{**} &      -0.009         &       0.015\sym{***}&       0.011         &       0.016\sym{**} &      -0.009         \\
+&     (0.005)         &     (0.008)         &     (0.006)         &     (0.007)         &     (0.005)         &     (0.008)         &     (0.006)         &     (0.007)         \\
 \midrule
-Mean (Pre-Scandal Bin)&       0.027         &       0.069         &       0.020         &       0.053         \\
-Observations&       10736         &       10736         &       42657         &       42657         \\
-Number of Scandals&         176         &         176         &         176         &         176         \\
-R-squared   &       0.160         &       0.473         &       0.126         &       0.300         \\
+Mean (Pre-Scandal Bin)&       0.027         &       0.069         &       0.020         &       0.053         &       0.027         &       0.061         &       0.020         &       0.048         \\
+Observations&       10736         &       10736         &       42657         &       42657         &       10736         &       10736         &       42657         &       42657         \\
+Number of Scandals&         176         &         176         &         176         &         176         &         176         &         176         &         176         &         176         \\
+R-squared   &       0.160         &       0.473         &       0.126         &       0.300         &       0.167         &       0.493         &       0.129         &       0.292         \\
 \midrule
-\multicolumn{5}{l}{\textbf{\textit{Panel B: Poisson QML}}} \\
-Post Scandal&       0.433\sym{***}&       0.227\sym{*}  &       0.490\sym{**} &      -0.240\sym{*}  \\
-&     (0.097)         &     (0.122)         &     (0.195)         &     (0.138)         \\
+\multicolumn{9}{l}{\textbf{\textit{Panel B: Poisson QML}}} \\
+Post Scandal (IRR)&       1.542\sym{***}&       1.254\sym{*}  &       1.632\sym{**} &       0.787\sym{*}   & & & & \\
+&     (0.149)         &     (0.152)         &     (0.318)         &     (0.108)          & & & & \\
 \midrule
-Implied Prop. Effect&0.542\sym{***}         &0.254\sym{*}         &0.632\sym{**}         &-0.213\sym{**}         \\
-&     (0.149)         &     (0.152)         &     (0.318)         &     (0.108)         \\
-Mean (Pre-Scandal Bin)&       0.072         &       0.114         &       0.039         &       0.067         \\
-Observations&        3996         &        6454         &       21585         &       33529         \\
-Number of Scandals&          74         &         108         &          98         &         149         \\
-Pseudo R-squared&       0.317         &       0.424         &       0.259         &       0.295         \\
+Mean (Pre-Scandal Bin)&       0.072         &       0.114         &       0.039         &       0.067          & & & & \\
+Observations&        3996         &        6454         &       21585         &       33529          & & & & \\
+Number of Scandals&          74         &         108         &          98         &         149          & & & & \\
+Pseudo R-squared&       0.317         &       0.424         &       0.259         &       0.295          & & & & \\
 \midrule
-Country $\times$ Year FE&  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
-SE Cluster  &C $\times$ Y $\times$ DB         &C $\times$ Y $\times$ DB         &C $\times$ Y $\times$ DB         &C $\times$ Y $\times$ DB         \\
+Country $\times$ Year FE&  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
 \bottomrule
 \end{tabular}
 }
