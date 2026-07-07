@@ -1,0 +1,201 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      StataNow 19.5
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2025 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-782-8272        https://www.stata.com
+                                   979-696-4600        service@stata.com
+
+Stata license: Unlimited-user 16-core network, expiring  2 Jul 2026
+Serial number: 501909320077
+  Licensed to: Roberto Gonzalez Tellez
+               Stanford University GSB
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do _verify_ri_data_source.do 
+
+. /* Verify that panel_country_day.dta gives the same protest counts as
+>    protests_scandals_30days_v3.dta for the SAME (country, date) cells.
+>    This is the assumption the randomization-inference test relies on. */
+. 
+. if "`c(username)'" == "rob98" {
+.         global identity "~/Dropbox"
+. }
+
+. global path   "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
+
+. global datfin "${path}/Data/final"
+
+. global work   "${identity}/Corrupcion/Protest_Work"
+
+. 
+. display _newline "=== Describe MMclean_full_bydate (source of the event-windo
+> w build) ==="
+
+=== Describe MMclean_full_bydate (source of the event-window build) ===
+
+. use "${work}/temp/MM/MMclean_full_bydate.dta", clear
+
+. describe, short
+
+Contains data from ~/Dropbox/Corrupcion/Protest_Work/temp/MM/MMclean_full_bydat
+> e.dta
+ Observations:        37,078                  
+    Variables:             5                  18 Nov 2024 14:35
+Sorted by: country  date
+
+. describe
+
+Contains data from ~/Dropbox/Corrupcion/Protest_Work/temp/MM/MMclean_full_bydat
+> e.dta
+ Observations:        37,078                  
+    Variables:             5                  18 Nov 2024 14:35
+-------------------------------------------------------------------------------
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+-------------------------------------------------------------------------------
+country         str44   %44s                  
+date            float   %td                   
+num_protests    double  %8.0g                 (sum) protest
+num_peaceful    double  %9.0g                 (sum) peaceful_protest
+num_violent     double  %9.0g                 (sum) violent_protest
+-------------------------------------------------------------------------------
+Sorted by: country  date
+
+. 
+. display _newline "=== Describe panel_country_day.dta ==="
+
+=== Describe panel_country_day.dta ===
+
+. use "${datfin}/panel_country_day.dta", clear
+
+. describe, short
+
+Contains data from ~/Dropbox/Corrupcion/WORKING FOLDER/Event Study - Scandals/D
+> ata/final/panel_country_day.dta
+ Observations:       254,104                  
+    Variables:            31                  21 May 2026 10:40
+Sorted by: 
+
+. 
+. display _newline "=== Describe protests_scandals_30days_v3.dta ==="
+
+=== Describe protests_scandals_30days_v3.dta ===
+
+. use "${datfin}/protests_scandals_30days_v3.dta", clear
+
+. describe, short
+
+Contains data from ~/Dropbox/Corrupcion/WORKING FOLDER/Event Study - Scandals/D
+> ata/final/protests_scandals_30days_v3.dta
+ Observations:        46,031                  
+    Variables:           111                  28 Nov 2025 10:04
+Sorted by: id_group  date
+
+. 
+. /* Head-to-head spot check: pick 10 random (country, date) cells that
+>    appear in BOTH panels and compare num_violent_MM vs mm_violent. */
+. display _newline "=== Spot check: same (country, date) cells, both datasets =
+> =="
+
+=== Spot check: same (country, date) cells, both datasets ===
+
+. 
+. use country date num_violent_MM num_peaceful_MM num_protests_MM ///
+>     using "${datfin}/protests_scandals_30days_v3.dta", clear
+
+. drop if country == "Venezuela"
+(3,374 observations deleted)
+
+. bysort country date: keep if _n == 1  /* one row per (country, date) */
+(19,193 observations deleted)
+
+. rename num_violent_MM  violent_evwin
+
+. rename num_peaceful_MM peaceful_evwin
+
+. rename num_protests_MM protests_evwin
+
+. tempfile evwin
+
+. save `evwin'
+file C:\Users\rob98\AppData\Local\Temp\ST_3d38_000001.tmp saved as .dta
+    format
+
+. 
+. use country date mm_violent mm_nonviolent mm_protests ///
+>     using "${datfin}/panel_country_day.dta", clear
+
+. drop if country == "Venezuela"
+(11,048 observations deleted)
+
+. rename mm_violent    violent_pcd
+
+. rename mm_nonviolent peaceful_pcd
+
+. rename mm_protests   protests_pcd
+
+. 
+. merge 1:1 country date using `evwin', keep(3) nogenerate
+(variable country was str18, now str44 to accommodate using data's values)
+(variable date was int, now float to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                            23,464  
+    -----------------------------------------
+
+. 
+. display _newline "=== Cell-by-cell agreement (should be 100% if same source) 
+> ==="
+
+=== Cell-by-cell agreement (should be 100% if same source) ===
+
+. count
+  23,464
+
+. count if violent_evwin != violent_pcd
+  1
+
+. display "  violent disagreements:  " r(N)
+  violent disagreements:  1
+
+. count if peaceful_evwin != peaceful_pcd
+  49
+
+. display "  peaceful disagreements: " r(N)
+  peaceful disagreements: 49
+
+. count if protests_evwin != protests_pcd
+  50
+
+. display "  protests disagreements: " r(N)
+  protests disagreements: 50
+
+. 
+. display _newline "=== First 15 disagreements (violent), if any ==="
+
+=== First 15 disagreements (violent), if any ===
+
+. list country date violent_evwin violent_pcd ///
+>     if violent_evwin != violent_pcd, sepby(country) noobs
+
+  +-------------------------------------------+
+  | country        date   violen~n   violen~d |
+  |-------------------------------------------|
+  |    Peru   26feb2014          0          1 |
+  +-------------------------------------------+
+
+. 
+end of do-file

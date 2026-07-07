@@ -29,7 +29,7 @@
 
 % -----------------------------------------------------------------------
 
-\title{\bfseries\Large Apex Corruption causes Violent Protests\thanks{We thank seminar audiences at XXX for comments. All errors are our own.}}
+\title{\bfseries\Large Apex Corruption causes Violent Protests\thanks{We thank seminar audiences and colleagues for helpful comments. \textcolor{red}{[TODO: list seminar venues before submission.]} All errors are our own.}}
 
 \author{%
 Eduardo Rivera\thanks{MIT, Department of Economics. \texttt{erivera@mit.edu}.}
@@ -51,7 +51,7 @@ Roberto Gonz\'alez-T\'ellez\thanks{Research Fellow, Stanford Graduate School of 
 % ABSTRACT
 % =====================================================================
 \begin{abstract}
-    \noindent We document that \textit{apex} corruption scandals---corrupt acts implicating top-level politicians---cause immediate and persistent increases in violent protests across Latin America. Using a panel of 176 corruption scandals across 23 countries from 2008 to 2018, merged with daily protest counts, we establish three facts: The daily count of violent protests increases by about 59\% in the month immediately after the scandal. The effect appears within a week of the scandal, and remains positive even 4 months later. The magnitude of the effect scales sharply with the political rank of the implicated agent: scandals involving sitting presidents show effects 8 times larger than those involving Governors or Supreme Court judges. Our findings identify a high-frequency, high-magnitude channel through which corruption shapes the political environment in democracies.
+    \noindent We document that \textit{apex} corruption scandals---corrupt acts implicating top-level politicians---cause immediate and persistent increases in violent protests across Latin America. Using a panel of 176 corruption scandals across 23 countries from 2008 to 2018, merged with daily protest counts, we establish three facts: In the 30 days following a scandal, the daily count of violent protests rises by roughly 59\% of the pre-scandal baseline (measured over the six days immediately preceding disclosure). The effect appears within a week of the scandal, and remains positive even four months later. The magnitude of the effect scales sharply with the political rank of the implicated agent: the per-scandal median effect for sitting presidents is substantially larger---about an order of magnitude, though based on a small number of informative scandals---than the corresponding median for Governors or Supreme Court judges. Our findings identify a high-frequency, high-magnitude channel through which corruption shapes the political environment in democracies.
 \end{abstract}
 
 % \noindent \textbf{Keywords:} \\ 
@@ -65,11 +65,11 @@ Roberto Gonz\'alez-T\'ellez\thanks{Research Fellow, Stanford Graduate School of 
 \clearpage
 \section{Introduction}
 
-Political violence is among the most consequential outcomes a democracy can experience. Civil unrest disrupts economic activity, displaces investment, and---when met with state violence in return---erodes the social contract that legitimizes the regime. An influencial economic literature has linked political violence to economic shocks~\citep{miguel2004economic,mcguirk2020economic}, to commodity rents and network structure~\citep{koenig2017networks,dube2013commodity}, to the foundations of state capacity~\citep{besley2011logic}, and in recent work to abrupt withdrawals of foreign assistance~\citep{rohner2026aidingpeace}. Related work shows that protests themselves can produce durable political effects~\citep{madestam2013protests,bursztyn2021persistent}. The contribution of political shocks to events that change citizens' beliefs about who governs them, however, has received considerably less attention. In this paper we argue that disclosures of apex corruption are one such shock, and that the behavioral consequences for political violence are large, immediate, and persistent. 
+Political violence is among the most consequential outcomes a democracy can experience. Civil unrest disrupts economic activity, displaces investment, and---when met with state violence in return---erodes the social contract that legitimizes the regime. An influential economic literature has linked political violence to economic shocks~\citep{miguel2004economic,mcguirk2020economic}, to commodity rents and network structure~\citep{koenig2017networks,dube2013commodity}, to the foundations of state capacity~\citep{besley2011logic}, and in recent work to abrupt withdrawals of foreign assistance~\citep{rohner2026aidingpeace}. Related work shows that protests themselves can produce durable political effects~\citep{madestam2013protests,bursztyn2021persistent}. The contribution of political shocks to events that change citizens' beliefs about who governs them, however, has received considerably less attention. In this paper we argue that disclosures of apex corruption are one such shock, and that the behavioral consequences for political violence are large, immediate, and persistent. 
 
 Corruption has been long studied, with known costs for growth and public goods provision~\citep{mauro1995corruption,treisman2007what,olken2007monitoring,olken2012corruption,glaeser2006corruption}. In the past two decades, citizens' perceptions of corruption prevalence have risen~\citep{cantoni2024protests}, and corruption scandals associated to \textit{apex} politicians have drawn more attention from news outlets in recent years~\citep{ApexCorruption}; perhaps unsurprisingly due to the expansion of social media, which reduces the cost of diffusing information and enables news outlets to reach broader audiences \citep{enikolopov2018SocialMedia, tufekci2024twitter,dellavigna2007fox}. Even though exposing corruption scandals on news outlets can have positive desired effects, such as political accountability or crackdowns of corruption networks \citep{ferraz2011electoral, horacio2019infonetwork, horacio2022metaketa}, it can also have negative undesired effects on democratic values \citep{ajzenman2021powerexample, ApexCorruption} and away from the polling booths. Public exposure of malfeasance by sitting officials changes what citizens believe about who governs them and about the rules under which the government operates. The most consequential corruption-related political moments of the last decade, such as Brazil's Lava Jato\footnote{See \href{https://www.youtube.com/watch?v=boK0Mh2T5nk}{this video} for more information on the scandal.}, were mobilization events, not electoral ones. 
 
-We document that apex corruption---corrupt acts implicating top-level politicians---triggers immediate and persistent increases in violent protests across Latin American democracies. Using a hand-curated panel of 176 corruption scandals across 23 countries from 2008 to 2018, merged with daily protest counts from the Mass Mobilization (MM) project~\citep{clark2016mass}, we establish three facts. First, the daily count of violent protests increases by 59\% in the month immediately after the scandal, relative to the month immediately preceding the scandal. The count of peaceful protests, however, remains largely unaffected. Second, the effect appears within a week of the scandal disclosure, and remains positive even 4 months later, relative to the immediate month before the scandal. Third, the magnitude of the effect scales sharply with the political rank of the implicated agent: scandals involving sitting presidents show effects 8 times larger than those involving Governors or Supreme Court judges. Scandals inolving Congressmen, lower judiciary, and other non-apex officials leave protest patterns broadly unchanged.
+We document that apex corruption---corrupt acts implicating top-level politicians---triggers immediate and persistent increases in violent protests across Latin American democracies. Using a hand-curated panel of 176 corruption scandals across 23 countries from 2008 to 2018, merged with daily protest counts from the Mass Mobilization (MM) project~\citep{clark2016mass}, we establish three facts. First, the daily count of violent protests rises by about 59\% of the pre-scandal baseline (the mean of the outcome in the six days immediately preceding disclosure) over the 30 days following the scandal. The count of peaceful protests, in the same 30-day window, remains largely unaffected. Second, the effect appears within a week of the scandal disclosure, and the point estimate remains positive even four months later. Third, the magnitude of the effect scales with the political rank of the implicated agent: the per-scandal median effect for sitting presidents is substantially larger---about an order of magnitude, though based on a small number of informative scandals---than the corresponding median for Governors or Supreme Court judges. Scandals involving Congressmen, lower judiciary, and other non-apex officials leave protest patterns broadly unchanged.
 
 % =====================================================================
 % Method
@@ -77,7 +77,7 @@ We document that apex corruption---corrupt acts implicating top-level politician
 \section{Method}\label{sec:methods}
 \subsection{Study Design and Measures}
 
-Our empirical analyses exploit the randomness of corruption scandal disclosures in Latinamerican news outlets between 2008 and 2018. In particular, we use a stacked difference-in-differences design in which we compare the evolution of protest occurrences in countries with scandals to those without scandals. Our analysis dataset is created by: (i) Scraping the Twitter accounts from news outlets in Latin America to identify the calendar date in which a scandal in a given country is first reported\footnote{We keep the date of the first news report to (a) be able to estimate the effect of a scoop, and (b) avoid double-counting a scandal due to follow-up news reports on it.}, (ii) create an event-window of $T \in \{30, 120\}$ days before and after the scandal, (iii) merge the country-day count of protests from the MM data to create a `scandal-protest' dataset for a given country in a given calendar-date window, and lastly, (iv) append all such scandal-protest datasets to build the analysis dataset.
+Our empirical analyses exploit the randomness of corruption scandal disclosures in Latin American news outlets between 2008 and 2018. In particular, we use an interrupted time-series design in which we compare protest occurrences in countries with scandals before and after the scandal occurs. Our analysis dataset is created by: (i) Scraping the Twitter accounts from news outlets in Latin America to identify the calendar date in which a scandal in a given country is first reported\footnote{We keep the date of the first news report to (a) be able to estimate the effect of a scoop, and (b) avoid double-counting a scandal due to follow-up news reports on it.}, (ii) create an event-window of $T \in \{30, 120\}$ days before and after the scandal, (iii) merge the country-day count of protests from the MM data to create a `scandal-protest' dataset for a given country in a given calendar-date window, and lastly, (iv) append all such scandal-protest datasets to build the analysis dataset.
 
 The MM dataset is available for the period 1990--2020, and it includes information on the date, size, and location of any episode in which 50 or more protesters publicly demonstrate against the State. If a protest lasts $X$ days, we code the occurrence of a protest at date $t, t+1, \dots, t+X-1$. If the same protest is associated with more than one date (e.g., because the news source for the protest cannot accurately identify whether it is a continued or a new protest), then we keep the date of the earliest protest. For a protest to be classified as ``violent'', ``[t]he violence could include anything from riotous behavior that destroys property to shooting at the police or military''~\citep{clark2016mass}. Our main outcome is the number of protests occurring in a given country-date. We focus on the years 2008--2018, given that our corruption scandals data is available for those years.
 
@@ -98,15 +98,15 @@ The identification assumption we rely on for our estimates to be interpreted as 
 \section{Results}
 
 \subsection{Apex corruption increases violent protests}
-\autoref{tab:main} reports our OLS (Panel A) and Poisson (Panel B) estimates of the effect of apex corruption on violent and peaceful protests in 30- and 120-day windows. In our OLS specification, we estimate an increase of 0.016 violent protests per country-day in both the one and four months windows ($P < 0.01$ and $P = 0.012$, respectively), roughly 59\% of the pre-scandal mean in the week before the scandal. Peaceful protests do not show statistically nor economically significant effects. In the 30-day window, we estimate an increase of 0.01 protests per country-day ($P = 0.219$, 14\% of the pre-scandal-bin mean), and a 0.009 \textit{decrease} in the 120-day window ($P = 0.212$, 17\% of the pre-scandal-bin mean). The Poisson QML estimates---which account for the count nature of the outcome---imply large proportional effects: violent protests rise  by 54\% in the 30-day window ($P < 0.001$) and by 63\% in the 120-day window ($P = 0.047$). Peaceful protests, on the other hand, show effects in opposing directions on the two time windows: they increase by 25\% in the 30-day window following the scandal ($P = 0.095$), and they \textit{decrease} by 21\% in the 120-day window after the scandal disclosure ($P = 0.049$). The opposite-signed response in peaceful protests across windows is consistent with a substitution from peaceful to violent mobilization on the longer horizon, though our design does not allow us to identify substitution directly.
+\autoref{tab:main} reports our OLS (Panel A) and Poisson (Panel B) estimates of the effect of apex corruption on violent and peaceful protests in 30- and 120-day windows. In our OLS specification, we estimate an increase of 0.016 violent protests per country-day in both the one and four months windows ($P < 0.01$ and $P = 0.012$, respectively), roughly 59\% of the pre-scandal mean in the week before the scandal. Peaceful protests do not show statistically nor economically significant effects. In the 30-day window, we estimate an increase of 0.01 protests per country-day ($P = 0.219$, 14\% of the pre-scandal-bin mean), and a 0.009 \textit{decrease} in the 120-day window ($P = 0.212$, 17\% of the pre-scandal-bin mean). The Poisson QML estimates---which account for the count nature of the outcome---imply large proportional effects: violent protests rise  by 54\% in the 30-day window ($P < 0.001$) and by 63\% in the 120-day window ($P = 0.047$). Peaceful protests, on the other hand, show effects in opposing directions on the two time windows: they increase by 25\% in the 30-day window following the scandal ($P = 0.095$), and they \textit{decrease} by 21\% in the 120-day window after the scandal disclosure ($P = 0.049$). The opposite-signed peaceful-protest point estimates across windows are suggestive of, but do not identify, a shift from peaceful to violent mobilization on the longer horizon: our design compares within-country pre- and post-scandal outcomes and cannot separate a substitution mechanism from an independent decline in peaceful protests over the four-month horizon.
 
 \begin{table}[htb!]
     \caption{Violent protests increase after apex corruption scandal disclosures.}
     \label{tab:main}
     \begin{center}
-        \input{violent_peaceful_ols_poi_panels}
+        \scriptsize{\input{violent_peaceful_ols_poi_panels}}
     \end{center}
-    \footnotesize{The table reports OLS estimates (Panel A) and Poisson QML estimates (Panel B) of $\beta$ from \autoref{eq:main} for four outcome--window combinations: violent and peaceful protests, each estimated on the $\pm$30-day window (columns 1--2) and on the $\pm$120-day window (columns 3--4) around each scandal's public-disclosure date. An observation is a country-day inside the event window of a scandal; the 176 apex corruption scandals across 23 Latin American countries are stacked. All specifications include country-by-year, month-of-year, and day-of-week fixed effects. Standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. In Panel B, the Poisson QML coefficient is on the log scale; ``Implied Prop.\ Effect'' reports the implied proportional effect $\exp(\beta) - 1$, with the delta-method standard error in parentheses below. ``Mean (Pre-Scandal Bin)'' is the average value of the outcome in the bin immediately before the scandal's disclosure---a 6-day bin in columns (1)--(2) and a 30-day bin in columns (3)--(4)---computed over the corresponding regression sample. The Poisson sample is smaller than the OLS sample because \texttt{ppmlhdfe} drops observations that are either singletons or separated by a fixed effect. The sample period is 2008--2018; Venezuela is excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+    \footnotesize{The table reports OLS estimates (Panel A) and Poisson QML incidence-rate ratios (Panel B) from \autoref{eq:main} for eight outcome--window combinations: violent and peaceful protest \emph{counts}, each estimated on the $\pm$30-day window (columns 1--2) and on the $\pm$120-day window (columns 3--4); and \emph{share} outcomes, defined as the fraction of the country-day's protests that are violent or peaceful (with country-days having no protests imputed to a share of 0), estimated on the $\pm$30-day window (columns 5--6) and on the $\pm$120-day window (columns 7--8). Panel B is estimated only on the count outcomes because the incidence-rate ratio has no meaning for a share in $[0,1]$; the corresponding cells in columns 5--8 are left blank. An observation is a country-day inside the event window of a scandal; the 176 apex corruption scandals across 23 Latin American countries are stacked. All specifications include country-by-year, month-of-year, and day-of-week fixed effects. Standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. Panel B reports $\exp(\beta)$ with its delta-method standard error $\exp(\beta)\cdot\mathrm{SE}(\beta)$; stars test $H_0:\beta=0$ (equivalently, IRR $=1$). ``Mean (Pre-Scandal Bin)'' is the average value of the outcome in the bin immediately before the scandal's disclosure---a 6-day bin in columns (1)--(2) and (5)--(6) and a 30-day bin in columns (3)--(4) and (7)--(8)---computed over the corresponding regression sample. The Poisson sample is smaller than the OLS sample because \texttt{ppmlhdfe} drops observations that are either singletons or separated by a fixed effect. The sample period is 2008--2018; Venezuela is excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
 \end{table}
 
 \subsection{Protest dynamics around apex corruption scandals}
@@ -128,14 +128,14 @@ Violent protests (\autoref{fig:eventstudies:120violent}) show no trend prior to 
         \includegraphics[width=\textwidth]{es_num_peaceful_MM_120d_90ci.png}
         \label{fig:eventstudies:120peaceful}
     \end{subfigure} \\
-    \footnotesize{This figure shows the estimates on event-time bin indicators from the modified version of \autoref{eq:main} described in \autoref{sec:methods}. The omitted reference bin is the one for 1-6 days before the scandal in Panels (a) and (c), and for 1-30 days before the scandal in Panels (b) and (d). Vertical bars are 90\% confidence intervals. An observation is a country-scandal-date.}
+    \footnotesize{This figure shows the estimates on event-time bin indicators from the modified version of \autoref{eq:main} described in \autoref{sec:methods}. Both panels use the $\pm 120$-day window with 30-day bins; the omitted reference bin is the 30 days immediately preceding the scandal ($w_{s,t} \in [-30, -1]$). Vertical bars are 90\% confidence intervals. An observation is a country-scandal-date.}
 \end{figure}
 
 \subsection{Heterogeneity by political rank}
 
 We have thus far showed that apex corruption scandals cause protests to turn violent, and that the effects persist even four months after a scandal is disclosed. In this section we show that the effects are heterogeneous even within the apex of the political spectrum. To do this, we classify each of our scandals according to the position of the implicated politician. Then, we estimate \autoref{eq:main} for each of our scandals individually on its own country's 30-day window (i.e., the scandal-protest datasets described in step (ii) in \autoref{sec:methods}), and plot the distribution of point estimates for each of the categories of implicated politicians. Our sample has 45 scandals in which the implicated politician is a president, and within the remaining 131 scandals, 19 implicate Governors and Supreme Court Judges (we call this group ``Other Apex''), and 112 implicate Congressmen, lower judiciary, and other lower level officials (``Other Non-apex''). Since some of the scandals show no variation in the outcome, the boxplots show the distribution of effects in the subsample of country-years in which mobilization happens\footnote{Our dataset may suffer from underreporting if, e.g., protests happen but less than 50 people take part in them. Under this scenario, the MM dataset would not code a protest occurrence.}. 
 
-\autoref{fig:boxplots} characterizes the heterogeneity of the protest response across the political rank of the implicated official. For violent protests, the median effect size is of 0.044 protests per country-day, which is about 8 times larger than the median effect for scandals implicating Governors and Supreme Court Judges. Peaceful protests on the other hand show little to no difference in the median effects. The median effect for scandals implicating Presidents is 0.003, while the median effect for scandals implicating Governors or Supreme Court Judges is a 0.045 \textit{decrease}. Scandals implicating Congressmen, lower judiciary, and lower rank officials have median effects of -0.008 and -0.001 on violent and peaceful protests. These results highlight the importance of the ``apexness'' component of the scandals. Even though corruption in general may be condemned by citizens, it is apex corruption that generates violent mobilization. A potential explanation for our findings is that mobilization rises with the stakes of the scandal: scandals implicating lower level officials are detrimental to democracy but may not warrant violent mobilization as they are potentially less able to affect society at a large scale. Higher level officials---Presidents in particular---, can generate large scale costs to society when engaging in corrupt behavior. 
+\autoref{fig:boxplots} characterizes the heterogeneity of the protest response across the political rank of the implicated official. For violent protests, the median per-scandal effect for Presidents is 0.044 protests per country-day, an order of magnitude larger than the corresponding median for the ``Other Apex'' (Governors and Supreme Court Judges) category. This latter comparison rests on the subsample of scandals with within-window variation in the outcome---7 Presidential and 8 Other-Apex scandals in the violent-protests panel---so the ratio should be read as descriptive rather than as a precise effect size. Peaceful protests on the other hand show little to no difference in the median effects. The median effect for scandals implicating Presidents is 0.003, while the median effect for scandals implicating Governors or Supreme Court Judges is a 0.045 \textit{decrease}. Scandals implicating Congressmen, lower judiciary, and lower rank officials have median effects of -0.008 and -0.001 on violent and peaceful protests. These results highlight the importance of the ``apexness'' component of the scandals. Even though corruption in general may be condemned by citizens, it is apex corruption that generates violent mobilization. A potential explanation for our findings is that mobilization rises with the stakes of the scandal: scandals implicating lower level officials are detrimental to democracy but may not warrant violent mobilization as they are potentially less able to affect society at a large scale. Higher level officials---Presidents in particular---, can generate large scale costs to society when engaging in corrupt behavior. 
 
 \begin{figure}[htb!]
     \caption{Scandals implicating Presidents cause larger increases in violent protests.}
@@ -157,20 +157,173 @@ We have thus far showed that apex corruption scandals cause protests to turn vio
 % Discussion
 % =====================================================================
 \section{Discussion}
-The evidence we have presented suggests citizens do not respond uniformly to all types of corruption: they respond sharply, immediately and durably when the implicated official is at the apex of the political spectrum, and they barely respond when the implicated official sits at the lower tier of the hierarchy. Furthermore, the response concentrates on violent protests and persists even after four months. The peaceful margin, which relies more on institutional punishment and change, atenuates over the four month horizon (and even reverses sign in our Poisson estimates.). Our findings undermine the fact that corruption is a tangible behavioral shock to the local (and perhaps even regional) political environment, not just an attitudinal one. The stakes citizens hold in the continuation in office of a corrupt official govern whether citizens mobilize, and how they do so. And lastly, when citizens lose confidence in institutional channels of accountability, mobilization switches from peaceful to violent.
+The evidence we have presented suggests citizens do not respond uniformly to all types of corruption: they respond sharply, immediately and durably when the implicated official is at the apex of the political spectrum, and they barely respond when the implicated official sits at the lower tier of the hierarchy. Furthermore, the response concentrates on violent protests and persists even after four months. The peaceful margin, which relies more on institutional punishment and change, attenuates over the four-month horizon (and even reverses sign in our Poisson estimates). Our findings underscore the fact that corruption is a tangible behavioral shock to the local (and perhaps even regional) political environment, not just an attitudinal one. The stakes citizens hold in the continuation in office of a corrupt official appear to govern whether citizens mobilize, and how they do so. The joint pattern---a persistent rise in violent protests together with a longer-run attenuation of peaceful protests---is consistent with, though our design does not establish, a shift away from peaceful and toward violent channels when citizens lose confidence in institutional avenues of accountability.
 
 Our findings contribute to three literatures. First, the economics-of-conflict literature has documented that political violence responds to economic shocks~\citep{koenig2017networks,mcguirk2020economic,dube2013commodity,besley2011logic,berman2011hearts,rohner2026aidingpeace}. We introduce a \textit{political} shock---public disclosure of apex corruption---and show that it produces mobilization responses of comparable magnitude to the ones caused by economic shocks. Second, the corruption and accountability literature has documented that disclosures of malfeasance change voting behavior~\citep{ferraz2008exposing,ferraz2011electoral,FerrazFinanAccount,ferraz2018audits,horacio2019infonetwork}. The slow electoral horizon has tended to obscure that the same disclosures can have very fast, non-electoral consequences~\citep{madestam2013protests,bursztyn2021persistent}. Our high-frequency design uncovers a channel through which apex corruption shapes the political environment in democracies within days of public disclosures, well before subsequent elections come into play. Third, the protest channel is the behavioral complement of the attitudinal evidence from our companion paper~\citep{ApexCorruption}, which documents that apex corruption scandals erode support for democracy and democratic institutions, and also reduce political participation. 
 
-Our results help reconcile part of the mixed results in the existing literature on the political consequences of corruption disclosures. Studies of local level corruption have produced muted estimates of disclosure's electoral consequences, with some finding modest accountability gains in Brazil and Spain~\citep{ferraz2008exposing,ferraz2011electoral,ferraz2018audits,costasperez2012corruption} and others finding null or even demobilizing effects~\citep{chong2015does,anduiza2013turning,pavao2018corruption,horacio2022metaketa}. We argue that the dispersion in municipal estimates reflects the limited political stakes at that level. In particular, when the implicated official is one of many municipal officeholders, citizens have weaker incentives to incur the costs of mobilization. Within our sample, scandals implicating Congressmen, lower judiciary and lower rank officials, have median per-scandal effects statistically indistinguishable from zero. Scandals implicating Presidents, on the other hand, have median effects roughly 8 times larger than those implicating Governors and Supreme Court Judges. This is consistent with evidence from Latin American presidential approval data that shows that scandals against sitting Presidents are the political margin at which corruption scandals have the largest immediate cost~\citep{carlin2015cushioning}.
+Our results help reconcile part of the mixed results in the existing literature on the political consequences of corruption disclosures. Studies of local level corruption have produced muted estimates of disclosure's electoral consequences, with some finding modest accountability gains in Brazil and Spain~\citep{ferraz2008exposing,ferraz2011electoral,ferraz2018audits,costasperez2012corruption} and others finding null or even demobilizing effects~\citep{chong2015does,anduiza2013turning,pavao2018corruption,horacio2022metaketa}. We argue that the dispersion in municipal estimates reflects the limited political stakes at that level. In particular, when the implicated official is one of many municipal officeholders, citizens have weaker incentives to incur the costs of mobilization. Within our sample, scandals implicating Congressmen, lower judiciary and lower rank officials, have median per-scandal effects statistically indistinguishable from zero. Scandals implicating Presidents, on the other hand, have median per-scandal effects an order of magnitude larger than those implicating Governors and Supreme Court Judges---a descriptive comparison that rests on the small subset of scandals with within-window variation in the outcome.
 
 A ``salience of stakeholders'' view rationalizes this~\citep{acemoglu2006origins,acemoglu2012nations,jha2013trade,jha2019valuing,jha2022markets}. Citizens' political behavior responds to the political weight of \textit{what} is being disclosed. Apex corruption, thus, affects citizens' perceived stakes of the political bargain, particularly when the implicated official is at the apex of the political hierarchy. The contrast between high--stakes presidential scandals and low-stakes lower officials scandals parallels the contrast between high-stakes elections and routine governance in studies of political accountability~\citep{martinezbravo2022elites}, and is consistent with the idea that citizen engagement depends on whether institutions can deliver outcomes~\citep{acemoglu2019DemoEcoGrowth,acemoglu2024demobreedsupport,DuranteFutbol}. 
 
-Our empirical analyses have some limitations worth noting. Our identification strategy relies on the timing of apex corruption disclosures, not on the timing of the corrupt act itself. If the timing of disclosures is correlated with pre-existing political conditions that affect mobilization (violent or peaceful), our estimates could then be biased. Somewhat reassuringly, the pre-scandal estimates in \autoref{fig:eventstudies} show no evidence of pre-existing trends in mobilization. A second limitation comes from the fact that the MM dataset is constructed by looking at news soruces reporting on mobilization events. Small protests may thus be underreported as they are not big enough to draw media attention, or protests ocurring in geographically remote areas may also be left out. This would induce measurement error in our estimates, but if anything this would bias our estimates toward zero. Relatedly, there is no variation in the outcome around a large share of our scandals, which limits our heterogeneity analysis to the subsample of scandals around which mobilization patterns change. And finally, our scandal sample is limited to Latin American democracies in the 2008--2018 period, which limits the external validity of our findings insofar as different regions in the world may mobilize differently in response to corruption scandals. One could also expect different results when shortening/expanding the time scope of the analysis if one believes that the cumulative amount of apex corruption episodes affect the extent to which citizens mobilize.
+Our empirical analyses have some limitations worth noting. Our identification strategy relies on the timing of apex corruption disclosures, not on the timing of the corrupt act itself. If the timing of disclosures is correlated with pre-existing political conditions that affect mobilization (violent or peaceful), our estimates could then be biased. Somewhat reassuringly, the pre-scandal estimates in \autoref{fig:eventstudies} show no evidence of pre-existing trends in mobilization. A second limitation comes from the fact that the MM dataset is constructed by looking at news sources reporting on mobilization events. Small protests may thus be underreported as they are not big enough to draw media attention, or protests occurring in geographically remote areas may also be left out. This would induce measurement error in our estimates, but if anything this would bias our estimates toward zero. Relatedly, there is no variation in the outcome around a large share of our scandals, which limits our heterogeneity analysis to the subsample of scandals around which mobilization patterns change. And finally, our scandal sample is limited to Latin American democracies in the 2008--2018 period, which limits the external validity of our findings insofar as different regions in the world may mobilize differently in response to corruption scandals. One could also expect different results when shortening/expanding the time scope of the analysis if one believes that the cumulative amount of apex corruption episodes affect the extent to which citizens mobilize.
 
 % =====================================================================
 % REFERENCES
 % =====================================================================
 \clearpage
 \bibliography{refs}
+
+% =====================================================================
+% SUPPLEMENTARY MATERIALS
+% (placed AFTER the references; nothing above this block is edited)
+% =====================================================================
+\clearpage
+\appendix
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thesubsection}{S\arabic{section}.\arabic{subsection}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\setcounter{section}{0}
+\setcounter{table}{0}
+\setcounter{figure}{0}
+
+\begin{center}
+    {\Large\bfseries Supplementary Materials}
+\end{center}
+\bigskip
+
+% ---------------------------------------------------------------------
+\section{Table~1 restricted to Presidential scandals}\label{sup:pres_only}
+
+Table~\ref{tab:sup_pres_only} re-estimates \autoref{eq:main} on the subsample of scandals in which the implicated official is a sitting President (45 scandals). Everything else is identical to the main Table~1.
+
+\begin{table}[htb!]
+    \caption{Table~1 restricted to Presidential scandals.}
+    \label{tab:sup_pres_only}
+    \begin{center}
+        \scriptsize{\input{sup_pres_only_table}}
+    \end{center}
+    \footnotesize{Panel A reports OLS estimates of $\beta$ from \autoref{eq:main} on eight outcomes (cols.~1--4 counts, cols.~5--8 shares); Panel B reports Poisson QML incidence-rate ratios on the four count outcomes only, with cols.~5--8 blank because IRR has no meaning on a share in $[0,1]$. Subsample: scandals classified as ``President'' in \autoref{sup:classification}. Standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. Share outcomes are defined in the note to Table~\ref{tab:main}. Same fixed effects, sample period, and clustering as Table~1.}
+\end{table}
+
+% ---------------------------------------------------------------------
+\section{Table~1 restricted to Presidential and Other Apex scandals}\label{sup:pres_plus_apex}
+
+Table~\ref{tab:sup_pres_apex} re-estimates \autoref{eq:main} on the subsample of Presidential \emph{and} Other Apex scandals (Governors and Supreme Court Justices; 45 + 19 = 64 scandals). Other Non-Apex scandals are dropped.
+
+\begin{table}[htb!]
+    \caption{Table~1 restricted to Presidential and Other Apex scandals.}
+    \label{tab:sup_pres_apex}
+    \begin{center}
+        \scriptsize{\input{sup_pres_plus_apex_table}}
+    \end{center}
+    \footnotesize{Panel A reports OLS estimates of $\beta$ from \autoref{eq:main} on eight outcomes (cols.~1--4 counts, cols.~5--8 shares); Panel B reports Poisson QML incidence-rate ratios on the four count outcomes only, with cols.~5--8 blank because IRR has no meaning on a share in $[0,1]$. Subsample: scandals classified as ``President'' or ``Other Apex'' in \autoref{sup:classification}. Standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. Share outcomes are defined in the note to Table~\ref{tab:main}. Same fixed effects, sample period, and clustering as Table~1.}
+\end{table}
+
+% ---------------------------------------------------------------------
+\section{Placebo test: randomizing the scandal date within the event window}\label{sup:placebo}
+
+If the observed effect really begins at the scandal's public-disclosure date and there is no anticipation, then artificially placing the post-scandal cutoff at a pre-scandal day within the same event window should yield null coefficients. Because the pre-window contains at most $T-1$ candidate offsets, random draws would repeat the same $k$ many times over 1{,}000 replications; we instead \emph{enumerate} each offset once. For every $k \in \{-T+1,\dots,-1\}$ we redefine $\widetilde{\text{Post}}_{st} = \mathbf{1}\{w_{st} \geq k\}$, where $w_{st}$ is the event-time index, and re-estimate the headline OLS specification on the original event-window sample. No country-day is added or removed; only the treatment cutoff is shifted into the pre-scandal window.
+
+\autoref{fig:sup_placebo} plots the resulting series of placebo coefficients $\hat{\beta}(k)$ against $k$ for both outcomes and both windows. The observed $\beta$ (from Table~1, red horizontal line) sits well above the pre-scandal placebo series for violent protests, consistent with the effect emerging at $k=0$; for peaceful protests the placebo series and the observed $\beta$ both hover near zero.
+
+\begin{figure}[htb!]
+    \caption{Placebo test: $\hat{\beta}(k)$ under an enumerated pre-scandal cutoff.}
+    \label{fig:sup_placebo}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Violent protests, $\pm 30$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_violent_MM_w30.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Violent protests, $\pm 120$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_violent_MM_w120.pdf}
+    \end{subfigure} \\
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Peaceful protests, $\pm 30$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_peaceful_MM_w30.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Peaceful protests, $\pm 120$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_peaceful_MM_w120.pdf}
+    \end{subfigure}
+    \footnotesize{For each offset $k \in \{-T+1,\dots,-1\}$ we replace the treatment indicator by $\widetilde{\text{Post}}_{st}=\mathbf{1}\{w_{st}\geq k\}$ and re-estimate the OLS specification in \autoref{eq:main}. Each panel plots the resulting point estimate $\hat{\beta}(k)$ against $k$ (gray circles), so each pre-scandal offset is used exactly once. The solid red horizontal line marks the observed $\hat{\beta}$ from Table~1; the dotted line marks zero. The top-right legend reports the rank of the observed $\hat{\beta}$ among the $T$ estimates (placebos plus observed, where 1 is the largest) and the two-sided randomization-inference $p$-value (share of placebo estimates with $|\hat{\beta}(k)| \geq |\hat{\beta}_{\mathrm{obs}}|$). Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\section{Randomization inference}\label{sup:ri}
+
+We complement the in-window placebo test with a full randomization-inference exercise. In each of 1{,}000 replications, and for each of the 176 scandals, we draw a placebo disclosure date uniformly at random within the scandal's original country-year. A draw is rejected whenever its $\pm T$-day window would contain an actual disclosure date of any scandal in the same country (i.e., whenever $|k - t_{s'}| \leq T$ for some real scandal $s'$ in that country). If no acceptable date is found within the original country-year after 20 attempts, we fall back to an unconditional draw over all 22 panel countries and all dates in 2008--2018, subject to the same overlap check, for up to 30 additional attempts. We then rebuild the $\pm T$-day event-window panel around the accepted placebo dates and re-estimate the headline OLS specification.
+
+\autoref{fig:sup_ri} plots the resulting distribution of placebo $\hat{\beta}$'s for both outcomes and both windows. The red vertical line marks the observed $\hat{\beta}$ from Table~1; the top-right box reports the two-sided randomization-inference $p$-value, defined as the share of placebo replications with $|\hat{\beta}_{\mathrm{placebo}}| \geq |\hat{\beta}_{\mathrm{obs}}|$.
+
+\begin{figure}[htb!]
+    \caption{Randomization inference: placebo $\hat{\beta}$ distribution.}
+    \label{fig:sup_ri}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Violent protests, $\pm 30$-day window.}
+        \includegraphics[width=\textwidth]{randomization_inference_hist_num_violent_MM_w30.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Violent protests, $\pm 120$-day window.}
+        \includegraphics[width=\textwidth]{randomization_inference_hist_num_violent_MM_w120.pdf}
+    \end{subfigure} \\
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Peaceful protests, $\pm 30$-day window.}
+        \includegraphics[width=\textwidth]{randomization_inference_hist_num_peaceful_MM_w30.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Peaceful protests, $\pm 120$-day window.}
+        \includegraphics[width=\textwidth]{randomization_inference_hist_num_peaceful_MM_w120.pdf}
+    \end{subfigure}
+    \footnotesize{Each histogram summarizes 1{,}000 placebo replications. In each replication, and for each scandal, a placebo disclosure date is drawn uniformly at random within the original country-year, rejected if its $\pm T$-day window would contain a real disclosure date, and redrawn (unconditionally over all countries and 2008--2018 dates after 20 within-country-year attempts) up to 50 total tries. The red vertical line marks the observed $\hat{\beta}$ from Table~1, with its value labeled next to the line. The top-right legend reports the two-sided randomization-inference $p$-value: the share of placebo replications with $|\hat{\beta}_{\mathrm{placebo}}| \geq |\hat{\beta}_{\mathrm{obs}}|$. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\section{Scandal classification}\label{sup:classification}
+
+Each of the 176 scandals in our event-window panel is manually classified by the position of the implicated politician. Classification proceeds in two steps.
+
+\paragraph{Step 1: raw position.} We start from the free-text description of each scandal (fields \texttt{official\_involved} and the summary paragraph attached to each event ID). A research assistant reads the description and assigns one of five raw position codes:
+\begin{itemize}
+    \setlength{\itemsep}{0pt}
+    \item \texttt{president} --- sitting or immediately-former head of state; the scandal implicates the President personally in the corrupt act or in a coverup thereof.
+    \item \texttt{governor} --- sitting head of a first-order subnational unit (state, department, province).
+    \item \texttt{sc\_judge\_congressman} --- either a Supreme Court Justice (constitutional or supreme court) or a sitting national legislator. This raw code is subdivided in Step~2.
+    \item \texttt{other\_judiciary} --- lower-court judges, prosecutors, and members of the judicial administration below the constitutional court.
+    \item \texttt{others} --- ministers, agency heads, mayors, subnational legislators, and all other public officials not captured above.
+\end{itemize}
+The raw codes and each scandal's official description are stored in \texttt{scandals\_classified.csv}.
+
+\paragraph{Step 2: splitting the sc\_judge\_congressman category.} Because the raw code lumps two very different offices (constitutional-court justices and members of Congress) together, we manually verify each such row against the case description and, for the ones in which the implicated official is a Supreme Court justice, tag the scandal's \texttt{id} accordingly. The set of IDs re-tagged as Supreme Court justices, as of 2026-06-27, is \texttt{202}, \texttt{NEW26}, \texttt{NEW30}, \texttt{332}, and \texttt{NEW23}. The remaining \texttt{sc\_judge\_congressman} rows are legislators (members of Congress).
+
+\paragraph{Final three-way partition (apex partition v2).} We then aggregate raw codes into three politically meaningful bins:
+\begin{itemize}
+    \setlength{\itemsep}{0pt}
+    \item \textbf{President} = \texttt{president}. \hfill\emph{45 scandals.}
+    \item \textbf{Other Apex} = \texttt{governor} plus the five SC-Justice IDs above. \hfill\emph{19 scandals.}
+    \item \textbf{Other Non-Apex} = \texttt{other\_judiciary} + \texttt{others} + the remaining \texttt{sc\_judge\_congressman} IDs (Congressmen). \hfill\emph{112 scandals.}
+\end{itemize}
+This is the ``apex partition v2'' used in the boxplots of Figure~2 and in the restricted-sample regressions of Sections~\ref{sup:pres_only} and \ref{sup:pres_plus_apex} and in the pooled interaction regression of \autoref{sup:hierarchy}. The mapping is implemented in \texttt{per\_scandal\_effects\_apex\_v2.do} and reused verbatim by every do-file in this Supplementary Materials block.
+
+% ---------------------------------------------------------------------
+\section{Regression-based hierarchy analysis}\label{sup:hierarchy}
+
+Figure~2 in the main text visualizes heterogeneity across the apex partition using the distribution of per-scandal effects. Table~\ref{tab:sup_hierarchy} reports the pooled-regression analogue. For each outcome and window we estimate
+\begin{equation*}
+    Y_{c(s)t} \;=\; \beta_{\text{Pres}}\, \mathrm{Post}_{st}\, \mathbf{1}\{\text{Pres}_s\}
+    \;+\; \beta_{\text{OA}}\, \mathrm{Post}_{st}\, \mathbf{1}\{\text{OA}_s\}
+    \;+\; \beta_{\text{ONA}}\, \mathrm{Post}_{st}\, \mathbf{1}\{\text{ONA}_s\}
+    \;+\; \alpha_d + \lambda_m + \theta_{cy} + \varepsilon_{c(s)t},
+\end{equation*}
+where $\mathrm{Pres}_s$, $\mathrm{OA}_s$, and $\mathrm{ONA}_s$ are scandal-level indicators for President, Other Apex, and Other Non-Apex under the v2 partition (\autoref{sup:classification}). The specification omits a stand-alone Post term, so each coefficient is the estimated average post-scandal effect for that category, rather than a differential relative to a reference. We additionally report the $p$-values from testing pairwise equality of the three coefficients.
+
+\begin{table}[htb!]
+    \caption{Pooled interaction regression: hierarchy of the protest response.}
+    \label{tab:sup_hierarchy}
+    \begin{center}
+        \scriptsize{\input{sup_hierarchy_regression}}
+    \end{center}
+    \footnotesize{OLS estimates of $\beta_{\text{Pres}}$, $\beta_{\text{OA}}$, $\beta_{\text{ONA}}$ (Post $\times$ President, Other Apex, Other Non-Apex) from the pooled interaction specification, run on the four count outcomes (cols.~1--4) and the four share outcomes (cols.~5--8) defined in the note to Table~\ref{tab:main}. Standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. Fixed effects, sample period, and clustering are identical to Table~1. Categories follow the v2 partition (\autoref{sup:classification}). Rows labeled ``$p$-value'' report pairwise equality tests across the three category-specific coefficients within each column.}
+\end{table}
 
 \end{document}
