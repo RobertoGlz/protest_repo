@@ -1,0 +1,174 @@
+/* ----------------------------------------------------------------------------
+   Project: Apex Corruption protests paper - SUPPLEMENTARY MATERIALS
+
+   Code author: Roberto Gonzalez
+   Date: 2026-07-09
+
+   Objective:
+     Re-estimate the headline OLS and Poisson QML specifications
+     (\autoref{eq:main}) at every event-window width in
+        T in {15, 30, 45, ..., 150} days
+     and plot the point estimate against T with a 90% confidence
+     interval.  Four panels: {OLS, Poisson IRR} x {violent, peaceful
+     protests}.  The T = 30 and T = 120 estimates -- the two windows
+     used in the main tables -- are highlighted in RGB (220, 0, 0).
+     A thick, faint horizontal line marks the null (beta = 0 for OLS,
+     IRR = 1 for Poisson).
+
+   Inputs:
+     - ${datfin}/protests_scandals_30days_v3.dta   (event-window panel)
+
+   Outputs (under paper/figures/):
+     - sup_window_sensitivity_ols_num_violent_MM.pdf
+     - sup_window_sensitivity_ols_num_peaceful_MM.pdf
+     - sup_window_sensitivity_poi_num_violent_MM.pdf
+     - sup_window_sensitivity_poi_num_peaceful_MM.pdf
+---------------------------------------------------------------------------- */
+
+set more off
+clear all
+
+/* ----------------------- User-specific paths ----------------------- */
+if "`c(username)'" == "Diego" {
+	gl identity "D:/Documents/Dropbox"
+}
+if "`c(username)'" == "dtocre" {
+	gl identity "C:/Users/dtocre/Dropbox"
+}
+if "`c(username)'" == "lalov" {
+	gl identity "C:/Users/lalov/ITAM Seira Research Dropbox/Eduardo Rivera"
+}
+if "`c(username)'" == "Rob_9" {
+	global identity "C:/Users/Rob_9/Dropbox"
+}
+if "`c(username)'" == "rob98" {
+	global identity "~/Dropbox"
+}
+
+global path    "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
+global datfin  "${path}/Data/final"
+global work    "${identity}/Corrupcion/Protest_Work"
+global figout  "${identity}/Corrupcion/protest_repo/paper/figures"
+
+/* ----------------------- Load base panel ----------------------- */
+use "${datfin}/protests_scandals_30days_v3", clear
+drop if country == "Venezuela"
+
+egen grupo_dias = group(s_lag30 s_lag60 s_lag90 s_lag120 ///
+                        s_lead30 s_lead60 s_lead90 s_lead120)
+
+global fe1      "i.country_id#i.year"
+global CLUSTER2 "cluster i.country_id#i.year#i.grupo_dias"
+
+local firstyear = 2008
+tempfile base
+save `base'
+
+/* ============================================================
+   STEP 1 - Loop over windows and estimators, collect estimates
+   ============================================================ */
+tempname res
+postfile `res' int T str16 outcome str8 estimator ///
+	double beta double se ///
+	using "${work}/temp/window_sensitivity_estimates.dta", replace
+
+foreach outcome in num_violent_MM num_peaceful_MM {
+foreach T of numlist 15(15)150 {
+
+	/* --- OLS --- */
+	use `base', clear
+	capture reghdfe `outcome' post i.month i.day ///
+		if year >= `firstyear' & abs(window) <= `T', ///
+		absorb($fe1) vce($CLUSTER2)
+	if _rc == 0 & !missing(_b[post]) {
+		post `res' (`T') ("`outcome'") ("OLS") ///
+			(_b[post]) (_se[post])
+	}
+
+	/* --- Poisson QML --- */
+	use `base', clear
+	capture ppmlhdfe `outcome' post ///
+		if year >= `firstyear' & abs(window) <= `T', ///
+		absorb(month day $fe1) vce($CLUSTER2)
+	if _rc == 0 & !missing(_b[post]) {
+		post `res' (`T') ("`outcome'") ("Poisson") ///
+			(_b[post]) (_se[post])
+	}
+
+	display in yellow "outcome=`outcome', T=`T' done"
+}
+}
+
+postclose `res'
+
+/* ============================================================
+   STEP 2 - Load estimates, compute 90% CI, and plot
+   ============================================================ */
+use "${work}/temp/window_sensitivity_estimates.dta", clear
+
+local zcrit = invnormal(0.95)  /* 1.6449 for 90% CI */
+
+/* OLS: beta and CI on the linear scale */
+gen double ci_lo   = beta - `zcrit' * se
+gen double ci_hi   = beta + `zcrit' * se
+
+/* Poisson: IRR = exp(beta) with delta-method SE and CI */
+gen double irr        = exp(beta)         if estimator == "Poisson"
+gen double irr_se     = exp(beta) * se    if estimator == "Poisson"
+gen double irr_ci_lo  = irr - `zcrit' * irr_se
+gen double irr_ci_hi  = irr + `zcrit' * irr_se
+
+/* --- Plot each of the four panels --- */
+foreach outcome in num_violent_MM num_peaceful_MM {
+
+	if "`outcome'" == "num_violent_MM"  local outlbl "violent protests"
+	if "`outcome'" == "num_peaceful_MM" local outlbl "peaceful protests"
+
+	/* ------ OLS panel ------ */
+	preserve
+		keep if outcome == "`outcome'" & estimator == "OLS"
+		sort T
+
+		twoway (rcap ci_lo ci_hi T if !inlist(T, 30, 120), ///
+		            lcolor(gs6) lwidth(thin)) ///
+		       (rcap ci_lo ci_hi T if  inlist(T, 30, 120), ///
+		            lcolor("220 0 0") lwidth(medthick)) ///
+		       (line beta T, lcolor(black) lwidth(medium)) ///
+		       (scatter beta T, msymbol(O) msize(medium) mcolor(black)) ///
+		       (scatter beta T if inlist(T, 30, 120), ///
+		            msymbol(O) msize(medlarge) mcolor("220 0 0")), ///
+			yline(0, lcolor(black%10) lwidth(vvthick) lpattern(solid)) ///
+			xlabel(15(15)150) ///
+			xtitle("Event-window width (days)", size(medium)) ///
+			ytitle("Effect on `outlbl'", size(medium)) ///
+			ylabel(, format(%5.3f) angle(0)) ///
+			scheme(s2color) graphregion(color(white)) legend(off)
+		graph export ///
+			"${figout}/sup_window_sensitivity_ols_`outcome'.pdf", replace
+	restore
+
+	/* ------ Poisson panel ------ */
+	preserve
+		keep if outcome == "`outcome'" & estimator == "Poisson"
+		sort T
+
+		twoway (rcap irr_ci_lo irr_ci_hi T if !inlist(T, 30, 120), ///
+		            lcolor(gs6) lwidth(thin)) ///
+		       (rcap irr_ci_lo irr_ci_hi T if  inlist(T, 30, 120), ///
+		            lcolor("220 0 0") lwidth(medthick)) ///
+		       (line irr T, lcolor(black) lwidth(medium)) ///
+		       (scatter irr T, msymbol(O) msize(medium) mcolor(black)) ///
+		       (scatter irr T if inlist(T, 30, 120), ///
+		            msymbol(O) msize(medlarge) mcolor("220 0 0")), ///
+			yline(1, lcolor(black%10) lwidth(vvthick) lpattern(solid)) ///
+			xlabel(15(15)150) ///
+			xtitle("Event-window width (days)", size(medium)) ///
+			ytitle("IRR on `outlbl'", size(medium)) ///
+			ylabel(, format(%5.3f) angle(0)) ///
+			scheme(s2color) graphregion(color(white)) legend(off)
+		graph export ///
+			"${figout}/sup_window_sensitivity_poi_`outcome'.pdf", replace
+	restore
+}
+
+display in green "a_sup_window_sensitivity.do finished OK"

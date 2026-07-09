@@ -331,4 +331,31 @@ where $\mathrm{Pres}_s$, $\mathrm{OA}_s$, and $\mathrm{ONA}_s$ are scandal-level
     \footnotesize{OLS estimates of $\beta_{\text{Pres}}$, $\beta_{\text{OA}}$, $\beta_{\text{ONA}}$ (Post $\times$ President, Other Apex, Other Non-Apex) from the pooled interaction specification, run on the four count outcomes (cols.~1--4) and the four share outcomes (cols.~5--8) defined in the note to Table~\ref{tab:main}. Standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. Fixed effects, sample period, and clustering are identical to Table~1. Rows labeled ``$p$-value'' report pairwise equality tests across the three category-specific coefficients within each column.}
 \end{table}
 
+% ---------------------------------------------------------------------
+\section{Sensitivity to the event-window width}\label{sup:window}
+
+We re-estimate the headline OLS and Poisson QML specifications of Table~\ref{tab:main} at every event-window width in $T \in \{15, 30, 45, \dots, 150\}$ days and plot the point estimate against $T$ with a 90\% confidence interval. \autoref{fig:sup_window} reports the four panels: OLS $\beta$ and Poisson QML incidence-rate ratio $\exp(\beta)$, each estimated on violent and peaceful protest counts. The two window widths used in Table~\ref{tab:main} ($T = 30$ and $T = 120$) are highlighted in red; the thick faint horizontal line marks the null (0 for OLS, 1 for the IRR).
+
+\begin{figure}[htb!]
+    \caption{Sensitivity of the headline effect to the event-window width.}
+    \label{fig:sup_window}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{OLS $\hat{\beta}$, violent protests.}
+        \includegraphics[width=\textwidth]{sup_window_sensitivity_ols_num_violent_MM.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{OLS $\hat{\beta}$, peaceful protests.}
+        \includegraphics[width=\textwidth]{sup_window_sensitivity_ols_num_peaceful_MM.pdf}
+    \end{subfigure} \\
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Poisson QML IRR, violent protests.}
+        \includegraphics[width=\textwidth]{sup_window_sensitivity_poi_num_violent_MM.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Poisson QML IRR, peaceful protests.}
+        \includegraphics[width=\textwidth]{sup_window_sensitivity_poi_num_peaceful_MM.pdf}
+    \end{subfigure}
+    \footnotesize{For each $T \in \{15, 30, 45, \dots, 150\}$ we re-estimate \autoref{eq:main} on the event-window panel restricted to $|w_{st}|\leq T$. Panels~(a)--(b) plot the OLS point estimate $\hat{\beta}$; panels~(c)--(d) plot the Poisson QML incidence-rate ratio $\exp(\hat{\beta})$. Vertical bars are 90\% confidence intervals (SE clustered at country $\times$ year $\times$ day-bin, delta-method on the IRR scale). The two markers highlighted in red correspond to $T = 30$ and $T = 120$, the windows reported in Table~\ref{tab:main}. The thick horizontal line marks the null. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
 \end{document}
