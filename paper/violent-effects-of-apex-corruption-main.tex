@@ -51,7 +51,7 @@ Roberto Gonz\'alez-T\'ellez\thanks{Research Fellow, Stanford Graduate School of 
 % ABSTRACT
 % =====================================================================
 \begin{abstract}
-    \noindent We document that \textit{apex} corruption scandals---corrupt acts implicating top-level politicians---cause immediate and persistent increases in violent protests across Latin America. Using a panel of 176 corruption scandals across 23 countries from 2008 to 2018, merged with daily protest counts, we establish three facts: In the 30 days following a scandal, the daily count of violent protests rises by roughly 59\% of the pre-scandal baseline (measured over the six days immediately preceding disclosure). The effect appears within a week of the scandal, and remains positive even four months later. The magnitude of the effect scales sharply with the political rank of the implicated agent: the per-scandal median effect for sitting presidents is substantially larger---about an order of magnitude, though based on a small number of informative scandals---than the corresponding median for Governors or Supreme Court judges. Our findings identify a high-frequency, high-magnitude channel through which corruption shapes the political environment in democracies.
+    \noindent We document that \textit{apex} corruption scandals---corrupt acts implicating top-level politicians---cause immediate and persistent increases in violent protests. Using a panel of 176 corruption scandals across 23 countries in Latin America from 2008 to 2018, merged with daily protest counts, we establish three facts: In the 30 days following a scandal, the daily count of violent protests rises by roughly 59\% of the pre-scandal baseline (measured over the six days immediately preceding disclosure). The effect appears within a week of the scandal, and remains positive even four months later. The magnitude of the effect scales sharply with the political rank of the implicated agent: the per-scandal median effect for sitting presidents is substantially larger---about an order of magnitude, though based on a small number of informative scandals---than the corresponding median for Governors or Supreme Court judges. Our findings identify a high-frequency, high-magnitude channel through which corruption shapes the political environment in democracies.
 \end{abstract}
 
 % \noindent \textbf{Keywords:} \\ 
@@ -106,7 +106,7 @@ The identification assumption we rely on for our estimates to be interpreted as 
     \begin{center}
         \scriptsize{\input{violent_peaceful_ols_poi_panels}}
     \end{center}
-    \footnotesize{The table reports OLS estimates (Panel A) and Poisson QML incidence-rate ratios (Panel B) from \autoref{eq:main} for eight outcome--window combinations: violent and peaceful protest \emph{counts}, each estimated on the $\pm$30-day window (columns 1--2) and on the $\pm$120-day window (columns 3--4); and \emph{share} outcomes, defined as the fraction of the country-day's protests that are violent or peaceful (with country-days having no protests imputed to a share of 0), estimated on the $\pm$30-day window (columns 5--6) and on the $\pm$120-day window (columns 7--8). Panel B is estimated only on the count outcomes because the incidence-rate ratio has no meaning for a share in $[0,1]$; the corresponding cells in columns 5--8 are left blank. An observation is a country-day inside the event window of a scandal; the 176 apex corruption scandals across 23 Latin American countries are stacked. All specifications include country-by-year, month-of-year, and day-of-week fixed effects. Standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. Panel B reports $\exp(\beta)$ with its delta-method standard error $\exp(\beta)\cdot\mathrm{SE}(\beta)$; stars test $H_0:\beta=0$ (equivalently, IRR $=1$). ``Mean (Pre-Scandal Bin)'' is the average value of the outcome in the bin immediately before the scandal's disclosure---a 6-day bin in columns (1)--(2) and (5)--(6) and a 30-day bin in columns (3)--(4) and (7)--(8)---computed over the corresponding regression sample. The Poisson sample is smaller than the OLS sample because \texttt{ppmlhdfe} drops observations that are either singletons or separated by a fixed effect. The sample period is 2008--2018; Venezuela is excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+    \footnotesize{The table reports OLS estimates (Panel A) and Poisson QML incidence-rate ratios (Panel B) from \autoref{eq:main} for eight outcome--window combinations: violent and peaceful protest \emph{counts}, each estimated on the $\pm$30-day window (columns 1--2) and on the $\pm$120-day window (columns 3--4); and \emph{share} outcomes, defined as the fraction of the country-day's protests that are violent or peaceful (with country-days having no protests imputed to a share of 0), estimated on the $\pm$30-day window (columns 5--6) and on the $\pm$120-day window (columns 7--8). Panel B is estimated only on the count outcomes because the incidence-rate ratio has no meaning for a share in $[0,1]$. An observation is a country-day inside the event window of a scandal; the 176 apex corruption scandals across 23 Latin American countries are stacked. All specifications include country-by-year, month-of-year, and day-of-week fixed effects. Standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. Panel B reports $\exp(\beta)$ with its delta-method standard error; stars test $H_0:\beta=0$ (equivalently, IRR $=1$). ``Mean (Pre-Scandal Bin)'' is the average value of the outcome in the bin immediately before the scandal's disclosure---a 6-day bin in columns (1)--(2) and (5)--(6) and a 30-day bin in columns (3)--(4) and (7)--(8)---computed over the corresponding regression sample. The Poisson sample is smaller than the OLS sample because \texttt{ppmlhdfe} drops observations that are either singletons or separated by a fixed effect. The sample period is 2008--2018; Venezuela is excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
 \end{table}
 
 \subsection{Protest dynamics around apex corruption scandals}
@@ -165,7 +165,7 @@ Our results help reconcile part of the mixed results in the existing literature 
 
 A ``salience of stakeholders'' view rationalizes this~\citep{acemoglu2006origins,acemoglu2012nations,jha2013trade,jha2019valuing,jha2022markets}. Citizens' political behavior responds to the political weight of \textit{what} is being disclosed. Apex corruption, thus, affects citizens' perceived stakes of the political bargain, particularly when the implicated official is at the apex of the political hierarchy. The contrast between high--stakes presidential scandals and low-stakes lower officials scandals parallels the contrast between high-stakes elections and routine governance in studies of political accountability~\citep{martinezbravo2022elites}, and is consistent with the idea that citizen engagement depends on whether institutions can deliver outcomes~\citep{acemoglu2019DemoEcoGrowth,acemoglu2024demobreedsupport,DuranteFutbol}. 
 
-Our empirical analyses have some limitations worth noting. Our identification strategy relies on the timing of apex corruption disclosures, not on the timing of the corrupt act itself. If the timing of disclosures is correlated with pre-existing political conditions that affect mobilization (violent or peaceful), our estimates could then be biased. Somewhat reassuringly, the pre-scandal estimates in \autoref{fig:eventstudies} show no evidence of pre-existing trends in mobilization. A second limitation comes from the fact that the MM dataset is constructed by looking at news sources reporting on mobilization events. Small protests may thus be underreported as they are not big enough to draw media attention, or protests occurring in geographically remote areas may also be left out. This would induce measurement error in our estimates, but if anything this would bias our estimates toward zero. Relatedly, there is no variation in the outcome around a large share of our scandals, which limits our heterogeneity analysis to the subsample of scandals around which mobilization patterns change. And finally, our scandal sample is limited to Latin American democracies in the 2008--2018 period, which limits the external validity of our findings insofar as different regions in the world may mobilize differently in response to corruption scandals. One could also expect different results when shortening/expanding the time scope of the analysis if one believes that the cumulative amount of apex corruption episodes affect the extent to which citizens mobilize.
+Our empirical analyses have some limitations worth noting. Our identification strategy relies on the timing of apex corruption disclosures, not on the timing of the corrupt act itself. If the timing of disclosures is correlated with pre-existing political conditions that affect mobilization (violent or peaceful), our estimates could then be biased. Somewhat reassuringly, the pre-scandal estimates in \autoref{fig:eventstudies} show no evidence of pre-existing trends in mobilization. A second limitation comes from the fact that the MM dataset is constructed by looking at news sources reporting on mobilization events. Small protests may thus be underreported as they are not big enough to draw media attention, or protests occurring in geographically remote areas may also be left out. This would induce measurement error in our estimates, but if anything this would bias our estimates toward zero. Relatedly, there is no variation in the outcome around a large share of our scandals, which limits our heterogeneity analysis to the subsample of scandals around which mobilization patterns change. And finally, our scandal sample is limited to Latin American democracies in the 2008--2018 period, thus limiting the external validity of our findings insofar as different regions in the world may mobilize differently in response to corruption scandals. One could also expect different results when shortening/expanding the time scope of the analysis if one believes that the cumulative amount of apex corruption episodes affect the extent to which citizens mobilize.
 
 % =====================================================================
 % REFERENCES
@@ -193,6 +193,34 @@ Our empirical analyses have some limitations worth noting. Our identification st
 \bigskip
 
 % ---------------------------------------------------------------------
+\clearpage
+\section{Scandal classification}\label{sup:classification}
+
+Each of the 176 scandals in our event-window panel is manually classified by the position of the implicated politician. Classification proceeds in two steps.
+
+\paragraph{Step 1: raw position.} We start from the free-text description of each scandal (fields \texttt{official\_involved} and the summary paragraph attached to each event ID). A research assistant reads the description and assigns one of five raw position codes:
+\begin{itemize}
+    \setlength{\itemsep}{0pt}
+    \item \texttt{president} --- sitting or immediately-former head of state; the scandal implicates the President personally in the corrupt act or in a coverup thereof.
+    \item \texttt{governor} --- sitting head of a first-order subnational unit (state, department, province).
+    \item \texttt{sc\_judge\_congressman} --- either a Supreme Court Justice (constitutional or supreme court) or a sitting national legislator. This raw code is subdivided in Step~2.
+    \item \texttt{other\_judiciary} --- lower-court judges, prosecutors, and members of the judicial administration below the constitutional court.
+    \item \texttt{others} --- ministers, agency heads, mayors, subnational legislators, and all other public officials not captured above.
+\end{itemize}
+The raw codes and each scandal's official description are stored in \texttt{scandals\_classified.csv}.
+
+\paragraph{Step 2: splitting the sc\_judge\_congressman category.} Because the raw code lumps two very different offices (constitutional-court justices and members of Congress) together, we manually verify each such row against the case description and, for the ones in which the implicated official is a Supreme Court justice, tag the scandal's \texttt{id} accordingly. The set of IDs re-tagged as Supreme Court justices, as of 2026-06-27, is \texttt{202}, \texttt{NEW26}, \texttt{NEW30}, \texttt{332}, and \texttt{NEW23}. The remaining \texttt{sc\_judge\_congressman} rows are legislators (members of Congress).
+
+\paragraph{Final three-way partition.} We then aggregate raw codes into three politically meaningful bins:
+\begin{itemize}
+    \setlength{\itemsep}{0pt}
+    \item \textbf{President} = \texttt{president}. \hfill\emph{45 scandals.}
+    \item \textbf{Other Apex} = \texttt{governor} plus the five SC-Justice IDs above. \hfill\emph{19 scandals.}
+    \item \textbf{Other Non-Apex} = \texttt{other\_judiciary} + \texttt{others} + the remaining \texttt{sc\_judge\_congressman} IDs (Congressmen). \hfill\emph{112 scandals.}
+\end{itemize}
+This is the ``apex partition v2'' used in the boxplots of Figure~2 and in the restricted-sample regressions of Sections~\ref{sup:pres_only} and \ref{sup:pres_plus_apex} and in the pooled interaction regression of \autoref{sup:hierarchy}. The mapping is implemented in \texttt{per\_scandal\_effects\_apex\_v2.do} and reused verbatim by every do-file in this Supplementary Materials block.
+
+% ---------------------------------------------------------------------
 \section{Table~1 restricted to Presidential scandals}\label{sup:pres_only}
 
 Table~\ref{tab:sup_pres_only} re-estimates \autoref{eq:main} on the subsample of scandals in which the implicated official is a sitting President (45 scandals). Everything else is identical to the main Table~1.
@@ -206,7 +234,8 @@ Table~\ref{tab:sup_pres_only} re-estimates \autoref{eq:main} on the subsample of
     \footnotesize{Panel A reports OLS estimates of $\beta$ from \autoref{eq:main} on eight outcomes (cols.~1--4 counts, cols.~5--8 shares); Panel B reports Poisson QML incidence-rate ratios on the four count outcomes only, with cols.~5--8 blank because IRR has no meaning on a share in $[0,1]$. Subsample: scandals classified as ``President'' in \autoref{sup:classification}. Standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. Share outcomes are defined in the note to Table~\ref{tab:main}. Same fixed effects, sample period, and clustering as Table~1.}
 \end{table}
 
-% ---------------------------------------------------------------------
+% ---------------------------------------------------------------------}
+\clearpage
 \section{Table~1 restricted to Presidential and Other Apex scandals}\label{sup:pres_plus_apex}
 
 Table~\ref{tab:sup_pres_apex} re-estimates \autoref{eq:main} on the subsample of Presidential \emph{and} Other Apex scandals (Governors and Supreme Court Justices; 45 + 19 = 64 scandals). Other Non-Apex scandals are dropped.
@@ -221,6 +250,7 @@ Table~\ref{tab:sup_pres_apex} re-estimates \autoref{eq:main} on the subsample of
 \end{table}
 
 % ---------------------------------------------------------------------
+\clearpage
 \section{Placebo test: randomizing the scandal date within the event window}\label{sup:placebo}
 
 If the observed effect really begins at the scandal's public-disclosure date and there is no anticipation, then artificially placing the post-scandal cutoff at a pre-scandal day within the same event window should yield null coefficients. Because the pre-window contains at most $T-1$ candidate offsets, random draws would repeat the same $k$ many times over 1{,}000 replications; we instead \emph{enumerate} each offset once. For every $k \in \{-T+1,\dots,-1\}$ we redefine $\widetilde{\text{Post}}_{st} = \mathbf{1}\{w_{st} \geq k\}$, where $w_{st}$ is the event-time index, and re-estimate the headline OLS specification on the original event-window sample. No country-day is added or removed; only the treatment cutoff is shifted into the pre-scandal window.
@@ -250,6 +280,7 @@ If the observed effect really begins at the scandal's public-disclosure date and
 \end{figure}
 
 % ---------------------------------------------------------------------
+\clearpage
 \section{Randomization inference}\label{sup:ri}
 
 We complement the in-window placebo test with a full randomization-inference exercise. In each of 1{,}000 replications, and for each of the 176 scandals, we draw a placebo disclosure date uniformly at random within the scandal's original country-year. A draw is rejected whenever its $\pm T$-day window would contain an actual disclosure date of any scandal in the same country (i.e., whenever $|k - t_{s'}| \leq T$ for some real scandal $s'$ in that country). If no acceptable date is found within the original country-year after 20 attempts, we fall back to an unconditional draw over all 22 panel countries and all dates in 2008--2018, subject to the same overlap check, for up to 30 additional attempts. We then rebuild the $\pm T$-day event-window panel around the accepted placebo dates and re-estimate the headline OLS specification.
@@ -279,33 +310,7 @@ We complement the in-window placebo test with a full randomization-inference exe
 \end{figure}
 
 % ---------------------------------------------------------------------
-\section{Scandal classification}\label{sup:classification}
-
-Each of the 176 scandals in our event-window panel is manually classified by the position of the implicated politician. Classification proceeds in two steps.
-
-\paragraph{Step 1: raw position.} We start from the free-text description of each scandal (fields \texttt{official\_involved} and the summary paragraph attached to each event ID). A research assistant reads the description and assigns one of five raw position codes:
-\begin{itemize}
-    \setlength{\itemsep}{0pt}
-    \item \texttt{president} --- sitting or immediately-former head of state; the scandal implicates the President personally in the corrupt act or in a coverup thereof.
-    \item \texttt{governor} --- sitting head of a first-order subnational unit (state, department, province).
-    \item \texttt{sc\_judge\_congressman} --- either a Supreme Court Justice (constitutional or supreme court) or a sitting national legislator. This raw code is subdivided in Step~2.
-    \item \texttt{other\_judiciary} --- lower-court judges, prosecutors, and members of the judicial administration below the constitutional court.
-    \item \texttt{others} --- ministers, agency heads, mayors, subnational legislators, and all other public officials not captured above.
-\end{itemize}
-The raw codes and each scandal's official description are stored in \texttt{scandals\_classified.csv}.
-
-\paragraph{Step 2: splitting the sc\_judge\_congressman category.} Because the raw code lumps two very different offices (constitutional-court justices and members of Congress) together, we manually verify each such row against the case description and, for the ones in which the implicated official is a Supreme Court justice, tag the scandal's \texttt{id} accordingly. The set of IDs re-tagged as Supreme Court justices, as of 2026-06-27, is \texttt{202}, \texttt{NEW26}, \texttt{NEW30}, \texttt{332}, and \texttt{NEW23}. The remaining \texttt{sc\_judge\_congressman} rows are legislators (members of Congress).
-
-\paragraph{Final three-way partition (apex partition v2).} We then aggregate raw codes into three politically meaningful bins:
-\begin{itemize}
-    \setlength{\itemsep}{0pt}
-    \item \textbf{President} = \texttt{president}. \hfill\emph{45 scandals.}
-    \item \textbf{Other Apex} = \texttt{governor} plus the five SC-Justice IDs above. \hfill\emph{19 scandals.}
-    \item \textbf{Other Non-Apex} = \texttt{other\_judiciary} + \texttt{others} + the remaining \texttt{sc\_judge\_congressman} IDs (Congressmen). \hfill\emph{112 scandals.}
-\end{itemize}
-This is the ``apex partition v2'' used in the boxplots of Figure~2 and in the restricted-sample regressions of Sections~\ref{sup:pres_only} and \ref{sup:pres_plus_apex} and in the pooled interaction regression of \autoref{sup:hierarchy}. The mapping is implemented in \texttt{per\_scandal\_effects\_apex\_v2.do} and reused verbatim by every do-file in this Supplementary Materials block.
-
-% ---------------------------------------------------------------------
+\clearpage
 \section{Regression-based hierarchy analysis}\label{sup:hierarchy}
 
 Figure~2 in the main text visualizes heterogeneity across the apex partition using the distribution of per-scandal effects. Table~\ref{tab:sup_hierarchy} reports the pooled-regression analogue. For each outcome and window we estimate
@@ -323,7 +328,7 @@ where $\mathrm{Pres}_s$, $\mathrm{OA}_s$, and $\mathrm{ONA}_s$ are scandal-level
     \begin{center}
         \scriptsize{\input{sup_hierarchy_regression}}
     \end{center}
-    \footnotesize{OLS estimates of $\beta_{\text{Pres}}$, $\beta_{\text{OA}}$, $\beta_{\text{ONA}}$ (Post $\times$ President, Other Apex, Other Non-Apex) from the pooled interaction specification, run on the four count outcomes (cols.~1--4) and the four share outcomes (cols.~5--8) defined in the note to Table~\ref{tab:main}. Standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. Fixed effects, sample period, and clustering are identical to Table~1. Categories follow the v2 partition (\autoref{sup:classification}). Rows labeled ``$p$-value'' report pairwise equality tests across the three category-specific coefficients within each column.}
+    \footnotesize{OLS estimates of $\beta_{\text{Pres}}$, $\beta_{\text{OA}}$, $\beta_{\text{ONA}}$ (Post $\times$ President, Other Apex, Other Non-Apex) from the pooled interaction specification, run on the four count outcomes (cols.~1--4) and the four share outcomes (cols.~5--8) defined in the note to Table~\ref{tab:main}. Standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. Fixed effects, sample period, and clustering are identical to Table~1. Rows labeled ``$p$-value'' report pairwise equality tests across the three category-specific coefficients within each column.}
 \end{table}
 
 \end{document}
