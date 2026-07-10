@@ -339,6 +339,7 @@ We re-estimate the headline OLS and Poisson QML specifications of Table~\ref{tab
 \begin{figure}[htb!]
     \caption{Sensitivity of the headline effect to the event-window width.}
     \label{fig:sup_window}
+    \begin{center}
     \begin{subfigure}{0.48\textwidth}
         \caption{OLS $\hat{\beta}$, violent protests.}
         \includegraphics[width=\textwidth]{sup_window_sensitivity_ols_num_violent_MM.pdf}
@@ -355,6 +356,7 @@ We re-estimate the headline OLS and Poisson QML specifications of Table~\ref{tab
         \caption{Poisson QML IRR, peaceful protests.}
         \includegraphics[width=\textwidth]{sup_window_sensitivity_poi_num_peaceful_MM.pdf}
     \end{subfigure}
+    \end{center}
     \footnotesize{For each $T \in \{15, 30, 45, \dots, 150\}$ we re-estimate \autoref{eq:main} on the event-window panel restricted to $|w_{st}|\leq T$. Panels~(a)--(b) plot the OLS point estimate $\hat{\beta}$; panels~(c)--(d) plot the Poisson QML incidence-rate ratio $\exp(\hat{\beta})$. Vertical bars are 90\% confidence intervals (SE clustered at country $\times$ year $\times$ day-bin, delta-method on the IRR scale). The two markers highlighted in red correspond to $T = 30$ and $T = 120$, the windows reported in Table~\ref{tab:main}. The thick horizontal line marks the null. Sample period 2008--2018; Venezuela excluded.}
 \end{figure}
 
