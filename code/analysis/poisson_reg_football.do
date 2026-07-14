@@ -29,6 +29,11 @@ if "`c(username)'" == "Rob_9" {
 
 global work "${identity}/Corrupcion/Protest_Work"
 
+/* Paper output subdirs (routes all tables/figures directly into the
+   paper repo so nothing has to be sync'd manually). */
+global tabout "${identity}/Corrupcion/protest_repo/paper/tables"
+global figout "${identity}/Corrupcion/protest_repo/paper/figures"
+
 ********************************************************************************
 
 ** Creating Global File Paths **
@@ -71,41 +76,42 @@ local firstyear = 2008
 local ci_level = 90
 local alphaval = 0.1
 	
-/* Loop analysis over window of days around the event ---------------------- */
-foreach numbdays in 90 120 {
+/* Loop analysis over window of days around the event -----------------------
+   Windows aligned with the corruption Table~1 spec (30 and 120 days). */
+foreach numbdays in 30 120 {
 	/* Set Globals with all treatment leads and lags */
 	global leads ""
 	global leads1 ""
 	global leads2 ""
 	global leads3 ""
-	
+
 	forvalues i = `numbdays'(-30)30{
 		global leads "${leads} s_lead`i'"
 		global leads1 "${leads1} s1_lead`i'"
 		global leads2 "${leads2} s2_lead`i'"
 		global leads3 "${leads3} s3_lead`i'"
 	}
-	
+
 	global lags ""
 	global lags1 ""
 	global lags2 ""
 	global lags3 ""
-	
+
 	forvalues i = 30(30)`numbdays' {
 		global lags "${lags} s_lag`i'"
 		global lags1 "${lags1} s1_lag`i'"
 		global lags2 "${lags2} s2_lag`i'"
 		global lags3 "${lags3} s3_lag`i'"
 	}
-	
+
 	/* Read in dataset */
 	use "${datfin}/protests_scandals_30days_football_v3", clear
-	drop if country=="Venezuela" 
-	
+	drop if country=="Venezuela"
+
 	/* Create groups with days since/to event */
 	egen grupo_dias = group(${lags} ${leads})
 	egen group_cluster = group(country_id year grupo_dias)
-	
+
 	/* Iterate over outcomes */
 	estimates clear
 	local y_counter = 0
@@ -114,9 +120,13 @@ foreach numbdays in 90 120 {
 		display in yellow "Estimate IRR for `outcome'"
 		/* Add one to outcome counter */
 		local ++y_counter
-		/* Estimate average coefficient */
-		eststo m_`y_counter'_`numbdays' : poisson `outcome' post i.month i.day ///
-			i.country_id if year >= `firstyear', vce(cluster group_cluster) irr
+		/* Estimate average (IRR) coefficient -- MATCHES the corruption
+		   Table~1 Poisson panel: ppmlhdfe with country x year, month
+		   and day-of-week absorbed FEs, clustered SEs at country x year
+		   x day-bin, sample restricted to year>=2008 AND abs(window)<=T. */
+		eststo m_`y_counter'_`numbdays' : ppmlhdfe `outcome' post ///
+			if year >= `firstyear' & abs(window) <= `numbdays', ///
+			absorb(month day i.country_id#i.year) vce(cluster group_cluster)
 		local av_est = string(exp(_b[post])-1, "%3.2fc")
 		local p_av_est = 2*normal(-abs(_b[post]/_se[post]))
 		if `p_av_est' < 0.01 {
@@ -126,9 +136,10 @@ foreach numbdays in 90 120 {
 			local p_string = "p = " + string(`p_av_est', "%4.3fc")
 		}
 		quietly {
-			/* Estimate IRR (exp{b}) with poisson regression and export coefficient plot */
-			poisson `outcome' ${leads} ${lags} i.month i.day ///
-				i.country_id if year >= `firstyear', vce(cluster group_cluster) irr
+			/* Event-study version: IRRs at every lead/lag bin. */
+			ppmlhdfe `outcome' ${leads} ${lags} ///
+				if year >= `firstyear' & abs(window) <= `numbdays', ///
+				absorb(month day i.country_id#i.year) vce(cluster group_cluster)
 			/* Compute x-axis value in which vertical line must be drawn */
 			local x_line_pos = (`numbdays'/30) + 0.5
 			/* Get y-axis value of smallest CI to show effect estimate text at that height */
@@ -152,7 +163,7 @@ foreach numbdays in 90 120 {
 			ciopts(lcolor(black) lwidth(medthin)) mcolor(black) msize(medium) ///
 			legend(order(- "Avg. Effect = `av_est' (`p_string')") pos(11) ring(0))
 		graph export ///
-		"${work}/results/figures/poisson_es_football_`outcome'_`numbdays'window_since`firstyear'_overlaps_`ci_level'ci.png", ///
+		"${figout}/poisson_es_football_`outcome'_`numbdays'window_since`firstyear'_overlaps_`ci_level'ci.png", ///
 			replace
 	}
 }

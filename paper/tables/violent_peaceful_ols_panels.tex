@@ -1,0 +1,29 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{8}{c}}
+\toprule
+&\multicolumn{2}{c}{$\pm 30$-Day Window}    &\multicolumn{2}{c}{$\pm 120$-Day Window}   &\multicolumn{2}{c}{Shares ($\pm 30$-Day)}  &\multicolumn{2}{c}{Shares ($\pm 120$-Day)} \\\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
+&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}\\
+&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Share\\Violent}}&\multicolumn{1}{c}{\shortstack{Share\\Peaceful}}&\multicolumn{1}{c}{\shortstack{Share\\Violent}}&\multicolumn{1}{c}{\shortstack{Share\\Peaceful}}\\
+\midrule \multicolumn{9}{l}{\textbf{\textit{Panel A: President + Other Apex}}} \\
+Post Scandal&       0.060\sym{***}&       0.005         &       0.021\sym{*}  &       0.002         &       0.060\sym{***}&       0.005         &       0.021\sym{*}  &      -0.000         \\
+&     (0.017)         &     (0.008)         &     (0.012)         &     (0.010)         &     (0.017)         &     (0.008)         &     (0.012)         &     (0.009)         \\
+\midrule
+Mean (Pre-Scandal Bin)&       0.036         &       0.018         &       0.027         &       0.015         &       0.036         &       0.018         &       0.027         &       0.014         \\
+Observations&        3904         &        3904         &       15665         &       15665         &        3904         &        3904         &       15665         &       15665         \\
+Number of Scandals&          64         &          64         &          64         &          64         &          64         &          64         &          64         &          64         \\
+R-squared   &       0.270         &       0.075         &       0.193         &       0.117         &       0.275         &       0.081         &       0.197         &       0.116         \\
+\midrule
+\multicolumn{9}{l}{\textbf{\textit{Panel B: Other Non-Apex}}} \\
+Post Scandal&       0.000         &       0.010         &       0.016\sym{**} &      -0.010         &      -0.001         &       0.012         &       0.016\sym{**} &      -0.010         \\
+&     (0.005)         &     (0.010)         &     (0.008)         &     (0.009)         &     (0.005)         &     (0.011)         &     (0.008)         &     (0.009)         \\
+\midrule
+Mean (Pre-Scandal Bin)&       0.022         &       0.098         &       0.017         &       0.075         &       0.022         &       0.085         &       0.016         &       0.068         \\
+Observations&        6832         &        6832         &       26992         &       26992         &        6832         &        6832         &       26992         &       26992         \\
+Number of Scandals&         112         &         112         &         112         &         112         &         112         &         112         &         112         &         112         \\
+R-squared   &       0.115         &       0.565         &       0.107         &       0.358         &       0.124         &       0.578         &       0.109         &       0.349         \\
+\midrule
+Country $\times$ Year FE&  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+\bottomrule
+\end{tabular}
+}

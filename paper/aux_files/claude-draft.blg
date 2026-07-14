@@ -1,0 +1,50 @@
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: claude-draft.aux
+Reallocating 'name_of_file' (item size: 1) to 4 items.
+The style file: aer.bst
+Reallocating 'name_of_file' (item size: 1) to 5 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Database file #1: refs.bib
+You've used 41 entries,
+            2984 wiz_defined-function locations,
+            882 strings with 10785 characters,
+and the built_in function-call counts, 38230 in all, are:
+= -- 5863
+> -- 2355
+< -- 644
++ -- 795
+- -- 448
+* -- 2715
+:= -- 8424
+add.period$ -- 43
+call.type$ -- 41
+change.case$ -- 287
+chr.to.int$ -- 40
+cite$ -- 41
+duplicate$ -- 445
+empty$ -- 1138
+format.name$ -- 1164
+if$ -- 9378
+int.to.chr$ -- 2
+int.to.str$ -- 0
+missing$ -- 41
+newline$ -- 131
+num.names$ -- 492
+pop$ -- 606
+preamble$ -- 1
+purify$ -- 328
+quote$ -- 0
+skip$ -- 0
+stack$ -- 0
+substring$ -- 1346
+swap$ -- 151
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 158
+warning$ -- 0
+while$ -- 469
+width$ -- 0
+write$ -- 684

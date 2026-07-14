@@ -109,10 +109,38 @@ drop if country == "Venezuela"
 rename num_violent  num_violent_MM
 rename num_peaceful num_peaceful_MM
 rename num_protests num_protests_MM
+egen country_id = group(country)
+
+/* --------------------------------------------------------------------
+   BALANCE THE COUNTRY-DAY PANEL.
+   MMclean_full_bydate.dta is a `collapse (sum) ... , by(country date)`
+   of the protest EVENT file (see 1_d_MMCleaning.do), so it contains
+   ONLY country-days on which at least one protest occurred -- every
+   zero-protest day is absent.  The placebo loop below merges placebo
+   windows onto this panel and drops non-matches, which would silently
+   restrict each placebo regression to protest-days only and inflate the
+   placebo distribution ~10x (the bug that pushed the observed beta out
+   of the tail).  We tsfill the missing zero-protest country-days and set
+   their counts to 0, so the placebo panel has the SAME balanced support
+   as the observed event-window panel -- while keeping the exact protest
+   counts on protest-days.
+   -------------------------------------------------------------------- */
+preserve
+	keep country_id country
+	duplicates drop
+	tempfile _cw
+	save `_cw'
+restore
+tsset country_id date
+tsfill, full
+drop country
+merge m:1 country_id using `_cw', nogenerate
+foreach v in num_violent_MM num_peaceful_MM num_protests_MM {
+	replace `v' = 0 if missing(`v')
+}
 gen year  = year(date)
 gen month = month(date)
 gen day   = dow(date)                       /* day-of-week: 0=Sun..6=Sat */
-egen country_id = group(country)
 tempfile day_panel
 save `day_panel'
 
@@ -379,12 +407,12 @@ foreach T in 30 120 {
 	twoway (histogram beta_placebo, percent bin(50) ///
 	            color(gs6) lcolor(gs8)) ///
 	       (scatter _leg_dummy beta_placebo, msymbol(none)), ///
-		xline(`observed_beta_T', lcolor("220 0 0") lwidth(medthick) ///
+		xline(`observed_beta_T', lcolor("128 0 0") lwidth(medthick) ///
 		     lpattern(solid)) ///
 		xline(0, lcolor(black) lwidth(vthin) lpattern(dot)) ///
 		text(5 `observed_beta_T' "{&beta} = `obs_str'", ///
 		     place(e) orientation(vertical) size(medsmall) ///
-		     color("220 0 0")) ///
+		     color("128 0 0")) ///
 		xtitle("Effect on `outlbl'", size(medium)) ///
 		ytitle("Percent", size(medium)) ///
 		xlabel(, format(%5.3f)) ///

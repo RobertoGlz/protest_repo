@@ -1,0 +1,27 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{4}{c}}
+\toprule
+&\multicolumn{2}{c}{$\pm 30$-Day Window}    &\multicolumn{2}{c}{$\pm 120$-Day Window}    & & & & \\\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)} & & & & \\
+&\multicolumn{1}{c}{\shortstack{Violent & & & & \\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}\\
+\midrule \multicolumn{9}{l}{\textbf{\textit{Panel A: President + Other Apex}}} \\
+Post Scandal (IRR)&       2.180\sym{**} &       1.138         &       1.375\sym{*}  &       1.083          & & & & \\
+&     (0.660)         &     (0.556)         &     (0.253)         &     (0.303)          & & & & \\
+\midrule
+Mean (Pre-Scandal Bin)&       0.101         &       0.041         &       0.054         &       0.018          & & & & \\
+Observations&        1397         &        1778         &        7519         &       12613          & & & & \\
+Number of Scandals&          28         &          32         &          34         &          53          & & & & \\
+Pseudo R-squared&       0.299         &       0.170         &       0.339         &       0.220          & & & & \\
+\midrule
+\multicolumn{9}{l}{\textbf{\textit{Panel B: Other Non-Apex}}} \\
+Post Scandal (IRR)&       0.875         &       1.189         &       1.932\sym{*}  &       0.778          & & & & \\
+&     (0.284)         &     (0.210)         &     (0.744)         &     (0.127)          & & & & \\
+\midrule
+Mean (Pre-Scandal Bin)&       0.077         &       0.176         &       0.031         &       0.098          & & & & \\
+Observations&        1884         &        3763         &       13604         &       20728          & & & & \\
+Number of Scandals&          41         &          64         &          63         &          95          & & & & \\
+Pseudo R-squared&       0.339         &       0.436         &       0.260         &       0.322          & & & & \\
+\bottomrule
+\end{tabular}
+}

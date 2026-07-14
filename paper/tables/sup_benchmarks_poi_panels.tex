@@ -1,0 +1,45 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{4}{c}}
+\toprule
+&\multicolumn{2}{c}{$\pm 30$-Day Window}    &\multicolumn{2}{c}{$\pm 120$-Day Window}   \\\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}\\
+\midrule \multicolumn{5}{l}{\textbf{\textit{Panel A: Apex corruption (President + Other Apex)}}} \\
+Post Event (IRR)&       2.180\sym{**} &       1.138         &       1.375\sym{*}  &       1.083         \\
+&     (0.660)         &     (0.556)         &     (0.253)         &     (0.303)         \\
+\midrule
+Mean (Pre-Event Bin)&       0.101         &       0.041         &       0.054         &       0.018         \\
+Observations&        1397         &        1778         &        7519         &       12613         \\
+Number of Events&          28         &          32         &          34         &          53         \\
+Pseudo R-squared&       0.299         &       0.170         &       0.339         &       0.220         \\
+\midrule
+\multicolumn{5}{l}{\textbf{\textit{Panel B: Non-apex corruption (Other Non-Apex)}}} \\
+Post Event (IRR)&       0.875         &       1.189         &       1.932\sym{*}  &       0.778         \\
+&     (0.284)         &     (0.210)         &     (0.744)         &     (0.127)         \\
+\midrule
+Mean (Pre-Event Bin)&       0.077         &       0.176         &       0.031         &       0.098         \\
+Observations&        1884         &        3763         &       13604         &       20728         \\
+Number of Events&          41         &          64         &          63         &          95         \\
+Pseudo R-squared&       0.339         &       0.436         &       0.260         &       0.322         \\
+\bottomrule
+\multicolumn{5}{l}{\textbf{\textit{Panel C: Football match losses}}} \\
+Post Event (IRR)&       1.531         &       1.213         &       1.268         &       1.361         \\
+&     (0.541)         &     (0.362)         &     (0.494)         &     (0.490)         \\
+\midrule
+Mean (Pre-Event Bin)&       0.048         &       0.142         &       0.031         &       0.073         \\
+Observations&        1251         &        2928         &       11741         &       23068         \\
+Number of Events&          21         &          48         &          49         &          96         \\
+Pseudo R-squared&       0.470         &       0.385         &       0.417         &       0.304         \\
+\bottomrule
+\multicolumn{5}{l}{\textbf{\textit{Panel D: Currency depreciations}}} \\
+Post Event (IRR)&       1.361         &       0.967         &       1.409\sym{*}  &       0.731\sym{*}  \\
+&     (0.373)         &     (0.299)         &     (0.283)         &     (0.131)         \\
+\midrule
+Mean (Pre-Event Bin)&       0.070         &       0.050         &       0.063         &       0.033         \\
+Observations&        2673         &        5378         &       14630         &       31115         \\
+Number of Events&          46         &          96         &          72         &         138         \\
+Pseudo R-squared&       0.322         &       0.274         &       0.428         &       0.232         \\
+\bottomrule
+\end{tabular}
+}

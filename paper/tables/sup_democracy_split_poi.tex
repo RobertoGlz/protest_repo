@@ -1,0 +1,21 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{4}{c}}
+\toprule
+            &\multicolumn{2}{c}{$\pm 30$-Day Window}    &\multicolumn{2}{c}{$\pm 120$-Day Window}   \\\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+            &\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}\\
+\midrule
+Post $\times$ High Democracy (2008)&       1.508\sym{***}&       1.085         &       2.102\sym{***}&       0.746\sym{**} \\
+            &     (0.201)         &     (0.145)         &     (0.370)         &     (0.111)         \\
+Post $\times$ Low Democracy (2008)&       1.788         &       1.666\sym{*}  &       0.748         &       0.853         \\
+            &     (1.099)         &     (0.459)         &     (0.429)         &     (0.214)         \\
+\midrule
+p-value: High $=$ Low&       0.807         &       0.175         &       0.092         &       0.635         \\
+Mean (Pre-Scandal Bin)&       0.072         &       0.114         &       0.039         &       0.067         \\
+Observations&        3996         &        6454         &       21585         &       33529         \\
+Number of Scandals&          74         &         108         &          98         &         149         \\
+Pseudo R-squared&       0.317         &       0.425         &       0.264         &       0.295         \\
+\bottomrule
+\end{tabular}
+}

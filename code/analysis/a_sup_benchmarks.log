@@ -1,0 +1,2264 @@
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\rob98/Dropbox/Corrupcion/protest_repo/code/analysis/a_sup_benchmarks.log
+  log type:  text
+ opened on:  14 Jul 2026, 12:31:24
+
+. 
+. do "${progdir}/define_panelcombine.do"
+
+. /* ----------------------------------------------------------------------------
+>    Project: Apex corruption protests paper
+> 
+>    Code author: steveofconnell (original)
+>    Modifications: Roberto Gonzalez
+> 
+>    Objective: Define a panelcombine program that handles booktabs rules
+>               rather than hlines. Source the program at the top of any
+>               analysis do-file that builds a multi-panel table.
+> 
+>    Source of the original program:
+>      https://raw.githubusercontent.com/steveofconnell/PanelCombine/master/PanelCombine.do
+>    Copied verbatim from the religion_project_repo project's
+>      code/programs/define_panelcombine.do
+>    so this project does not depend on a sibling repository at build time.
+> ---------------------------------------------------------------------------- */
+. 
+. cap prog drop panelcombine
+
+. prog define panelcombine
+  1. qui {
+  2. syntax, use(str asis) paneltitles(str asis) columncount(integer) save(str) [CLEANup]
+  3. preserve
+  4. 
+. tokenize `"`paneltitles'"'
+  5. //read in loop
+. local num 1
+  6. while "``num''"~="" {
+  7. local panel`num'title="``num''"
+  8. local num=`num'+1
+  9. }
+ 10. 
+. 
+. tokenize `"`use'"'
+ 11. //read in loop
+. local num 1
+ 12. while `"``num''"'~="" {
+ 13. local filepath `"``num''"'
+ 14. tempfile temp`num'
+ 15. insheet using `"`filepath'"', clear
+ 16. save `temp`num''
+ 17. local max = `num'
+ 18. local num=`num'+1
+ 19. }
+ 20. 
+. //conditional processing loop
+. tokenize `"`use'"'
+ 21. local num 1
+ 22. while `"``num''"'~="" {
+ 23. local panellabel : word `num' of `c(ALPHA)'
+ 24. use `temp`num'', clear
+ 25.         if `num'==1 { //process first panel -- clip bottom
+ 26.         drop if strpos(v1,"Note:")>0 | strpos(v1,"in parentheses")>0 | strpos(v1,"p<0")>0
+ 27.         drop if v1=="\end{tabular}" | v1=="}"
+ 28.         /* Replace ONLY the first occurrence of \midrule with the Panel A
+>            header. Using cumulative-sum-of-flag is robust to the row
+>            position changing because of mgroups, multi-row column
+>            headers, etc. */
+.         gen byte _is_mid = (v1 == "\midrule")
+ 29.         gen long _midnum = sum(_is_mid)
+ 30.         replace v1 = "\midrule \multicolumn{`columncount'}{l}{\textbf{\textit{Panel `panellabel': `panel1title'}}} \\" if _is_mid == 1 & _midnum == 1
+ 31.         drop _is_mid _midnum
+ 32.         replace v1 = "\midrule" if v1=="\bottomrule" & _n>4 //this is intended to replace the bottom double line; more robust condition probably exists
+ 33.         }
+ 34.         else if `num'==`max' { //process final panel -- clip top
+ 35.         //process header to drop everything until first hline
+.         g temp = (v1 == "\midrule")
+ 36.         replace temp = temp+temp[_n-1] if _n>1
+ 37.         drop if temp==0
+ 38.         drop temp
+ 39. 
+.         replace v1 = " \multicolumn{`columncount'}{l}{\textbf{\textit{Panel `panellabel': `panel`num'title'}}} \\" if _n==1
+ 40.         }
+ 41.         else { //process middle panels -- clip top and bottom
+ 42.         //process header to drop everything until first hline
+.         g temp = (v1 == "\midrule")
+ 43.         replace temp = temp+temp[_n-1] if _n>1
+ 44.         drop if temp==0
+ 45.         drop temp
+ 46. 
+.         replace v1 = " \multicolumn{`columncount'}{l}{\textbf{\textit{Panel `panellabel': `panel`num'title'}}} \\" if _n==1
+ 47.         drop if strpos(v1,"Note:")>0 | strpos(v1,"in parentheses")>0 | strpos(v1,"p<0")>0
+ 48.         drop if v1=="\end{tabular}" | v1=="}"
+ 49.         replace v1 = "\bottomrule" if v1=="\bottomrule\bottomrule"
+ 50.         }
+ 51.         save `temp`num'', replace
+ 52. local num=`num'+1
+ 53. }
+ 54. 
+. use `temp1',clear
+ 55. local num 2
+ 56. while "``num''"~="" {
+ 57. append using `temp`num''
+ 58. local num=`num'+1
+ 59. }
+ 60. 
+. outsheet using `save', noname replace noquote
+ 61. 
+. 
+.         if "`cleanup'"!="" { //erasure loop
+ 62.         tokenize `"`use'"'
+ 63.         local num 1
+ 64.                 while `"``num''"'~="" {
+ 65.                 local filepath `"``num''"'
+ 66.                 erase `"`filepath'"'
+ 67.                 local num=`num'+1
+ 68.                 }
+ 69.         }
+ 70. 
+. restore
+ 71. }
+ 72. end
+
+. 
+end of do-file
+
+. 
+. global fe1      "i.country_id#i.year"
+
+. global CLUSTER2 "cluster i.country_id#i.year#i.grupo_dias"
+
+. local  firstyear = 2008
+
+. 
+. /* ============================================================
+>    Loop over estimator (ols/poi) and panel.  Each panel loads its
+>    OWN source dataset directly from disk and builds the share
+>    outcomes inline -- no pre-built tempfiles, no helper programs.
+>    ============================================================ */
+. foreach est in ols poi {
+  2. 
+.         if "`est'" == "ols" {
+  3.                 local out_list "num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM share_violent share_peaceful share_violent share_peaceful"
+  4.                 local win_list "30 30 120 120 30 30 120 120"
+  5.         }
+  6.         else {
+  7.                 local out_list "num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM"
+  8.                 local win_list "30 30 120 120"
+  9.         }
+ 10.         local ncell : word count `out_list'
+ 11. 
+.         foreach p in corrpa corrna football deprec {
+ 12. 
+.                 /* ---------- load + prep this panel's data ---------- */
+.                 if "`p'" == "corrpa" | "`p'" == "corrna" {
+ 13.                         import delimited using "${datfin}/scandals_classified.csv", ///
+>                                 clear varnames(1) bindquotes(strict)
+ 14.                         keep id country position
+ 15.                         tempfile cls
+ 16.                         save `cls'
+ 17. 
+.                         use "${datfin}/protests_scandals_30days_v3", clear
+ 18.                         drop if country == "Venezuela"
+ 19.                         merge m:1 id country using `cls', keep(1 3) nogenerate
+ 20. 
+.                         gen byte in_pa = 0
+ 21.                         replace in_pa = 1 if position == "president"
+ 22.                         replace in_pa = 1 if position == "governor"
+ 23.                         replace in_pa = 1 if position == "sc_judge_congressman" & ///
+>                                 inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+ 24. 
+.                         gen byte in_na = 0
+ 25.                         replace in_na = 1 if position == "sc_judge_congressman" & ///
+>                                 !inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+ 26.                         replace in_na = 1 if position == "other_judiciary"
+ 27.                         replace in_na = 1 if position == "others"
+ 28. 
+.                         if "`p'" == "corrpa" local flag "in_pa"
+ 29.                         else                 local flag "in_na"
+ 30.                 }
+ 31.                 else if "`p'" == "football" {
+ 32.                         use "${datfin}/protests_scandals_30days_football_v3", clear
+ 33.                         drop if country == "Venezuela"
+ 34.                         gen byte keepall = 1
+ 35.                         local flag "keepall"
+ 36.                 }
+ 37.                 else if "`p'" == "deprec" {
+ 38.                         use "${datfin}/protests_scandals_30days_depreciation_v3", clear
+ 39.                         drop if country == "Venezuela"
+ 40.                         gen byte keepall = 1
+ 41.                         local flag "keepall"
+ 42.                 }
+ 43. 
+.                 /* share outcomes (0 imputed on no-protest days) */
+.                 capture confirm variable num_protests_MM
+ 44.                 if _rc gen double num_protests_MM = num_violent_MM + num_peaceful_MM
+ 45.                 gen double share_violent  = num_violent_MM  / num_protests_MM if num_protests_MM > 0
+ 46.                 gen double share_peaceful = num_peaceful_MM / num_protests_MM if num_protests_MM > 0
+ 47.                 replace    share_violent  = 0 if num_protests_MM == 0
+ 48.                 replace    share_peaceful = 0 if num_protests_MM == 0
+ 49. 
+.                 egen grupo_dias = group(s_lag30 s_lag60 s_lag90 s_lag120 ///
+>                                         s_lead30 s_lead60 s_lead90 s_lead120)
+ 50. 
+.                 tempfile pdata
+ 51.                 save `pdata'
+ 52. 
+.                 /* ---------- run the cells on this panel's data ---------- */
+.                 eststo clear
+ 53.                 forvalues k = 1/`ncell' {
+ 54.                         local outcome : word `k' of `out_list'
+ 55.                         local window  : word `k' of `win_list'
+ 56.                         local bin_size = cond(`window' == 30, 6, 30)
+ 57. 
+.                         use `pdata', clear
+ 58.                         if "`est'" == "ols" {
+ 59.                                 if `window' == 30 {
+ 60.                                         eststo m`k': reghdfe `outcome' post i.month i.day ///
+>                                                 if year >= `firstyear' & abs(window) <= 30 & `flag' == 1, ///
+>                                                 absorb($fe1) vce($CLUSTER2)
+ 61.                                 }
+ 62.                                 else {
+ 63.                                         eststo m`k': reghdfe `outcome' post i.month i.day ///
+>                                                 if year >= `firstyear' & `flag' == 1, ///
+>                                                 absorb($fe1) vce($CLUSTER2)
+ 64.                                 }
+ 65.                         }
+ 66.                         else {
+ 67.                                 if `window' == 30 {
+ 68.                                         capture eststo m`k': ppmlhdfe `outcome' post ///
+>                                                 if year >= `firstyear' & abs(window) <= 30 & `flag' == 1, ///
+>                                                 absorb(month day $fe1) vce($CLUSTER2)
+ 69.                                 }
+ 70.                                 else {
+ 71.                                         capture eststo m`k': ppmlhdfe `outcome' post ///
+>                                                 if year >= `firstyear' & `flag' == 1, ///
+>                                                 absorb(month day $fe1) vce($CLUSTER2)
+ 72.                                 }
+ 73.                         }
+ 74. 
+.                         quietly summarize `outcome' if e(sample) ///
+>                                 & window >= -`bin_size' & window <= -1
+ 75.                         estadd scalar baseline = r(mean)
+ 76. 
+.                         capture quietly levelsof id if e(sample) == 1
+ 77.                         if _rc == 0 estadd scalar num_events = r(r)
+ 78.                 }
+ 79. 
+.                 /* ---------- write this panel's temp table(s) ---------- */
+.                 if "`est'" == "ols" {
+ 80.                         /* 4-column (counts only): appendix Table S7 layout */
+.                         esttab m1 m2 m3 m4 using "${tables}/bench_ols4_`p'_temp.tex", ///
+>                                 replace booktabs nonotes nogaps b(3) se(3) ///
+>                                 star(* 0.10 ** 0.05 *** 0.01) ///
+>                                 mtitles("\shortstack{Violent\\Protests}" ///
+>                                         "\shortstack{Peaceful\\Protests}" ///
+>                                         "\shortstack{Violent\\Protests}" ///
+>                                         "\shortstack{Peaceful\\Protests}") ///
+>                                 mgroups("$\pm 30$-Day Window" "$\pm 120$-Day Window", ///
+>                                         pattern(1 0 1 0) ///
+>                                         prefix(\multicolumn{2}{c}{) suffix(}) span ///
+>                                         erepeat(\cmidrule(lr){@span})) ///
+>                                 stats(baseline N num_events r2, ///
+>                                       label("Mean (Pre-Event Bin)" "Observations" ///
+>                                             "Number of Events" "R-squared") ///
+>                                       fmt(3 0 0 3)) ///
+>                                 keep(post) coeflabels(post "Post Event")
+ 81. 
+.                         /* 8-column (counts + shares): comparable to Table 1 */
+.                         esttab m1 m2 m3 m4 m5 m6 m7 m8 using "${tables}/bench_ols8_`p'_temp.tex", ///
+>                                 replace booktabs nonotes nogaps b(3) se(3) ///
+>                                 star(* 0.10 ** 0.05 *** 0.01) ///
+>                                 mtitles("\shortstack{Violent\\Protests}" ///
+>                                         "\shortstack{Peaceful\\Protests}" ///
+>                                         "\shortstack{Violent\\Protests}" ///
+>                                         "\shortstack{Peaceful\\Protests}" ///
+>                                         "\shortstack{Share\\Violent}" ///
+>                                         "\shortstack{Share\\Peaceful}" ///
+>                                         "\shortstack{Share\\Violent}" ///
+>                                         "\shortstack{Share\\Peaceful}") ///
+>                                 mgroups("$\pm 30$-Day Window" "$\pm 120$-Day Window" ///
+>                                         "Shares ($\pm 30$-Day)" "Shares ($\pm 120$-Day)", ///
+>                                         pattern(1 0 1 0 1 0 1 0) ///
+>                                         prefix(\multicolumn{2}{c}{) suffix(}) span ///
+>                                         erepeat(\cmidrule(lr){@span})) ///
+>                                 stats(baseline N num_events r2, ///
+>                                       label("Mean (Pre-Event Bin)" "Observations" ///
+>                                             "Number of Events" "R-squared") ///
+>                                       fmt(3 0 0 3)) ///
+>                                 keep(post) coeflabels(post "Post Event")
+ 82.                 }
+ 83.                 else {
+ 84.                         esttab m1 m2 m3 m4 using "${tables}/bench_poi_`p'_temp.tex", ///
+>                                 replace booktabs nonotes nogaps b(3) se(3) eform ///
+>                                 star(* 0.10 ** 0.05 *** 0.01) ///
+>                                 mtitles("\shortstack{Violent\\Protests}" ///
+>                                         "\shortstack{Peaceful\\Protests}" ///
+>                                         "\shortstack{Violent\\Protests}" ///
+>                                         "\shortstack{Peaceful\\Protests}") ///
+>                                 mgroups("$\pm 30$-Day Window" "$\pm 120$-Day Window", ///
+>                                         pattern(1 0 1 0) ///
+>                                         prefix(\multicolumn{2}{c}{) suffix(}) span ///
+>                                         erepeat(\cmidrule(lr){@span})) ///
+>                                 stats(baseline N num_events r2_p, ///
+>                                       label("Mean (Pre-Event Bin)" "Observations" ///
+>                                             "Number of Events" "Pseudo R-squared") ///
+>                                       fmt(3 0 0 3)) ///
+>                                 keep(post) coeflabels(post "Post Event (IRR)")
+ 85.                 }
+ 86.         }
+ 87. 
+.         /* ---------- combine the four panels ---------- */
+.         if "`est'" == "ols" {
+ 88.                 panelcombine, ///
+>                         use("${tables}/bench_ols4_corrpa_temp.tex" ///
+>                             "${tables}/bench_ols4_corrna_temp.tex" ///
+>                             "${tables}/bench_ols4_football_temp.tex" ///
+>                             "${tables}/bench_ols4_deprec_temp.tex") ///
+>                         paneltitles("Apex corruption (President + Other Apex)" ///
+>                                     "Non-apex corruption (Other Non-Apex)" ///
+>                                     "Football match losses" ///
+>                                     "Currency depreciations") ///
+>                         columncount(5) ///
+>                         save("${tables}/sup_benchmarks_ols_panels.tex") ///
+>                         cleanup
+ 89. 
+.                 panelcombine, ///
+>                         use("${tables}/bench_ols8_corrpa_temp.tex" ///
+>                             "${tables}/bench_ols8_corrna_temp.tex" ///
+>                             "${tables}/bench_ols8_football_temp.tex" ///
+>                             "${tables}/bench_ols8_deprec_temp.tex") ///
+>                         paneltitles("Apex corruption (President + Other Apex)" ///
+>                                     "Non-apex corruption (Other Non-Apex)" ///
+>                                     "Football match losses" ///
+>                                     "Currency depreciations") ///
+>                         columncount(9) ///
+>                         save("${tables}/sup_benchmarks_ols_panels_shares.tex") ///
+>                         cleanup
+ 90.         }
+ 91.         else {
+ 92.                 panelcombine, ///
+>                         use("${tables}/bench_poi_corrpa_temp.tex" ///
+>                             "${tables}/bench_poi_corrna_temp.tex" ///
+>                             "${tables}/bench_poi_football_temp.tex" ///
+>                             "${tables}/bench_poi_deprec_temp.tex") ///
+>                         paneltitles("Apex corruption (President + Other Apex)" ///
+>                                     "Non-apex corruption (Other Non-Apex)" ///
+>                                     "Football match losses" ///
+>                                     "Currency depreciations") ///
+>                         columncount(5) ///
+>                         save("${tables}/sup_benchmarks_poi_panels.tex") ///
+>                         cleanup
+ 93.         }
+ 94. }
+(encoding automatically selected: UTF-8)
+(7 vars, 190 obs)
+file C:\Users\rob98\AppData\Local\Temp\ST_46bc_000001.tmp saved as .dta format
+(3,374 observations deleted)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                            42,657  
+    -----------------------------------------
+(10,845 real changes made)
+(3,615 real changes made)
+(1,205 real changes made)
+(3,133 real changes made)
+(3,856 real changes made)
+(20,003 real changes made)
+(39,349 missing values generated)
+(39,349 missing values generated)
+(39,349 real changes made)
+(39,349 real changes made)
+file C:\Users\rob98\AppData\Local\Temp\ST_46bc_000002.tmp saved as .dta format
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      3,904
+Absorbing 1 HDFE group                            F(  18,     79) =       1.75
+Statistics robust to heteroskedasticity           Prob > F        =     0.0475
+                                                  R-squared       =     0.2699
+                                                  Adj R-squared   =     0.2589
+                                                  Within R-sq.    =     0.1159
+Number of clusters (country_id#year#grupo_dias) =         80Root MSE=     0.1773
+
+            (Std. err. adjusted for 80 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0598911   .0168292     3.56   0.001     .0263935    .0933888
+             |
+       month |
+          2  |  -.1822093   .0811379    -2.25   0.028    -.3437102   -.0207085
+          3  |  -.2967362   .1320977    -2.25   0.027    -.5596701   -.0338022
+          4  |  -.2967576   .1454117    -2.04   0.045    -.5861923   -.0073229
+          5  |  -.2765591   .1425383    -1.94   0.056    -.5602746    .0071563
+          6  |  -.2757947   .1515766    -1.82   0.073    -.5775004     .025911
+          7  |  -.2043615   .1689222    -1.21   0.230    -.5405927    .1318697
+          8  |  -.2637386   .1473201    -1.79   0.077     -.556972    .0294949
+          9  |  -.3004999   .1359329    -2.21   0.030    -.5710675   -.0299323
+         10  |  -.3291801   .1420967    -2.32   0.023    -.6120165   -.0463438
+         11  |  -.3162873   .1443208    -2.19   0.031    -.6035507   -.0290239
+         12  |  -.3095773    .163595    -1.89   0.062     -.635205    .0160503
+             |
+         day |
+          1  |  -.0007117   .0040344    -0.18   0.860    -.0087421    .0073187
+          2  |   .0029622   .0069173     0.43   0.670    -.0108064    .0167309
+          3  |   .0026078    .005815     0.45   0.655    -.0089668    .0141823
+          4  |   .0026093   .0051915     0.50   0.617    -.0077242    .0129428
+          5  |   -.003874   .0043632    -0.89   0.377    -.0125587    .0048107
+          6  |  -.0026117   .0026008    -1.00   0.318    -.0077885     .002565
+             |
+       _cons |   .2659378   .1156429     2.30   0.024     .0357564    .4961192
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        41           0          41     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .03645833
+
+added scalar:
+         e(num_events) =  64
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      3,904
+Absorbing 1 HDFE group                            F(  18,     79) =       1.27
+Statistics robust to heteroskedasticity           Prob > F        =     0.2301
+                                                  R-squared       =     0.0754
+                                                  Adj R-squared   =     0.0615
+                                                  Within R-sq.    =     0.0091
+Number of clusters (country_id#year#grupo_dias) =         80Root MSE=     0.1288
+
+            (Std. err. adjusted for 80 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0050359    .008456     0.60   0.553    -.0117954    .0218672
+             |
+       month |
+          2  |  -.0192888   .0099079    -1.95   0.055      -.03901    .0004324
+          3  |   .0082547   .0145903     0.57   0.573    -.0207867     .037296
+          4  |  -.0018697   .0215952    -0.09   0.931     -.044854    .0411145
+          5  |   .0050906   .0143813     0.35   0.724    -.0235346    .0337159
+          6  |   .0189206   .0288103     0.66   0.513    -.0384249     .076266
+          7  |  -.0129312   .0156545    -0.83   0.411    -.0440908    .0182284
+          8  |  -.0014674   .0174404    -0.08   0.933    -.0361817     .033247
+          9  |   .0128489   .0171317     0.75   0.455    -.0212509    .0469488
+         10  |   -.000142   .0147283    -0.01   0.992    -.0294578    .0291739
+         11  |  -.0175177   .0153692    -1.14   0.258    -.0481093    .0130738
+         12  |  -.0121462   .0139234    -0.87   0.386      -.03986    .0155677
+             |
+         day |
+          1  |  -.0159356   .0061578    -2.59   0.011    -.0281925   -.0036788
+          2  |   -.012667   .0062547    -2.03   0.046    -.0251167   -.0002173
+          3  |  -.0080228    .006762    -1.19   0.239    -.0214822    .0054367
+          4  |  -.0009466   .0058398    -0.16   0.872    -.0125703    .0106772
+          5  |    .002963   .0067869     0.44   0.664     -.010546    .0164719
+          6  |  -.0037828   .0089775    -0.42   0.675     -.021652    .0140864
+             |
+       _cons |   .0197647   .0111085     1.78   0.079    -.0023463    .0418757
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        41           0          41     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .01822917
+
+added scalar:
+         e(num_events) =  64
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     15,665
+Absorbing 1 HDFE group                            F(  18,    324) =       2.09
+Statistics robust to heteroskedasticity           Prob > F        =     0.0060
+                                                  R-squared       =     0.1933
+                                                  Adj R-squared   =     0.1895
+                                                  Within R-sq.    =     0.0637
+Number of clusters (country_id#year#grupo_dias) =        325Root MSE=     0.1708
+
+           (Std. err. adjusted for 325 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0210998   .0124534     1.69   0.091    -.0034001    .0455996
+             |
+       month |
+          2  |  -.1267259   .0343228    -3.69   0.000    -.1942496   -.0592022
+          3  |   -.164257   .0416874    -3.94   0.000    -.2462692   -.0822448
+          4  |  -.1658874    .043105    -3.85   0.000    -.2506885   -.0810864
+          5  |  -.1421656   .0439682    -3.23   0.001    -.2286648   -.0556663
+          6  |  -.1452734   .0449441    -3.23   0.001    -.2336926   -.0568543
+          7  |  -.1139936   .0477617    -2.39   0.018    -.2079558   -.0200314
+          8  |  -.1086265   .0480235    -2.26   0.024    -.2031038   -.0141492
+          9  |  -.1919725    .045932    -4.18   0.000    -.2823351   -.1016098
+         10  |  -.1867533   .0457221    -4.08   0.000    -.2767029   -.0968036
+         11  |  -.1789151   .0469655    -3.81   0.000    -.2713109   -.0865193
+         12  |  -.1577617   .0507122    -3.11   0.002    -.2575285   -.0579949
+             |
+         day |
+          1  |   .0009908   .0018052     0.55   0.583    -.0025605    .0045422
+          2  |   .0021401    .002331     0.92   0.359    -.0024456    .0067259
+          3  |   .0043789   .0023724     1.85   0.066    -.0002883    .0090461
+          4  |    .004185   .0024163     1.73   0.084    -.0005687    .0089386
+          5  |   .0005141   .0018775     0.27   0.784    -.0031795    .0042078
+          6  |   .0012761   .0015185     0.84   0.401    -.0017112    .0042634
+             |
+       _cons |   .1625256   .0381031     4.27   0.000     .0875649    .2374862
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        55           0          55     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .02708333
+
+added scalar:
+         e(num_events) =  64
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     15,665
+Absorbing 1 HDFE group                            F(  18,    324) =       2.14
+Statistics robust to heteroskedasticity           Prob > F        =     0.0047
+                                                  R-squared       =     0.1173
+                                                  Adj R-squared   =     0.1132
+                                                  Within R-sq.    =     0.0132
+Number of clusters (country_id#year#grupo_dias) =        325Root MSE=     0.1706
+
+           (Std. err. adjusted for 325 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0020611   .0100972     0.20   0.838    -.0178033    .0219256
+             |
+       month |
+          2  |    .029403   .0172893     1.70   0.090    -.0046105    .0634165
+          3  |   .0121957   .0109047     1.12   0.264    -.0092572    .0336487
+          4  |   .0327443   .0135898     2.41   0.017     .0060088    .0594798
+          5  |   .0284565   .0167005     1.70   0.089    -.0043986    .0613116
+          6  |   .0476053   .0186474     2.55   0.011     .0109201    .0842905
+          7  |   .0106446   .0116869     0.91   0.363    -.0123472    .0336364
+          8  |   .0317874   .0183269     1.73   0.084    -.0042674    .0678422
+          9  |   .0263293   .0163698     1.61   0.109    -.0058752    .0585337
+         10  |   .0698508   .0304976     2.29   0.023     .0098525    .1298491
+         11  |   .0133027   .0161708     0.82   0.411    -.0185104    .0451158
+         12  |  -.0108318   .0170616    -0.63   0.526    -.0443973    .0227338
+             |
+         day |
+          1  |  -.0086289   .0038269    -2.25   0.025    -.0161575   -.0011002
+          2  |  -.0040226   .0041797    -0.96   0.337    -.0122455    .0042002
+          3  |  -.0030303   .0042549    -0.71   0.477    -.0114009    .0053404
+          4  |   .0006391   .0036106     0.18   0.860     -.006464    .0077423
+          5  |   .0051277   .0048365     1.06   0.290    -.0043873    .0146427
+          6  |  -.0018218     .00405    -0.45   0.653    -.0097893    .0061458
+             |
+       _cons |   .0074893   .0090775     0.83   0.410     -.010369    .0253477
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        55           0          55     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .01458333
+
+added scalar:
+         e(num_events) =  64
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      3,904
+Absorbing 1 HDFE group                            F(  18,     79) =       1.78
+Statistics robust to heteroskedasticity           Prob > F        =     0.0423
+                                                  R-squared       =     0.2751
+                                                  Adj R-squared   =     0.2642
+                                                  Within R-sq.    =     0.1189
+Number of clusters (country_id#year#grupo_dias) =         80Root MSE=     0.1747
+
+            (Std. err. adjusted for 80 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+share_viol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0597633   .0168018     3.56   0.001     .0263201    .0932065
+             |
+       month |
+          2  |  -.1819887    .081145    -2.24   0.028    -.3435038   -.0204736
+          3  |  -.2966242   .1321095    -2.25   0.028    -.5595816   -.0336668
+          4  |  -.2970209   .1453384    -2.04   0.044    -.5863099    -.007732
+          5  |  -.2769016   .1424457    -1.94   0.055    -.5604328    .0066295
+          6  |  -.2770719   .1514001    -1.83   0.071    -.5784262    .0242824
+          7  |  -.2045392   .1688229    -1.21   0.229    -.5405728    .1314944
+          8  |  -.2640717   .1472256    -1.79   0.077     -.557117    .0289735
+          9  |  -.3006863   .1358826    -2.21   0.030    -.5711539   -.0302187
+         10  |  -.3284116   .1420807    -2.31   0.023    -.6112161   -.0456071
+         11  |  -.3188172   .1442611    -2.21   0.030    -.6059617   -.0316726
+         12  |  -.3091043   .1634896    -1.89   0.062    -.6345222    .0163136
+             |
+         day |
+          1  |  -.0016119   .0036975    -0.44   0.664    -.0089717    .0057478
+          2  |   .0012024   .0066814     0.18   0.858    -.0120966    .0145013
+          3  |   .0025956   .0058289     0.45   0.657    -.0090065    .0141976
+          4  |   .0026008   .0051715     0.50   0.616    -.0076928    .0128944
+          5  |  -.0038462    .004372    -0.88   0.382    -.0125485     .004856
+          6  |  -.0026058   .0026207    -0.99   0.323    -.0078222    .0026106
+             |
+       _cons |   .2663107   .1155885     2.30   0.024     .0362375    .4963839
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        41           0          41     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .03645833
+
+added scalar:
+         e(num_events) =  64
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      3,904
+Absorbing 1 HDFE group                            F(  18,     79) =       1.31
+Statistics robust to heteroskedasticity           Prob > F        =     0.2048
+                                                  R-squared       =     0.0815
+                                                  Adj R-squared   =     0.0676
+                                                  Within R-sq.    =     0.0089
+Number of clusters (country_id#year#grupo_dias) =         80Root MSE=     0.1190
+
+            (Std. err. adjusted for 80 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+share_peac~l | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0046707   .0078223     0.60   0.552    -.0108992    .0202406
+             |
+       month |
+          2  |  -.0179421   .0093993    -1.91   0.060    -.0366509    .0007666
+          3  |    .007101   .0136713     0.52   0.605     -.020111     .034313
+          4  |  -.0019885   .0206692    -0.10   0.924    -.0431296    .0391525
+          5  |   .0044288   .0131365     0.34   0.737    -.0217186    .0305763
+          6  |   .0151033   .0240087     0.63   0.531    -.0326848    .0628914
+          7  |  -.0133883   .0136872    -0.98   0.331     -.040632    .0138554
+          8  |  -.0020118   .0157817    -0.13   0.899    -.0334245     .029401
+          9  |   .0066268   .0136183     0.49   0.628    -.0204797    .0337334
+         10  |  -.0011929    .012946    -0.09   0.927    -.0269612    .0245755
+         11  |  -.0167484   .0128208    -1.31   0.195    -.0422675    .0087708
+         12  |  -.0113502   .0115479    -0.98   0.329    -.0343357    .0116353
+             |
+         day |
+          1  |  -.0150187   .0059905    -2.51   0.014    -.0269425   -.0030949
+          2  |  -.0126047   .0057037    -2.21   0.030    -.0239576   -.0012518
+          3  |  -.0061318   .0064371    -0.95   0.344    -.0189446    .0066811
+          4  |   .0009632    .005383     0.18   0.858    -.0097515    .0116779
+          5  |   .0030544    .006809     0.45   0.655    -.0104986    .0166074
+          6  |  -.0019448   .0087784    -0.22   0.825    -.0194178    .0155282
+             |
+       _cons |   .0190341   .0111042     1.71   0.090    -.0030683    .0411366
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        41           0          41     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .01822917
+
+added scalar:
+         e(num_events) =  64
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     15,665
+Absorbing 1 HDFE group                            F(  18,    324) =       2.02
+Statistics robust to heteroskedasticity           Prob > F        =     0.0085
+                                                  R-squared       =     0.1973
+                                                  Adj R-squared   =     0.1935
+                                                  Within R-sq.    =     0.0646
+Number of clusters (country_id#year#grupo_dias) =        325Root MSE=     0.1684
+
+           (Std. err. adjusted for 325 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+share_viol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0208901   .0124241     1.68   0.094    -.0035521    .0453322
+             |
+       month |
+          2  |  -.1250718   .0342761    -3.65   0.000    -.1925035     -.05764
+          3  |  -.1625429   .0416655    -3.90   0.000     -.244512   -.0805738
+          4  |  -.1641796   .0430999    -3.81   0.000    -.2489705   -.0793886
+          5  |  -.1404211   .0439492    -3.20   0.002     -.226883   -.0539592
+          6  |  -.1441846   .0448686    -3.21   0.001    -.2324552    -.055914
+          7  |   -.112157   .0477268    -2.35   0.019    -.2060506   -.0182634
+          8  |  -.1066897   .0479851    -2.22   0.027    -.2010914    -.012288
+          9  |  -.1899859   .0459069    -4.14   0.000    -.2802991   -.0996727
+         10  |  -.1848683   .0456915    -4.05   0.000    -.2747577   -.0949789
+         11  |  -.1788278   .0468256    -3.82   0.000    -.2709483   -.0867073
+         12  |  -.1557897   .0506545    -3.08   0.002     -.255443   -.0561364
+             |
+         day |
+          1  |   .0005414   .0017177     0.32   0.753    -.0028379    .0039207
+          2  |   .0012527   .0022373     0.56   0.576    -.0031488    .0056541
+          3  |   .0043826   .0023702     1.85   0.065    -.0002803    .0090455
+          4  |   .0032919   .0021857     1.51   0.133    -.0010081    .0075919
+          5  |   .0005102     .00188     0.27   0.786    -.0031884    .0042088
+          6  |   .0012729   .0015193     0.84   0.403    -.0017161    .0042618
+             |
+       _cons |   .1611533   .0380631     4.23   0.000     .0862713    .2360353
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        55           0          55     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .02682292
+
+added scalar:
+         e(num_events) =  64
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     15,665
+Absorbing 1 HDFE group                            F(  18,    324) =       2.22
+Statistics robust to heteroskedasticity           Prob > F        =     0.0032
+                                                  R-squared       =     0.1159
+                                                  Adj R-squared   =     0.1119
+                                                  Within R-sq.    =     0.0147
+Number of clusters (country_id#year#grupo_dias) =        325Root MSE=     0.1594
+
+           (Std. err. adjusted for 325 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+share_peac~l | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |  -.0004387   .0089041    -0.05   0.961    -.0179558    .0170784
+             |
+       month |
+          2  |    .029215   .0168524     1.73   0.084    -.0039389    .0623689
+          3  |   .0114272   .0104676     1.09   0.276    -.0091658    .0320201
+          4  |   .0328206   .0130227     2.52   0.012     .0072009    .0584403
+          5  |   .0209748   .0118862     1.76   0.079    -.0024091    .0443586
+          6  |   .0463832   .0182723     2.54   0.012     .0104359    .0823305
+          7  |   .0113188   .0108397     1.04   0.297    -.0100063    .0326439
+          8  |   .0330385   .0177282     1.86   0.063    -.0018385    .0679155
+          9  |   .0250533   .0156186     1.60   0.110    -.0056734      .05578
+         10  |   .0720049   .0300821     2.39   0.017      .012824    .1311859
+         11  |   .0136559   .0140859     0.97   0.333    -.0140554    .0413672
+         12  |  -.0078343   .0149811    -0.52   0.601    -.0373068    .0216383
+             |
+         day |
+          1  |  -.0072666   .0036383    -2.00   0.047    -.0144243   -.0001088
+          2  |  -.0030763   .0038394    -0.80   0.424    -.0106295    .0044769
+          3  |  -.0011905   .0039115    -0.30   0.761    -.0088856    .0065046
+          4  |   .0024578   .0033718     0.73   0.467    -.0041756    .0090912
+          5  |   .0065246   .0047394     1.38   0.170    -.0027993    .0158485
+          6  |   -.000481   .0039273    -0.12   0.903    -.0082071    .0072452
+             |
+       _cons |   .0064973   .0084156     0.77   0.441    -.0100589    .0230534
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        55           0          55     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .01380208
+
+added scalar:
+         e(num_events) =  64
+(file C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/tables/bench_ols4_corrpa_temp.tex not found)
+(output written to ~/Dropbox/Corrupcion/protest_repo/paper/tables/bench_ols4_corrpa_temp.tex)
+(file C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/tables/bench_ols8_corrpa_temp.tex not found)
+(output written to ~/Dropbox/Corrupcion/protest_repo/paper/tables/bench_ols8_corrpa_temp.tex)
+(encoding automatically selected: UTF-8)
+(7 vars, 190 obs)
+file C:\Users\rob98\AppData\Local\Temp\ST_46bc_000003.tmp saved as .dta format
+(3,374 observations deleted)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                            42,657  
+    -----------------------------------------
+(10,845 real changes made)
+(3,615 real changes made)
+(1,205 real changes made)
+(3,133 real changes made)
+(3,856 real changes made)
+(20,003 real changes made)
+(39,349 missing values generated)
+(39,349 missing values generated)
+(39,349 real changes made)
+(39,349 real changes made)
+file C:\Users\rob98\AppData\Local\Temp\ST_46bc_000004.tmp saved as .dta format
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      6,832
+Absorbing 1 HDFE group                            F(  18,    134) =       1.37
+Statistics robust to heteroskedasticity           Prob > F        =     0.1567
+                                                  R-squared       =     0.1152
+                                                  Adj R-squared   =     0.1038
+                                                  Within R-sq.    =     0.0403
+Number of clusters (country_id#year#grupo_dias) =        135Root MSE=     0.1143
+
+           (Std. err. adjusted for 135 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0000813   .0047494     0.02   0.986    -.0093122    .0094748
+             |
+       month |
+          2  |  -.0577609   .0295424    -1.96   0.053    -.1161907    .0006689
+          3  |  -.0977495   .0415987    -2.35   0.020    -.1800244   -.0154745
+          4  |  -.0912469   .0428371    -2.13   0.035    -.1759712   -.0065226
+          5  |  -.0879004   .0464799    -1.89   0.061    -.1798295    .0040286
+          6  |   -.078071   .0511691    -1.53   0.129    -.1792746    .0231326
+          7  |  -.0863907    .052319    -1.65   0.101    -.1898686    .0170871
+          8  |  -.0811267   .0557634    -1.45   0.148     -.191417    .0291636
+          9  |   -.091229   .0517079    -1.76   0.080    -.1934982    .0110402
+         10  |  -.0857871   .0511575    -1.68   0.096    -.1869677    .0153936
+         11  |  -.0720478   .0500858    -1.44   0.153    -.1711087    .0270132
+         12  |  -.0074578   .0729508    -0.10   0.919    -.1517418    .1368263
+             |
+         day |
+          1  |   .0021359   .0033695     0.63   0.527    -.0045283    .0088001
+          2  |   .0020269   .0044372     0.46   0.649    -.0067491    .0108029
+          3  |   .0043633   .0051909     0.84   0.402    -.0059035      .01463
+          4  |  -.0006353   .0038582    -0.16   0.869    -.0082661    .0069954
+          5  |  -.0028116   .0034097    -0.82   0.411    -.0095553    .0039321
+          6  |  -.0055499   .0031159    -1.78   0.077    -.0117125    .0006128
+             |
+       _cons |   .0858949   .0439658     1.95   0.053    -.0010618    .1728516
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        70           0          70     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .02232143
+
+added scalar:
+         e(num_events) =  112
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      6,832
+Absorbing 1 HDFE group                            F(  18,    134) =       1.08
+Statistics robust to heteroskedasticity           Prob > F        =     0.3762
+                                                  R-squared       =     0.5649
+                                                  Adj R-squared   =     0.5593
+                                                  Within R-sq.    =     0.0317
+Number of clusters (country_id#year#grupo_dias) =        135Root MSE=     0.1873
+
+           (Std. err. adjusted for 135 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0102578   .0100743     1.02   0.310    -.0096674    .0301829
+             |
+       month |
+          2  |   .0165558   .0328578     0.50   0.615    -.0484312    .0815428
+          3  |   .0428873   .0459902     0.93   0.353    -.0480733    .1338479
+          4  |   .0666291   .0720346     0.92   0.357    -.0758429    .2091011
+          5  |   .1374127   .0671539     2.05   0.043      .004594    .2702314
+          6  |     .13926   .0564754     2.47   0.015     .0275615    .2509585
+          7  |   .0709851   .0449365     1.58   0.117    -.0178915    .1598616
+          8  |   .0592747   .0459199     1.29   0.199    -.0315469    .1500964
+          9  |    .108191    .071941     1.50   0.135    -.0340958    .2504778
+         10  |   .0835804   .0822148     1.02   0.311    -.0790262    .2461871
+         11  |   .0701773   .0517642     1.36   0.177    -.0322033    .1725579
+         12  |   .0432957   .0453747     0.95   0.342    -.0464475    .1330389
+             |
+         day |
+          1  |   .0002034   .0043792     0.05   0.963    -.0084579    .0088646
+          2  |  -.0035175   .0048166    -0.73   0.466     -.013044    .0060089
+          3  |  -.0055653   .0058313    -0.95   0.342    -.0170986     .005968
+          4  |  -.0077561   .0044237    -1.75   0.082    -.0165054    .0009933
+          5  |  -.0076443   .0059568    -1.28   0.202    -.0194258    .0041373
+          6  |  -.0077519   .0053549    -1.45   0.150    -.0183431    .0028392
+             |
+       _cons |  -.0018676    .047196    -0.04   0.968    -.0952131    .0914779
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        70           0          70     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .09821429
+
+added scalar:
+         e(num_events) =  112
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     26,992
+Absorbing 1 HDFE group                            F(  18,    551) =       1.22
+Statistics robust to heteroskedasticity           Prob > F        =     0.2411
+                                                  R-squared       =     0.1066
+                                                  Adj R-squared   =     0.1032
+                                                  Within R-sq.    =     0.0311
+Number of clusters (country_id#year#grupo_dias) =        552Root MSE=     0.1335
+
+           (Std. err. adjusted for 552 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0163854   .0082777     1.98   0.048     .0001258    .0326451
+             |
+       month |
+          2  |  -.0385705   .0332944    -1.16   0.247    -.1039699    .0268289
+          3  |  -.0708104   .0314154    -2.25   0.025     -.132519   -.0091019
+          4  |    -.08533   .0314018    -2.72   0.007     -.147012   -.0236481
+          5  |  -.0854928    .032339    -2.64   0.008    -.1490157   -.0219699
+          6  |  -.0825336    .034135    -2.42   0.016    -.1495841    -.015483
+          7  |  -.0857734   .0358748    -2.39   0.017    -.1562415   -.0153053
+          8  |  -.0854041    .037608    -2.27   0.024    -.1592767   -.0115315
+          9  |   -.092743   .0394054    -2.35   0.019    -.1701462   -.0153399
+         10  |   -.094092   .0367155    -2.56   0.011    -.1662115   -.0219725
+         11  |  -.0871845   .0366655    -2.38   0.018    -.1592058   -.0151632
+         12  |  -.0392564   .0404678    -0.97   0.332    -.1187463    .0402336
+             |
+         day |
+          1  |   .0006627   .0019196     0.35   0.730     -.003108    .0044333
+          2  |   .0000983   .0019451     0.05   0.960    -.0037224    .0039189
+          3  |   .0009694   .0021086     0.46   0.646    -.0031725    .0051113
+          4  |  -.0003272   .0017774    -0.18   0.854    -.0038186    .0031641
+          5  |  -.0005344   .0017416    -0.31   0.759    -.0039554    .0028865
+          6  |  -.0023843   .0016372    -1.46   0.146    -.0056001    .0008315
+             |
+       _cons |   .0853643    .030592     2.79   0.005     .0252732    .1454555
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        85           0          85     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .01666667
+
+added scalar:
+         e(num_events) =  112
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     26,992
+Absorbing 1 HDFE group                            F(  18,    551) =       1.74
+Statistics robust to heteroskedasticity           Prob > F        =     0.0301
+                                                  R-squared       =     0.3581
+                                                  Adj R-squared   =     0.3557
+                                                  Within R-sq.    =     0.0134
+Number of clusters (country_id#year#grupo_dias) =        552Root MSE=     0.2126
+
+           (Std. err. adjusted for 552 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |  -.0096186   .0094988    -1.01   0.312    -.0282768    .0090396
+             |
+       month |
+          2  |   .0005848   .0137281     0.04   0.966    -.0263809    .0275505
+          3  |   .0276321   .0199096     1.39   0.166     -.011476    .0667401
+          4  |   .0859928   .0276025     3.12   0.002     .0317739    .1402118
+          5  |   .0529449   .0238393     2.22   0.027     .0061178     .099772
+          6  |   .0733138     .02496     2.94   0.003     .0242854    .1223423
+          7  |   .0343691   .0180585     1.90   0.058    -.0011028     .069841
+          8  |   .0326547   .0205651     1.59   0.113    -.0077408    .0730502
+          9  |   .0491568   .0226017     2.17   0.030     .0047609    .0935528
+         10  |   .0679914   .0262263     2.59   0.010     .0164758    .1195071
+         11  |   .0464875   .0242058     1.92   0.055    -.0010594    .0940345
+         12  |   .0176912   .0176271     1.00   0.316    -.0169334    .0523158
+             |
+         day |
+          1  |  -.0026084   .0025762    -1.01   0.312    -.0076687    .0024519
+          2  |  -.0037234   .0026818    -1.39   0.166    -.0089912    .0015445
+          3  |   .0001917   .0030541     0.06   0.950    -.0058075    .0061908
+          4  |  -.0002064   .0030686    -0.07   0.946     -.006234    .0058212
+          5  |   .0002857   .0040143     0.07   0.943    -.0075994    .0081709
+          6  |   -.004005   .0032361    -1.24   0.216    -.0103617    .0023516
+             |
+       _cons |   .0316308   .0151559     2.09   0.037     .0018604    .0614013
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        85           0          85     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .07529762
+
+added scalar:
+         e(num_events) =  112
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      6,832
+Absorbing 1 HDFE group                            F(  18,    134) =       1.44
+Statistics robust to heteroskedasticity           Prob > F        =     0.1250
+                                                  R-squared       =     0.1242
+                                                  Adj R-squared   =     0.1129
+                                                  Within R-sq.    =     0.0443
+Number of clusters (country_id#year#grupo_dias) =        135Root MSE=     0.1078
+
+           (Std. err. adjusted for 135 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+share_viol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |  -.0005992    .004627    -0.13   0.897    -.0097506    .0085523
+             |
+       month |
+          2  |  -.0570315   .0295281    -1.93   0.056     -.115433    .0013701
+          3  |  -.0960813   .0415113    -2.31   0.022    -.1781834   -.0139793
+          4  |  -.0890988   .0425061    -2.10   0.038    -.1731685    -.005029
+          5  |  -.0870064    .046383    -1.88   0.063     -.178744    .0047312
+          6  |  -.0802139   .0508881    -1.58   0.117    -.1808617    .0204339
+          7  |  -.0868184   .0522709    -1.66   0.099    -.1902011    .0165643
+          8  |  -.0812965   .0557174    -1.46   0.147    -.1914957    .0289027
+          9  |  -.0915088   .0516903    -1.77   0.079    -.1937433    .0107256
+         10  |  -.0862834   .0511311    -1.69   0.094    -.1874118    .0148449
+         11  |  -.0760391   .0496887    -1.53   0.128    -.1743147    .0222365
+         12  |  -.0081757   .0729916    -0.11   0.911    -.1525405     .136189
+             |
+         day |
+          1  |   .0026587   .0034043     0.78   0.436    -.0040744    .0093918
+          2  |   .0021066   .0036791     0.57   0.568      -.00517    .0093832
+          3  |   .0031242   .0039671     0.79   0.432    -.0047219    .0109703
+          4  |   .0005114    .003395     0.15   0.881    -.0062034    .0072262
+          5  |  -.0016623    .002851    -0.58   0.561    -.0073011    .0039765
+          6  |  -.0044362   .0024954    -1.78   0.078    -.0093718    .0004993
+             |
+       _cons |   .0854835   .0438814     1.95   0.053    -.0013062    .1722733
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        70           0          70     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .02232143
+
+added scalar:
+         e(num_events) =  112
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      6,832
+Absorbing 1 HDFE group                            F(  18,    134) =       1.03
+Statistics robust to heteroskedasticity           Prob > F        =     0.4323
+                                                  R-squared       =     0.5784
+                                                  Adj R-squared   =     0.5729
+                                                  Within R-sq.    =     0.0372
+Number of clusters (country_id#year#grupo_dias) =        135Root MSE=     0.1685
+
+           (Std. err. adjusted for 135 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+share_peac~l | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0122332   .0108286     1.13   0.261    -.0091839    .0336504
+             |
+       month |
+          2  |   .0152599   .0331362     0.46   0.646    -.0502777    .0807976
+          3  |   .0418407   .0462681     0.90   0.367    -.0496695    .1333509
+          4  |   .0661582   .0717072     0.92   0.358     -.075666    .2079825
+          5  |   .1105485   .0623336     1.77   0.078    -.0127364    .2338334
+          6  |   .1432791   .0586798     2.44   0.016     .0272207    .2593376
+          7  |   .0726996   .0455386     1.60   0.113    -.0173679     .162767
+          8  |   .0638564   .0458002     1.39   0.166    -.0267284    .1544413
+          9  |   .1192654   .0717806     1.66   0.099    -.0227042     .261235
+         10  |   .0931759   .0792938     1.18   0.242    -.0636534    .2500052
+         11  |   .0725675   .0515957     1.41   0.162    -.0294799    .1746149
+         12  |   .0444214   .0456352     0.97   0.332     -.045837    .1346798
+             |
+         day |
+          1  |    .002727   .0041402     0.66   0.511    -.0054616    .0109157
+          2  |   .0006148   .0048983     0.13   0.900    -.0090732    .0103028
+          3  |  -.0013313   .0043922    -0.30   0.762    -.0100182    .0073556
+          4  |  -.0033095   .0041166    -0.80   0.423    -.0114515    .0048324
+          5  |  -.0039985   .0058724    -0.68   0.497     -.015613     .007616
+          6  |  -.0042636   .0047547    -0.90   0.371    -.0136677    .0051404
+             |
+       _cons |  -.0110274   .0476762    -0.23   0.817    -.1053226    .0832678
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        70           0          70     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .08482143
+
+added scalar:
+         e(num_events) =  112
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     26,992
+Absorbing 1 HDFE group                            F(  18,    551) =       1.23
+Statistics robust to heteroskedasticity           Prob > F        =     0.2298
+                                                  R-squared       =     0.1092
+                                                  Adj R-squared   =     0.1058
+                                                  Within R-sq.    =     0.0326
+Number of clusters (country_id#year#grupo_dias) =        552Root MSE=     0.1304
+
+           (Std. err. adjusted for 552 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+share_viol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0161785   .0081905     1.98   0.049     .0000901    .0322669
+             |
+       month |
+          2  |  -.0396439   .0330214    -1.20   0.230    -.1045072    .0252194
+          3  |  -.0705901   .0314212    -2.25   0.025      -.13231   -.0088702
+          4  |  -.0851418   .0314028    -2.71   0.007    -.1468255    -.023458
+          5  |  -.0867359   .0322936    -2.69   0.007    -.1501695   -.0233023
+          6  |   -.084022   .0339741    -2.47   0.014    -.1507566   -.0172874
+          7  |  -.0859179   .0358555    -2.40   0.017    -.1563482   -.0154876
+          8  |  -.0851879   .0375739    -2.27   0.024    -.1589934   -.0113823
+          9  |  -.0927777   .0393006    -2.36   0.019    -.1699749   -.0155804
+         10  |   -.093941   .0366722    -2.56   0.011    -.1659753   -.0219067
+         11  |   -.087812   .0366105    -2.40   0.017    -.1597253   -.0158987
+         12  |  -.0392889   .0404439    -0.97   0.332    -.1187319    .0401541
+             |
+         day |
+          1  |   .0001507   .0018541     0.08   0.935    -.0034913    .0037928
+          2  |    .000106   .0018407     0.06   0.954    -.0035096    .0037216
+          3  |   .0000316   .0018546     0.02   0.986    -.0036113    .0036745
+          4  |  -.0002267   .0016998    -0.13   0.894    -.0035655    .0031122
+          5  |  -.0003927   .0016628    -0.24   0.813    -.0036588    .0028735
+          6  |  -.0025182    .001526    -1.65   0.099    -.0055158    .0004793
+             |
+       _cons |   .0855182   .0305838     2.80   0.005     .0254431    .1455934
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        85           0          85     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .01636905
+
+added scalar:
+         e(num_events) =  112
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     26,992
+Absorbing 1 HDFE group                            F(  18,    551) =       2.32
+Statistics robust to heteroskedasticity           Prob > F        =     0.0016
+                                                  R-squared       =     0.3495
+                                                  Adj R-squared   =     0.3470
+                                                  Within R-sq.    =     0.0149
+Number of clusters (country_id#year#grupo_dias) =        552Root MSE=     0.1984
+
+           (Std. err. adjusted for 552 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+share_peac~l | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |  -.0097269   .0091409    -1.06   0.288    -.0276822    .0082284
+             |
+       month |
+          2  |   .0003147   .0131935     0.02   0.981     -.025601    .0262303
+          3  |   .0274468   .0196963     1.39   0.164    -.0112422    .0661358
+          4  |   .0795899   .0266786     2.98   0.003     .0271858     .131994
+          5  |   .0416838   .0211746     1.97   0.050      .000091    .0832767
+          6  |   .0717125   .0251752     2.85   0.005     .0222615    .1211635
+          7  |   .0324226    .017756     1.83   0.068    -.0024552    .0673003
+          8  |    .032273   .0202073     1.60   0.111    -.0074198    .0719659
+          9  |   .0485539   .0224335     2.16   0.031     .0044883    .0926195
+         10  |   .0694816   .0257309     2.70   0.007      .018939    .1200243
+         11  |   .0442287   .0226872     1.95   0.052    -.0003352    .0887927
+         12  |   .0072396   .0160394     0.45   0.652    -.0242663    .0387456
+             |
+         day |
+          1  |  -.0028672   .0024678    -1.16   0.246    -.0077146    .0019803
+          2  |  -.0037235   .0024975    -1.49   0.137    -.0086293    .0011822
+          3  |  -.0001899   .0027389    -0.07   0.945    -.0055699      .00519
+          4  |   .0001239   .0028818     0.04   0.966    -.0055367    .0057845
+          5  |    .000339   .0038957     0.09   0.931    -.0073132    .0079912
+          6  |  -.0039141   .0029535    -1.33   0.186    -.0097157    .0018874
+             |
+       _cons |   .0309291   .0148663     2.08   0.038     .0017275    .0601306
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        85           0          85     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .06755952
+
+added scalar:
+         e(num_events) =  112
+(file C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/tables/bench_ols4_corrna_temp.tex not found)
+(output written to ~/Dropbox/Corrupcion/protest_repo/paper/tables/bench_ols4_corrna_temp.tex)
+(file C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/tables/bench_ols8_corrna_temp.tex not found)
+(output written to ~/Dropbox/Corrupcion/protest_repo/paper/tables/bench_ols8_corrna_temp.tex)
+(3,615 observations deleted)
+(68,978 missing values generated)
+(68,978 missing values generated)
+(68,978 real changes made)
+(68,978 real changes made)
+file C:\Users\rob98\AppData\Local\Temp\ST_46bc_000005.tmp saved as .dta format
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     10,004
+Absorbing 1 HDFE group                            F(  13,    185) =       0.94
+Statistics robust to heteroskedasticity           Prob > F        =     0.5115
+                                                  R-squared       =     0.6740
+                                                  Adj R-squared   =     0.6705
+                                                  Within R-sq.    =     0.0034
+Number of clusters (country_id#year#grupo_dias) =        186Root MSE=     0.0658
+
+           (Std. err. adjusted for 186 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0061654   .0048557     1.27   0.206    -.0034142    .0157451
+             |
+       month |
+          3  |   .0145538    .012849     1.13   0.259    -.0107956    .0399032
+          4  |  -.0063187   .0054041    -1.17   0.244    -.0169804    .0043429
+          5  |  -.0070757   .0053014    -1.33   0.184    -.0175348    .0033833
+          6  |   -.000616   .0027425    -0.22   0.823    -.0060266    .0047946
+          7  |  -.0039978   .0032302    -1.24   0.217    -.0103706    .0023751
+          8  |  -.0030431   .0070185    -0.43   0.665    -.0168897    .0108034
+             |
+         day |
+          1  |   .0000376   .0009979     0.04   0.970    -.0019311    .0020063
+          2  |   .0017498   .0018246     0.96   0.339    -.0018499    .0053496
+          3  |   .0032177    .002544     1.26   0.208    -.0018013    .0082366
+          4  |   .0022415   .0026711     0.84   0.402    -.0030282    .0075113
+          5  |   .0001664   .0016223     0.10   0.918    -.0030341    .0033669
+          6  |   .0014506   .0017267     0.84   0.402    -.0019559    .0048572
+             |
+       _cons |   .0104581    .002939     3.56   0.000     .0046598    .0162563
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        93           0          93     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .00609756
+
+added scalar:
+         e(num_events) =  164
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     10,004
+Absorbing 1 HDFE group                            F(  13,    185) =       4.40
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.5984
+                                                  Adj R-squared   =     0.5941
+                                                  Within R-sq.    =     0.0074
+Number of clusters (country_id#year#grupo_dias) =        186Root MSE=     0.1380
+
+           (Std. err. adjusted for 186 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0016698   .0117578     0.14   0.887    -.0215267    .0248664
+             |
+       month |
+          3  |  -.0040478    .011445    -0.35   0.724    -.0266272    .0185317
+          4  |  -.0063218   .0485278    -0.13   0.896    -.1020609    .0894173
+          5  |   .0688688    .046483     1.48   0.140    -.0228362    .1605738
+          6  |   .0467772   .0420912     1.11   0.268    -.0362633    .1298178
+          7  |   .0657656   .0421402     1.56   0.120    -.0173715    .1489027
+          8  |   .0520463   .0424597     1.23   0.222     -.031721    .1358137
+             |
+         day |
+          1  |   .0006818   .0036613     0.19   0.852    -.0065416    .0079051
+          2  |  -.0045406   .0033201    -1.37   0.173    -.0110908    .0020095
+          3  |  -.0021062   .0038069    -0.55   0.581    -.0096167    .0054042
+          4  |  -.0006271   .0042158    -0.15   0.882    -.0089442    .0076901
+          5  |   .0075063   .0087441     0.86   0.392    -.0097447    .0247573
+          6  |  -.0032655   .0039611    -0.82   0.411    -.0110802    .0045491
+             |
+       _cons |  -.0106604   .0422161    -0.25   0.801    -.0939471    .0726264
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        93           0          93     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .04166667
+
+added scalar:
+         e(num_events) =  164
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     39,524
+Absorbing 1 HDFE group                            F(  18,    745) =       1.40
+Statistics robust to heteroskedasticity           Prob > F        =     0.1239
+                                                  R-squared       =     0.4308
+                                                  Adj R-squared   =     0.4292
+                                                  Within R-sq.    =     0.0050
+Number of clusters (country_id#year#grupo_dias) =        746Root MSE=     0.0865
+
+           (Std. err. adjusted for 746 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0023023   .0064029     0.36   0.719    -.0102675    .0148721
+             |
+       month |
+          2  |   .0033768   .0083988     0.40   0.688    -.0131113    .0198649
+          3  |  -.0026346    .005173    -0.51   0.611      -.01279    .0075208
+          4  |  -.0052232    .005217    -1.00   0.317     -.015465    .0050186
+          5  |   .0071416   .0058637     1.22   0.224    -.0043696    .0186529
+          6  |   .0081065   .0060455     1.34   0.180    -.0037617    .0199746
+          7  |   .0054225   .0064282     0.84   0.399    -.0071971    .0180421
+          8  |   .0115196   .0094831     1.21   0.225    -.0070972    .0301364
+          9  |  -.0003556   .0087629    -0.04   0.968    -.0175586    .0168474
+         10  |   .0077601   .0102032     0.76   0.447    -.0122703    .0277905
+         11  |   .0066724   .0130445     0.51   0.609     -.018936    .0322809
+         12  |   .0051683   .0050299     1.03   0.305    -.0047062    .0150428
+             |
+         day |
+          1  |   .0003919   .0009936     0.39   0.693    -.0015588    .0023425
+          2  |   .0007875   .0013586     0.58   0.562    -.0018796    .0034545
+          3  |   .0041253   .0016566     2.49   0.013     .0008732    .0073773
+          4  |    .000784   .0013739     0.57   0.568    -.0019131    .0034811
+          5  |   .0002075   .0011068     0.19   0.851    -.0019652    .0023803
+          6  |   .0003489    .000924     0.38   0.706     -.001465    .0021628
+             |
+       _cons |   .0054524   .0044034     1.24   0.216    -.0031921     .014097
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        94           0          94     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .00934959
+
+added scalar:
+         e(num_events) =  164
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     39,524
+Absorbing 1 HDFE group                            F(  18,    745) =       1.18
+Statistics robust to heteroskedasticity           Prob > F        =     0.2696
+                                                  R-squared       =     0.2955
+                                                  Adj R-squared   =     0.2935
+                                                  Within R-sq.    =     0.0016
+Number of clusters (country_id#year#grupo_dias) =        746Root MSE=     0.1662
+
+           (Std. err. adjusted for 746 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0127726   .0138076     0.93   0.355    -.0143338     .039879
+             |
+       month |
+          2  |   .0106231   .0295762     0.36   0.720    -.0474395    .0686857
+          3  |   .0234984   .0173201     1.36   0.175    -.0105037    .0575005
+          4  |   .0217329   .0165631     1.31   0.190     -.010783    .0542489
+          5  |   .0249799   .0163073     1.53   0.126    -.0070338    .0569935
+          6  |   .0214891   .0162822     1.32   0.187    -.0104754    .0534536
+          7  |   .0250467   .0207711     1.21   0.228    -.0157301    .0658235
+          8  |   .0127021   .0230886     0.55   0.582    -.0326244    .0580287
+          9  |   .0159601   .0234807     0.68   0.497    -.0301361    .0620564
+         10  |   .0133519   .0231027     0.58   0.563    -.0320022     .058706
+         11  |   .0318118   .0371412     0.86   0.392     -.041102    .1047256
+         12  |   .0273131   .0151594     1.80   0.072     -.002447    .0570732
+             |
+         day |
+          1  |  -.0007866   .0021035    -0.37   0.709     -.004916    .0033429
+          2  |  -.0039013    .001958    -1.99   0.047    -.0077452   -.0000574
+          3  |   .0005334   .0023052     0.23   0.817    -.0039921    .0050589
+          4  |   .0023181   .0022153     1.05   0.296     -.002031    .0066671
+          5  |   .0057425   .0033391     1.72   0.086    -.0008126    .0122976
+          6  |   -.001196   .0020199    -0.59   0.554    -.0051613    .0027694
+             |
+       _cons |   .0107988   .0147998     0.73   0.466    -.0182555    .0398531
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        94           0          94     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .04288618
+
+added scalar:
+         e(num_events) =  164
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     10,004
+Absorbing 1 HDFE group                            F(  13,    185) =       1.14
+Statistics robust to heteroskedasticity           Prob > F        =     0.3311
+                                                  R-squared       =     0.6796
+                                                  Adj R-squared   =     0.6762
+                                                  Within R-sq.    =     0.0049
+Number of clusters (country_id#year#grupo_dias) =        186Root MSE=     0.0599
+
+           (Std. err. adjusted for 186 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+share_viol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0061798   .0046658     1.32   0.187    -.0030252    .0153848
+             |
+       month |
+          3  |   .0145888   .0128912     1.13   0.259    -.0108437    .0400214
+          4  |  -.0063016   .0052602    -1.20   0.232    -.0166793    .0040761
+          5  |  -.0077818   .0052503    -1.48   0.140      -.01814    .0025764
+          6  |  -.0017746   .0026887    -0.66   0.510     -.007079    .0035298
+          7  |  -.0035178   .0031157    -1.13   0.260    -.0096648    .0026292
+          8  |  -.0019537   .0067318    -0.29   0.772    -.0152346    .0113272
+             |
+         day |
+          1  |   .0000134   .0004982     0.03   0.979    -.0009694    .0009962
+          2  |   .0024368   .0016803     1.45   0.149    -.0008781    .0057517
+          3  |    .004193   .0022757     1.84   0.067    -.0002968    .0086827
+          4  |   .0035679   .0024908     1.43   0.154    -.0013462     .008482
+          5  |   .0008492   .0014882     0.57   0.569    -.0020869    .0037853
+          6  |   .0017957   .0014815     1.21   0.227    -.0011272    .0047185
+             |
+       _cons |    .009354   .0030513     3.07   0.002     .0033341    .0153739
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        93           0          93     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .00558943
+
+added scalar:
+         e(num_events) =  164
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     10,004
+Absorbing 1 HDFE group                            F(  13,    185) =     816.27
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.5940
+                                                  Adj R-squared   =     0.5897
+                                                  Within R-sq.    =     0.0070
+Number of clusters (country_id#year#grupo_dias) =        186Root MSE=     0.1322
+
+           (Std. err. adjusted for 186 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+share_peac~l | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0037191   .0116133     0.32   0.749    -.0191925    .0266307
+             |
+       month |
+          3  |  -.0044539   .0114707    -0.39   0.698    -.0270841    .0181763
+          4  |  -.0082851     .04853    -0.17   0.865    -.1040284    .0874583
+          5  |   .0601359   .0461278     1.30   0.194    -.0308684    .1511401
+          6  |   .0472511   .0421458     1.12   0.264    -.0358971    .1303994
+          7  |   .0642254   .0421748     1.52   0.130      -.01898    .1474308
+          8  |   .0501079   .0424718     1.18   0.240    -.0336835    .1338993
+             |
+         day |
+          1  |   .0006563   .0034272     0.19   0.848     -.006105    .0074177
+          2  |  -.0024485   .0029515    -0.83   0.408    -.0082714    .0033745
+          3  |  -.0005579   .0034371    -0.16   0.871    -.0073388     .006223
+          4  |   .0013597   .0039204     0.35   0.729    -.0063747    .0090941
+          5  |   .0090034   .0085909     1.05   0.296    -.0079454    .0259522
+          6  |  -.0021975   .0037352    -0.59   0.557    -.0095667    .0051716
+             |
+       _cons |  -.0129722   .0422421    -0.31   0.759    -.0963104    .0703661
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        93           0          93     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .04115854
+
+added scalar:
+         e(num_events) =  164
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     39,524
+Absorbing 1 HDFE group                            F(  18,    745) =       1.38
+Statistics robust to heteroskedasticity           Prob > F        =     0.1361
+                                                  R-squared       =     0.4166
+                                                  Adj R-squared   =     0.4149
+                                                  Within R-sq.    =     0.0055
+Number of clusters (country_id#year#grupo_dias) =        746Root MSE=     0.0785
+
+           (Std. err. adjusted for 746 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+share_viol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0044727   .0062684     0.71   0.476    -.0078332    .0167785
+             |
+       month |
+          2  |   .0021035   .0080199     0.26   0.793    -.0136408    .0178477
+          3  |  -.0037025   .0043758    -0.85   0.398    -.0122928    .0048879
+          4  |  -.0059798   .0043187    -1.38   0.167     -.014458    .0024985
+          5  |   .0054337   .0052055     1.04   0.297    -.0047855    .0156529
+          6  |   .0023187   .0039069     0.59   0.553    -.0053511    .0099884
+          7  |   .0025576     .00584     0.44   0.662    -.0089072    .0140224
+          8  |   .0076138   .0089535     0.85   0.395    -.0099633    .0251908
+          9  |  -.0032636   .0082325    -0.40   0.692    -.0194253    .0128981
+         10  |   .0050538   .0097735     0.52   0.605    -.0141331    .0242408
+         11  |    .002435   .0108933     0.22   0.823    -.0189501    .0238202
+         12  |   .0031611   .0037304     0.85   0.397    -.0041622    .0104844
+             |
+         day |
+          1  |   .0003984   .0009667     0.41   0.680    -.0014993    .0022962
+          2  |   .0009432   .0013455     0.70   0.484    -.0016983    .0035847
+          3  |   .0035839   .0014757     2.43   0.015     .0006869     .006481
+          4  |   .0005344   .0013185     0.41   0.685     -.002054    .0031229
+          5  |   .0003557   .0010635     0.33   0.738    -.0017322    .0024435
+          6  |   .0006158   .0008746     0.70   0.482    -.0011012    .0023327
+             |
+       _cons |   .0062164   .0034526     1.80   0.072    -.0005616    .0129945
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        94           0          94     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .00802846
+
+added scalar:
+         e(num_events) =  164
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     39,524
+Absorbing 1 HDFE group                            F(  18,    745) =       1.22
+Statistics robust to heteroskedasticity           Prob > F        =     0.2370
+                                                  R-squared       =     0.2931
+                                                  Adj R-squared   =     0.2912
+                                                  Within R-sq.    =     0.0015
+Number of clusters (country_id#year#grupo_dias) =        746Root MSE=     0.1567
+
+           (Std. err. adjusted for 746 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+share_peac~l | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0141105   .0142055     0.99   0.321    -.0137771     .041998
+             |
+       month |
+          2  |   .0154198   .0274116     0.56   0.574    -.0383934    .0692331
+          3  |   .0248967   .0171102     1.46   0.146    -.0086933    .0584866
+          4  |   .0230722   .0163839     1.41   0.159    -.0090918    .0552363
+          5  |   .0233394   .0159253     1.47   0.143    -.0079243    .0546032
+          6  |   .0222419   .0162043     1.37   0.170    -.0095696    .0540534
+          7  |   .0214269    .020782     1.03   0.303    -.0193713    .0622251
+          8  |   .0095517   .0232386     0.41   0.681    -.0360692    .0551726
+          9  |   .0151742   .0239485     0.63   0.527    -.0318405    .0621888
+         10  |    .011127    .023363     0.48   0.634    -.0347382    .0569921
+         11  |   .0305303   .0372486     0.82   0.413    -.0425944     .103655
+         12  |   .0270399      .0151     1.79   0.074    -.0026038    .0566835
+             |
+         day |
+          1  |  -.0004352   .0020479    -0.21   0.832    -.0044555    .0035851
+          2  |  -.0032015     .00185    -1.73   0.084    -.0068333    .0004304
+          3  |    .001041   .0021756     0.48   0.632      -.00323     .005312
+          4  |    .002516   .0020496     1.23   0.220    -.0015077    .0065398
+          5  |   .0060891   .0032487     1.87   0.061    -.0002885    .0124667
+          6  |  -.0007742   .0019266    -0.40   0.688    -.0045564    .0030079
+             |
+       _cons |   .0090811   .0147198     0.62   0.537    -.0198162    .0379784
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        94           0          94     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .03993902
+
+added scalar:
+         e(num_events) =  164
+(file C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/tables/bench_ols4_football_temp.tex not found)
+(output written to ~/Dropbox/Corrupcion/protest_repo/paper/tables/bench_ols4_football_temp.tex)
+(file C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/tables/bench_ols8_football_temp.tex not found)
+(output written to ~/Dropbox/Corrupcion/protest_repo/paper/tables/bench_ols8_football_temp.tex)
+(1,446 observations deleted)
+(36,248 missing values generated)
+(36,248 missing values generated)
+(36,248 real changes made)
+(36,248 real changes made)
+file C:\Users\rob98\AppData\Local\Temp\ST_46bc_000006.tmp saved as .dta format
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      9,638
+Absorbing 1 HDFE group                            F(  18,    159) =       1.34
+Statistics robust to heteroskedasticity           Prob > F        =     0.1678
+                                                  R-squared       =     0.3305
+                                                  Adj R-squared   =     0.3237
+                                                  Within R-sq.    =     0.0153
+Number of clusters (country_id#year#grupo_dias) =        160Root MSE=     0.1344
+
+           (Std. err. adjusted for 160 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0040835   .0100461     0.41   0.685    -.0157575    .0239244
+             |
+       month |
+          2  |  -.0216692   .0335452    -0.65   0.519    -.0879209    .0445826
+          3  |  -.0053593   .0469467    -0.11   0.909    -.0980788    .0873602
+          4  |  -.0034269   .0496947    -0.07   0.945    -.1015737    .0947199
+          5  |  -.0051507   .0521228    -0.10   0.921    -.1080931    .0977916
+          6  |  -.0083874   .0541455    -0.15   0.877    -.1153246    .0985497
+          7  |  -.0083254   .0530597    -0.16   0.876    -.1131181    .0964673
+          8  |   .0448972   .0658335     0.68   0.496    -.0851237    .1749182
+          9  |   .0308405   .0708858     0.44   0.664    -.1091588    .1708397
+         10  |   .0119348   .0699042     0.17   0.865    -.1261258    .1499954
+         11  |    .005736   .0651016     0.09   0.930    -.1228395    .1343115
+         12  |  -.0210503    .060381    -0.35   0.728    -.1403025    .0982018
+             |
+         day |
+          1  |    .004072    .001491     2.73   0.007     .0011273    .0070167
+          2  |   .0047097   .0024753     1.90   0.059     -.000179    .0095985
+          3  |   .0041428   .0024259     1.71   0.090    -.0006484     .008934
+          4  |   .0060315   .0030073     2.01   0.047     .0000921    .0119709
+          5  |   .0015317   .0022684     0.68   0.501    -.0029484    .0060117
+          6  |   .0014528   .0019398     0.75   0.455    -.0023782    .0052839
+             |
+       _cons |   .0174924   .0492653     0.36   0.723    -.0798063    .1147911
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        81           0          81     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .02004219
+
+added scalar:
+         e(num_events) =  158
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      9,638
+Absorbing 1 HDFE group                            F(  18,    159) =       1.12
+Statistics robust to heteroskedasticity           Prob > F        =     0.3384
+                                                  R-squared       =     0.2748
+                                                  Adj R-squared   =     0.2674
+                                                  Within R-sq.    =     0.0107
+Number of clusters (country_id#year#grupo_dias) =        160Root MSE=     0.1441
+
+           (Std. err. adjusted for 160 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |  -.0031916   .0082938    -0.38   0.701    -.0195718    .0131885
+             |
+       month |
+          2  |   .0088928   .0106648     0.83   0.406    -.0121702    .0299558
+          3  |   .0470849   .0190323     2.47   0.014     .0094961    .0846737
+          4  |   .0354309   .0208224     1.70   0.091    -.0056933    .0765551
+          5  |   .0452223   .0292911     1.54   0.125    -.0126276    .1030721
+          6  |   .0641738   .0389159     1.65   0.101    -.0126851    .1410326
+          7  |   .0401123   .0235632     1.70   0.091    -.0064249    .0866495
+          8  |   .0582245   .0264765     2.20   0.029     .0059336    .1105155
+          9  |   .0539692   .0281525     1.92   0.057     -.001632    .1095703
+         10  |   .0457288   .0259629     1.76   0.080    -.0055478    .0970054
+         11  |   .0607183   .0339577     1.79   0.076     -.006348    .1277847
+         12  |    .056906   .0376783     1.51   0.133    -.0175085    .1313206
+             |
+         day |
+          1  |  -.0054163   .0041192    -1.31   0.190    -.0135517    .0027191
+          2  |   -.004729   .0045415    -1.04   0.299    -.0136984    .0042403
+          3  |  -.0006514   .0044843    -0.15   0.885    -.0095079    .0082051
+          4  |  -.0000328   .0051797    -0.01   0.995    -.0102626    .0101971
+          5  |  -.0065461   .0042424    -1.54   0.125    -.0149248    .0018326
+          6  |  -.0068007    .004074    -1.67   0.097    -.0148468    .0012454
+             |
+       _cons |  -.0120011   .0207543    -0.58   0.564    -.0529909    .0289886
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        81           0          81     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .02848101
+
+added scalar:
+         e(num_events) =  158
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     38,064
+Absorbing 1 HDFE group                            F(  18,    638) =       1.90
+Statistics robust to heteroskedasticity           Prob > F        =     0.0133
+                                                  R-squared       =     0.3614
+                                                  Adj R-squared   =     0.3595
+                                                  Within R-sq.    =     0.0175
+Number of clusters (country_id#year#grupo_dias) =        639Root MSE=     0.1264
+
+           (Std. err. adjusted for 639 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |  -.0072348   .0059597    -1.21   0.225    -.0189379    .0044682
+             |
+       month |
+          2  |  -.0195645   .0111503    -1.75   0.080    -.0414602    .0023312
+          3  |  -.0236535   .0147804    -1.60   0.110    -.0526776    .0053705
+          4  |  -.0217502   .0144924    -1.50   0.134    -.0502089    .0067084
+          5  |  -.0091996   .0130754    -0.70   0.482    -.0348756    .0164763
+          6  |   .0133369   .0175894     0.76   0.449    -.0212033     .047877
+          7  |    .013509   .0168226     0.80   0.422    -.0195254    .0465434
+          8  |   .0330796   .0185227     1.79   0.075    -.0032933    .0694526
+          9  |   .0023306   .0169578     0.14   0.891    -.0309693    .0356305
+         10  |  -.0039088   .0169976    -0.23   0.818    -.0372868    .0294692
+         11  |  -.0036338    .017754    -0.20   0.838    -.0384971    .0312294
+         12  |  -.0208826   .0169531    -1.23   0.218    -.0541733    .0124081
+             |
+         day |
+          1  |   .0020875   .0009613     2.17   0.030     .0001998    .0039752
+          2  |   .0007511   .0010052     0.75   0.455    -.0012227     .002725
+          3  |   .0028579   .0012381     2.31   0.021     .0004266    .0052892
+          4  |   .0009613    .001135     0.85   0.397    -.0012675    .0031902
+          5  |  -.0001963   .0009879    -0.20   0.843    -.0021362    .0017437
+          6  |  -.0010085   .0008852    -1.14   0.255    -.0027467    .0007297
+             |
+       _cons |   .0286534   .0126555     2.26   0.024     .0038019     .053505
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        91           0          91     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .02489451
+
+added scalar:
+         e(num_events) =  158
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     38,064
+Absorbing 1 HDFE group                            F(  18,    638) =       4.05
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.1229
+                                                  Adj R-squared   =     0.1204
+                                                  Within R-sq.    =     0.0117
+Number of clusters (country_id#year#grupo_dias) =        639Root MSE=     0.1595
+
+           (Std. err. adjusted for 639 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |  -.0127213    .005603    -2.27   0.024    -.0237238   -.0017188
+             |
+       month |
+          2  |   .0200688   .0094015     2.13   0.033     .0016072    .0385304
+          3  |   .0158451   .0082811     1.91   0.056    -.0004163    .0321066
+          4  |   .0391094   .0103255     3.79   0.000     .0188333    .0593855
+          5  |   .0337452   .0089964     3.75   0.000      .016079    .0514114
+          6  |   .0560122   .0135159     4.14   0.000     .0294711    .0825533
+          7  |   .0565679   .0162819     3.47   0.001     .0245954    .0885405
+          8  |   .0599338   .0151855     3.95   0.000     .0301142    .0897534
+          9  |   .0504363   .0121142     4.16   0.000     .0266479    .0742248
+         10  |   .0482099   .0124109     3.88   0.000     .0238388    .0725811
+         11  |   .0491874    .013799     3.56   0.000     .0220905    .0762844
+         12  |   .0322482   .0135827     2.37   0.018      .005576    .0589205
+             |
+         day |
+          1  |  -.0044495   .0018097    -2.46   0.014    -.0080031   -.0008958
+          2  |  -.0026705   .0021204    -1.26   0.208    -.0068344    .0014933
+          3  |   .0022759   .0022269     1.02   0.307     -.002097    .0066488
+          4  |   .0042402   .0023982     1.77   0.078    -.0004692    .0089495
+          5  |  -.0036086   .0019892    -1.81   0.070    -.0075147    .0002975
+          6  |   -.004288   .0018937    -2.26   0.024    -.0080067   -.0005693
+             |
+       _cons |  -.0046419   .0075624    -0.61   0.540    -.0194921    .0102084
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        91           0          91     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .02742616
+
+added scalar:
+         e(num_events) =  158
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      9,638
+Absorbing 1 HDFE group                            F(  18,    159) =       1.36
+Statistics robust to heteroskedasticity           Prob > F        =     0.1606
+                                                  R-squared       =     0.3404
+                                                  Adj R-squared   =     0.3336
+                                                  Within R-sq.    =     0.0155
+Number of clusters (country_id#year#grupo_dias) =        160Root MSE=     0.1278
+
+           (Std. err. adjusted for 160 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+share_viol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0043877   .0097657     0.45   0.654    -.0148995     .023675
+             |
+       month |
+          2  |  -.0206821   .0328697    -0.63   0.530    -.0855997    .0442355
+          3  |  -.0054182   .0459183    -0.12   0.906    -.0961067    .0852703
+          4  |  -.0032618   .0486521    -0.07   0.947    -.0993496    .0928259
+          5  |    -.00523   .0510499    -0.10   0.919    -.1060534    .0955934
+          6  |  -.0095536   .0530405    -0.18   0.857    -.1143085    .0952013
+          7  |  -.0076286   .0518625    -0.15   0.883    -.1100568    .0947996
+          8  |   .0424357   .0629415     0.67   0.501    -.0818736     .166745
+          9  |   .0310818   .0700963     0.44   0.658    -.1073582    .1695218
+         10  |   .0130626   .0694509     0.19   0.851    -.1241028    .1502279
+         11  |   .0064096    .064466     0.10   0.921    -.1209104    .1337296
+         12  |  -.0188431   .0596938    -0.32   0.753    -.1367381    .0990519
+             |
+         day |
+          1  |   .0040391    .001488     2.71   0.007     .0011002    .0069779
+          2  |   .0039399   .0023518     1.68   0.096    -.0007049    .0085846
+          3  |   .0024596   .0018915     1.30   0.195     -.001276    .0061952
+          4  |   .0045791   .0024324     1.88   0.062    -.0002249    .0093831
+          5  |   .0004405   .0018075     0.24   0.808    -.0031294    .0040104
+          6  |   .0003468    .001771     0.20   0.845    -.0031511    .0038446
+             |
+       _cons |   .0172284   .0483213     0.36   0.722     -.078206    .1126628
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        81           0          81     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .01898734
+
+added scalar:
+         e(num_events) =  158
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      9,638
+Absorbing 1 HDFE group                            F(  18,    159) =       1.19
+Statistics robust to heteroskedasticity           Prob > F        =     0.2725
+                                                  R-squared       =     0.2805
+                                                  Adj R-squared   =     0.2731
+                                                  Within R-sq.    =     0.0113
+Number of clusters (country_id#year#grupo_dias) =        160Root MSE=     0.1394
+
+           (Std. err. adjusted for 160 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+share_peac~l | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |  -.0032027   .0080503    -0.40   0.691     -.019102    .0126966
+             |
+       month |
+          2  |   .0087484   .0104999     0.83   0.406    -.0119888    .0294856
+          3  |   .0463829   .0187392     2.48   0.014      .009373    .0833928
+          4  |   .0348277   .0205078     1.70   0.091    -.0056751    .0753305
+          5  |   .0447103   .0286347     1.56   0.120    -.0118431    .1012637
+          6  |   .0634492   .0386016     1.64   0.102    -.0127887    .1396872
+          7  |   .0382254   .0230384     1.66   0.099    -.0072753    .0837262
+          8  |   .0572174   .0258214     2.22   0.028     .0062202    .1082147
+          9  |   .0538858   .0277495     1.94   0.054    -.0009195     .108691
+         10  |   .0448751   .0255555     1.76   0.081    -.0055969     .095347
+         11  |   .0604285   .0334968     1.80   0.073    -.0057275    .1265846
+         12  |   .0550549   .0360666     1.53   0.129    -.0161765    .1262863
+             |
+         day |
+          1  |  -.0046119   .0039791    -1.16   0.248    -.0124706    .0032469
+          2  |  -.0039245   .0044992    -0.87   0.384    -.0128104    .0049614
+          3  |  -.0010205   .0043541    -0.23   0.815    -.0096199    .0075789
+          4  |   .0007664   .0050875     0.15   0.880    -.0092815    .0108142
+          5  |  -.0075064   .0041789    -1.80   0.074    -.0157598     .000747
+          6  |  -.0071484   .0039667    -1.80   0.073    -.0149825    .0006858
+             |
+       _cons |  -.0120758   .0205739    -0.59   0.558    -.0527092    .0285577
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        81           0          81     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .02637131
+
+added scalar:
+         e(num_events) =  158
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     38,064
+Absorbing 1 HDFE group                            F(  18,    638) =       1.90
+Statistics robust to heteroskedasticity           Prob > F        =     0.0136
+                                                  R-squared       =     0.3571
+                                                  Adj R-squared   =     0.3553
+                                                  Within R-sq.    =     0.0176
+Number of clusters (country_id#year#grupo_dias) =        639Root MSE=     0.1185
+
+           (Std. err. adjusted for 639 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+share_viol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |  -.0054278   .0053935    -1.01   0.315     -.016019    .0051634
+             |
+       month |
+          2  |  -.0193201   .0108753    -1.78   0.076    -.0406757    .0020355
+          3  |  -.0234651   .0143607    -1.63   0.103    -.0516651    .0047349
+          4  |  -.0214631   .0140273    -1.53   0.126    -.0490085    .0060822
+          5  |  -.0100905   .0126698    -0.80   0.426      -.03497     .014789
+          6  |   .0048997   .0145103     0.34   0.736     -.023594    .0333935
+          7  |   .0134876   .0166264     0.81   0.418    -.0191614    .0461366
+          8  |   .0314915   .0179706     1.75   0.080     -.003797    .0667801
+          9  |   .0024731   .0168043     0.15   0.883    -.0305253    .0354715
+         10  |  -.0030436   .0169052    -0.18   0.857    -.0362401    .0301529
+         11  |  -.0035462   .0176784    -0.20   0.841     -.038261    .0311687
+         12  |  -.0202163   .0167537    -1.21   0.228    -.0531154    .0126827
+             |
+         day |
+          1  |   .0022535   .0009243     2.44   0.015     .0004384    .0040685
+          2  |   .0009249   .0009551     0.97   0.333    -.0009506    .0028004
+          3  |   .0021607   .0010749     2.01   0.045     .0000499    .0042716
+          4  |   .0009476   .0010016     0.95   0.345    -.0010193    .0029144
+          5  |  -.0001059   .0008825    -0.12   0.905    -.0018389    .0016272
+          6  |  -.0008894   .0007533    -1.18   0.238    -.0023686    .0005898
+             |
+       _cons |   .0273368   .0122699     2.23   0.026     .0032425    .0514312
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        91           0          91     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .02383966
+
+added scalar:
+         e(num_events) =  158
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     38,064
+Absorbing 1 HDFE group                            F(  18,    638) =       4.50
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.1172
+                                                  Adj R-squared   =     0.1147
+                                                  Within R-sq.    =     0.0112
+Number of clusters (country_id#year#grupo_dias) =        639Root MSE=     0.1488
+
+           (Std. err. adjusted for 639 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+share_peac~l | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |  -.0132347   .0054069    -2.45   0.015    -.0238522   -.0026171
+             |
+       month |
+          2  |   .0202028   .0091457     2.21   0.028     .0022435    .0381622
+          3  |   .0151661   .0076926     1.97   0.049     .0000603    .0302719
+          4  |   .0378128   .0098938     3.82   0.000     .0183844    .0572411
+          5  |   .0322703   .0083936     3.84   0.000      .015788    .0487527
+          6  |      .0529   .0128873     4.10   0.000     .0275932    .0782067
+          7  |   .0485364   .0127693     3.80   0.000     .0234614    .0736113
+          8  |   .0530845   .0116509     4.56   0.000     .0302058    .0759631
+          9  |    .046835   .0113375     4.13   0.000     .0245716    .0690983
+         10  |    .045283   .0114719     3.95   0.000     .0227558    .0678102
+         11  |   .0462262   .0129001     3.58   0.000     .0208944    .0715579
+         12  |   .0292877   .0124514     2.35   0.019      .004837    .0537383
+             |
+         day |
+          1  |  -.0044467   .0017673    -2.52   0.012    -.0079171   -.0009763
+          2  |  -.0021147   .0021093    -1.00   0.316    -.0062567    .0020273
+          3  |   .0018785   .0021371     0.88   0.380    -.0023181    .0060751
+          4  |    .004438   .0023558     1.88   0.060    -.0001882    .0090641
+          5  |  -.0042335   .0019311    -2.19   0.029    -.0080255   -.0004415
+          6  |  -.0047549   .0018056    -2.63   0.009    -.0083005   -.0012093
+             |
+       _cons |  -.0027145   .0064538    -0.42   0.674    -.0153877    .0099587
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        91           0          91     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .02679325
+
+added scalar:
+         e(num_events) =  158
+(file C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/tables/bench_ols4_deprec_temp.tex not found)
+(output written to ~/Dropbox/Corrupcion/protest_repo/paper/tables/bench_ols4_deprec_temp.tex)
+(file C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/tables/bench_ols8_deprec_temp.tex not found)
+(output written to ~/Dropbox/Corrupcion/protest_repo/paper/tables/bench_ols8_deprec_temp.tex)
+(encoding automatically selected: UTF-8)
+(7 vars, 190 obs)
+file C:\Users\rob98\AppData\Local\Temp\ST_46bc_000007.tmp saved as .dta format
+(3,374 observations deleted)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                            42,657  
+    -----------------------------------------
+(10,845 real changes made)
+(3,615 real changes made)
+(1,205 real changes made)
+(3,133 real changes made)
+(3,856 real changes made)
+(20,003 real changes made)
+(39,349 missing values generated)
+(39,349 missing values generated)
+(39,349 real changes made)
+(39,349 real changes made)
+file C:\Users\rob98\AppData\Local\Temp\ST_46bc_000008.tmp saved as .dta format
+
+added scalar:
+           e(baseline) =  .10144928
+
+added scalar:
+         e(num_events) =  28
+
+added scalar:
+           e(baseline) =  .04093567
+
+added scalar:
+         e(num_events) =  32
+
+added scalar:
+           e(baseline) =  .05416667
+
+added scalar:
+         e(num_events) =  34
+
+added scalar:
+           e(baseline) =  .01793722
+
+added scalar:
+         e(num_events) =  53
+(file C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/tables/bench_poi_corrpa_temp.tex not found)
+(output written to ~/Dropbox/Corrupcion/protest_repo/paper/tables/bench_poi_corrpa_temp.tex)
+(encoding automatically selected: UTF-8)
+(7 vars, 190 obs)
+file C:\Users\rob98\AppData\Local\Temp\ST_46bc_000009.tmp saved as .dta format
+(3,374 observations deleted)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                            42,657  
+    -----------------------------------------
+(10,845 real changes made)
+(3,615 real changes made)
+(1,205 real changes made)
+(3,133 real changes made)
+(3,856 real changes made)
+(20,003 real changes made)
+(39,349 missing values generated)
+(39,349 missing values generated)
+(39,349 real changes made)
+(39,349 real changes made)
+file C:\Users\rob98\AppData\Local\Temp\ST_46bc_00000a.tmp saved as .dta format
+
+added scalar:
+           e(baseline) =  .07653061
+
+added scalar:
+         e(num_events) =  41
+
+added scalar:
+           e(baseline) =  .17647059
+
+added scalar:
+         e(num_events) =  64
+
+added scalar:
+           e(baseline) =  .03149606
+
+added scalar:
+         e(num_events) =  63
+
+added scalar:
+           e(baseline) =  .09802402
+
+added scalar:
+         e(num_events) =  95
+(file C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/tables/bench_poi_corrna_temp.tex not found)
+(output written to ~/Dropbox/Corrupcion/protest_repo/paper/tables/bench_poi_corrna_temp.tex)
+(3,615 observations deleted)
+(68,978 missing values generated)
+(68,978 missing values generated)
+(68,978 real changes made)
+(68,978 real changes made)
+file C:\Users\rob98\AppData\Local\Temp\ST_46bc_00000b.tmp saved as .dta format
+
+added scalar:
+           e(baseline) =  .04761905
+
+added scalar:
+         e(num_events) =  21
+
+added scalar:
+           e(baseline) =  .14236111
+
+added scalar:
+         e(num_events) =  48
+
+added scalar:
+           e(baseline) =  .03129252
+
+added scalar:
+         e(num_events) =  49
+
+added scalar:
+           e(baseline) =  .07326389
+
+added scalar:
+         e(num_events) =  96
+(file C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/tables/bench_poi_football_temp.tex not found)
+(output written to ~/Dropbox/Corrupcion/protest_repo/paper/tables/bench_poi_football_temp.tex)
+(1,446 observations deleted)
+(36,248 missing values generated)
+(36,248 missing values generated)
+(36,248 real changes made)
+(36,248 real changes made)
+file C:\Users\rob98\AppData\Local\Temp\ST_46bc_00000c.tmp saved as .dta format
+
+added scalar:
+           e(baseline) =  .07037037
+
+added scalar:
+         e(num_events) =  46
+
+added scalar:
+           e(baseline) =  .05
+
+added scalar:
+         e(num_events) =  96
+
+added scalar:
+           e(baseline) =  .06286628
+
+added scalar:
+         e(num_events) =  72
+
+added scalar:
+           e(baseline) =  .03336756
+
+added scalar:
+         e(num_events) =  138
+(file C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/tables/bench_poi_deprec_temp.tex not found)
+(output written to ~/Dropbox/Corrupcion/protest_repo/paper/tables/bench_poi_deprec_temp.tex)
+
+. 
+. display in green "a_sup_benchmarks.do finished OK"
+a_sup_benchmarks.do finished OK
+
+. 
+. capture log close _all

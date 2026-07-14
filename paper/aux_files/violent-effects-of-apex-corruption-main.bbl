@@ -64,6 +64,12 @@
 {\bf Besley, Timothy and Torsten Persson}, ``The logic of political violence,''
   {\it The Quarterly Journal of Economics}, 2011, {\it 126} (3), 1411--1445.
 
+\harvarditem[Borusyak et al.]{Borusyak, Jaravel and
+  Spiess}{2024}{borusyak2024revisiting}
+{\bf Borusyak, Kirill, Xavier Jaravel, and Jann Spiess}, ``Revisiting
+  event-study designs: robust and efficient estimation,'' {\it Review of
+  Economic Studies}, 2024, {\it 91} (6), 3253--3285.
+
 \harvarditem[Bursztyn et al.]{Bursztyn, Cantoni, Yang, Yuchtman and
   Zhang}{2021}{bursztyn2021persistent}
 {\bf Bursztyn, Leonardo, Davide Cantoni, David~Y. Yang, Noam Yuchtman, and
@@ -76,6 +82,12 @@
 {\bf Cantoni, Davide, Andrew Kao, David~Y. Yang, and Noam Yuchtman},
   ``Protests,'' {\it Annual Review of Economics}, 2024, {\it 16}, 519--543.
 
+\harvarditem[Cengiz et al.]{Cengiz, Dube, Lindner and
+  Zipperer}{2019}{cengiz2019effect}
+{\bf Cengiz, Doruk, Arindrajit Dube, Attila Lindner, and Ben Zipperer}, ``The
+  effect of minimum wages on low-wage jobs,'' {\it The Quarterly Journal of
+  Economics}, 2019, {\it 134} (3), 1405--1454.
+
 \harvarditem[Chong et al.]{Chong, {De La O}, Karlan and
   Wantchekon}{2015}{chong2015does}
 {\bf Chong, Alberto, Ana~L. {De La O}, Dean Karlan, and Leonard Wantchekon},
@@ -87,12 +99,26 @@
 {\bf Clark, David and Patrick Regan}, ``Mass {Mobilization} Protest Data,''
   2016.
 
+\harvarditem[Coppedge et al.]{Coppedge, Gerring, Knutsen, Lindberg, Teorell
+  et~al.}{2024}{vdem2024}
+{\bf Coppedge, Michael, John Gerring, Carl~Henrik Knutsen, Staffan~I. Lindberg,
+  Jan Teorell et~al.}, ``V-Dem Codebook v14,'' Varieties of Democracy (V-Dem)
+  Project 2024.
+\newblock Country-Year/Country-Date Dataset v14.
+
 \harvarditem[Costas-P{\'e}rez et al.]{Costas-P{\'e}rez, Sol{\'e}-Oll{\'e} and
   Sorribas-Navarro}{2012}{costasperez2012corruption}
 {\bf Costas-P{\'e}rez, Elena, Albert Sol{\'e}-Oll{\'e}, and Pilar
   Sorribas-Navarro}, ``Corruption scandals, voter information, and
   accountability,'' {\it European Journal of Political Economy}, 2012, {\it 28}
   (4), 469--484.
+
+\harvarditem[{de Chaisemartin} and {D'Haultf{\oe}uille}]{{de Chaisemartin} and
+  {D'Haultf{\oe}uille}}{2024}{decade2024dcdh}
+{\bf {de Chaisemartin}, Cl{\'e}ment and Xavier {D'Haultf{\oe}uille}},
+  ``Difference-in-differences estimators of intertemporal treatment effects,''
+  {\it Review of Economics and Statistics}, 2024.
+\newblock Forthcoming.
 
 \harvarditem[DellaVigna and Kaplan]{DellaVigna and
   Kaplan}{2007}{dellavigna2007fox}
@@ -135,6 +161,11 @@
 \harvarditem[Glaeser and Saks]{Glaeser and Saks}{2006}{glaeser2006corruption}
 {\bf Glaeser, Edward~L. and Raven~E. Saks}, ``Corruption in {America},'' {\it
   Journal of Public Economics}, 2006, {\it 90} (6--7), 1053--1072.
+
+\harvarditem[Goodman-Bacon]{Goodman-Bacon}{2021}{goodmanbacon2021difference}
+{\bf Goodman-Bacon, Andrew}, ``Difference-in-differences with variation in
+  treatment timing,'' {\it Journal of Econometrics}, 2021, {\it 225} (2),
+  254--277.
 
 \harvarditem[Jha]{Jha}{2013}{jha2013trade}
 {\bf Jha, Saumitra}, ``Trade, institutions, and ethnic tolerance: evidence from
@@ -207,6 +238,11 @@
 {\bf Rohner, D., U.~Sunde, O.~Vanden Eynde, A.~L. Wright, and J.-R. Zeng},
   ``Aiding peace or conflict? The impact of USAID cuts on violence,'' {\it
   Science}, 2026, {\it 392} (6799), eaed6802.
+
+\harvarditem[Sun and Abraham]{Sun and Abraham}{2021}{sun2021estimating}
+{\bf Sun, Liyang and Sarah Abraham}, ``Estimating dynamic treatment effects in
+  event studies with heterogeneous treatment effects,'' {\it Journal of
+  Econometrics}, 2021, {\it 225} (2), 175--199.
 
 \harvarditem[Treisman]{Treisman}{2007}{treisman2007what}
 {\bf Treisman, Daniel}, ``What have we learned about the causes of corruption

@@ -45,8 +45,8 @@ if "`c(username)'" == "rob98" {
 global work   "${identity}/Corrupcion/Protest_Work"
 global path   "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
 global datfin "${path}/Data/final"
-global tabout "${work}/results/tables"
-global figout "${work}/results/figures"
+global tabout "${identity}/Corrupcion/protest_repo/paper/tables"
+global figout "${identity}/Corrupcion/protest_repo/paper/figures"
 
 /* ============================================================
    LOAD AND PREP

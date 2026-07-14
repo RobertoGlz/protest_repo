@@ -2,27 +2,42 @@
    Project: Apex Corruption protests paper - SUPPLEMENTARY MATERIALS
 
    Code author: Roberto Gonzalez
-   Date: 2026-07-09
+   Date: 2026-07-13
 
    Objective:
      Re-estimate the headline OLS and Poisson QML specifications
      (\autoref{eq:main}) at every event-window width in
         T in {15, 30, 45, ..., 150} days
      and plot the point estimate against T with a 90% confidence
-     interval.  Four panels: {OLS, Poisson IRR} x {violent, peaceful
-     protests}.  The T = 30 and T = 120 estimates -- the two windows
-     used in the main tables -- are highlighted in RGB (220, 0, 0).
-     A thick, faint horizontal line marks the null (beta = 0 for OLS,
-     IRR = 1 for Poisson).
+     interval.
+
+     Three subsamples:
+        - full         : all 176 scandals
+        - pa           : President + Other Apex (45 + 19 = 64)
+        - na           : Other Non-Apex (112)
+
+     For each subsample we produce four PDFs (OLS/Poisson x violent/
+     peaceful).  Within a given (subsample, estimator) pair the
+     violent and peaceful panels SHARE the same y-axis range so
+     readers can compare them side-by-side and see the null line
+     aligned across panels.
+
+     Highlights: T = 30 and T = 120 markers and CI bars in RGB
+     (220, 0, 0); a thick, very faint horizontal line marks the
+     null (beta = 0 for OLS, IRR = 1 for Poisson).
 
    Inputs:
-     - ${datfin}/protests_scandals_30days_v3.dta   (event-window panel)
+     - ${datfin}/protests_scandals_30days_v3.dta
+     - ${datfin}/scandals_classified.csv
 
-   Outputs (under paper/figures/):
-     - sup_window_sensitivity_ols_num_violent_MM.pdf
-     - sup_window_sensitivity_ols_num_peaceful_MM.pdf
-     - sup_window_sensitivity_poi_num_violent_MM.pdf
-     - sup_window_sensitivity_poi_num_peaceful_MM.pdf
+   Outputs (under paper/figures/, one PDF per subsample x estimator
+   x outcome):
+     - sup_window_sensitivity_ols_num_violent_MM[<suf>].pdf
+     - sup_window_sensitivity_ols_num_peaceful_MM[<suf>].pdf
+     - sup_window_sensitivity_poi_num_violent_MM[<suf>].pdf
+     - sup_window_sensitivity_poi_num_peaceful_MM[<suf>].pdf
+     where <suf> is empty (full sample), "_pa" (President + Other
+     Apex) or "_na" (Other Non-Apex).
 ---------------------------------------------------------------------------- */
 
 set more off
@@ -50,9 +65,30 @@ global datfin  "${path}/Data/final"
 global work    "${identity}/Corrupcion/Protest_Work"
 global figout  "${identity}/Corrupcion/protest_repo/paper/figures"
 
-/* ----------------------- Load base panel ----------------------- */
+/* ----------------------- Load base panel + classification ----------------------- */
+import delimited using "${datfin}/scandals_classified.csv", ///
+	clear varnames(1) bindquotes(strict)
+keep id country position
+tempfile cls
+save `cls'
+
 use "${datfin}/protests_scandals_30days_v3", clear
 drop if country == "Venezuela"
+
+merge m:1 id country using `cls', keep(1 3) generate(_mclass)
+
+/* Apex partition v2 flags */
+gen byte in_pa = 0
+replace in_pa = 1 if position == "president"
+replace in_pa = 1 if position == "governor"
+replace in_pa = 1 if position == "sc_judge_congressman" & ///
+	inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+
+gen byte in_na = 0
+replace in_na = 1 if position == "sc_judge_congressman" & ///
+	!inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+replace in_na = 1 if position == "other_judiciary"
+replace in_na = 1 if position == "others"
 
 egen grupo_dias = group(s_lag30 s_lag60 s_lag90 s_lag120 ///
                         s_lead30 s_lead60 s_lead90 s_lead120)
@@ -65,38 +101,46 @@ tempfile base
 save `base'
 
 /* ============================================================
-   STEP 1 - Loop over windows and estimators, collect estimates
+   STEP 1 - Loop over subsample, outcome, window, estimator
    ============================================================ */
 tempname res
-postfile `res' int T str16 outcome str8 estimator ///
+postfile `res' str8 sample int T str16 outcome str8 estimator ///
 	double beta double se ///
 	using "${work}/temp/window_sensitivity_estimates.dta", replace
 
-foreach outcome in num_violent_MM num_peaceful_MM {
-foreach T of numlist 15(15)150 {
+foreach sample in full pa na {
 
-	/* --- OLS --- */
-	use `base', clear
-	capture reghdfe `outcome' post i.month i.day ///
-		if year >= `firstyear' & abs(window) <= `T', ///
-		absorb($fe1) vce($CLUSTER2)
-	if _rc == 0 & !missing(_b[post]) {
-		post `res' (`T') ("`outcome'") ("OLS") ///
-			(_b[post]) (_se[post])
+	/* subsample filter */
+	if "`sample'" == "full" local sample_if ""
+	if "`sample'" == "pa"   local sample_if "& in_pa == 1"
+	if "`sample'" == "na"   local sample_if "& in_na == 1"
+
+	foreach outcome in num_violent_MM num_peaceful_MM {
+	foreach T of numlist 15(15)150 {
+
+		/* --- OLS --- */
+		use `base', clear
+		capture reghdfe `outcome' post i.month i.day ///
+			if year >= `firstyear' & abs(window) <= `T' `sample_if', ///
+			absorb($fe1) vce($CLUSTER2)
+		if _rc == 0 & !missing(_b[post]) {
+			post `res' ("`sample'") (`T') ("`outcome'") ("OLS") ///
+				(_b[post]) (_se[post])
+		}
+
+		/* --- Poisson QML --- */
+		use `base', clear
+		capture ppmlhdfe `outcome' post ///
+			if year >= `firstyear' & abs(window) <= `T' `sample_if', ///
+			absorb(month day $fe1) vce($CLUSTER2)
+		if _rc == 0 & !missing(_b[post]) {
+			post `res' ("`sample'") (`T') ("`outcome'") ("Poisson") ///
+				(_b[post]) (_se[post])
+		}
+
+		display in yellow "sample=`sample', outcome=`outcome', T=`T' done"
 	}
-
-	/* --- Poisson QML --- */
-	use `base', clear
-	capture ppmlhdfe `outcome' post ///
-		if year >= `firstyear' & abs(window) <= `T', ///
-		absorb(month day $fe1) vce($CLUSTER2)
-	if _rc == 0 & !missing(_b[post]) {
-		post `res' (`T') ("`outcome'") ("Poisson") ///
-			(_b[post]) (_se[post])
 	}
-
-	display in yellow "outcome=`outcome', T=`T' done"
-}
 }
 
 postclose `res'
@@ -118,57 +162,97 @@ gen double irr_se     = exp(beta) * se    if estimator == "Poisson"
 gen double irr_ci_lo  = irr - `zcrit' * irr_se
 gen double irr_ci_hi  = irr + `zcrit' * irr_se
 
-/* --- Plot each of the four panels --- */
-foreach outcome in num_violent_MM num_peaceful_MM {
+tempfile allests
+save `allests'
 
-	if "`outcome'" == "num_violent_MM"  local outlbl "violent protests"
-	if "`outcome'" == "num_peaceful_MM" local outlbl "peaceful protests"
+/* --- Loop over (sample, estimator) and plot the two outcome panels
+       with a SHARED y-axis range computed across both outcomes --- */
+foreach sample in full pa na {
 
-	/* ------ OLS panel ------ */
-	preserve
-		keep if outcome == "`outcome'" & estimator == "OLS"
-		sort T
+	/* filename suffix */
+	if "`sample'" == "full" local suf ""
+	if "`sample'" == "pa"   local suf "_pa"
+	if "`sample'" == "na"   local suf "_na"
 
-		twoway (rcap ci_lo ci_hi T if !inlist(T, 30, 120), ///
-		            lcolor(gs6) lwidth(thin)) ///
-		       (rcap ci_lo ci_hi T if  inlist(T, 30, 120), ///
-		            lcolor("220 0 0") lwidth(medthick)) ///
-		       (line beta T, lcolor(black) lwidth(medium)) ///
-		       (scatter beta T, msymbol(O) msize(medium) mcolor(black)) ///
-		       (scatter beta T if inlist(T, 30, 120), ///
-		            msymbol(O) msize(medlarge) mcolor("220 0 0")), ///
-			yline(0, lcolor(black%10) lwidth(vvthick) lpattern(solid)) ///
-			xlabel(15(15)150) ///
-			xtitle("Event-window width (days)", size(medium)) ///
-			ytitle("Effect on `outlbl'", size(medium)) ///
-			ylabel(, format(%5.3f) angle(0)) ///
-			scheme(s2color) graphregion(color(white)) legend(off)
-		graph export ///
-			"${figout}/sup_window_sensitivity_ols_`outcome'.pdf", replace
-	restore
+	foreach est in OLS Poisson {
 
-	/* ------ Poisson panel ------ */
-	preserve
-		keep if outcome == "`outcome'" & estimator == "Poisson"
-		sort T
+		use `allests', clear
+		keep if sample == "`sample'" & estimator == "`est'"
 
-		twoway (rcap irr_ci_lo irr_ci_hi T if !inlist(T, 30, 120), ///
-		            lcolor(gs6) lwidth(thin)) ///
-		       (rcap irr_ci_lo irr_ci_hi T if  inlist(T, 30, 120), ///
-		            lcolor("220 0 0") lwidth(medthick)) ///
-		       (line irr T, lcolor(black) lwidth(medium)) ///
-		       (scatter irr T, msymbol(O) msize(medium) mcolor(black)) ///
-		       (scatter irr T if inlist(T, 30, 120), ///
-		            msymbol(O) msize(medlarge) mcolor("220 0 0")), ///
-			yline(1, lcolor(black%10) lwidth(vvthick) lpattern(solid)) ///
-			xlabel(15(15)150) ///
-			xtitle("Event-window width (days)", size(medium)) ///
-			ytitle("IRR on `outlbl'", size(medium)) ///
-			ylabel(, format(%5.3f) angle(0)) ///
-			scheme(s2color) graphregion(color(white)) legend(off)
-		graph export ///
-			"${figout}/sup_window_sensitivity_poi_`outcome'.pdf", replace
-	restore
+		if "`est'" == "OLS" {
+			local yvar    "beta"
+			local ylo     "ci_lo"
+			local yhi     "ci_hi"
+			local nullref 0
+			local ytpre   "Effect on"
+			local outfx   "ols"
+		}
+		else {
+			local yvar    "irr"
+			local ylo     "irr_ci_lo"
+			local yhi     "irr_ci_hi"
+			local nullref 1
+			local ytpre   "IRR on"
+			local outfx   "poi"
+		}
+
+		/* --- Shared y-range across both outcomes --- */
+		quietly summarize `ylo'
+		local ymin_lo = r(min)
+		quietly summarize `yhi'
+		local ymax_hi = r(max)
+		local ymin = min(`ymin_lo', `nullref')
+		local ymax = max(`ymax_hi', `nullref')
+		local ypad = 0.10 * (`ymax' - `ymin')
+		local ylo_pad = `ymin' - `ypad'
+		local yhi_pad = `ymax' + `ypad'
+
+		/* Nice tick step: pick ~5-8 ticks spanning [ylo_pad, yhi_pad].
+		   Round ylo_pad down and yhi_pad up to multiples of `step'
+		   so the tick sequence is visually clean.                    */
+		local range   = `yhi_pad' - `ylo_pad'
+		local target  = 6                       /* target ~= 6 ticks */
+		local raw     = `range' / `target'
+		local mag     = 10 ^ floor(log10(`raw'))
+		local mult    = `raw' / `mag'
+		if `mult' < 1.5      local step = 1   * `mag'
+		else if `mult' < 3.5 local step = 2   * `mag'
+		else if `mult' < 7.5 local step = 5   * `mag'
+		else                 local step = 10  * `mag'
+
+		local ylo_tick = floor(`ylo_pad' / `step') * `step'
+		local yhi_tick = ceil( `yhi_pad' / `step') * `step'
+
+		foreach outcome in num_violent_MM num_peaceful_MM {
+
+			if "`outcome'" == "num_violent_MM"  local outlbl "violent protests"
+			if "`outcome'" == "num_peaceful_MM" local outlbl "peaceful protests"
+
+			preserve
+				keep if outcome == "`outcome'"
+				sort T
+
+				twoway (rcap `ylo' `yhi' T if !inlist(T, 30, 120), ///
+				            lcolor(gs6) lwidth(thin)) ///
+				       (rcap `ylo' `yhi' T if  inlist(T, 30, 120), ///
+				            lcolor("220 0 0") lwidth(medthick)) ///
+				       (line `yvar' T, lcolor(black) lwidth(medium)) ///
+				       (scatter `yvar' T, msymbol(O) msize(medium) mcolor(black)) ///
+				       (scatter `yvar' T if inlist(T, 30, 120), ///
+				            msymbol(O) msize(medlarge) mcolor("220 0 0")), ///
+					yline(`nullref', lcolor(black%10) lwidth(vvthick) lpattern(solid)) ///
+					xlabel(15(15)150) ///
+					xtitle("Event-window width (days)", size(medium)) ///
+					ytitle("`ytpre' `outlbl'", size(medium)) ///
+					ylabel(`ylo_tick'(`step')`yhi_tick', format(%5.3f) angle(0)) ///
+					yscale(range(`ylo_tick' `yhi_tick')) ///
+					scheme(s2color) graphregion(color(white)) legend(off)
+				graph export ///
+					"${figout}/sup_window_sensitivity_`outfx'_`outcome'`suf'.pdf", ///
+					replace
+			restore
+		}
+	}
 }
 
 display in green "a_sup_window_sensitivity.do finished OK"
