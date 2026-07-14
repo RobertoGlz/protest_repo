@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.12.10)  14 JUL 2026 13:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.12.10)  14 JUL 2026 15:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1142,13 +1142,14 @@ LaTeX Font Info:    Font shape `T1/zpltlf/m/it' will be
 ]
 LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
 (Font)              scaled to size 12.0pt on input line 77.
-LaTeX Font Info:    Trying to load font information for U+bbm on input line 86.
+ [3]
+LaTeX Font Info:    Trying to load font information for U+bbm on input line 88.
  (C:\Users\rob98\AppData\Local\Programs\MiKTeX\tex/latex/bbm\ubbm.fd
 File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
-) [3]
+) [4]
 LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
-(Font)              scaled to size 10.95pt on input line 94.
- [4] (tables/violent_peaceful_ols_panels.tex
+(Font)              scaled to size 10.95pt on input line 106.
+ (tables/violent_peaceful_ols_panels.tex
 LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
 (Font)              scaled to size 8.0pt on input line 8.
 LaTeX Font Info:    Font shape `T1/zpltlf/b/it' will be
@@ -1156,130 +1157,307 @@ LaTeX Font Info:    Font shape `T1/zpltlf/b/it' will be
 )
 LaTeX Font Info:    Font shape `T1/zpltlf/m/it' will be
 (Font)              scaled to size 9.0pt on input line 111.
- (tables/sup_interaction_pa_vs_na.tex)
+ [5] (tables/sup_interaction_pa_vs_na.tex)
 Overfull \hbox (6.8778pt too wide) in paragraph at lines 3--127
  [] 
  []
 
 LaTeX Font Info:    Font shape `T1/zpltlf/m/n' will be
 (Font)              scaled to size 5.0pt on input line 128.
-[5]
-<./figures/es_num_violent_MM_120d_pa_ols_90ci.pdf, id=189, 433.62pt x 289.08pt>
+<./figures/es_num_violent_MM_120d_pa_ols_90ci.pdf, id=196, 433.62pt x 289.08pt>
 File: ./figures/es_num_violent_MM_120d_pa_ols_90ci.pdf Graphic file (type pdf)
 <use ./figures/es_num_violent_MM_120d_pa_ols_90ci.pdf>
 Package pdftex.def Info: ./figures/es_num_violent_MM_120d_pa_ols_90ci.pdf  used on input line 141.
 (pdftex.def)             Requested size: 225.21626pt x 150.14601pt.
-<./figures/es_num_peaceful_MM_120d_pa_ols_90ci.pdf, id=190, 433.62pt x 289.08pt>
+<./figures/es_num_peaceful_MM_120d_pa_ols_90ci.pdf, id=197, 433.62pt x 289.08pt>
 File: ./figures/es_num_peaceful_MM_120d_pa_ols_90ci.pdf Graphic file (type pdf)
 <use ./figures/es_num_peaceful_MM_120d_pa_ols_90ci.pdf>
 Package pdftex.def Info: ./figures/es_num_peaceful_MM_120d_pa_ols_90ci.pdf  used on input line 146.
 (pdftex.def)             Requested size: 225.21626pt x 150.14601pt.
-<./figures/es_num_violent_MM_120d_na_ols_90ci.pdf, id=191, 433.62pt x 289.08pt>
+<./figures/es_num_violent_MM_120d_na_ols_90ci.pdf, id=198, 433.62pt x 289.08pt>
 File: ./figures/es_num_violent_MM_120d_na_ols_90ci.pdf Graphic file (type pdf)
 <use ./figures/es_num_violent_MM_120d_na_ols_90ci.pdf>
 Package pdftex.def Info: ./figures/es_num_violent_MM_120d_na_ols_90ci.pdf  used on input line 151.
 (pdftex.def)             Requested size: 225.21626pt x 150.14601pt.
-<./figures/es_num_peaceful_MM_120d_na_ols_90ci.pdf, id=192, 433.62pt x 289.08pt>
+<./figures/es_num_peaceful_MM_120d_na_ols_90ci.pdf, id=199, 433.62pt x 289.08pt>
 File: ./figures/es_num_peaceful_MM_120d_na_ols_90ci.pdf Graphic file (type pdf)
 <use ./figures/es_num_peaceful_MM_120d_na_ols_90ci.pdf>
 Package pdftex.def Info: ./figures/es_num_peaceful_MM_120d_na_ols_90ci.pdf  used on input line 156.
 (pdftex.def)             Requested size: 225.21626pt x 150.14601pt.
- [6] (tables/sup_benchmarks_ols_panels_shares.tex)
-LaTeX Font Info:    Font shape `T1/npxtt/m/n' will be
-(Font)              scaled to size 10.95pt on input line 178.
- [7 <./figures/es_num_violent_MM_120d_pa_ols_90ci.pdf> <./figures/es_num_peaceful_MM_120d_pa_ols_90ci.pdf> <./figures/es_num_violent_MM_120d_na_ols_90ci.pdf> <./figures/es_num_peaceful_MM_120d_na_ols_90ci.pdf>] (tables/sup_democracy_split_ols.tex) [8] [9] [10] [11] (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\claude-draft.bbl [12
+[6] (tables/sup_benchmarks_ols_panels_shares.tex) [7 <./figures/es_num_violent_MM_120d_pa_ols_90ci.pdf> <./figures/es_num_peaceful_MM_120d_pa_ols_90ci.pdf> <./figures/es_num_violent_MM_120d_na_ols_90ci.pdf> <./figures/es_num_peaceful_MM_120d_na_ols_90ci.pdf>] [8] (tables/sup_democracy_split_ols.tex) [9] [10] [11] (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\claude-draft.bbl [12
 
 ] [13] [14]) [15] [16
 
+] (tables/sup_violent_peaceful_poi_panels.tex
+tables/sup_violent_peaceful_poi_panels.tex:5: Extra alignment tab has been changed to \cr.
+<template> \endtemplate 
+                        
+l.5 ...ulticolumn{2}{c}{$\pm 120$-Day Window}    &
+                                                   & & & \\\cmidrule(lr){2-3...
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+tables/sup_violent_peaceful_poi_panels.tex:6: Extra alignment tab has been changed to \cr.
+<template> \endtemplate 
+                        
+l.6 ...column{1}{c}{(3)}&\multicolumn{1}{c}{(4)} &
+                                                   & & & \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+tables/sup_violent_peaceful_poi_panels.tex:7: Extra alignment tab has been changed to \cr.
+<template> }\unskip \mb@r \endtemplate 
+                                       
+l.7 ...c}{\shortstack{Violent & & & & \\Protests}}
+                                                  &\multicolumn{1}{c}{\short...
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+tables/sup_violent_peaceful_poi_panels.tex:7: Extra alignment tab has been changed to \cr.
+<template> }\unskip \mb@r \endtemplate 
+                                       
+l.7 ...c}{\shortstack{Violent & & & & \\Protests}}
+                                                  &\multicolumn{1}{c}{\short...
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+tables/sup_violent_peaceful_poi_panels.tex:7: Extra alignment tab has been changed to \cr.
+<template> }\unskip \mb@r \endtemplate 
+                                       
+l.7 ...c}{\shortstack{Violent & & & & \\Protests}}
+                                                  &\multicolumn{1}{c}{\short...
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+tables/sup_violent_peaceful_poi_panels.tex:7: Extra alignment tab has been changed to \cr.
+<template> }\unskip \mb@r \endtemplate 
+                                       
+l.7 ...c}{\shortstack{Violent & & & & \\Protests}}
+                                                  &\multicolumn{1}{c}{\short...
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+tables/sup_violent_peaceful_poi_panels.tex:8: Extra alignment tab has been changed to \cr.
+<template> \endtemplate 
+                        
+l.8 ...{\textit{Panel A: President + Other Apex}}}
+                                                   \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+tables/sup_violent_peaceful_poi_panels.tex:9: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.9 ...     1.375\sym{*}  &       1.083          &
+                                                   & & & \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+tables/sup_violent_peaceful_poi_panels.tex:10: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.10 ...  (0.253)         &     (0.303)          &
+                                                   & & & \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+tables/sup_violent_peaceful_poi_panels.tex:12: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.12 ...    0.054         &       0.018          &
+                                                   & & & \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+tables/sup_violent_peaceful_poi_panels.tex:13: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.13 ...     7519         &       12613          &
+                                                   & & & \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+tables/sup_violent_peaceful_poi_panels.tex:14: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.14 ...       34         &          53          &
+                                                   & & & \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+tables/sup_violent_peaceful_poi_panels.tex:15: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.15 ...    0.339         &       0.220          &
+                                                   & & & \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+tables/sup_violent_peaceful_poi_panels.tex:17: Extra alignment tab has been changed to \cr.
+<template> \endtemplate 
+                        
+l.17 ...\textbf{\textit{Panel B: Other Non-Apex}}}
+                                                   \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+tables/sup_violent_peaceful_poi_panels.tex:18: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.18 ...    1.932\sym{*}  &       0.778          &
+                                                   & & & \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+tables/sup_violent_peaceful_poi_panels.tex:19: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.19 ...  (0.744)         &     (0.127)          &
+                                                   & & & \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+tables/sup_violent_peaceful_poi_panels.tex:21: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.21 ...    0.031         &       0.098          &
+                                                   & & & \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+tables/sup_violent_peaceful_poi_panels.tex:22: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.22 ...    13604         &       20728          &
+                                                   & & & \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+tables/sup_violent_peaceful_poi_panels.tex:23: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.23 ...       63         &          95          &
+                                                   & & & \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+tables/sup_violent_peaceful_poi_panels.tex:24: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.24 ...    0.260         &       0.322          &
+                                                   & & & \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+) [17
+
 ]
-<./figures/randomization_inference_hist_num_violent_MM_w30_pa.pdf, id=593, 397.485pt x 289.08pt>
+<./figures/randomization_inference_hist_num_violent_MM_w30_pa.pdf, id=611, 397.485pt x 289.08pt>
 File: ./figures/randomization_inference_hist_num_violent_MM_w30_pa.pdf Graphic file (type pdf)
 <use ./figures/randomization_inference_hist_num_violent_MM_w30_pa.pdf>
-Package pdftex.def Info: ./figures/randomization_inference_hist_num_violent_MM_w30_pa.pdf  used on input line 238.
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_violent_MM_w30_pa.pdf  used on input line 255.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/randomization_inference_hist_num_violent_MM_w120_pa.pdf, id=594, 397.485pt x 289.08pt>
+<./figures/randomization_inference_hist_num_violent_MM_w120_pa.pdf, id=612, 397.485pt x 289.08pt>
 File: ./figures/randomization_inference_hist_num_violent_MM_w120_pa.pdf Graphic file (type pdf)
 <use ./figures/randomization_inference_hist_num_violent_MM_w120_pa.pdf>
-Package pdftex.def Info: ./figures/randomization_inference_hist_num_violent_MM_w120_pa.pdf  used on input line 242.
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_violent_MM_w120_pa.pdf  used on input line 259.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/randomization_inference_hist_num_peaceful_MM_w30_pa.pdf, id=595, 397.485pt x 289.08pt>
+<./figures/randomization_inference_hist_num_peaceful_MM_w30_pa.pdf, id=613, 397.485pt x 289.08pt>
 File: ./figures/randomization_inference_hist_num_peaceful_MM_w30_pa.pdf Graphic file (type pdf)
 <use ./figures/randomization_inference_hist_num_peaceful_MM_w30_pa.pdf>
-Package pdftex.def Info: ./figures/randomization_inference_hist_num_peaceful_MM_w30_pa.pdf  used on input line 246.
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_peaceful_MM_w30_pa.pdf  used on input line 263.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/randomization_inference_hist_num_peaceful_MM_w120_pa.pdf, id=596, 397.485pt x 289.08pt>
+<./figures/randomization_inference_hist_num_peaceful_MM_w120_pa.pdf, id=614, 397.485pt x 289.08pt>
 File: ./figures/randomization_inference_hist_num_peaceful_MM_w120_pa.pdf Graphic file (type pdf)
 <use ./figures/randomization_inference_hist_num_peaceful_MM_w120_pa.pdf>
-Package pdftex.def Info: ./figures/randomization_inference_hist_num_peaceful_MM_w120_pa.pdf  used on input line 250.
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_peaceful_MM_w120_pa.pdf  used on input line 267.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/randomization_inference_hist_num_violent_MM_w30_na.pdf, id=598, 397.485pt x 289.08pt>
+<./figures/randomization_inference_hist_num_violent_MM_w30_na.pdf, id=616, 397.485pt x 289.08pt>
 File: ./figures/randomization_inference_hist_num_violent_MM_w30_na.pdf Graphic file (type pdf)
 <use ./figures/randomization_inference_hist_num_violent_MM_w30_na.pdf>
-Package pdftex.def Info: ./figures/randomization_inference_hist_num_violent_MM_w30_na.pdf  used on input line 260.
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_violent_MM_w30_na.pdf  used on input line 277.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/randomization_inference_hist_num_violent_MM_w120_na.pdf, id=599, 397.485pt x 289.08pt>
+<./figures/randomization_inference_hist_num_violent_MM_w120_na.pdf, id=617, 397.485pt x 289.08pt>
 File: ./figures/randomization_inference_hist_num_violent_MM_w120_na.pdf Graphic file (type pdf)
 <use ./figures/randomization_inference_hist_num_violent_MM_w120_na.pdf>
-Package pdftex.def Info: ./figures/randomization_inference_hist_num_violent_MM_w120_na.pdf  used on input line 264.
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_violent_MM_w120_na.pdf  used on input line 281.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/randomization_inference_hist_num_peaceful_MM_w30_na.pdf, id=600, 397.485pt x 289.08pt>
+<./figures/randomization_inference_hist_num_peaceful_MM_w30_na.pdf, id=618, 397.485pt x 289.08pt>
 File: ./figures/randomization_inference_hist_num_peaceful_MM_w30_na.pdf Graphic file (type pdf)
 <use ./figures/randomization_inference_hist_num_peaceful_MM_w30_na.pdf>
-Package pdftex.def Info: ./figures/randomization_inference_hist_num_peaceful_MM_w30_na.pdf  used on input line 268.
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_peaceful_MM_w30_na.pdf  used on input line 285.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/randomization_inference_hist_num_peaceful_MM_w120_na.pdf, id=601, 397.485pt x 289.08pt>
+<./figures/randomization_inference_hist_num_peaceful_MM_w120_na.pdf, id=619, 397.485pt x 289.08pt>
 File: ./figures/randomization_inference_hist_num_peaceful_MM_w120_na.pdf Graphic file (type pdf)
 <use ./figures/randomization_inference_hist_num_peaceful_MM_w120_na.pdf>
-Package pdftex.def Info: ./figures/randomization_inference_hist_num_peaceful_MM_w120_na.pdf  used on input line 272.
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_peaceful_MM_w120_na.pdf  used on input line 289.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
- [17
+ [18
 
-] [18 <./figures/randomization_inference_hist_num_violent_MM_w30_pa.pdf> <./figures/randomization_inference_hist_num_violent_MM_w120_pa.pdf> <./figures/randomization_inference_hist_num_peaceful_MM_w30_pa.pdf> <./figures/randomization_inference_hist_num_peaceful_MM_w120_pa.pdf>] [19 <./figures/randomization_inference_hist_num_violent_MM_w30_na.pdf> <./figures/randomization_inference_hist_num_violent_MM_w120_na.pdf> <./figures/randomization_inference_hist_num_peaceful_MM_w30_na.pdf> <./figures/randomization_inference_hist_num_peaceful_MM_w120_na.pdf>]
-<./figures/sup_window_sensitivity_ols_num_violent_MM_pa.pdf, id=710, 397.485pt x 289.08pt>
+] [19 <./figures/randomization_inference_hist_num_violent_MM_w30_pa.pdf> <./figures/randomization_inference_hist_num_violent_MM_w120_pa.pdf> <./figures/randomization_inference_hist_num_peaceful_MM_w30_pa.pdf> <./figures/randomization_inference_hist_num_peaceful_MM_w120_pa.pdf>] [20 <./figures/randomization_inference_hist_num_violent_MM_w30_na.pdf> <./figures/randomization_inference_hist_num_violent_MM_w120_na.pdf> <./figures/randomization_inference_hist_num_peaceful_MM_w30_na.pdf> <./figures/randomization_inference_hist_num_peaceful_MM_w120_na.pdf>]
+<./figures/sup_window_sensitivity_ols_num_violent_MM_pa.pdf, id=729, 397.485pt x 289.08pt>
 File: ./figures/sup_window_sensitivity_ols_num_violent_MM_pa.pdf Graphic file (type pdf)
 <use ./figures/sup_window_sensitivity_ols_num_violent_MM_pa.pdf>
-Package pdftex.def Info: ./figures/sup_window_sensitivity_ols_num_violent_MM_pa.pdf  used on input line 289.
+Package pdftex.def Info: ./figures/sup_window_sensitivity_ols_num_violent_MM_pa.pdf  used on input line 306.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_window_sensitivity_ols_num_peaceful_MM_pa.pdf, id=711, 397.485pt x 289.08pt>
+<./figures/sup_window_sensitivity_ols_num_peaceful_MM_pa.pdf, id=730, 397.485pt x 289.08pt>
 File: ./figures/sup_window_sensitivity_ols_num_peaceful_MM_pa.pdf Graphic file (type pdf)
 <use ./figures/sup_window_sensitivity_ols_num_peaceful_MM_pa.pdf>
-Package pdftex.def Info: ./figures/sup_window_sensitivity_ols_num_peaceful_MM_pa.pdf  used on input line 293.
+Package pdftex.def Info: ./figures/sup_window_sensitivity_ols_num_peaceful_MM_pa.pdf  used on input line 310.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_window_sensitivity_poi_num_violent_MM_pa.pdf, id=712, 397.485pt x 289.08pt>
+<./figures/sup_window_sensitivity_poi_num_violent_MM_pa.pdf, id=731, 397.485pt x 289.08pt>
 File: ./figures/sup_window_sensitivity_poi_num_violent_MM_pa.pdf Graphic file (type pdf)
 <use ./figures/sup_window_sensitivity_poi_num_violent_MM_pa.pdf>
-Package pdftex.def Info: ./figures/sup_window_sensitivity_poi_num_violent_MM_pa.pdf  used on input line 297.
+Package pdftex.def Info: ./figures/sup_window_sensitivity_poi_num_violent_MM_pa.pdf  used on input line 314.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_window_sensitivity_poi_num_peaceful_MM_pa.pdf, id=713, 397.485pt x 289.08pt>
+<./figures/sup_window_sensitivity_poi_num_peaceful_MM_pa.pdf, id=732, 397.485pt x 289.08pt>
 File: ./figures/sup_window_sensitivity_poi_num_peaceful_MM_pa.pdf Graphic file (type pdf)
 <use ./figures/sup_window_sensitivity_poi_num_peaceful_MM_pa.pdf>
-Package pdftex.def Info: ./figures/sup_window_sensitivity_poi_num_peaceful_MM_pa.pdf  used on input line 301.
+Package pdftex.def Info: ./figures/sup_window_sensitivity_poi_num_peaceful_MM_pa.pdf  used on input line 318.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_window_sensitivity_ols_num_violent_MM_na.pdf, id=714, 397.485pt x 289.08pt>
+<./figures/sup_window_sensitivity_ols_num_violent_MM_na.pdf, id=733, 397.485pt x 289.08pt>
 File: ./figures/sup_window_sensitivity_ols_num_violent_MM_na.pdf Graphic file (type pdf)
 <use ./figures/sup_window_sensitivity_ols_num_violent_MM_na.pdf>
-Package pdftex.def Info: ./figures/sup_window_sensitivity_ols_num_violent_MM_na.pdf  used on input line 313.
+Package pdftex.def Info: ./figures/sup_window_sensitivity_ols_num_violent_MM_na.pdf  used on input line 330.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_window_sensitivity_ols_num_peaceful_MM_na.pdf, id=715, 397.485pt x 289.08pt>
+<./figures/sup_window_sensitivity_ols_num_peaceful_MM_na.pdf, id=734, 397.485pt x 289.08pt>
 File: ./figures/sup_window_sensitivity_ols_num_peaceful_MM_na.pdf Graphic file (type pdf)
 <use ./figures/sup_window_sensitivity_ols_num_peaceful_MM_na.pdf>
-Package pdftex.def Info: ./figures/sup_window_sensitivity_ols_num_peaceful_MM_na.pdf  used on input line 317.
+Package pdftex.def Info: ./figures/sup_window_sensitivity_ols_num_peaceful_MM_na.pdf  used on input line 334.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_window_sensitivity_poi_num_violent_MM_na.pdf, id=716, 397.485pt x 289.08pt>
+<./figures/sup_window_sensitivity_poi_num_violent_MM_na.pdf, id=735, 397.485pt x 289.08pt>
 File: ./figures/sup_window_sensitivity_poi_num_violent_MM_na.pdf Graphic file (type pdf)
 <use ./figures/sup_window_sensitivity_poi_num_violent_MM_na.pdf>
-Package pdftex.def Info: ./figures/sup_window_sensitivity_poi_num_violent_MM_na.pdf  used on input line 321.
+Package pdftex.def Info: ./figures/sup_window_sensitivity_poi_num_violent_MM_na.pdf  used on input line 338.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_window_sensitivity_poi_num_peaceful_MM_na.pdf, id=717, 397.485pt x 289.08pt>
+<./figures/sup_window_sensitivity_poi_num_peaceful_MM_na.pdf, id=736, 397.485pt x 289.08pt>
 File: ./figures/sup_window_sensitivity_poi_num_peaceful_MM_na.pdf Graphic file (type pdf)
 <use ./figures/sup_window_sensitivity_poi_num_peaceful_MM_na.pdf>
-Package pdftex.def Info: ./figures/sup_window_sensitivity_poi_num_peaceful_MM_na.pdf  used on input line 325.
+Package pdftex.def Info: ./figures/sup_window_sensitivity_poi_num_peaceful_MM_na.pdf  used on input line 342.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
- [20
+ [21
 
- <./figures/sup_window_sensitivity_ols_num_violent_MM_pa.pdf> <./figures/sup_window_sensitivity_ols_num_peaceful_MM_pa.pdf> <./figures/sup_window_sensitivity_poi_num_violent_MM_pa.pdf> <./figures/sup_window_sensitivity_poi_num_peaceful_MM_pa.pdf>] [21 <./figures/sup_window_sensitivity_ols_num_violent_MM_na.pdf> <./figures/sup_window_sensitivity_ols_num_peaceful_MM_na.pdf> <./figures/sup_window_sensitivity_poi_num_violent_MM_na.pdf> <./figures/sup_window_sensitivity_poi_num_peaceful_MM_na.pdf>] (tables/sup_democracy_split_poi.tex) [22
-
-] (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\claude-draft.aux * soulpos - computing points - it may take a few seconds *
+ <./figures/sup_window_sensitivity_ols_num_violent_MM_pa.pdf> <./figures/sup_window_sensitivity_ols_num_peaceful_MM_pa.pdf> <./figures/sup_window_sensitivity_poi_num_violent_MM_pa.pdf> <./figures/sup_window_sensitivity_poi_num_peaceful_MM_pa.pdf>] [22 <./figures/sup_window_sensitivity_ols_num_violent_MM_na.pdf> <./figures/sup_window_sensitivity_ols_num_peaceful_MM_na.pdf> <./figures/sup_window_sensitivity_poi_num_violent_MM_na.pdf> <./figures/sup_window_sensitivity_poi_num_peaceful_MM_na.pdf>] (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\claude-draft.aux * soulpos - computing points - it may take a few seconds *
 \openout4 = `claude-draft.upb'.
 
  (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\claude-draft.upa))
@@ -1288,21 +1466,21 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2020/03/25>
  ***********
 Package rerunfilecheck Info: File `claude-draft.out' has not changed.
-(rerunfilecheck)             Checksum: 1266EAE8E4940F2C0CFF0F77FBDF196F;987.
+(rerunfilecheck)             Checksum: 3806B55424E14BD3A90F1CCBC0B57D71;984.
  ) 
 Here is how much of TeX's memory you used:
- 43602 strings out of 467871
- 999140 string characters out of 5418375
- 1536965 words of memory out of 5000000
- 71601 multiletter control sequences out of 15000+600000
- 702887 words of font info for 125 fonts, out of 8000000 for 9000
+ 43603 strings out of 467871
+ 999204 string characters out of 5418375
+ 1526965 words of memory out of 5000000
+ 71600 multiletter control sequences out of 15000+600000
+ 702565 words of font info for 124 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  104i,12n,111p,1621b,753s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\rob98\AppData\Local\MiKTeX\fonts/pk/ljfour/public/bbm/dpi657\bbm10.pk><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/t1xtt.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplb.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplbi.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplr.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplri.pfb>
-Output written on c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\claude-draft.pdf (22 pages, 1222976 bytes).
+Output written on c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\claude-draft.pdf (22 pages, 1226163 bytes).
 PDF statistics:
- 935 PDF objects out of 1000 (max. 8388607)
- 784 compressed objects within 8 object streams
- 90 named destinations out of 1000 (max. 500000)
+ 946 PDF objects out of 1000 (max. 8388607)
+ 794 compressed objects within 8 object streams
+ 92 named destinations out of 1000 (max. 500000)
  209 words of extra memory for PDF output out of 10000 (max. 10000000)
 

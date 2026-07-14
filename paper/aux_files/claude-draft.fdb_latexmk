@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex aux_files/claude-draft"] 1784061543.37238 "aux_files/claude-draft.aux" "aux_files/claude-draft.bbl" "aux_files/claude-draft" 1784062144.59828 0
+["bibtex aux_files/claude-draft"] 1784068282.00135 "aux_files/claude-draft.aux" "aux_files/claude-draft.bbl" "aux_files/claude-draft" 1784068285.67437 0
   "./aer.bst" 1782938652 26812 2ae6e48450a8c17a93d98067b7084a7a ""
   "./refs.bib" 1783987150 20223 9b13e11554e86693b4edb6bb01464d9b ""
-  "aux_files/claude-draft.aux" 1784062143 11303 eaad3ee807ef2a7d6e784871af6a5085 "pdflatex"
+  "aux_files/claude-draft.aux" 1784068284 11328 1bfbc121dbf69eedef132128037d6354 "pdflatex"
   (generated)
   "aux_files/claude-draft.bbl"
   "aux_files/claude-draft.blg"
   (rewritten before read)
-["pdflatex"] 1784062140.94157 "c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/claude-draft.tex" "claude-draft.pdf" "claude-draft" 1784062144.59934 0
+["pdflatex"] 1784068282.43705 "c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/claude-draft.tex" "claude-draft.pdf" "claude-draft" 1784068285.67536 2
   "C:/Users/rob98/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1780086602 201416 fddd89321dd68d45726525b6b7dc15f5 ""
   "C:/Users/rob98/AppData/Local/MiKTeX/fonts/pk/ljfour/public/bbm/dpi657/bbm10.pk" 1781460851 7832 0c66168a367aa174a19e818f5ae2e3cf ""
   "C:/Users/rob98/AppData/Local/MiKTeX/fonts/tfm/public/bbm/bbm10.tfm" 1776745400 560 39fd35b5e4a6aca3672660cc548ba860 ""
@@ -318,14 +318,14 @@
   "C:/Users/rob98/AppData/Local/Programs/MiKTeX/tex/latex/yafoot/fnpos.sty" 1536067238 3552 ffa6a47ef8edd0d65a39b6fbb4525e81 ""
   "C:/Users/rob98/AppData/Local/Programs/MiKTeX/tex/latex/zref/zref-base.sty" 1750428951 20785 198a9cb2e04238d92c320d0d9edbd76a ""
   "C:/Users/rob98/AppData/Local/Programs/MiKTeX/tex/latex/zref/zref-savepos.sty" 1750428951 2766 fb37a30a32b0188102a125681d0de6b8 ""
-  "aux_files/claude-draft.aux" 1784062143 11303 eaad3ee807ef2a7d6e784871af6a5085 "pdflatex"
-  "aux_files/claude-draft.bbl" 1784061543 11551 17de4866799a9a257fd571fa116363b9 "bibtex aux_files/claude-draft"
-  "aux_files/claude-draft.out" 1784062143 987 1266eae8e4940f2c0cff0f77fbdf196f "pdflatex"
+  "aux_files/claude-draft.aux" 1784068284 11328 1bfbc121dbf69eedef132128037d6354 "pdflatex"
+  "aux_files/claude-draft.bbl" 1784068282 11551 17de4866799a9a257fd571fa116363b9 "bibtex aux_files/claude-draft"
+  "aux_files/claude-draft.out" 1784068284 984 3806b55424e14bd3a90f1ccbc0b57d71 "pdflatex"
   "aux_files/claude-draft.toc" 0 -1 0 ""
-  "aux_files/claude-draft.upa" 1784062142 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "aux_files/claude-draft.upb" 1784062143 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/claude-draft.tex" 1784062140 39411 b9fe651ad2d3e434c01220591bafab24 ""
-  "claude-draft.tex" 1784062140 39411 b9fe651ad2d3e434c01220591bafab24 ""
+  "aux_files/claude-draft.upa" 1784068284 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "aux_files/claude-draft.upb" 1784068284 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "c:/Users/rob98/Dropbox/Corrupcion/protest_repo/paper/claude-draft.tex" 1784068278 41283 112e3e41e9364f7b7b7646942007844a ""
+  "claude-draft.tex" 1784068278 41283 112e3e41e9364f7b7b7646942007844a ""
   "claude-draft.toc" 0 -1 0 ""
   "figures/es_num_peaceful_MM_120d_na_ols_90ci.pdf" 1783984890 67779 c678e11aadb14153b67a0c413e8b9a24 ""
   "figures/es_num_peaceful_MM_120d_pa_ols_90ci.pdf" 1783984883 68269 c5394f841e0bdad6262adfea08d2d15b ""
@@ -349,9 +349,9 @@
   "figures/sup_window_sensitivity_poi_num_violent_MM_pa.pdf" 1783970383 58551 52761a297e6b2c5ca1a3c3c03e37395c ""
   "preamble.tex" 1783631704 4259 c4025543d179e540cabe1d1c404633bc ""
   "tables/sup_benchmarks_ols_panels_shares.tex" 1784057494 5987 404bd5073fad93f05967cb994bd290ad ""
-  "tables/sup_democracy_split_ols.tex" 1784060330 2822 f8b7ed6d5c12c861a89fe24e57650845 ""
-  "tables/sup_democracy_split_poi.tex" 1784060332 1619 b7f8f65ca6bb33205f3e428ce3bfe624 ""
+  "tables/sup_democracy_split_ols.tex" 1784067574 2821 3be7b08d7b74494bbfd34971ce7e5cd9 ""
   "tables/sup_interaction_pa_vs_na.tex" 1784060521 2841 49596bc3b51d633e2b5e1c17896eff31 ""
+  "tables/sup_violent_peaceful_poi_panels.tex" 1783970692 2143 0d00b4ab597a064e66a020ca6d79ee10 ""
   "tables/violent_peaceful_ols_panels.tex" 1783970666 3672 b1c44a25faee0ecd2dd6a84d2d9e9f7c ""
   (generated)
   "aux_files/claude-draft.aux"

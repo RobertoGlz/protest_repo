@@ -187,7 +187,7 @@ esttab _all using "${tables}/sup_democracy_split_ols.tex", ///
 	        prefix(\multicolumn{2}{c}{) suffix(}) span ///
 	        erepeat(\cmidrule(lr){@span})) ///
 	stats(p_hl baseline N num_scandals r2, ///
-	      label("$$p$$-value: HIGH $$=$$ LOW" ///
+	      label("p-value: High $$=$$ Low" ///
 	            "Mean (Pre-Scandal Bin)" ///
 	            "Observations" ///
 	            "Number of Scandals" ///

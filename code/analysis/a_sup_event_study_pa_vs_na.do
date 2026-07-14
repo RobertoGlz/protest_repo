@@ -105,90 +105,130 @@ tempfile base
 save `base'
 
 /* ============================================================
-   LOOP OVER (SAMPLE, OUTCOME)
+   LOOP OVER SUBSAMPLE.  Within each subsample the violent and
+   peaceful panels SHARE a common y-axis range (computed from the
+   union of both outcomes' 90% CI bounds), so the zero line (OLS)
+   and the IRR = 1 line (Poisson) are aligned and the two outcomes
+   are directly comparable side by side.  The two subsamples (pa,
+   na) keep their own ranges, since the apex effect dwarfs the
+   non-apex one.
    ============================================================ */
+local zcrit = invnormal(0.95)   /* 1.6449 for a 90% CI */
+
 foreach sample in pa na {
-foreach outcome in num_violent_MM num_peaceful_MM {
 
-	/* ---------- OLS (ols_main.do format) ---------- */
-	use `base', clear
-
-	/* average (static) OLS effect for the legend text */
-	quietly reghdfe `outcome' post ///
-		if in_`sample' == 1, ///
-		absorb(month day auxvar) vce(cluster group_cluster)
-	local av_est   = string(_b[post], "%4.3fc")
-	local p_av_est = 2 * normal(-abs(_b[post] / _se[post]))
-	if `p_av_est' < 0.01 {
-		local p_string = "p < 0.01"
-	}
-	else {
-		local p_string = "p = " + string(`p_av_est', "%4.3fc")
-	}
-
-	/* event-study OLS */
-	eststo mols : reghdfe `outcome' ${leads} ${lags} ///
-		if in_`sample' == 1, ///
-		absorb(month day auxvar) cluster(group_cluster)
-
-	coefplot, keep(${leads} ${lags}) levels(`ci_level') ///
-		baselevels omitted vertical ///
-		ytitle("average effect", size(medium)) yscale(titlegap(2)) ///
-		xtitle("days around scandal", size(medium)) xscale(titlegap(2)) ///
-		xline(4.5, lcolor(black%10) lwidth(vvthick)) ///
-		yline(0, lpattern(dash) lcolor(black)) ///
-		ylabel(, labsize(medlarge) format(%3.2fc)) ///
-		xlabel(, labsize(medlarge)) ///
-		graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ///
-		    ifcolor(white) ilcolor(white) ilwidth(vvvthin)) ///
-		ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain) ///
-		legend(off)
-	graph export ///
-		"${figout}/es_`outcome'_`window_length'd_`sample'_ols_`ci_level'ci.pdf", ///
-		replace
-
-	/* ---------- Poisson QML (ppmlhdfe_reg_main_countryxyear_fe.do format) ---------- */
-	use `base', clear
-
-	/* average (static) Poisson IRR for the legend text */
-	capture noisily ppmlhdfe `outcome' post ///
-		if year >= `firstyear' & in_`sample' == 1, ///
-		absorb(month day ${CY_fe}) vce(cluster group_cluster) irr
-	if _rc == 0 {
-		local av_est   = string(exp(_b[post]), "%3.2fc")
-		local p_av_est = 2 * normal(-abs(_b[post] / _se[post]))
-		if `p_av_est' < 0.01 {
-			local p_string = "p < 0.01"
+	/* ------- OLS: pass 1 -- shared y-range across both outcomes ------- */
+	local ymin = 0
+	local ymax = 0
+	foreach outcome in num_violent_MM num_peaceful_MM {
+		use `base', clear
+		quietly reghdfe `outcome' ${leads} ${lags} ///
+			if in_`sample' == 1, ///
+			absorb(month day auxvar) cluster(group_cluster)
+		foreach c in ${leads} ${lags} {
+			local lo = _b[`c'] - `zcrit' * _se[`c']
+			local hi = _b[`c'] + `zcrit' * _se[`c']
+			local ymin = min(`ymin', `lo')
+			local ymax = max(`ymax', `hi')
 		}
-		else {
-			local p_string = "p = " + string(`p_av_est', "%4.3fc")
-		}
+	}
+	/* padded, rounded tick sequence spanning [ymin, ymax] (0 in range) */
+	local rng = `ymax' - `ymin'
+	if `rng' <= 0 local rng = 0.01
+	local ylo = `ymin' - 0.08 * `rng'
+	local yhi = `ymax' + 0.08 * `rng'
+	local raw = (`yhi' - `ylo') / 6
+	local mag = 10 ^ floor(log10(`raw'))
+	local mult = `raw' / `mag'
+	if `mult' < 1.5      local step = 1  * `mag'
+	else if `mult' < 3.5 local step = 2  * `mag'
+	else if `mult' < 7.5 local step = 5  * `mag'
+	else                 local step = 10 * `mag'
+	local ylo_t = floor(`ylo' / `step') * `step'
+	local yhi_t = ceil( `yhi' / `step') * `step'
 
-		/* event-study Poisson (quietly to avoid the r(table)-dependent
-		   y_eff_pos block that ppmlhdfe_reg_main_countryxyear_fe.do
-		   uses; we don't need it here). */
-		quietly ppmlhdfe `outcome' ${leads} ${lags} ///
-			if year >= `firstyear' & in_`sample' == 1, ///
-			absorb(month day ${CY_fe}) vce(cluster group_cluster) irr
-
-		coefplot, keep(${leads} ${lags}) eform(${leads} ${lags}) ///
-			levels(`ci_level') baselevels omitted vertical ///
-			xtitle("days since scandal", size(medium)) xscale(titlegap(2)) ///
-			xline(4.5, lwidth(vthick) lpattern(solid) lcolor(black%10)) ///
-			ytitle("incidence rate ratio", size(medium)) yscale(titlegap(2)) ///
-			yline(1, lwidth(medthin) lpattern(shortdash) lcolor(black)) ///
-			xlabel(, labsize(medium)) ///
-			ylabel(#5, nogrid format(%3.1fc) labsize(medium)) ///
-			ciopts(lcolor(black) lwidth(medthin)) mcolor(black) msize(medium) ///
+	/* ------- OLS: pass 2 -- plot each outcome with the fixed range ------- */
+	foreach outcome in num_violent_MM num_peaceful_MM {
+		use `base', clear
+		quietly reghdfe `outcome' ${leads} ${lags} ///
+			if in_`sample' == 1, ///
+			absorb(month day auxvar) cluster(group_cluster)
+		coefplot, keep(${leads} ${lags}) levels(`ci_level') ///
+			baselevels omitted vertical ///
+			ytitle("average effect", size(medium)) ///
+			yscale(titlegap(2) range(`ylo_t' `yhi_t')) ///
+			xtitle("days around scandal", size(medium)) xscale(titlegap(2)) ///
+			xline(4.5, lcolor(black%10) lwidth(vvthick)) ///
+			yline(0, lpattern(dash) lcolor(black)) ///
+			ylabel(`ylo_t'(`step')`yhi_t', labsize(medlarge) format(%5.3fc)) ///
+			xlabel(, labsize(medlarge)) ///
+			graphregion(fcolor(white) lcolor(white) lwidth(vvvthin) ///
+			    ifcolor(white) ilcolor(white) ilwidth(vvvthin)) ///
+			ciopts(lwidth(*1.5) lcolor(black)) mcolor(black) scheme(plotplain) ///
 			legend(off)
 		graph export ///
-			"${figout}/es_`outcome'_`window_length'd_`sample'_poi_`ci_level'ci.pdf", ///
+			"${figout}/es_`outcome'_`window_length'd_`sample'_ols_`ci_level'ci.pdf", ///
 			replace
 	}
-	else {
-		display in red "SKIP: Poisson `outcome' [`sample'] failed (rc=`=_rc')"
+
+	/* ------- Poisson QML (IRR): pass 1 -- shared y-range (1 in range) ------- */
+	local pmin = 1
+	local pmax = 1
+	foreach outcome in num_violent_MM num_peaceful_MM {
+		use `base', clear
+		capture quietly ppmlhdfe `outcome' ${leads} ${lags} ///
+			if year >= `firstyear' & in_`sample' == 1, ///
+			absorb(month day ${CY_fe}) vce(cluster group_cluster) irr
+		if _rc == 0 {
+			foreach c in ${leads} ${lags} {
+				local lo = exp(_b[`c'] - `zcrit' * _se[`c'])
+				local hi = exp(_b[`c'] + `zcrit' * _se[`c'])
+				local pmin = min(`pmin', `lo')
+				local pmax = max(`pmax', `hi')
+			}
+		}
 	}
-}
+	local rng = `pmax' - `pmin'
+	if `rng' <= 0 local rng = 0.1
+	local plo = `pmin' - 0.08 * `rng'
+	local phi = `pmax' + 0.08 * `rng'
+	local raw = (`phi' - `plo') / 6
+	local mag = 10 ^ floor(log10(`raw'))
+	local mult = `raw' / `mag'
+	if `mult' < 1.5      local pstep = 1  * `mag'
+	else if `mult' < 3.5 local pstep = 2  * `mag'
+	else if `mult' < 7.5 local pstep = 5  * `mag'
+	else                 local pstep = 10 * `mag'
+	local plo_t = floor(`plo' / `pstep') * `pstep'
+	local phi_t = ceil( `phi' / `pstep') * `pstep'
+	if `plo_t' < 0 local plo_t = 0    /* IRR is non-negative */
+
+	/* ------- Poisson: pass 2 -- plot each outcome with the fixed range ------- */
+	foreach outcome in num_violent_MM num_peaceful_MM {
+		use `base', clear
+		capture quietly ppmlhdfe `outcome' ${leads} ${lags} ///
+			if year >= `firstyear' & in_`sample' == 1, ///
+			absorb(month day ${CY_fe}) vce(cluster group_cluster) irr
+		if _rc == 0 {
+			coefplot, keep(${leads} ${lags}) eform(${leads} ${lags}) ///
+				levels(`ci_level') baselevels omitted vertical ///
+				xtitle("days since scandal", size(medium)) xscale(titlegap(2)) ///
+				xline(4.5, lwidth(vthick) lpattern(solid) lcolor(black%10)) ///
+				ytitle("incidence rate ratio", size(medium)) ///
+				yscale(titlegap(2) range(`plo_t' `phi_t')) ///
+				yline(1, lwidth(medthin) lpattern(shortdash) lcolor(black)) ///
+				xlabel(, labsize(medium)) ///
+				ylabel(`plo_t'(`pstep')`phi_t', nogrid format(%3.1fc) labsize(medium)) ///
+				ciopts(lcolor(black) lwidth(medthin)) mcolor(black) msize(medium) ///
+				legend(off)
+			graph export ///
+				"${figout}/es_`outcome'_`window_length'd_`sample'_poi_`ci_level'ci.pdf", ///
+				replace
+		}
+		else {
+			display in red "SKIP: Poisson `outcome' [`sample'] failed (rc=`=_rc')"
+		}
+	}
 }
 
 display in green "a_sup_event_study_pa_vs_na.do finished OK"
