@@ -1,19 +1,21 @@
 {
 \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
-\begin{tabular}{l*{4}{c}}
+\begin{tabular}{l*{9}{c}}
 \toprule
-            &\multicolumn{1}{c}{\shortstack{Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Non-violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Gvt.~Violent\\Response}}\\
+ & \multicolumn{3}{c}{Violent Protests} & \multicolumn{3}{c}{Non-violent Protests} & \multicolumn{3}{c}{Protests (any)} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
+ & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} \\
 \midrule
-OLS (TWFE) & 0.1134\sym{***} & 0.0976\sym{**} & 0.0158 & 0.0027 \\
-             & (0.0353) & (0.0456) & (0.0330) & (0.0017) \\
-dCDH & 0.0795\sym{*} & 0.0403 & 0.0392 & 0.0008 \\
-             & (0.0476) & (0.0426) & (0.0427) & (0.0022) \\
-BJS & 0.1134\sym{***} & 0.0976\sym{**} & 0.0158 & 0.0027\sym{*} \\
-             & (0.0306) & (0.0412) & (0.0323) & (0.0016) \\
-SA & 0.0367\sym{***} & 0.0206 & 0.0161 & -0.0001 \\
-             & (0.0126) & (0.0126) & (0.0189) & (0.0024) \\
+OLS (TWFE) & 0.109 & -0.005 & 0.021 & -0.012 & 0.029 & -0.116 & 0.098 & 0.025 & -0.095 \\
+             & (0.089) & (0.093) & (0.088) & (0.109) & (0.089) & (0.089) & (0.077) & (0.100) & (0.102) \\
+dCDH & 0.395\sym{***} & 0.216\sym{**} & 0.107 & -0.076 & -0.044 & 0.020 & 0.319 & 0.173 & 0.127 \\
+             & (0.146) & (0.101) & (0.105) & (0.234) & (0.220) & (0.216) & (0.268) & (0.275) & (0.295) \\
+BJS & 0.109 & -0.005 & 0.021 & -0.012 & 0.029 & -0.116 & 0.098 & 0.025 & -0.095 \\
+             & (0.086) & (0.091) & (0.086) & (0.104) & (0.083) & (0.086) & (0.073) & (0.095) & (0.099) \\
+SA & 0.457\sym{***} & 0.343\sym{***} & 0.238\sym{***} & -0.074 & -0.115 & -0.067 & 0.384 & 0.228 & 0.171\sym{**} \\
+             & (0.173) & (0.126) & (0.083) & (0.196) & (0.202) & (0.118) & (0.259) & (0.187) & (0.075) \\
 \midrule
-Observations & 25,011 & 25,011 & 25,011 & 25,011 \\
+Observations & 9,621 & 13,026 & 15,606 & 9,621 & 13,026 & 15,606 & 9,621 & 13,026 & 15,606 \\
 \bottomrule
 \end{tabular}
 }

@@ -2,20 +2,21 @@
 \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
 \begin{tabular}{l*{8}{c}}
 \toprule
-            &\multicolumn{2}{c}{$\pm 30$-Day Window}    &\multicolumn{2}{c}{$\pm 120$-Day Window}   &\multicolumn{2}{c}{Shares ($\pm 30$-Day)}  &\multicolumn{2}{c}{Shares ($\pm 120$-Day)} \\\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
+            &\multicolumn{2}{c}{$\pm 30$-Day Window}    &\multicolumn{2}{c}{$\pm 60$-Day Window}    &\multicolumn{2}{c}{$\pm 90$-Day Window}    &\multicolumn{2}{c}{$\pm 120$-Day Window}   \\\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
             &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}\\
-            &\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Share\\Violent}}&\multicolumn{1}{c}{\shortstack{Share\\Peaceful}}&\multicolumn{1}{c}{\shortstack{Share\\Violent}}&\multicolumn{1}{c}{\shortstack{Share\\Peaceful}}\\
+            &\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}\\
 \midrule
-Post $\times$ (President + Other Apex)&       0.048\sym{***}&      -0.007         &       0.022\sym{**} &      -0.006         &       0.048\sym{***}&      -0.005         &       0.021\sym{**} &      -0.007         \\
-            &     (0.017)         &     (0.013)         &     (0.009)         &     (0.009)         &     (0.017)         &     (0.012)         &     (0.009)         &     (0.008)         \\
-Post $\times$ Other Non-Apex&      -0.003         &       0.019         &       0.012         &      -0.010         &      -0.003         &       0.020         &       0.012         &      -0.011         \\
-            &     (0.007)         &     (0.013)         &     (0.008)         &     (0.009)         &     (0.007)         &     (0.013)         &     (0.008)         &     (0.009)         \\
+Post $\times$ Apex&       0.048\sym{***}&      -0.007         &       0.037\sym{***}&      -0.008         &       0.024\sym{**} &      -0.005         &       0.021\sym{**} &      -0.005         \\
+            &     (0.017)         &     (0.013)         &     (0.014)         &     (0.009)         &     (0.011)         &     (0.009)         &     (0.010)         &     (0.009)         \\
+Post $\times$ Non-Apex&      -0.003         &       0.019         &       0.005         &       0.006         &       0.006         &      -0.001         &       0.012         &      -0.010         \\
+            &     (0.007)         &     (0.013)         &     (0.007)         &     (0.013)         &     (0.006)         &     (0.010)         &     (0.008)         &     (0.009)         \\
 \midrule
-p-value: Pres.+Other Apex $=$ Other Non-Apex&       0.020         &       0.239         &       0.411         &       0.696         &       0.019         &       0.242         &       0.410         &       0.729         \\
-Mean (Pre-Scandal Bin)&       0.027         &       0.069         &       0.020         &       0.053         &       0.027         &       0.061         &       0.020         &       0.048         \\
-Observations&       10736         &       10736         &       42657         &       42657         &       10736         &       10736         &       42657         &       42657         \\
+p-value: Apex $=$ Non-Apex&       0.020         &       0.239         &       0.061         &       0.396         &       0.134         &       0.782         &       0.418         &       0.655         \\
+p-value: Apex $>$ Non-Apex (one-sided)&       0.010         &       0.880         &       0.031         &       0.802         &       0.067         &       0.609         &       0.209         &       0.328         \\
+Mean (Pre-Scandal)&       0.020         &       0.053         &       0.021         &       0.056         &       0.024         &       0.057         &       0.023         &       0.057         \\
+Observations&       10736         &       10736         &       21296         &       21296         &       31856         &       31856         &       42416         &       42416         \\
 Number of Scandals&         176         &         176         &         176         &         176         &         176         &         176         &         176         &         176         \\
-R-squared   &       0.169         &       0.474         &       0.126         &       0.300         &       0.176         &       0.494         &       0.129         &       0.292         \\
+R-squared   &       0.169         &       0.474         &       0.157         &       0.396         &       0.133         &       0.348         &       0.127         &       0.300         \\
 \bottomrule
 \end{tabular}
 }

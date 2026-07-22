@@ -82,12 +82,6 @@
 {\bf Cantoni, Davide, Andrew Kao, David~Y. Yang, and Noam Yuchtman},
   ``Protests,'' {\it Annual Review of Economics}, 2024, {\it 16}, 519--543.
 
-\harvarditem[Carlin et al.]{Carlin, Love and
-  Mart{\'\i}nez-Gallardo}{2015}{carlin2015cushioning}
-{\bf Carlin, Ryan~E., Gregory~J. Love, and Cecilia Mart{\'\i}nez-Gallardo},
-  ``Cushioning the fall: scandals, economic conditions, and executive
-  approval,'' {\it Political Behavior}, 2015, {\it 37} (1), 109--130.
-
 \harvarditem[Cengiz et al.]{Cengiz, Dube, Lindner and
   Zipperer}{2019}{cengiz2019effect}
 {\bf Cengiz, Doruk, Arindrajit Dube, Attila Lindner, and Ben Zipperer}, ``The
@@ -105,11 +99,12 @@
 {\bf Clark, David and Patrick Regan}, ``Mass {Mobilization} Protest Data,''
   2016.
 
-\harvarditem[Correia]{Correia}{2017}{correia2017reghdfe}
-{\bf Correia, Sergio}, ``Linear models with high-dimensional fixed effects: an
-  efficient and feasible estimator,'' 2017.
-\newblock Working paper, Duke University; documentation for Stata's
-  \texttt{reghdfe} package.
+\harvarditem[Coppedge et al.]{Coppedge, Gerring, Knutsen, Lindberg, Teorell
+  et~al.}{2024}{vdem2024}
+{\bf Coppedge, Michael, John Gerring, Carl~Henrik Knutsen, Staffan~I. Lindberg,
+  Jan Teorell et~al.}, ``V-Dem Codebook v14,'' Varieties of Democracy (V-Dem)
+  Project 2024.
+\newblock Country-Year/Country-Date Dataset v14.
 
 \harvarditem[Costas-P{\'e}rez et al.]{Costas-P{\'e}rez, Sol{\'e}-Oll{\'e} and
   Sorribas-Navarro}{2012}{costasperez2012corruption}
@@ -117,10 +112,6 @@
   Sorribas-Navarro}, ``Corruption scandals, voter information, and
   accountability,'' {\it European Journal of Political Economy}, 2012, {\it 28}
   (4), 469--484.
-
-\harvarditem[Davenport]{Davenport}{2007}{davenport2007state}
-{\bf Davenport, Christian}, ``State repression and the tyrannical peace,'' {\it
-  Journal of Peace Research}, 2007, {\it 44} (4), 485--504.
 
 \harvarditem[{de Chaisemartin} and {D'Haultf{\oe}uille}]{{de Chaisemartin} and
   {D'Haultf{\oe}uille}}{2024}{decade2024dcdh}
@@ -157,26 +148,24 @@
   effects of {Brazil}'s publicly released audits on electoral outcomes,'' {\it
   The Quarterly Journal of Economics}, 2008, {\it 123} (2), 703--745.
 
-\harvarditem[Ferraz and Finan]{Ferraz and Finan}{2011a}{FerrazFinanAccount}
-{\bf \bysame{} and \bysame{}}, ``Electoral Accountability and Corruption:
-  Evidence from the Audits of Local Governments,'' {\it American Economic
-  Review}, June 2011, {\it 101} (4), 1274–1311.
-
-\harvarditem[Ferraz and Finan]{Ferraz and Finan}{2011b}{ferraz2011electoral}
+\harvarditem[Ferraz and Finan]{Ferraz and Finan}{2011a}{ferraz2011electoral}
 {\bf \bysame{} and \bysame{}}, ``Electoral accountability and corruption:
   evidence from the audits of local governments,'' {\it American Economic
   Review}, 2011, {\it 101} (4), 1274--1311.
 
-\harvarditem[Foa et al.]{Foa, Klassen, Slade, Rand and
-  Collins}{2020}{foa2020global}
-{\bf Foa, Roberto~Stefan, Andrew Klassen, Margaret Slade, Ammon Rand, and Ronan
-  Collins}, ``The Global Satisfaction with Democracy Report 2020,'' Technical
-  Report, Centre for the Future of Democracy, University of Cambridge,
-  Cambridge, United Kingdom 2020.
+\harvarditem[Ferraz and Finan]{Ferraz and Finan}{2011b}{FerrazFinanAccount}
+{\bf \bysame{} and \bysame{}}, ``Electoral Accountability and Corruption:
+  Evidence from the Audits of Local Governments,'' {\it American Economic
+  Review}, June 2011, {\it 101} (4), 1274–1311.
 
 \harvarditem[Glaeser and Saks]{Glaeser and Saks}{2006}{glaeser2006corruption}
 {\bf Glaeser, Edward~L. and Raven~E. Saks}, ``Corruption in {America},'' {\it
   Journal of Public Economics}, 2006, {\it 90} (6--7), 1053--1072.
+
+\harvarditem[Goodman-Bacon]{Goodman-Bacon}{2021}{goodmanbacon2021difference}
+{\bf Goodman-Bacon, Andrew}, ``Difference-in-differences with variation in
+  treatment timing,'' {\it Journal of Econometrics}, 2021, {\it 225} (2),
+  254--277.
 
 \harvarditem[Jha]{Jha}{2013}{jha2013trade}
 {\bf Jha, Saumitra}, ``Trade, institutions, and ethnic tolerance: evidence from
@@ -199,19 +188,11 @@
   Zilibotti}, ``Networks in conflict: theory and evidence from the {Great War
   of Africa},'' {\it Econometrica}, 2017, {\it 85} (4), 1093--1132.
 
-\harvarditem[Levitsky and Way]{Levitsky and Way}{2010}{levitsky2010competitive}
-{\bf Levitsky, Steven and Lucan~A. Way}, {\it Competitive Authoritarianism:
-  Hybrid Regimes after the Cold War}, Cambridge University Press, 2010.
-
 \harvarditem[Madestam et al.]{Madestam, Shoag, Veuger and
   Yanagizawa-Drott}{2013}{madestam2013protests}
 {\bf Madestam, Andreas, Daniel Shoag, Stan Veuger, and David Yanagizawa-Drott},
   ``Do political protests matter? Evidence from the {Tea Party} movement,''
   {\it The Quarterly Journal of Economics}, 2013, {\it 128} (4), 1633--1685.
-
-\harvarditem[Mainwaring, ed]{Mainwaring, ed}{2018}{mainwaring2018party}
-{\bf Mainwaring, Scott, ed.}, {\it Party Systems in {Latin America}:
-  Institutionalization, Decay, and Collapse}, Cambridge University Press, 2018.
 
 \harvarditem[Martinez-Bravo et al.]{Martinez-Bravo, Padr{\'o}~i Miquel, Qian
   and Yao}{2022}{martinezbravo2022elites}
@@ -247,12 +228,6 @@
 {\bf Pav{\~a}o, Natalia}, ``Corruption as the only option: the limits to
   electoral accountability,'' {\it The Journal of Politics}, 2018, {\it 80}
   (3), 996--1010.
-
-\harvarditem[Raleigh et al.]{Raleigh, Kishi and Linke}{2023}{raleigh2023acled}
-{\bf Raleigh, Clionadh, Roudabeh Kishi, and Andrew Linke}, ``Political
-  instability patterns are obscured by conflict dataset scope conditions,
-  sources, and coding choices,'' {\it Humanities and Social Sciences
-  Communications}, 2023, {\it 10}, 74.
 
 \harvarditem[Rivera et al.]{Rivera, Seira and Jha}{2024}{ApexCorruption}
 {\bf Rivera, Eduardo, Enrique Seira, and Saumitra Jha}, ``Apex Corruption

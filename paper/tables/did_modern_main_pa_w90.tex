@@ -1,0 +1,19 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{4}{c}}
+\toprule
+            &\multicolumn{1}{c}{\shortstack{Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Non-violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Gvt.~Violent\\Response}}\\
+\midrule
+OLS (TWFE) & -0.272 & -0.244 & -0.027 & -0.011 \\
+             & (0.174) & (0.180) & (0.168) & (0.015) \\
+dCDH & 0.888 & 0.238 & 0.650 & 0.021 \\
+             & (0.583) & (0.317) & (0.607) & (0.060) \\
+BJS & -0.239\sym{*} & -0.211 & -0.028 & -0.008 \\
+             & (0.133) & (0.173) & (0.114) & (0.012) \\
+SA & -0.084 & -0.285 & 0.201 & -0.030 \\
+             & (0.496) & (0.307) & (0.381) & (0.023) \\
+\midrule
+Observations & 6,453 & 6,453 & 6,453 & 6,453 \\
+\bottomrule
+\end{tabular}
+}

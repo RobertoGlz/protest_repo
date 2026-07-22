@@ -2,11 +2,6 @@
 
 \input{preamble}
 
-% -----------------------------------------------------------------------
-% Fix-ups that the user's preamble doesn't include (kept here so the
-% preamble file itself stays untouched).
-% -----------------------------------------------------------------------
-
 % (1) Where to look for figures / tables produced by the Stata pipeline.
 \graphicspath{{../../Protest_Work/results/figures/}{./figures/}}
 \makeatletter
@@ -17,28 +12,23 @@
 % (2) Allow PDF figures up to v1.7 (Stata exports v1.6).
 \pdfminorversion=7
 
-% (3) Allow \DeclareGraphicsExtensions{.pdf} to coexist with the Stata
-%     event-study figures that ship as .png. Adding .png back lets us
-%     write \includegraphics{foo} without an explicit extension.
+% (3) Allow .png event-study figures alongside .pdf.
 \DeclareGraphicsExtensions{.pdf,.png}
 
-% (4) The Stata esttab Poisson tables write "exp(\beta)" outside math
-%     mode. Wrap \beta with \ensuremath so it resolves in either mode.
+% (4) Wrap \beta with \ensuremath so esttab's exp(\beta) resolves.
 \let\mathbetasym\beta
 \renewcommand{\beta}{\ensuremath{\mathbetasym}}
 
 % -----------------------------------------------------------------------
 
-\title{\bfseries\Large The Violent Effects of Apex Corruption}
+\title{\bfseries\Large Apex Corruption causes Violent Protests\thanks{We thank seminar audiences and colleagues for helpful comments. All errors are our own.}}
 
 \author{%
-Eduardo Rivera\thanks{MIT, Department of Economics. \texttt{erivera@mit.edu}.}
+Roberto Gonz\'alez-T\'ellez\thanks{Research Fellow, Stanford Graduate School of Business. \texttt{rob98@stanford.edu}}  \and Saumitra Jha\thanks{Stanford Graduate School of Business. \texttt{saumitra@stanford.edu}.}
 \and
+Eduardo Rivera\thanks{MIT, Department of Economics. \texttt{erivera@mit.edu}.} \and
 Enrique Seira\thanks{University of Notre Dame, Department of Economics and Kellogg Institute. \texttt{eseirabe@nd.edu}.}
-\and
-Saumitra Jha\thanks{Stanford Graduate School of Business. \texttt{saumitra@stanford.edu}.}
-\and
-Roberto Gonzalez-Tellez\thanks{Research Fellow, Stanford Graduate School of Business. \texttt{rob98@stanford.edu}. We thank seminar audiences at XXX for comments. All errors are our own.}%
+%
 }
 
 \date{This draft: \today}
@@ -51,20 +41,25 @@ Roberto Gonzalez-Tellez\thanks{Research Fellow, Stanford Graduate School of Busi
 % ABSTRACT
 % =====================================================================
 \begin{abstract}
-    \noindent We document that \textit{apex} corruption scandals---corrupt acts implicating top-level politicians---cause immediate and persistent increases in violent protests across Latin America. Using a panel of \hl{176} corruption scandals across \hl{23} countries from \hl{2008 to 2018}, merged with daily protest counts, we establish three facts. The daily count of violent protests increases by about 59\% in the month immediately after a scandal; peaceful protests are largely unaffected. The effect appears within a week of the scandal and remains positive even four months later. The magnitude scales sharply with the political rank of the implicated agent: scandals involving sitting Presidents generate effects an order of magnitude larger than those involving Governors, Supreme-Court Justices, or members of Congress. Our findings identify a high-frequency, high-magnitude channel through which corruption shapes the political environment in democracies.
+    \noindent We document that \emph{apex} corruption scandals---corrupt acts implicating top-level politicians---cause immediate and persistent increases in violent protests. Using a hand-curated panel of 176 corruption scandals across 23 Latin American countries between 2008 and 2018, merged with daily protest counts, we show that scandals implicating a President or Other Apex official raise the daily count of violent protests by about 0.06 per country-day in the month after disclosure---roughly 1.7 times the pre-scandal baseline---while scandals implicating lower-rank officials produce no such immediate response; a pooled specification rejects equality of the two effects. The response appears within a week of disclosure, persists over a four-month horizon with no evidence of pre-trends, and leaves peaceful protest largely unchanged. It is specific to apex corruption: neither national-team football losses nor currency depreciations---two other high-salience, plausibly as-good-as-randomly-timed national shocks---move violent protests. The pattern is present across countries and, if anything, somewhat stronger where democratic institutions are stronger. Our findings identify a high-frequency, high-magnitude channel through which corruption shapes the political environment in democracies.
 \end{abstract}
+
+% \noindent \textbf{Keywords:} \\
+% \textbf{JEL Code:}
 
 \bigskip
 
 % =====================================================================
-% INTRODUCTION (no section header, Science style)
+% INTRODUCTION
 % =====================================================================
 \clearpage
-Political violence is among the most consequential outcomes a democracy can experience. Civil unrest disrupts economic activity, displaces investment, and---when met with state violence in return---erodes the social contract that legitimizes the regime. An influential economic literature has linked political violence to economic shocks~\citep{miguel2004economic,mcguirk2020economic}, to commodity rents and conflict networks~\citep{koenig2017networks,dube2013commodity}, to the foundations of state capacity~\citep{besley2011logic}, and in recent comparative work to abrupt withdrawals of foreign assistance~\citep{rohner2026aidingpeace}. Related work shows that protests themselves can produce durable political effects~\citep{madestam2013protests,bursztyn2021persistent}. The contribution of \emph{political} shocks---events that change citizens' beliefs about who governs them rather than their material circumstances---has received considerably less attention. We argue that public disclosures of apex corruption are one such shock, and that their behavioral consequences for political violence are large, immediate, and persistent.
+\section{Introduction}
 
-Corruption is a long-standing object of empirical study, with known costs for growth and the provision of public goods~\citep{mauro1995corruption,treisman2007what,olken2007monitoring,olken2012corruption,glaeser2006corruption}. Citizens' perceptions of corruption prevalence have risen in the past two decades~\citep{cantoni2024protests}, and apex scandals---those implicating top-level politicians---have drawn growing attention from news outlets, in part because social media has reduced the cost of diffusing information and enables outlets to reach broader audiences~\citep{enikolopov2018SocialMedia, tufekci2024twitter, dellavigna2007fox}. While exposure to apex scandals can produce desirable outcomes such as political accountability or the unwinding of corruption networks~\citep{FerrazFinanAccount, horacio2019infonetwork, horacio2022metaketa}, it can also erode democratic values~\citep{ajzenman2021powerexample, ApexCorruption}, depress political participation~\citep{foa2020global}, and contribute to the cumulative decay of party systems and democratic institutions~\citep{mainwaring2018party, levitsky2010competitive}. Public exposure of malfeasance by sitting officials changes what citizens believe about who governs them and about the rules under which the government operates. The most consequential corruption-related political moments of the last decade---Brazil's Lava Jato\footnote{See \href{https://www.youtube.com/watch?v=boK0Mh2T5nk}{this video} for more information.}, for instance---were mobilization events, not electoral ones.
+Political violence is among the most consequential outcomes a democracy can experience. Civil unrest disrupts economic activity, displaces investment, and---when met with state violence in return---erodes the social contract that legitimizes the regime. An influential economic literature has linked political violence to economic shocks~\citep{miguel2004economic,mcguirk2020economic}, to commodity rents and network structure~\citep{koenig2017networks,dube2013commodity}, to the foundations of state capacity~\citep{besley2011logic}, and in recent work to abrupt withdrawals of foreign assistance~\citep{rohner2026aidingpeace}. Related work shows that protests themselves can produce durable political effects~\citep{madestam2013protests,bursztyn2021persistent}. The contribution of political shocks to events that change citizens' beliefs about who governs them, however, has received considerably less attention. In this paper we argue that disclosures of apex corruption are one such shock, and that the behavioral consequences for political violence are large, immediate, and persistent.
 
-We document that apex corruption triggers immediate and persistent increases in violent protests across Latin American democracies. Using a hand-curated panel of \hl{176} corruption scandals across \hl{23} countries from \hl{2008 to 2018}, merged with daily protest counts from the Mass Mobilization (MM) project~\citep{clark2016mass}, we establish three facts. First, the daily count of violent protests rises by about 59\% in the month immediately after a scandal, while the count of peaceful protests is largely unaffected. Second, the effect appears within a week of the scandal and remains positive even four months later. Third, the magnitude scales sharply with the political rank of the implicated agent: scandals involving sitting Presidents generate effects substantially larger than those involving Governors, Supreme-Court Justices, members of Congress, lower judiciary, or other lower officials.
+Corruption has been long studied, with known costs for growth and public goods provision~\citep{mauro1995corruption,treisman2007what,olken2007monitoring,olken2012corruption,glaeser2006corruption}. In the past two decades, citizens' perceptions of corruption prevalence have risen~\citep{cantoni2024protests}, and corruption scandals associated to \textit{apex} politicians have drawn more attention from news outlets in recent years~\citep{ApexCorruption}; perhaps unsurprisingly due to the expansion of social media, which reduces the cost of diffusing information and enables news outlets to reach broader audiences \citep{enikolopov2018SocialMedia, tufekci2024twitter,dellavigna2007fox}. Even though exposing corruption scandals on news outlets can have positive desired effects, such as political accountability or crackdowns of corruption networks \citep{ferraz2011electoral, horacio2019infonetwork, horacio2022metaketa}, it can also have negative undesired effects on democratic values \citep{ajzenman2021powerexample, ApexCorruption} and away from the polling booths. Public exposure of malfeasance by sitting officials changes what citizens believe about who governs them and about the rules under which the government operates. The most consequential corruption-related political moments of the last decade, such as Brazil's Lava Jato\footnote{See \href{https://www.youtube.com/watch?v=boK0Mh2T5nk}{this video} for more information on the scandal.}, were mobilization events, not electoral ones.
+
+We document that apex corruption---corrupt acts implicating top-level politicians---triggers immediate and persistent increases in violent protests. Using a hand-curated panel of 176 corruption scandals across 23 Latin American countries from 2008 to 2018, merged with daily protest counts from the Mass Mobilization (MM) project~\citep{clark2016mass}, we establish four facts. First, the daily count of violent protests rises sharply following scandals implicating a President or Other Apex official, while the count of peaceful protests is largely unaffected; scandals implicating Congressmen, lower judiciary, and other non-apex officials leave protest patterns broadly unchanged, and we can reject that the two effects are equal. Second, the effect appears within a week of disclosure and the point estimate remains positive even four months later, with no evidence of pre-trends. Third, the response is specific to apex corruption: neither national-team football losses~\citep[see e.g.,][]{DuranteFutbol} nor currency depreciations---two other high-salience, plausibly as-good-as-randomly-timed national shocks---move violent protests. Fourth, exploring heterogeneity by the 2008 level of democracy, the response is present across countries and, if anything, somewhat larger and more persistent in higher-democracy countries, though the high- versus low-democracy difference is not statistically significant.
 
 % =====================================================================
 % Method
@@ -72,87 +67,124 @@ We document that apex corruption triggers immediate and persistent increases in 
 \section{Method}\label{sec:methods}
 \subsection{Study Design and Measures}
 
-The empirical analysis exploits the as-good-as-random timing of corruption scandal disclosures in Latin American news outlets between \hl{2008 and 2018}. We use a stacked difference-in-differences design that compares the evolution of protest activity around the disclosure date of each scandal to the evolution observed in the same country in the days leading up to it. The analysis dataset is constructed by: (i) scraping the Twitter accounts of Latin American news outlets to identify the calendar date on which a scandal in a given country is first reported\footnote{We keep the date of the first news report to estimate the effect of the initial scoop and to avoid double-counting through follow-up coverage.}; (ii) building a $\pm T$-day event window around each scandal for $T \in \{30, 120\}$; (iii) merging the country-day count of protests from the MM data to create a scandal-window panel; and (iv) appending these panels into the stacked analysis dataset.
+Our empirical analyses exploit the randomness of corruption scandal disclosures in Latin American news outlets between 2008 and 2018. In particular, we use an interrupted time-series design in which we compare protest occurrences in countries with scandals before and after the scandal occurs. Our analysis dataset is created by: (i) Scraping the Twitter accounts from news outlets in Latin America to identify the calendar date in which a scandal in a given country is first reported\footnote{We keep the date of the first news report to (a) be able to estimate the effect of a scoop, and (b) avoid double-counting a scandal due to follow-up news reports on it.}, (ii) create an event-window of $T \in \{30, 120\}$ days before and after the scandal, (iii) merge the country-day count of protests from the MM data to create a `scandal-protest' dataset for a given country in a given calendar-date window, and lastly, (iv) append all such scandal-protest datasets to build the analysis dataset.
 
-The MM dataset covers 1990--2020 and records the date, size, and location of any episode in which 50 or more protesters publicly demonstrate against the State. If a protest lasts $X$ days, we code its occurrence at dates $t, t+1, \dots, t+X-1$. Where the same event is associated with more than one date in the source, we keep the earliest. A protest is classified as ``violent'' when ``the violence could include anything from riotous behavior that destroys property to shooting at the police or military.'' We restrict the sample to \hl{2008--2018}, the period for which our corruption-scandal catalog is uniformly populated.
+The MM dataset is available for the period 1990--2020, and it includes information on the date, size, and location of any episode in which 50 or more protesters publicly demonstrate against the State. If a protest lasts $X$ days, we code the occurrence of a protest at date $t, t+1, \dots, t+X-1$. If the same protest is associated with more than one date (e.g., because the news source for the protest cannot accurately identify whether it is a continued or a new protest), then we keep the date of the earliest protest. For a protest to be classified as ``violent'', ``[t]he violence could include anything from riotous behavior that destroys property to shooting at the police or military''~\citep{clark2016mass}. Our main outcome is the number of protests occurring in a given country-date. We focus on the years 2008--2018, given that our corruption scandals data is available for those years.
 
-We estimate the following equation by Ordinary Least Squares using \texttt{reghdfe}~\citep{correia2017reghdfe}\footnote{In the Supplementary Materials we estimate the analogous specification by Poisson quasi-maximum likelihood to account for the count nature of the outcome, and find similar effects. Robustness exercises using modern stacked and heterogeneity-robust difference-in-differences estimators~\citep{cengiz2019effect, sun2021estimating, borusyak2024revisiting, decade2024dcdh} are reported in the Supplementary Materials. ACLED data~\citep{raleigh2023acled} provides an independent cross-validation source from 2018 onward, and yields a comparable sign-and-significance pattern on the post-2018 sub-sample.}:
+Importantly, our recolection of scandals allows us to identify the position of the implicated politician. We then look at the scandals and manually classify them in three categories: (i) ``President'' includes scandals in which the implicated official is a President (current or former), (ii) ``Other Apex'' includes scandals in which the implicated official is either a Governor or Supreme Court Justice, and (iii) ``Non-Apex'' includes scandals in which the implicated official is a Congressman, lower judiciary, or other lower-rank officials. Throughout, we group the President and Other Apex scandals together (``apex''; 64 scandals) and contrast them with the Non-Apex scandals (112 scandals).
+
+We estimate three closely related Ordinary Least Squares (OLS) specifications, one for each of the questions the paper asks. Throughout, $Y_{c(s)t}$ is the count of protests of a given type in country $c$ on date $t$ inside the event window of scandal $s$; $\text{Post}_{st} = \mathbbm{1}\{t \geq \text{Scandal Date}_{s}\}$ turns on from the disclosure date onward; $\alpha_d$, $\lambda_m$, and $\theta_{cy}$ denote day-of-week, month-of-year, and country-year fixed effects; and standard errors are clustered at the country $\times$ year $\times$ day-bin level.
+
+Our headline specification pools all scandals and lets the post-scandal effect differ by the rank of the implicated official:
+\begin{equation}
+\label{eq:interaction}
+    Y_{c(s)t} = \beta_{\text{Apex}}\, \text{Post}_{st}\, \mathbbm{1}\{\text{Apex}_s\} + \beta_{\text{NA}}\, \text{Post}_{st}\, \mathbbm{1}\{\text{Non-Apex}_s\} + \alpha_{d} + \lambda_{m} + \theta_{cy} + \varepsilon_{c(s)t},
+\end{equation}
+where $\mathbbm{1}\{\text{Apex}_s\}$ ($\mathbbm{1}\{\text{Non-Apex}_s\}$) indicates that scandal $s$ is apex (non-apex). Estimated jointly on the pooled sample, $\beta_{\text{Apex}}$ and $\beta_{\text{NA}}$ are the post-scandal effects for the two groups, and we test $H_0:\beta_{\text{Apex}} = \beta_{\text{NA}}$. This is the specification behind \autoref{tab:interaction}.
+
+To read each group---and each of two placebo benchmarks---one at a time, we estimate the single-treatment version of \autoref{eq:interaction} \emph{separately} on each subsample:
 \begin{equation}
 \label{eq:main}
-    Y_{c(s)t} = \beta \; \mathbbm{1}\{t \geq \text{Scandal Date}_{c(s)}\} + \alpha_{d} + \lambda_{m} + \theta_{cy} + \varepsilon_{c(s)t},
+    Y_{c(s)t} = \beta \; \text{Post}_{st} + \alpha_{d} + \lambda_{m} + \theta_{cy} + \varepsilon_{c(s)t},
 \end{equation}
-where $\alpha_d$ are day-of-week fixed effects, $\lambda_m$ are month-of-year fixed effects, $\theta_{cy}$ are country-by-year fixed effects, $\text{Scandal Date}_{c(s)}$ is the disclosure date of scandal $s$ in country $c$, $Y_{c(s)t}$ is the outcome of interest, and $\varepsilon_{c(s)t}$ is an idiosyncratic error term. To trace dynamics we replace the post-scandal indicator with a saturated set of bin indicators for time to/since the scandal: 6-day bins at the narrow $\pm 30$-day window and 30-day bins at the wide $\pm 120$-day window, with the bin immediately preceding disclosure as the reference category.
+run on the apex scandals, on the non-apex scandals, and---replacing the scandal indicator with the corresponding event indicator---on national football-team losses and on currency depreciations. Here $\beta$ is the group- or shock-specific post-event effect; this is the specification behind \autoref{tab:main}.
 
-The identifying assumption is that, conditional on the three sets of fixed effects, the within-year date of a scandal's public disclosure is as-good-as-randomly assigned in relation to the country's protest baseline. The country-by-year fixed effects absorb every source of country-year-level confounding (electoral calendars, ongoing institutional reforms, pre-existing political instability); the day-of-week and month-of-year fixed effects absorb weekly and seasonal cycles in protest activity.
+To trace dynamics we replace the single post indicator with a saturated set of 15-day event-time bin indicators $\{D_{k,st}\}$ over the $\pm 60$-day window, interacted with the apex and non-apex flags, so that the two dynamic paths are estimated \emph{jointly} on the pooled sample and stay directly comparable to \autoref{eq:interaction}:
+\begin{equation}
+\label{eq:dynamics}
+    Y_{c(s)t} = \sum_{k \neq -1} \left( \beta^{\text{Apex}}_{k}\, D_{k,st}\, \mathbbm{1}\{\text{Apex}_s\} + \beta^{\text{NA}}_{k}\, D_{k,st}\, \mathbbm{1}\{\text{Non-Apex}_s\} \right) + \alpha_{d} + \lambda_{m} + \theta_{cy} + \varepsilon_{c(s)t},
+\end{equation}
+where the bin immediately preceding disclosure ($k=-1$, i.e.\ $w_{s,t}\in[-15,-1]$) is the omitted reference for each group, and $\{\beta^{\text{Apex}}_{k}\}$, $\{\beta^{\text{NA}}_{k}\}$ are plotted in \autoref{fig:dynamics}.
+
+The identification assumption we rely on for our estimates to be interpreted as causal is that conditional on country-year, month-of-year, and day-of-week fixed effects, the within-year date of disclosure of a scandal is as-good-as-randomly assigned in relation to the protest baseline of the country. The country-year fixed effects absorb every source of country-year-level confounding such as pre-existing political instability, electoral calendars, or institutional reforms. The day-of-week and month-of-year fixed effects absorb weekly and seasonal cycles in protest activity.
 
 % =====================================================================
 % Results
 % =====================================================================
 \section{Results}
 
-\autoref{tab:main} reports OLS (Panel A) and Poisson QML (Panel B) estimates of the effect of apex corruption on violent and peaceful protests at the $\pm 30$-day and $\pm 120$-day windows. Under OLS, the daily count of violent protests rises by $0.016$ events per country-day in both windows ($P < 0.01$ at $\pm 30$ days; $P < 0.05$ at $\pm 120$ days)---roughly $59\%$ of the pre-scandal-bin mean of $0.027$ violent protests per day at the narrow window. Peaceful protests do not respond reliably under OLS in either window. The Poisson estimates---which handle the heavy mass at zero in the daily protest count---imply substantively large proportional effects: violent protests rise by $54\%$ at the narrow window and $63\%$ at the wide window. Peaceful protests respond in opposite directions on the two horizons: a $25\%$ increase at $\pm 30$ days and a $21\%$ decrease at $\pm 120$ days, both significant at the 10\% level. The opposite-signed peaceful response across windows is consistent with a substitution from peaceful to violent mobilization on the longer horizon, though our specification does not identify substitution directly.
+\subsection{Apex corruption increases violent protests}
+
+Our headline result contrasts the protest response to \emph{apex} scandals---those implicating a President or Other Apex official---with the response to Non-Apex scandals, and formally tests whether the two differ. \autoref{tab:interaction} reports the pooled specification \autoref{eq:interaction}, in which $\beta_{\text{Apex}}$ and $\beta_{\text{NA}}$ are the post-scandal effects for the two groups estimated jointly, and the row ``$p$-value: Pres+Other Apex $=$ Non-Apex'' reports the two-sided $p$-value for $H_0:\beta_{\text{Apex}}=\beta_{\text{Non-Apex}}$. The immediate ($\pm$30-day) violent-protest effect is 0.048 for apex scandals ($p<0.01$) versus $-0.003$ for non-apex scandals, and we reject equality of the two ($p = 0.020$). At the $\pm$120-day horizon both are positive (0.022 for apex, $p<0.05$; 0.012 for non-apex), though they are no longer statistically distinguishable ($p = 0.411$). The \emph{immediate} violent response to corruption is thus concentrated among apex scandals.
 
 \begin{table}[htb!]
-    \caption{Apex Corruption Scandals and Protests: OLS and Poisson estimates}
-    \label{tab:main}
+    \caption{Apex scandals cause violent mobilization while Non-Apex scandals do not.}
+    \label{tab:interaction}
     \begin{center}
-        \input{violent_peaceful_ols_poi_panels}
+        \scriptsize{\input{sup_interaction_pa_vs_na}}
     \end{center}
-    \footnotesize{The table reports OLS estimates (Panel A) and Poisson QML estimates (Panel B) of $\beta$ from \autoref{eq:main} for four outcome--window combinations: violent and peaceful protests, each estimated on the $\pm$30-day window (columns 1--2) and on the $\pm$120-day window (columns 3--4) around each scandal's public-disclosure date. An observation is a country-day inside the event window of a scandal; the \hl{176} apex corruption scandals across \hl{23} Latin American countries are stacked. All specifications include country-by-year, month-of-year, and day-of-week fixed effects. Standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. In Panel B, the Poisson QML coefficient is on the log scale; ``Implied Prop.\ Effect'' reports the implied proportional effect $\exp(\beta) - 1$, with the delta-method standard error in parentheses below. ``Mean (Pre-Scandal Bin)'' is the average value of the outcome in the bin immediately before the scandal's disclosure---a 6-day bin in columns (1)--(2) and a 30-day bin in columns (3)--(4)---computed over the corresponding regression sample. The Poisson sample is smaller than the OLS sample because \texttt{ppmlhdfe} drops observations that are either singletons or separated by a fixed effect. The sample period is \hl{2008--2018}; Venezuela is excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+    \footnotesize{OLS estimates of $\beta_{\text{Apex}}$ and $\beta_{\text{Non-Apex}}$ from the pooled interaction specification \autoref{eq:interaction}, which interacts the post-scandal indicator with the apex and non-apex flags. Columns are violent and peaceful protest counts at four event-window widths: $\pm$30 days (cols.\ 1--2), $\pm$60 (cols.\ 3--4), $\pm$90 (cols.\ 5--6), and $\pm$120 (cols.\ 7--8). The sample pools the 64 apex scandals (President, Governors, and Supreme Court Justices) with the 112 non-apex scandals (Congressmen, lower judiciary, and other officials); an observation is a country-day inside a scandal's event window. ``$p$-value: Apex $=$ Non-Apex'' reports the two-sided $p$-value for $H_0:\beta_{\text{Apex}}=\beta_{\text{Non-Apex}}$; ``$p$-value: Apex $>$ Non-Apex (one-sided)'' reports the one-sided $p$-value for the alternative $H_1:\beta_{\text{Apex}}>\beta_{\text{Non-Apex}}$. ``Mean (Pre-Scandal)'' is the average outcome over the same $\pm$window as the column in the pre-disclosure period. All specifications include country-by-year, month-of-year, and day-of-week fixed effects; standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
 \end{table}
 
-\autoref{fig:eventstudies} traces the dynamics of the response across the $\pm 120$-day window using a saturated set of 30-day-bin indicators for time-to/since-scandal in place of the post-scandal indicator. Violent protests (\autoref{fig:eventstudies:violent}) show no pre-trend in the four pre-scandal bins, jump in the first post-scandal bin, and remain positive and statistically distinguishable from zero throughout the four months that follow. Peaceful protests (\autoref{fig:eventstudies:peaceful}) follow a different trajectory: the coefficients are flat through the pre-scandal period and the first post-scandal bin, and then drift negative in the later post-scandal bins. The contrast in dynamics reinforces the substitution reading of \autoref{tab:main}: violent mobilization is the durable component of the response; peaceful mobilization is initially unaffected but is then displaced.
+\subsection{Protest dynamics around apex corruption scandals}
+
+\autoref{fig:dynamics} traces the dynamics behind the pooled contrast. We replace the single post indicator with a saturated set of 15-day event-time bin indicators over the $\pm 60$-day window, interacted with the apex and non-apex flags (\autoref{eq:dynamics}), and estimate the two paths \emph{jointly} on the pooled sample so that they are directly comparable to the aggregate coefficients of \autoref{tab:interaction}. For violent protests (\autoref{fig:dynamics:violent}), the Apex path shows no pre-trend and then jumps at disclosure, remaining elevated over the month that follows before converging back toward the pre-scandal baseline; the Non-Apex path is flat and statistically indistinguishable from zero throughout. For peaceful protests (\autoref{fig:dynamics:peaceful}), neither group moves appreciably at disclosure. The absence of a pre-trend in either group supports the identifying assumption that the within-year timing of disclosure is as good as random relative to the protest baseline.
 
 \begin{figure}[htb!]
-    \caption{Dynamics of violent and peaceful protests around apex corruption scandals, $\pm 120$-day window}
-    \label{fig:eventstudies}
+    \caption{Protest dynamics: Apex vs.\ Non-Apex ($\pm 60$-day window, 15-day bins).}
+    \label{fig:dynamics}
     \begin{center}
-        \begin{subfigure}{0.485\textwidth}
-            \caption{Violent protests}
-            \includegraphics[width=\textwidth]{es_num_violent_MM_120d_90ci.png}
-            \label{fig:eventstudies:violent}
-        \end{subfigure}\hfill
-        \begin{subfigure}{0.485\textwidth}
-            \caption{Peaceful protests}
-            \includegraphics[width=\textwidth]{es_num_peaceful_MM_120d_90ci.png}
-            \label{fig:eventstudies:peaceful}
-        \end{subfigure}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Violent protests.}
+        \includegraphics[width=\textwidth]{es_pooled_num_violent_MM_w60_b15_ols_90ci.pdf}
+        \label{fig:dynamics:violent}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Peaceful protests.}
+        \includegraphics[width=\textwidth]{es_pooled_num_peaceful_MM_w60_b15_ols_90ci.pdf}
+        \label{fig:dynamics:peaceful}
+    \end{subfigure}
     \end{center}
-    \footnotesize{Each panel plots the coefficients on 30-day-bin indicators of time-to/since-scandal from the modified version of \autoref{eq:main} described in the text. The omitted reference bin is the one immediately before public disclosure ($w_{s,t} \in [-30, -1]$). Vertical bars are 90\% confidence intervals constructed from the country $\times$ year $\times$ day-bin clustered variance. The sample includes all \hl{176} apex corruption scandals across \hl{23} Latin American countries; sample period is \hl{2008--2018}; Venezuela is excluded.}
+    \footnotesize{OLS estimates of the event-time coefficients $\{\beta^{\text{Apex}}_k\}$ (navy circles) and $\{\beta^{\text{NA}}_k\}$ (maroon diamonds) from \autoref{eq:dynamics}, estimated \emph{jointly} on the pooled sample: 15-day event-time bin indicators interacted with the apex and non-apex flags. The bin immediately preceding disclosure ($w_{s,t}\in[-15,-1]$) is the omitted reference for each group; the faint vertical band marks the disclosure cutoff. Vertical bars are 90\% confidence intervals; standard errors clustered at country $\times$ year $\times$ day-bin. An observation is a country-scandal-date. Sample period 2008--2018; Venezuela excluded.}
 \end{figure}
 
-\autoref{fig:boxplots} characterizes heterogeneity in the protest response across the political rank of the implicated official. We re-estimate \autoref{eq:main} separately for each of the \hl{176} scandals on its own country's $\pm 30$-day window, retaining the day-of-week and month-of-year fixed effects, and summarize the cross-scandal distribution of the resulting per-scandal coefficients $\hat{\beta}_s$ by box plot. Scandals are partitioned into three categories: \textit{President} (sitting heads of state, \hl{45} scandals); \textit{Other Apex} (Governors and Supreme-Court Justices, \hl{19} scandals); and \textit{Other Non-Apex} (members of Congress, lower judiciary, and lower officials, \hl{112} scandals). For both violent and peaceful protests, the President distribution sits markedly above the Other-Non-Apex distribution, with Other Apex sitting between the two. The gradient is sharpest for violent protests, where the President median is roughly an order of magnitude above the Other-Non-Apex median.
+\subsection{The protest response is specific to apex corruption}
 
-\begin{figure}[htb!]
-    \caption{Per-scandal effects of apex corruption, by political rank of the implicated official}
-    \label{fig:boxplots}
+\autoref{tab:main} reads the apex-corruption effect directly against the political rank of the implicated official and against two other high-salience national shocks. Panels A and B re-estimate \autoref{eq:main} on the Apex and Non-Apex subsamples separately, reporting violent- and peaceful-protest counts at four event-window widths ($\pm$30 to $\pm$120 days). The magnitudes behind the pooled test are stark: in the Apex panel, the daily count of violent protests rises by 0.060 per country-day in the $\pm$30-day window ($p<0.01$)---about 1.7 times the pre-scandal baseline of 0.036---and by 0.021 in the $\pm$120-day window ($p<0.1$). In the Non-Apex panel the immediate ($\pm$30-day) violent effect is essentially zero (0.000), with only a smaller, delayed increase of 0.016 at the $\pm$120-day horizon ($p<0.05$). Peaceful protests move little in either panel at either horizon.
+
+Is this response a general reaction to salient national news, or is it specific to apex corruption? Panels C and D benchmark the corruption effect against two other high-salience national shocks whose timing is plausibly as-good-as-random with respect to the protest baseline: national-team football (soccer) match losses and currency depreciation episodes, each estimated using \autoref{eq:main} with the post-scandal indicator replaced by an indicator of a national football-team loss or of a month-to-month depreciation of the exchange rate of more than 5\%. The apex-corruption effect on violent protests in the $\pm$30-day window (0.060, $p<0.01$) is an order of magnitude larger than---and statistically unlike---the corresponding football (0.006) and currency-depreciation (0.004) estimates, neither of which is distinguishable from zero. The mobilization response is thus specific to apex corruption, not a generic reaction to salient national events.
+
+\begin{table}[htb!]
+    \caption{Violent protests increase after apex corruption scandal disclosures.}
+    \label{tab:main}
     \begin{center}
-        \begin{subfigure}{0.485\textwidth}
-            \caption{Violent protests}
-            \includegraphics[width=\textwidth]{per_scandal_box_num_violent_MM_w30_apex_v2.pdf}
-        \end{subfigure}\hfill
-        \begin{subfigure}{0.485\textwidth}
-            \caption{Peaceful protests}
-            \includegraphics[width=\textwidth]{per_scandal_box_num_peaceful_MM_w30_apex_v2.pdf}
-        \end{subfigure}
+        \scriptsize{\input{sup_benchmarks_ols_panels}}
     \end{center}
-    \footnotesize{For each of the \hl{176} apex corruption scandals, we estimate the OLS post-scandal coefficient of \autoref{eq:main} on the $\pm$30-day window of the implicated country alone, retaining the day-of-week and month-of-year fixed effects. Each panel summarizes, by box plot, the cross-scandal distribution of those per-scandal coefficients $\hat{\beta}_s$ for the corresponding outcome under the apex partition: President (\hl{45} scandals), Other Apex (\hl{19} scandals; Governors and Supreme-Court Justices), and Other Non-Apex (\hl{112} scandals; members of Congress, lower judiciary, and lower officials). The note inside each panel reports the within-category median of $\hat{\beta}_s$ and the number of scandals contributing to each category. For some scandals the outcome has no within-window variation---i.e., the implicated country recorded no protests of the relevant type throughout the $\pm$30-day window---in which case the per-scandal regression cannot identify an effect and the scandal is dropped from the corresponding box plot. Outliers are hidden for legibility. The sample period is \hl{2008--2018}; Venezuela is excluded.}
-\end{figure}
+    \footnotesize{OLS estimates of $\beta$ from \autoref{eq:main}. Columns are violent and peaceful protest counts at four event-window widths: $\pm$30 days (cols.\ 1--2), $\pm$60 (cols.\ 3--4), $\pm$90 (cols.\ 5--6) and $\pm$120 (cols.\ 7--8). Panel A: Apex scandals (President, Governors and Supreme Court Justices; 64 scandals). Panel B: Non-Apex scandals (Congressmen, lower judiciary, and other officials; 112 scandals). Panel C: national-team football match losses. Panel D: currency depreciation episodes (a month-on-month depreciation of the exchange rate of more than 5\%). An observation is a country-day inside the event window of the corresponding event. All specifications include country-by-year, month-of-year, and day-of-week fixed effects; standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. ``Mean (Pre-Event)'' is the average outcome over the same $\pm$window as the column (the 30 days before the event for the $\pm$30 columns, the 60 days before for the $\pm$60 columns, and so on). Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+\end{table}
+
+\subsection{Heterogeneity by the level of democracy}
+
+A natural question is whether these patterns of mobilization are driven by the country's democratic environment. There are at least two related, yet opposite, hypotheses about how democratic level of a country interacts with mobilization patterns. On the one hand, citizens in countries with higher levels of democracy may not mobilize, since strong democratic institutions in their countries can punish corrupt officials and remove them from office once proven guilty. On the other hand, precisely because citizens in highly democratic countries have higher standards for accountability, they may choose to mobilize in order to call democratic institutions into action. Our evidence suggests this second behavior is more likely the explanation. 
+
+\autoref{tab:democracy} splits the panel of countries at the median of their 2008 level of democracy---measured by V-Dem's Electoral Democracy Index~\citep{vdem2024}---and interacts the post-scandal indicator with the resulting above-/below-median classification. The violent-protest response is positive in both groups but, if anything, larger and more persistent in the \emph{above}-median (higher-democracy) countries: the $\pm$30-day effect is 0.021 ($p<0.05$) in higher-democracy countries versus 0.009 ($p<0.1$) in lower-democracy ones, and at the $\pm$120-day horizon it is 0.024 ($p<0.01$) versus 0.005 (not significant). However, we cannot statistically distinguish the two ($p = 0.245$ and $0.115$ for the $\pm$30- and $\pm$120-day violent-count effects), so this heterogeneity is suggestive rather than conclusive.
+
+\begin{table}[htb!]
+    \caption{Effect by 2008 level of democracy.}
+    \label{tab:democracy}
+    \begin{center}
+        \scriptsize{\input{sup_democracy_split_ols}}
+    \end{center}
+    \footnotesize{OLS estimates of $\beta_{\text{High}}$ and $\beta_{\text{Low}}$, the coefficients on the post-scandal indicator interacted with an above-median and an at-or-below-median 2008-democracy flag. Columns are violent and peaceful protest counts at four event-window widths: $\pm$30 days (cols.\ 1--2), $\pm$60 (cols.\ 3--4), $\pm$90 (cols.\ 5--6), and $\pm$120 (cols.\ 7--8). Countries are split at the median of V-Dem's Electoral Democracy Index (\texttt{v2x\_polyarchy}) in 2008; all 16 sample countries have the index (Venezuela is excluded throughout). An observation is a country-day inside a scandal's event window. The row ``$p$-value: High $=$ Low'' reports the two-sided $p$-value for $H_0:\beta_{\text{High}}=\beta_{\text{Low}}$. All specifications include country-by-year, month-of-year, and day-of-week fixed effects; standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. Sample period 2008--2018. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+\end{table}
+
+\subsection{Robustness}
+
+The headline pattern---an immediate, apex-specific rise in violent protests with no matching movement on the peaceful margin---survives a battery of checks collected in the Supplementary Materials. Because our identifying variation is the within-country-year timing of disclosure, we first assess significance by randomization inference: for each subsample, outcome, and window we redraw placebo disclosure dates within each scandal's own country-year and re-estimate \autoref{eq:main} 1{,}000 times. The observed apex violent-protest effect sits in the extreme upper tail of its placebo distribution at every window (\autoref{sup:ri}). Second, an enumerated pre-scandal cutoff test---which slides the treatment date to each day inside the pre-scandal window---produces placebo coefficients that stay near zero until the cutoff nears the true disclosure date, ruling out anticipation and confirming that the jump coincides with disclosure (\autoref{sup:placebo}). Third, the apex violent-protest effect is stable as the event window widens from 15 to 150 days, while the Non-Apex response stays close to zero throughout (\autoref{sup:window}). Fourth, because scandals are staggered in calendar time, we re-estimate the effect with heterogeneity-robust difference-in-differences estimators---Sun and Abraham~\citep{sun2021estimating}, Borusyak, Jaravel and Spiess~\citep{borusyak2024revisiting}, and de Chaisemartin and D'Haultf{\oe}uille~\citep{decade2024dcdh}---under both a stacked-by-scandal design~\citep{cengiz2019effect} and a first-scandal staggered design; all recover the same sign and broad magnitude as the OLS estimates, so the result is not an artifact of two-way fixed-effects aggregation (\autoref{sup:did}). Finally, the rank gradient is monotone: restricting the apex group to Presidential scandals alone, and then to Presidents plus Other Apex officials, preserves the violent-protest effect (\autoref{sup:restricted}), and a regression that interacts the post-scandal indicator with the full rank hierarchy confirms the gradient (\autoref{sup:hierarchy}).
 
 % =====================================================================
 % Discussion
 % =====================================================================
 \section{Discussion}
+The evidence we have presented suggests citizens do not respond uniformly to all types of corruption: they respond sharply, immediately and durably when the implicated official is at the apex of the political spectrum, and they barely respond when the implicated official sits at the lower tier of the hierarchy. Furthermore, the response concentrates on violent protests and persists even in a four month window. The peaceful margin stays essentially flat over both horizons and regardless of whether the scandal implicates an Apex or Non-Apex politician. Our findings underscore the fact that corruption is a tangible behavioral shock to the local (and perhaps even regional) political environment, not just an attitudinal one. The stakes citizens hold in the continuation in office of a corrupt official appear to govern whether citizens mobilize, and how they do so. The joint pattern---a persistent rise in violent protests with no corresponding change on the peaceful margin---is consistent with, though our design does not establish, citizens turning to violent rather than peaceful channels when a scandal undercuts their confidence in the officials meant to be held accountable.
 
-Taken together, our three facts are suggestive of a particular reading of how corruption interacts with the political environment of a democracy. Citizens do not respond uniformly to all corruption: they respond sharply, immediately, and durably when the implicated official is at the apex of the political hierarchy, and they barely respond at all when the implicated official is further down the hierarchy. The response is concentrated on the violent margin and persists on a horizon over which institutional adjudication is slow, while the peaceful-mobilisation margin attenuates---and in our Poisson estimates reverses sign---by the four-month mark. We read this constellation as suggestive of three claims that we develop in the remainder of this section. First, corruption is a tangible behavioural shock to a democracy's near-term political environment, not only an attitudinal one. Second, the political weight of the implicated official---the stakes citizens hold in that official's continuation in office---governs whether disclosure mobilises citizens to act. Third, when citizens lose confidence in institutional channels of accountability, the composition of mobilisation shifts from peaceful to violent forms.
+Our findings contribute to three literatures. First, the economics-of-conflict literature has documented that political violence responds to economic shocks~\citep{koenig2017networks,mcguirk2020economic,dube2013commodity,besley2011logic,berman2011hearts,rohner2026aidingpeace}. We introduce a \textit{political} shock---public disclosure of apex corruption---and show that it produces mobilization responses of comparable magnitude to the ones caused by economic shocks. Second, the corruption and accountability literature has documented that disclosures of malfeasance change voting behavior~\citep{ferraz2008exposing,ferraz2011electoral,FerrazFinanAccount,ferraz2018audits,horacio2019infonetwork}. The slow electoral horizon has tended to obscure that the same disclosures can have very fast, non-electoral consequences~\citep{madestam2013protests,bursztyn2021persistent}. Our high-frequency design uncovers a channel through which apex corruption shapes the political environment in democracies within days of public disclosures, well before subsequent elections come into play. Third, the protest channel is the behavioral complement of the attitudinal evidence from our companion paper~\citep{ApexCorruption}, which documents that apex corruption scandals erode support for democracy and democratic institutions, and also reduce political participation.
 
-Our findings contribute to three connected literatures. First, the economics-of-conflict literature has documented that political violence responds to \emph{economic} shocks---rainfall and crop prices~\citep{miguel2004economic}, commodity rents and conflict networks~\citep{koenig2017networks, mcguirk2020economic, dube2013commodity}, the state-capacity foundations of political violence~\citep{besley2011logic}, the economics of counterinsurgency~\citep{berman2011hearts}, and abrupt withdrawals of foreign assistance~\citep{rohner2026aidingpeace}. We introduce a \emph{political} shock---public disclosure of apex corruption---and show that it produces a violent-protest response of comparable magnitude to the economic shocks the literature has emphasised. Second, the corruption-and-accountability literature has documented that disclosures of malfeasance change voting behaviour, particularly at the municipal level~\citep{ferraz2008exposing, ferraz2011electoral, FerrazFinanAccount, ferraz2018audits, horacio2019infonetwork}. The slow electoral horizon has tended to obscure that the same disclosures can have very fast, non-electoral consequences~\citep{madestam2013protests, bursztyn2021persistent}. Our high-frequency design uncovers a channel through which apex corruption shapes the political environment of a democracy within days of public disclosure, well before any subsequent election can adjudicate. Third, the protest channel we document is the behavioural counterpart of the attitudinal evidence in our companion paper~\citep{ApexCorruption}, which documents that apex scandals erode citizen support for democratic institutions and depress political participation. Read together, apex corruption operates through a coherent mechanism that affects both citizen beliefs and citizen actions, and contributes to the cumulative erosion of democratic legitimacy that the literature on democratic backsliding has documented~\citep{levitsky2010competitive, mainwaring2018party}.
+Our results help reconcile part of the mixed results in the existing literature on the political consequences of corruption disclosures. Studies of local level corruption have produced muted estimates of disclosure's electoral consequences, with some finding modest accountability gains in Brazil and Spain~\citep{ferraz2008exposing,ferraz2011electoral,ferraz2018audits,costasperez2012corruption} and others finding null or even demobilizing effects~\citep{chong2015does,anduiza2013turning,pavao2018corruption,horacio2022metaketa}. We argue that the dispersion in municipal estimates reflects the limited political stakes at that level. In particular, when the implicated official is one of many municipal officeholders, citizens have weaker incentives to incur the costs of mobilization. Within our sample, scandals implicating Congressmen, lower judiciary and lower rank officials have \emph{immediate} (30-day) post-scandal effects on violent protests statistically indistinguishable from zero, whereas the effect of scandals implicating a President or Other Apex official is large and immediate.
 
-Our results help reconcile a set of mixed estimates in the existing literature on the political consequences of corruption disclosure. Studies of municipal-level corruption have produced consistently muted estimates of disclosure's electoral consequences, with some finding modest accountability gains in Brazil and Spain~\citep{ferraz2008exposing, FerrazFinanAccount, ferraz2018audits, costasperez2012corruption} and others finding null or even demobilising effects~\citep{chong2015does, anduiza2013turning, pavao2018corruption, horacio2022metaketa}. We propose that the dispersion in these municipal estimates reflects the limited political stakes at that level: when the implicated official is one of many municipal officeholders, citizens have weaker incentives to incur the costs of mobilisation. Our apex partition makes this argument quantitative. Within our own sample, scandals against Congressmen, lower judiciary, and lower officials---the closest analogue in our setting to the municipal officials studied elsewhere---have median per-scandal protest effects statistically indistinguishable from zero. Scandals against sitting Presidents, by contrast, have median effects on violent protest roughly eight times larger than those against Governors or Supreme-Court Justices, and an order of magnitude larger than those against lower-rank officials. This is consistent with evidence from Latin American presidential approval data that scandals against sitting Presidents are the political margin at which corruption disclosures have the largest immediate cost~\citep{carlin2015cushioning}. The same mechanism that produces muted electoral responses at the municipal level produces sharp behavioural responses at the apex.
+A ``salience of stakeholders'' view rationalizes this~\citep{acemoglu2006origins,acemoglu2012nations,jha2013trade,jha2019valuing,jha2022markets}. Citizens' political behavior responds to the political weight of \textit{what} is being disclosed. Apex corruption, thus, affects citizens' perceived stakes of the political bargain, particularly when the implicated official is at the apex of the political hierarchy. The contrast between high--stakes apex scandals and low-stakes lower-officials scandals parallels the contrast between high-stakes elections and routine governance in studies of political accountability~\citep{martinezbravo2022elites}. Notably, this response does not require weak institutions to appear: it is present across our sample and, if anything, somewhat stronger in the more democratic countries, where citizens plausibly hold higher expectations of accountability---and enjoy greater latitude to voice them---when those expectations are violated~\citep{acemoglu2019DemoEcoGrowth,acemoglu2024demobreedsupport,DuranteFutbol}.
 
-A theoretical framework that organises this gradient is the salience-of-stakeholder view advanced by~\citet{jha2019valuing}, building on earlier work showing that institutional context shapes political behaviour~\citep{jha2013trade, jha2022markets, acemoglu2012nations, acemoglu2006origins}: citizen political behaviour responds to the political weight of what is being disclosed, not to disclosure per se. Under this view, apex corruption mobilises citizens because it changes the perceived stakes of the political bargain---particularly when the implicated official is the sitting executive whose decisions, judicial appointments, and command over policy implementation determine outcomes for the entire country. A purely informational account, by contrast, would predict that the magnitude of the protest response is independent of which official is implicated, conditional on the size of the alleged malfeasance. Our gradient---a roughly eight-fold ratio between the Presidential and Other-Apex medians for violent protests, and an order-of-magnitude gap to the Non-Apex median---is difficult to reconcile with such a pure-information story; the data favour the stakeholder reading. The contrast between high-stakes presidential scandals (sharp response) and low-stakes lower-official scandals (no response) parallels the contrast between high-stakes local elections and routine governance in studies of political accountability~\citep{martinezbravo2022elites}, and is consistent with the broader idea that the supply of citizen engagement depends on whether institutions deliver outcomes~\citep{acemoglu2024demobreedsupport, acemoglu2019DemoEcoGrowth, DuranteFutbol}. The substitution pattern visible in the wide-window event study---violent protests positive throughout the four-month horizon, peaceful protests positive in the immediate aftermath but turning negative by the fourth month (Poisson estimates significant at 10\%)---is informative on the same point: it is consistent with citizen mobilisation initially making use of all available channels and then narrowing onto disruptive ones as the institutional response to peaceful mobilisation disappoints. Findings on the erosion of civic and democratic values following exposure to corrupt leaders~\citep{ajzenman2021powerexample, ApexCorruption} are complementary: when citizens perceive that the political elite has defected from the social contract, peaceful mobilisation becomes a less credible means of pressing for change. The mirror pattern in violent government response---which we document in supplementary analysis---is consistent with classical findings that institutional capacity shapes how states meet contention~\citep{davenport2007state}.
-
-The empirical exercise has several limitations. First, our identification rests on the timing of \emph{public disclosure} of scandals, not on the underlying acts of corruption. If the timing of disclosures is endogenous to pre-existing political conditions---because prosecutors or media outlets release information strategically in periods of ferment---part of the effect we attribute to scandals could reflect the conditions that surrounded their release. The flat pre-trends in our event studies make the strongest version of this concern unlikely, but our identification is conditional on the timing of disclosure being as-good-as-randomly assigned relative to a country's protest baseline. Second, our protest data are media-based~\citep{clark2016mass} and therefore under-record small or geographically dispersed events. The cross-source validation against ACLED~\citep{raleigh2023acled} on the post-2018 sub-sample preserves the sign and significance pattern of our headline results, but cannot rule out under-recording in earlier years. A substantial share of our scandals---145 of 176 for violent protests---fall in country-windows with no recorded movement on the relevant margin throughout the $\pm 30$-day window, so the per-scandal heterogeneity analysis in \autoref{fig:boxplots} is identified on a selected sub-sample of countries with at least some recorded protest activity. Third, our observational design cannot fully separate the political stakes of an apex scandal from its press salience: apex scandals are disclosed against a backdrop of greater media coverage, and a substantial body of work shows that media coverage independently shifts political behaviour~\citep{dellavigna2007fox}. We cannot hold coverage constant in our data. The randomised field experiment of \citet{ApexCorruption}, which experimentally varies the rank of the implicated official while holding coverage constant, provides indirect evidence that the gradient is not driven by coverage alone. Fourth, the apex partition relies on hand-coding of scandals into categories. Finally, our sample is restricted to Latin America between 2008 and 2018; whether the gradient documented here generalises to other regions and to scandals in older democracies is a question we leave open for future work.
+Our empirical analyses have some limitations worth noting. Our identification strategy relies on the timing of apex corruption disclosures, not on the timing of the corrupt act itself. If the timing of disclosures is correlated with pre-existing political conditions that affect mobilization (violent or peaceful), our estimates could then be biased. Somewhat reassuringly, the pre-scandal estimates in \autoref{fig:dynamics} show no evidence of pre-existing trends in mobilization, the enumerated pre-scandal cutoff test (\autoref{sup:placebo}) finds no comparable jump at any placebo date before disclosure, and randomization inference against within-country-year placebo dates (\autoref{sup:ri}) places the observed effect in the tail of its permutation distribution. A second limitation comes from the fact that the MM dataset is constructed by looking at news sources reporting on mobilization events. Small protests may thus be underreported as they are not big enough to draw media attention, or protests occurring in geographically remote areas may also be left out. This would induce measurement error in our estimates, but if anything this would bias our estimates toward zero. And finally, our scandal sample is limited to Latin American democracies in the 2008--2018 period, thus limiting the external validity of our findings insofar as different regions in the world may mobilize differently in response to corruption scandals. One could also expect different results when shortening/expanding the time scope of the analysis if one believes that the cumulative amount of apex corruption episodes affect the extent to which citizens mobilize.
 
 % =====================================================================
 % REFERENCES
@@ -161,60 +193,729 @@ The empirical exercise has several limitations. First, our identification rests 
 \bibliography{refs}
 
 % =====================================================================
-% APPENDIX
+% SUPPLEMENTARY MATERIALS
 % =====================================================================
 \clearpage
 \appendix
-\section{Raw protest counts around scandal disclosure}
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thesubsection}{S\arabic{section}.\arabic{subsection}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\setcounter{section}{0}
+\setcounter{table}{0}
+\setcounter{figure}{0}
 
-We aggregate event-time into 3-day bins (matching the modern-DiD bin convention used elsewhere in the project), bin $b = \lfloor t/3 \rfloor$ for $t \in [-120, +120]$ days, and sum the daily country-level count of protests across all \hl{176} apex corruption scandals inside each bin. The figures show the raw protest counts that the OLS and Poisson estimates of \autoref{tab:main} summarize. \autoref{fig:rawcount30} reports the narrow $\pm$30-day window; \autoref{fig:rawcount120} reports the wide $\pm$120-day window.
+\begin{center}
+    {\Large\bfseries Supplementary Materials}
+\end{center}
+\bigskip
+
+% ---------------------------------------------------------------------
+\section{Randomization inference by apex-partition subsample}\label{sup:ri}
+
+We complement the headline estimates with a randomization-inference (permutation) test, run separately on the two subsamples of Table~\ref{tab:main}. In each of 1{,}000 replications and for each scandal we draw a placebo disclosure date uniformly at random within the scandal's original country-year, rejecting any draw whose $\pm T$-day window would overlap a real disclosure date in the same country (with an unconditional fallback over all countries and 2008--2018 dates after 20 failed within-country-year attempts). We rebuild the $\pm T$-day event-window panel around the accepted placebo dates and re-estimate the headline OLS specification. Figures~\ref{fig:sup_ri_pa}--\ref{fig:sup_ri_na_peaceful} plot the resulting placebo $\hat\beta$ distributions; the maroon vertical line marks the observed $\hat\beta$ from the corresponding cell of Table~\ref{tab:main}, and the legend reports that observed $\hat\beta$ together with the two-sided randomization-inference $p$-value. For violent protests the observed effect sits in the upper tail---most sharply for the Apex subsample---while for the Non-Apex subsample and for peaceful protests it lies within the placebo mass.
 
 \begin{figure}[htb!]
-    \caption{Raw protest counts, $\pm 30$-day window (3-day bins)}
-    \label{fig:rawcount30}
-    \begin{center}
-        \begin{subfigure}{0.485\textwidth}
-            \caption{Any protests}
-            \includegraphics[width=\textwidth]{raw_count_protests_w30.pdf}
-        \end{subfigure}\hfill
-        \begin{subfigure}{0.485\textwidth}
-            \caption{Violent protests}
-            \includegraphics[width=\textwidth]{raw_count_violent_w30.pdf}
-        \end{subfigure}\\[1em]
-        \begin{subfigure}{0.485\textwidth}
-            \caption{Peaceful protests}
-            \includegraphics[width=\textwidth]{raw_count_peaceful_w30.pdf}
-        \end{subfigure}\hfill
-        \begin{subfigure}{0.485\textwidth}
-            \caption{Gvt.\ violent response}
-            \includegraphics[width=\textwidth]{raw_count_gvtresp_w30.pdf}
-        \end{subfigure}
-    \end{center}
-    \footnotesize{Each panel plots, for every 3-day event-time bin in $[-30, +30]$ days relative to a scandal's public-disclosure date, the total number of country-day protest events recorded across all \hl{176} apex corruption scandals. Bins are defined as $b = \lfloor t/3 \rfloor$ and plotted at their midpoint $3b + 1$; each interior bin aggregates $\hl{176 \times 3 = 528}$ country-day cells. Navy bars cover the pre-scandal period; maroon bars cover the post-scandal period. The dashed vertical line marks $t = 0$ (the disclosure date). The sample period is \hl{2008--2018}; Venezuela is excluded.}
+    \caption{Randomization inference, Apex subsample: violent protests.}
+    \label{fig:sup_ri_pa}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 30$-day window.}
+        \includegraphics[width=\textwidth]{randomization_inference_hist_num_violent_MM_w30_pa.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 60$-day window.}
+        \includegraphics[width=\textwidth]{randomization_inference_hist_num_violent_MM_w60_pa.pdf}
+    \end{subfigure} \\
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 90$-day window.}
+        \includegraphics[width=\textwidth]{randomization_inference_hist_num_violent_MM_w90_pa.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 120$-day window.}
+        \includegraphics[width=\textwidth]{randomization_inference_hist_num_violent_MM_w120_pa.pdf}
+    \end{subfigure}
+    \footnotesize{Randomization inference for violent protests on the Apex subsample. Each histogram is the distribution of 1{,}000 placebo estimates of the post-scandal effect, obtained by redrawing each of the 64 apex scandals' disclosure dates at random within its own country-year and re-estimating \autoref{eq:main} on the $\pm T$ event window; the four panels correspond to $T\in\{30,60,90,120\}$ days. The x-axis is scaled to span both the placebo distribution and the observed estimate. The maroon vertical line marks the observed $\hat\beta$ on the apex subsample at the corresponding window; the top-right legend reports that observed $\hat\beta$ and the two-sided randomization-inference $p$-value, the share of placebo estimates with $|\hat\beta_{\mathrm{placebo}}|\geq|\hat\beta_{\mathrm{obs}}|$. Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
 \end{figure}
 
 \begin{figure}[htb!]
-    \caption{Raw protest counts, $\pm 120$-day window (3-day bins)}
-    \label{fig:rawcount120}
+    \caption{Randomization inference, Apex subsample: peaceful protests.}
+    \label{fig:sup_ri_pa_peaceful}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 30$-day window.}
+        \includegraphics[width=\textwidth]{randomization_inference_hist_num_peaceful_MM_w30_pa.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 60$-day window.}
+        \includegraphics[width=\textwidth]{randomization_inference_hist_num_peaceful_MM_w60_pa.pdf}
+    \end{subfigure} \\
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 90$-day window.}
+        \includegraphics[width=\textwidth]{randomization_inference_hist_num_peaceful_MM_w90_pa.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 120$-day window.}
+        \includegraphics[width=\textwidth]{randomization_inference_hist_num_peaceful_MM_w120_pa.pdf}
+    \end{subfigure}
+    \footnotesize{Randomization inference for peaceful protests on the Apex subsample. Each histogram is the distribution of 1{,}000 placebo estimates of the post-scandal effect, obtained by redrawing each of the 64 apex scandals' disclosure dates at random within its own country-year and re-estimating \autoref{eq:main} on the $\pm T$ event window; the four panels correspond to $T\in\{30,60,90,120\}$ days. The maroon vertical line marks the observed $\hat\beta$ on the apex subsample at the corresponding window; the top-right legend reports that observed $\hat\beta$ and the two-sided randomization-inference $p$-value, the share of placebo estimates with $|\hat\beta_{\mathrm{placebo}}|\geq|\hat\beta_{\mathrm{obs}}|$. Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Randomization inference, Non-Apex subsample: violent protests.}
+    \label{fig:sup_ri_na}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 30$-day window.}
+        \includegraphics[width=\textwidth]{randomization_inference_hist_num_violent_MM_w30_na.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 60$-day window.}
+        \includegraphics[width=\textwidth]{randomization_inference_hist_num_violent_MM_w60_na.pdf}
+    \end{subfigure} \\
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 90$-day window.}
+        \includegraphics[width=\textwidth]{randomization_inference_hist_num_violent_MM_w90_na.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 120$-day window.}
+        \includegraphics[width=\textwidth]{randomization_inference_hist_num_violent_MM_w120_na.pdf}
+    \end{subfigure}
+    \footnotesize{Randomization inference for violent protests on the Non-Apex subsample. Each histogram is the distribution of 1{,}000 placebo estimates of the post-scandal effect, obtained by redrawing each of the 112 non-apex scandals' disclosure dates at random within its own country-year and re-estimating \autoref{eq:main} on the $\pm T$ event window; the four panels correspond to $T\in\{30,60,90,120\}$ days. The maroon vertical line marks the observed $\hat\beta$ on the non-apex subsample at the corresponding window; the top-right legend reports that observed $\hat\beta$ and the two-sided randomization-inference $p$-value, the share of placebo estimates with $|\hat\beta_{\mathrm{placebo}}|\geq|\hat\beta_{\mathrm{obs}}|$. Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Randomization inference, Non-Apex subsample: peaceful protests.}
+    \label{fig:sup_ri_na_peaceful}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 30$-day window.}
+        \includegraphics[width=\textwidth]{randomization_inference_hist_num_peaceful_MM_w30_na.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 60$-day window.}
+        \includegraphics[width=\textwidth]{randomization_inference_hist_num_peaceful_MM_w60_na.pdf}
+    \end{subfigure} \\
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 90$-day window.}
+        \includegraphics[width=\textwidth]{randomization_inference_hist_num_peaceful_MM_w90_na.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 120$-day window.}
+        \includegraphics[width=\textwidth]{randomization_inference_hist_num_peaceful_MM_w120_na.pdf}
+    \end{subfigure}
+    \footnotesize{Randomization inference for peaceful protests on the Non-Apex subsample. Each histogram is the distribution of 1{,}000 placebo estimates of the post-scandal effect, obtained by redrawing each of the 112 non-apex scandals' disclosure dates at random within its own country-year and re-estimating \autoref{eq:main} on the $\pm T$ event window; the four panels correspond to $T\in\{30,60,90,120\}$ days. The maroon vertical line marks the observed $\hat\beta$ on the non-apex subsample at the corresponding window; the top-right legend reports that observed $\hat\beta$ and the two-sided randomization-inference $p$-value, the share of placebo estimates with $|\hat\beta_{\mathrm{placebo}}|\geq|\hat\beta_{\mathrm{obs}}|$. Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\clearpage
+\section{Sensitivity to the event-window width}\label{sup:window}
+
+We re-estimate the headline OLS specification at every event-window width $T \in \{15, 30, 45, \dots, 150\}$ days and plot the point estimate against $T$ with a 90\% confidence interval. \autoref{fig:sup_window} places the Apex and Non-Apex subsamples \emph{side by side}---violent protests in the top row, peaceful in the bottom---on a \emph{common y-axis across all four panels}, so the Apex and Non-Apex responses can be compared directly by eye. The four widths reported in Table~\ref{tab:main} ($T=30, 60, 90, 120$) are highlighted in red; the effect on violent protests in the Apex subsample is positive across the full range of windows, while the Non-Apex response stays close to zero.
+
+\begin{figure}[htb!]
+    \caption{Window-width sensitivity: Apex vs.\ Non-Apex.}
+    \label{fig:sup_window}
     \begin{center}
-        \begin{subfigure}{0.485\textwidth}
-            \caption{Any protests}
-            \includegraphics[width=\textwidth]{raw_count_protests_w120.pdf}
-        \end{subfigure}\hfill
-        \begin{subfigure}{0.485\textwidth}
-            \caption{Violent protests}
-            \includegraphics[width=\textwidth]{raw_count_violent_w120.pdf}
-        \end{subfigure}\\[1em]
-        \begin{subfigure}{0.485\textwidth}
-            \caption{Peaceful protests}
-            \includegraphics[width=\textwidth]{raw_count_peaceful_w120.pdf}
-        \end{subfigure}\hfill
-        \begin{subfigure}{0.485\textwidth}
-            \caption{Gvt.\ violent response}
-            \includegraphics[width=\textwidth]{raw_count_gvtresp_w120.pdf}
-        \end{subfigure}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Violent, Apex.}
+        \includegraphics[width=\textwidth]{sup_window_sensitivity_ols_num_violent_MM_pa.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Violent, Non-Apex.}
+        \includegraphics[width=\textwidth]{sup_window_sensitivity_ols_num_violent_MM_na.pdf}
+    \end{subfigure} \\
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Peaceful, Apex.}
+        \includegraphics[width=\textwidth]{sup_window_sensitivity_ols_num_peaceful_MM_pa.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Peaceful, Non-Apex.}
+        \includegraphics[width=\textwidth]{sup_window_sensitivity_ols_num_peaceful_MM_na.pdf}
+    \end{subfigure}
     \end{center}
-    \footnotesize{Same construction as \autoref{fig:rawcount30}, but on the $\pm 120$-day window. Bars represent 3-day bins $b = \lfloor t/3 \rfloor$ plotted at midpoint $3b+1$. Each interior bin sums protest counts across the $\hl{176 \times 3 = 528}$ country-day cells inside the bin. Navy bars cover the pre-scandal period; maroon bars cover the post-scandal period. The dashed vertical line marks $t = 0$. The sample period is \hl{2008--2018}; Venezuela is excluded.}
+    \footnotesize{For each $T \in \{15, 30, \dots, 150\}$ we re-estimate the headline OLS specification on the event-window panel restricted to $|w_{st}|\leq T$, separately on the 64 Apex and 112 Non-Apex scandals. Vertical bars are 90\% confidence intervals; the markers at $T=30, 60, 90, 120$ (the widths in Table~\ref{tab:main}) are highlighted in red. All four panels share a common y-axis so Apex and Non-Apex are directly comparable. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\clearpage
+\section{Heterogeneity by democracy: tercile split}\label{sup:democracy_terciles}
+
+Table~\ref{tab:democracy} in the main text splits countries at the \emph{median} of their 2008 democracy score. \autoref{tab:sup_democracy_terciles} refines that split into \emph{terciles} of V-Dem's 2008 Electoral Democracy Index: Low (bottom tercile), Medium (middle tercile), and High (top tercile). Alongside the three interaction coefficients, it reports the one-sided $p$-values for the orderings $\beta_{\text{High}}>\beta_{\text{Medium}}$, $\beta_{\text{Medium}}>\beta_{\text{Low}}$, and $\beta_{\text{High}}>\beta_{\text{Low}}$. The violent-protest effect is, if anything, increasing in democracy: at the $\pm 90$- and $\pm 120$-day windows the High-democracy effect exceeds the Low-democracy effect at conventional one-sided significance ($p=0.040$ and $0.042$).
+
+\begin{table}[htb!]
+    \caption{Effect by 2008 level of democracy, tercile split.}
+    \label{tab:sup_democracy_terciles}
+    \begin{center}
+        \scriptsize{\input{sup_democracy_terciles_ols}}
+    \end{center}
+    \footnotesize{OLS estimates of $\beta_{\text{High}}$, $\beta_{\text{Medium}}$, and $\beta_{\text{Low}}$, the coefficients on the post-scandal indicator interacted with top-, middle-, and bottom-tercile 2008-democracy flags. Columns are violent and peaceful protest counts at four event-window widths: $\pm$30 days (cols.\ 1--2), $\pm$60 (cols.\ 3--4), $\pm$90 (cols.\ 5--6), and $\pm$120 (cols.\ 7--8). The 16 sample countries are grouped into terciles of V-Dem's Electoral Democracy Index (\texttt{v2x\_polyarchy}) in 2008. An observation is a country-day inside a scandal's event window. The rows ``$p$-value: High $>$ Medium,'' ``Medium $>$ Low,'' and ``High $>$ Low'' report the one-sided $p$-values for the corresponding orderings of the coefficients. All specifications include country-by-year, month-of-year, and day-of-week fixed effects; standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+\end{table}
+
+Pooling the top two terciles into a single ``Medium+High'' group sharpens the comparison against the bottom tercile. \autoref{tab:sup_democracy_lmh} reports this Low vs.\ Medium+High split. The violent-protest effect is larger in the Medium+High group at every window, and the one-sided ordering $\beta_{\text{Medium+High}}>\beta_{\text{Low}}$ is significant at the $\pm 90$- and $\pm 120$-day windows ($p=0.037$ and $0.033$).
+
+\begin{table}[htb!]
+    \caption{Effect by 2008 level of democracy: Low vs.\ Medium+High.}
+    \label{tab:sup_democracy_lmh}
+    \begin{center}
+        \scriptsize{\input{sup_democracy_low_vs_medhigh_ols}}
+    \end{center}
+    \footnotesize{OLS estimates of $\beta_{\text{Medium+High}}$ and $\beta_{\text{Low}}$, the coefficients on the post-scandal indicator interacted with a top-two-tercile (``Medium+High'') and a bottom-tercile (``Low'') 2008-democracy flag. Columns are violent and peaceful protest counts at four event-window widths: $\pm$30 days (cols.\ 1--2), $\pm$60 (cols.\ 3--4), $\pm$90 (cols.\ 5--6), and $\pm$120 (cols.\ 7--8). The 16 sample countries are split into terciles of V-Dem's Electoral Democracy Index (\texttt{v2x\_polyarchy}) in 2008, and the top two terciles are pooled. An observation is a country-day inside a scandal's event window. ``$p$-value: Medium+High $=$ Low'' reports the two-sided $p$-value for $H_0:\beta_{\text{Medium+High}}=\beta_{\text{Low}}$; ``$p$-value: Medium+High $>$ Low (one-sided)'' reports the one-sided $p$-value for $H_1:\beta_{\text{Medium+High}}>\beta_{\text{Low}}$. All specifications include country-by-year, month-of-year, and day-of-week fixed effects; standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+\end{table}
+
+% ---------------------------------------------------------------------
+\clearpage
+\section{Scandal classification}\label{sup:classification}
+
+Each of the 176 scandals in our event-window panel is manually classified by the position of the implicated politician, in two steps. \emph{Step 1 (raw position).} Starting from the free-text description of each scandal, a research assistant assigns one of five raw codes: \texttt{president} (sitting or immediately-former head of state); \texttt{governor} (head of a first-order subnational unit); \texttt{sc\_judge\_congressman} (a Supreme Court Justice \emph{or} a national legislator); \texttt{other\_judiciary} (lower-court judges, prosecutors); and \texttt{others} (ministers, agency heads, mayors, and all remaining officials). \emph{Step 2 (splitting \texttt{sc\_judge\_congressman}).} Because that raw code lumps constitutional-court justices together with members of Congress, we verify each such row and tag the ones implicating a Supreme Court justice; the re-tagged IDs are \texttt{202}, \texttt{NEW26}, \texttt{NEW30}, \texttt{332}, and \texttt{NEW23}. We then aggregate into three bins: \textbf{President} $=$ \texttt{president} (45 scandals); \textbf{Other Apex} $=$ \texttt{governor} plus the five SC-Justice IDs (19 scandals); and \textbf{Non-Apex} $=$ \texttt{other\_judiciary} $+$ \texttt{others} $+$ the remaining \texttt{sc\_judge\_congressman} IDs (Congressmen; 112 scandals). Throughout the paper ``Apex'' pools the President and Other Apex bins (64 scandals).
+
+% ---------------------------------------------------------------------
+\clearpage
+\section{Restricted subsamples: Presidential and Apex}\label{sup:restricted}
+
+Tables~\ref{tab:sup_pres_only} and \ref{tab:sup_pres_apex} re-estimate \autoref{eq:main} on progressively narrower subsamples: scandals implicating a sitting President only (45 scandals), and Presidents plus Other Apex officials (64 scandals). Each table reports OLS estimates of \autoref{eq:main} on the eight outcomes. The violent-protest effect is present in the President-only sample and remains when Other Apex scandals are added.
+
+\begin{table}[htb!]
+    \caption{Table~\ref{tab:main} restricted to Presidential scandals.}
+    \label{tab:sup_pres_only}
+    \begin{center}
+        \scriptsize{\input{sup_pres_only_table}}
+    \end{center}
+    \footnotesize{OLS estimates of $\beta$ from \autoref{eq:main} on the eight outcomes (cols.\ 1--4 counts, cols.\ 5--8 shares). Subsample: the 45 scandals classified as ``President'' in \autoref{sup:classification}. Standard errors (in parentheses) clustered at the country $\times$ year $\times$ day-bin level. Same fixed effects, sample period, and clustering as Table~\ref{tab:main}.}
+\end{table}
+
+\begin{table}[htb!]
+    \caption{Table~\ref{tab:main} restricted to President and Other Apex scandals.}
+    \label{tab:sup_pres_apex}
+    \begin{center}
+        \scriptsize{\input{sup_pres_plus_apex_table}}
+    \end{center}
+    \footnotesize{As in Table~\ref{tab:sup_pres_only}, restricted to the 64 scandals classified as ``President'' or ``Other Apex'' in \autoref{sup:classification}.}
+\end{table}
+
+% ---------------------------------------------------------------------
+\clearpage
+\section{Regression-based hierarchy analysis}\label{sup:hierarchy}
+
+Table~\ref{tab:sup_hierarchy} reports the pooled-regression analogue of the apex partition, splitting the interaction into all three bins. For each outcome and window we estimate
+\begin{equation*}
+    Y_{c(s)t} \;=\; \beta_{\text{Pres}}\, \mathrm{Post}_{st}\, \mathbf{1}\{\text{Pres}_s\}
+    \;+\; \beta_{\text{OA}}\, \mathrm{Post}_{st}\, \mathbf{1}\{\text{OA}_s\}
+    \;+\; \beta_{\text{ONA}}\, \mathrm{Post}_{st}\, \mathbf{1}\{\text{ONA}_s\}
+    \;+\; \alpha_d + \lambda_m + \theta_{cy} + \varepsilon_{c(s)t},
+\end{equation*}
+where $\mathrm{Pres}_s$, $\mathrm{OA}_s$, $\mathrm{ONA}_s$ are scandal-level indicators for President, Other Apex, and Non-Apex. The specification omits a stand-alone Post term, so each coefficient is the average post-scandal effect for that category, and we report the $p$-values from pairwise equality tests.
+
+\begin{table}[htb!]
+    \caption{Pooled interaction regression: hierarchy of the protest response.}
+    \label{tab:sup_hierarchy}
+    \begin{center}
+        \scriptsize{\input{sup_hierarchy_regression}}
+    \end{center}
+    \footnotesize{OLS estimates of $\beta_{\text{Pres}}$, $\beta_{\text{OA}}$, $\beta_{\text{ONA}}$ (Post $\times$ President, Other Apex, Non-Apex) on the four count outcomes (cols.\ 1--4) and four share outcomes (cols.\ 5--8). Standard errors (in parentheses) clustered at the country $\times$ year $\times$ day-bin level. Fixed effects, sample period, and clustering identical to Table~\ref{tab:main}. Rows labeled ``$p$-value'' report pairwise equality tests across the three category coefficients.}
+\end{table}
+
+% ---------------------------------------------------------------------
+\clearpage
+\section{Placebo test: an enumerated pre-scandal cutoff}\label{sup:placebo}
+
+If the effect really begins at the public-disclosure date and there is no anticipation, then artificially placing the post-scandal cutoff at a \emph{pre}-scandal day within the same event window should yield null coefficients. For every offset $k \in \{-T+1,\dots,-1\}$ we redefine $\widetilde{\mathrm{Post}}_{st} = \mathbf{1}\{w_{st} \geq k\}$ and re-estimate the OLS specification on the original event-window sample---no country-day is added or removed, only the treatment cutoff is shifted into the pre-scandal window. \autoref{fig:sup_placebo} plots the resulting placebo coefficients $\hat\beta(k)$ against $k$ for the full sample; Figures~\ref{fig:sup_placebo_pa} and \ref{fig:sup_placebo_na} repeat the exercise on the two subsamples of Table~\ref{tab:main}. The observed $\hat\beta$ (red horizontal line) sits above the pre-scandal placebo series for violent protests---most clearly for the Apex subsample---and near zero for peaceful protests.
+
+\begin{figure}[htb!]
+    \caption{Placebo test, full sample: violent protests, $\hat\beta(k)$ under an enumerated pre-scandal cutoff.}
+    \label{fig:sup_placebo}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 30$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_violent_MM_w30.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 60$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_violent_MM_w60.pdf}
+    \end{subfigure} \\
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 90$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_violent_MM_w90.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 120$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_violent_MM_w120.pdf}
+    \end{subfigure}
+    \footnotesize{Enumerated pre-scandal cutoff placebo test for violent protests on the full sample of 176 scandals. For each offset $k\in\{-T+1,\dots,-1\}$ we replace the true post-scandal indicator with $\widetilde{\mathrm{Post}}_{st}=\mathbf{1}\{w_{st}\geq k\}$---sliding the treatment cutoff to a pre-scandal day---and re-estimate \autoref{eq:main} on the $\pm T$ event window, adding or removing no country-day. Gray circles are the resulting placebo coefficients $\hat\beta(k)$ plotted against $k$; the solid red line is the observed $\hat\beta$, the full-sample violent estimate at the $\pm T$ window; the legend gives the rank of the observed estimate among the placebos and the two-sided $p$-value. The four panels correspond to $T\in\{30,60,90,120\}$ days. Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Placebo test, full sample: peaceful protests.}
+    \label{fig:sup_placebo_peaceful}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 30$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_peaceful_MM_w30.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 60$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_peaceful_MM_w60.pdf}
+    \end{subfigure} \\
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 90$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_peaceful_MM_w90.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 120$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_peaceful_MM_w120.pdf}
+    \end{subfigure}
+    \footnotesize{Enumerated pre-scandal cutoff placebo test for peaceful protests on the full sample of 176 scandals. For each offset $k\in\{-T+1,\dots,-1\}$ we replace the true post-scandal indicator with $\widetilde{\mathrm{Post}}_{st}=\mathbf{1}\{w_{st}\geq k\}$---sliding the treatment cutoff to a pre-scandal day---and re-estimate \autoref{eq:main} on the $\pm T$ event window. Gray circles are the resulting placebo coefficients $\hat\beta(k)$ plotted against $k$; the solid red line is the observed $\hat\beta$, the full-sample peaceful estimate at the $\pm T$ window; the legend gives the rank of the observed estimate among the placebos and the two-sided $p$-value. The four panels correspond to $T\in\{30,60,90,120\}$ days. Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Placebo test, Apex subsample: violent protests.}
+    \label{fig:sup_placebo_pa}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 30$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_violent_MM_w30_pa.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 60$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_violent_MM_w60_pa.pdf}
+    \end{subfigure} \\
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 90$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_violent_MM_w90_pa.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 120$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_violent_MM_w120_pa.pdf}
+    \end{subfigure}
+    \footnotesize{Enumerated pre-scandal cutoff placebo test for violent protests on the Apex subsample (64 scandals). For each offset $k\in\{-T+1,\dots,-1\}$ we replace the true post-scandal indicator with $\widetilde{\mathrm{Post}}_{st}=\mathbf{1}\{w_{st}\geq k\}$---sliding the treatment cutoff to a pre-scandal day---and re-estimate \autoref{eq:main} on the $\pm T$ event window. Gray circles are the resulting placebo coefficients $\hat\beta(k)$ plotted against $k$; the solid red line is the observed $\hat\beta$, the apex-subsample violent estimate at the $\pm T$ window; the legend gives the rank of the observed estimate among the placebos and the two-sided $p$-value. The four panels correspond to $T\in\{30,60,90,120\}$ days. Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Placebo test, Apex subsample: peaceful protests.}
+    \label{fig:sup_placebo_pa_peaceful}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 30$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_peaceful_MM_w30_pa.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 60$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_peaceful_MM_w60_pa.pdf}
+    \end{subfigure} \\
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 90$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_peaceful_MM_w90_pa.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 120$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_peaceful_MM_w120_pa.pdf}
+    \end{subfigure}
+    \footnotesize{Enumerated pre-scandal cutoff placebo test for peaceful protests on the Apex subsample (64 scandals). For each offset $k\in\{-T+1,\dots,-1\}$ we replace the true post-scandal indicator with $\widetilde{\mathrm{Post}}_{st}=\mathbf{1}\{w_{st}\geq k\}$---sliding the treatment cutoff to a pre-scandal day---and re-estimate \autoref{eq:main} on the $\pm T$ event window. Gray circles are the resulting placebo coefficients $\hat\beta(k)$ plotted against $k$; the solid red line is the observed $\hat\beta$, the apex-subsample peaceful estimate at the $\pm T$ window; the legend gives the rank of the observed estimate among the placebos and the two-sided $p$-value. The four panels correspond to $T\in\{30,60,90,120\}$ days. Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Placebo test, Non-Apex subsample: violent protests.}
+    \label{fig:sup_placebo_na}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 30$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_violent_MM_w30_na.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 60$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_violent_MM_w60_na.pdf}
+    \end{subfigure} \\
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 90$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_violent_MM_w90_na.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 120$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_violent_MM_w120_na.pdf}
+    \end{subfigure}
+    \footnotesize{Enumerated pre-scandal cutoff placebo test for violent protests on the Non-Apex subsample (112 scandals). For each offset $k\in\{-T+1,\dots,-1\}$ we replace the true post-scandal indicator with $\widetilde{\mathrm{Post}}_{st}=\mathbf{1}\{w_{st}\geq k\}$---sliding the treatment cutoff to a pre-scandal day---and re-estimate \autoref{eq:main} on the $\pm T$ event window. Gray circles are the resulting placebo coefficients $\hat\beta(k)$ plotted against $k$; the solid red line is the observed $\hat\beta$, the non-apex-subsample violent estimate at the $\pm T$ window; the legend gives the rank of the observed estimate among the placebos and the two-sided $p$-value. The four panels correspond to $T\in\{30,60,90,120\}$ days. Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Placebo test, Non-Apex subsample: peaceful protests.}
+    \label{fig:sup_placebo_na_peaceful}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 30$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_peaceful_MM_w30_na.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 60$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_peaceful_MM_w60_na.pdf}
+    \end{subfigure} \\
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 90$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_peaceful_MM_w90_na.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{$\pm 120$-day window.}
+        \includegraphics[width=\textwidth]{sup_placebo_within_window_hist_num_peaceful_MM_w120_na.pdf}
+    \end{subfigure}
+    \footnotesize{Enumerated pre-scandal cutoff placebo test for peaceful protests on the Non-Apex subsample (112 scandals). For each offset $k\in\{-T+1,\dots,-1\}$ we replace the true post-scandal indicator with $\widetilde{\mathrm{Post}}_{st}=\mathbf{1}\{w_{st}\geq k\}$---sliding the treatment cutoff to a pre-scandal day---and re-estimate \autoref{eq:main} on the $\pm T$ event window. Gray circles are the resulting placebo coefficients $\hat\beta(k)$ plotted against $k$; the solid red line is the observed $\hat\beta$, the non-apex-subsample peaceful estimate at the $\pm T$ window; the legend gives the rank of the observed estimate among the placebos and the two-sided $p$-value. The four panels correspond to $T\in\{30,60,90,120\}$ days. Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+% % ---------------------------------------------------------------------
+% \clearpage
+% \section{Randomization inference on the full sample}\label{sup:ri_full}
+
+% Figure~\ref{fig:sup_ri_full} runs the permutation test of \autoref{sup:ri} on all 176 scandals pooled. Table~\ref{tab:sup_ri_percentile} then re-expresses the randomization-inference output for the full sample and the two subsamples in percentile language: for each cell it reports the percentile of the observed $\hat\beta$ within its placebo distribution (the share of placebo draws at or below the observed value), alongside the two-sided RI $p$-value. The observed violent-protest effect sits in the upper tail of its placebo distribution, most sharply in the Apex subsample.
+
+% \begin{figure}[htb!]
+%     \caption{Randomization inference, full sample.}
+%     \label{fig:sup_ri_full}
+%     \begin{subfigure}{0.48\textwidth}
+%         \caption{Violent, $\pm 30$-day window.}
+%         \includegraphics[width=\textwidth]{randomization_inference_hist_num_violent_MM_w30.pdf}
+%     \end{subfigure}\hfill
+%     \begin{subfigure}{0.48\textwidth}
+%         \caption{Violent, $\pm 120$-day window.}
+%         \includegraphics[width=\textwidth]{randomization_inference_hist_num_violent_MM_w120.pdf}
+%     \end{subfigure} \\
+%     \begin{subfigure}{0.48\textwidth}
+%         \caption{Peaceful, $\pm 30$-day window.}
+%         \includegraphics[width=\textwidth]{randomization_inference_hist_num_peaceful_MM_w30.pdf}
+%     \end{subfigure}\hfill
+%     \begin{subfigure}{0.48\textwidth}
+%         \caption{Peaceful, $\pm 120$-day window.}
+%         \includegraphics[width=\textwidth]{randomization_inference_hist_num_peaceful_MM_w120.pdf}
+%     \end{subfigure}
+%     \footnotesize{Same construction as \autoref{fig:sup_ri_pa}, on all 176 scandals. The maroon vertical line marks the observed $\hat\beta$; the legend reports the two-sided RI $p$-value. Sample period 2008--2018; Venezuela excluded.}
+% \end{figure}
+
+% \begin{table}[htb!]
+%     \caption{Percentile of the observed $\hat\beta$ in the randomization-inference placebo distribution.}
+%     \label{tab:sup_ri_percentile}
+%     \begin{center}
+%         \small{\input{sup_ri_percentile}}
+%     \end{center}
+%     \footnotesize{For each subsample $\times$ outcome $\times$ window, ``Percentile'' is $100\times$ the share of the 1{,}000 placebo estimates at or below the observed $\hat\beta$ from Table~\ref{tab:main}; ``RI $p$'' is the two-sided randomization-inference $p$-value. Both are computed from the same placebo draws underlying Figures~\ref{fig:sup_ri_pa}--\ref{fig:sup_ri_full}. Sample period 2008--2018; Venezuela excluded.}
+% \end{table}
+
+% ---------------------------------------------------------------------
+\clearpage
+\section{Modern staggered difference-in-differences estimators}\label{sup:did}
+
+Because scandals are staggered in calendar time, a two-way fixed-effects (TWFE) estimator could in principle be contaminated by ``forbidden comparisons'' between newly- and already-treated units~\citep{decade2024dcdh,goodmanbacon2021difference}. We therefore re-estimate the effect with three heterogeneity-robust estimators---Sun \& Abraham (SA)~\citep{sun2021estimating}, Borusyak, Jaravel \& Spiess (BJS)~\citep{borusyak2024revisiting}, and de Chaisemartin \& D'Haultf{\oe}uille (dCDH)~\citep{decade2024dcdh}---against a TWFE OLS baseline, under two designs, each split by subsample.
+
+\paragraph{Design 1 (stacked by scandal).} The design closest to our main event-window specification is a Cengiz-style stack~\citep{cengiz2019effect}: for each scandal we take the treated country's $\pm T$-day (15-day-bin) window together with every country with no scandal of any type in that window as a clean control cohort, and pool the stacks; we report the design at $T\in\{60,90,120\}$ days. Table~\ref{tab:sup_did_stk} reports the static post-scandal coefficient from each estimator, split into Apex (Panel A) and Non-Apex (Panel B); Figures~\ref{fig:sup_did_stk_es}--\ref{fig:sup_did_stk_es_w120} overlay the four estimators' event-study paths for violent protests at each window.
+
+\paragraph{Design 2 (first-scandal, 15-day bins).} As a complementary check we collapse the data to a country $\times$ 15-day-bin panel and define treatment as a country's \emph{first} scandal bin, letting each estimator use its native never-treated control group; event time is measured in 15-day bins, exactly as in the OLS event studies of \autoref{sup:es_windows}, so the two are directly comparable. We report this design at the $\pm 60$, $\pm 90$, and $\pm 120$-day windows (4, 6, and 8 bins per side). Table~\ref{tab:sup_did_cw} collects the static coefficients and Figures~\ref{fig:sup_did_cw_es}--\ref{fig:sup_did_cw_es_w120} the event-study paths. Across both designs and all three estimators, the violent-protest response in the Apex subsample is of the same sign and broad magnitude as the headline estimates, while the Non-Apex subsample stays flat---so the main result is not an artifact of TWFE aggregation. (Outcomes are Mass-Mobilization counts: ``Violent'' $=$ \texttt{mm\_violent}, ``Non-violent'' $=$ \texttt{mm\_nonviolent}.)
+
+\begin{table}[htb!]
+    \caption{Modern DiD estimators, stacked-by-scandal design.}
+    \label{tab:sup_did_stk}
+    \begin{center}\scriptsize
+        \textbf{\textit{Panel A: Apex}}\\[3pt]
+        \input{did_modern_stk_main_pa}\\[10pt]
+        \textbf{\textit{Panel B: Non-Apex}}\\[3pt]
+        \input{did_modern_stk_main_na}
+    \end{center}
+    \footnotesize{Static post-scandal coefficient (standard error) from four estimators---OLS two-way fixed effects (TWFE), de Chaisemartin--D'Haultf{\oe}uille (dCDH), Borusyak--Jaravel--Spiess (BJS), and Sun--Abraham (SA)---on the Cengiz-style stacked-by-scandal panel (country $\times$ 15-day bin; clean-control cohort $=$ countries with no scandal of any type in the $\pm T$ window). Columns are three Mass-Mobilization outcomes---violent protests, non-violent protests, and any protests---each at the $\pm 60$-, $\pm 90$-, and $\pm 120$-day windows (4/6/8 bins per side). Standard errors clustered at the country level. Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+\end{table}
+
+\begin{figure}[htb!]
+    \caption{Modern DiD event studies (violent protests), stacked-by-scandal design, $\pm 60$-day window.}
+    \label{fig:sup_did_stk_es}
+    \begin{center}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Apex.}
+        \includegraphics[width=\textwidth]{did_modern_stk_es_mm_violent_pa_w60.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Non-Apex.}
+        \includegraphics[width=\textwidth]{did_modern_stk_es_mm_violent_na_w60.pdf}
+    \end{subfigure}
+    \end{center}
+    \footnotesize{Event-study coefficients on violent protests from four estimators---OLS two-way fixed effects (TWFE), de Chaisemartin--D'Haultf{\oe}uille (dCDH), Borusyak--Jaravel--Spiess (BJS), and Sun--Abraham (SA)---overlaid, on the Cengiz-style stacked-by-scandal panel (country $\times$ 15-day bin, $\pm 60$-day window; clean-control cohort $=$ countries with no scandal of any type in the window). The two panels are the Apex and Non-Apex subsamples; the time axis is in days (15-day bins) and the bin immediately before disclosure ($-1$) is the reference. Vertical bars are 90\% confidence intervals; standard errors clustered at the country level. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Modern DiD event studies (violent protests), stacked-by-scandal design, $\pm 90$-day window.}
+    \label{fig:sup_did_stk_es_w90}
+    \begin{center}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Apex.}
+        \includegraphics[width=\textwidth]{did_modern_stk_es_mm_violent_pa_w90.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Non-Apex.}
+        \includegraphics[width=\textwidth]{did_modern_stk_es_mm_violent_na_w90.pdf}
+    \end{subfigure}
+    \end{center}
+    \footnotesize{Event-study coefficients on violent protests from four estimators---OLS TWFE, dCDH, BJS, and SA---overlaid, on the Cengiz-style stacked-by-scandal panel (country $\times$ 15-day bin, $\pm 90$-day window; clean-control cohort $=$ countries with no scandal of any type in the window). The two panels are the Apex and Non-Apex subsamples; time axis in days (15-day bins), reference bin $-1$. Vertical bars are 90\% confidence intervals; standard errors clustered at the country level. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Modern DiD event studies (violent protests), stacked-by-scandal design, $\pm 120$-day window.}
+    \label{fig:sup_did_stk_es_w120}
+    \begin{center}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Apex.}
+        \includegraphics[width=\textwidth]{did_modern_stk_es_mm_violent_pa_w120.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Non-Apex.}
+        \includegraphics[width=\textwidth]{did_modern_stk_es_mm_violent_na_w120.pdf}
+    \end{subfigure}
+    \end{center}
+    \footnotesize{Event-study coefficients on violent protests from four estimators---OLS TWFE, dCDH, BJS, and SA---overlaid, on the Cengiz-style stacked-by-scandal panel (country $\times$ 15-day bin, $\pm 120$-day window; clean-control cohort $=$ countries with no scandal of any type in the window). The two panels are the Apex and Non-Apex subsamples; time axis in days (15-day bins), reference bin $-1$. Vertical bars are 90\% confidence intervals; standard errors clustered at the country level. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{table}[htb!]
+    \caption{Modern DiD estimators, 15-day-bin staggered design.}
+    \label{tab:sup_did_cw}
+    \begin{center}\scriptsize
+        \textbf{\textit{Panel A: Apex}}\\[3pt]
+        \input{did_modern_main_pa}\\[10pt]
+        \textbf{\textit{Panel B: Non-Apex}}\\[3pt]
+        \input{did_modern_main_na}
+    \end{center}
+    \footnotesize{Static post-treatment coefficient (standard error) from four estimators---OLS two-way fixed effects (TWFE), de Chaisemartin--D'Haultf{\oe}uille (dCDH), Borusyak--Jaravel--Spiess (BJS), and Sun--Abraham (SA)---on the country $\times$ 15-day-bin staggered panel, with treatment defined as each country's first-scandal bin. The control cohort is restricted to country-years with no scandal of any type, and protest counts are zero on no-protest days. Columns are three Mass-Mobilization outcomes---violent protests, non-violent protests, and any protests---each at the $\pm 60$-, $\pm 90$-, and $\pm 120$-day windows (4/6/8 bins per side). Standard errors clustered at the country level. Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+\end{table}
+
+\begin{figure}[htb!]
+    \caption{Modern DiD event studies (violent protests), 15-day bins, $\pm 60$-day window.}
+    \label{fig:sup_did_cw_es}
+    \begin{center}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Apex.}
+        \includegraphics[width=\textwidth]{did_modern_es_mm_violent_pa_w60.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Non-Apex.}
+        \includegraphics[width=\textwidth]{did_modern_es_mm_violent_na_w60.pdf}
+    \end{subfigure}
+    \end{center}
+    \footnotesize{Event-study coefficients on violent protests from four estimators---OLS two-way fixed effects (TWFE), de Chaisemartin--D'Haultf{\oe}uille (dCDH), Borusyak--Jaravel--Spiess (BJS), and Sun--Abraham (SA)---overlaid, estimated on the country $\times$ 15-day-bin staggered panel with treatment defined as each country's first-scandal bin (never-treated cohort $=$ countries with no subsample scandal), at the $\pm 60$-day window (4 bins per side). The two panels are the Apex and Non-Apex subsamples; the time axis is in days (15-day bins) and the bin immediately before disclosure ($-1$, the 15 days before disclosure) is the reference. Vertical bars are 90\% confidence intervals; standard errors clustered at the country level. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Modern DiD event studies (violent protests), 15-day bins, $\pm 90$-day window.}
+    \label{fig:sup_did_cw_es_w90}
+    \begin{center}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Apex.}
+        \includegraphics[width=\textwidth]{did_modern_es_mm_violent_pa_w90.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Non-Apex.}
+        \includegraphics[width=\textwidth]{did_modern_es_mm_violent_na_w90.pdf}
+    \end{subfigure}
+    \end{center}
+    \footnotesize{Event-study coefficients on violent protests from four estimators---OLS TWFE, dCDH, BJS, and SA---overlaid, estimated on the country $\times$ 15-day-bin staggered panel with treatment defined as each country's first-scandal bin, at the $\pm 90$-day window (6 bins per side). The two panels are the Apex and Non-Apex subsamples; the time axis is in days (15-day bins) and the bin immediately before disclosure ($-1$) is the reference. Vertical bars are 90\% confidence intervals; standard errors clustered at the country level. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Modern DiD event studies (violent protests), 15-day bins, $\pm 120$-day window.}
+    \label{fig:sup_did_cw_es_w120}
+    \begin{center}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Apex.}
+        \includegraphics[width=\textwidth]{did_modern_es_mm_violent_pa_w120.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Non-Apex.}
+        \includegraphics[width=\textwidth]{did_modern_es_mm_violent_na_w120.pdf}
+    \end{subfigure}
+    \end{center}
+    \footnotesize{Event-study coefficients on violent protests from four estimators---OLS TWFE, dCDH, BJS, and SA---overlaid, estimated on the country $\times$ 15-day-bin staggered panel with treatment defined as each country's first-scandal bin, at the $\pm 120$-day window (8 bins per side). The two panels are the Apex and Non-Apex subsamples; the time axis is in days (15-day bins) and the bin immediately before disclosure ($-1$) is the reference. Vertical bars are 90\% confidence intervals; standard errors clustered at the country level. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+% ---------------------------------------------------------------------
+% \clearpage
+% \section{Pooled event study and per-scandal heterogeneity by rank}\label{sup:pooled_box}
+
+% Figure~\ref{fig:sup_eventstudies_full} shows the event study pooling all 176 scandals (rather than splitting by subsample). Figure~\ref{fig:sup_boxplots} summarizes the finer within-apex gradient: we estimate \autoref{eq:main} for each scandal on its own country's $\pm$30-day window and plot, by box plot, the cross-scandal distribution of the per-scandal coefficients under the three-way partition. The median per-scandal violent-protest effect for Presidents is an order of magnitude larger than for the Other Apex category, which is in turn larger than for Non-Apex---a descriptive comparison that rests on the subset of scandals with within-window variation in the outcome.
+
+% \begin{figure}[htb!]
+%     \caption{Pooled event study (all 176 scandals), $\pm 120$-day window (30-day bins).}
+%     \label{fig:sup_eventstudies_full}
+%     \begin{subfigure}{0.45\textwidth}
+%         \caption{Violent protests.}
+%         \includegraphics[width=\textwidth]{es_num_violent_MM_120d_90ci.png}
+%     \end{subfigure}\hfill
+%     \begin{subfigure}{0.45\textwidth}
+%         \caption{Peaceful protests.}
+%         \includegraphics[width=\textwidth]{es_num_peaceful_MM_120d_90ci.png}
+%     \end{subfigure}
+%     \footnotesize{Event-time 30-day-bin coefficients from the modified \autoref{eq:main} on all scandals pooled; omitted bin is the 30 days before disclosure. Vertical bars are 90\% confidence intervals. An observation is a country-scandal-date. Sample period 2008--2018; Venezuela excluded.}
+% \end{figure}
+
+% \begin{figure}[htb!]
+%     \caption{Per-scandal effects by political rank.}
+%     \label{fig:sup_boxplots}
+%     \begin{center}
+%         \begin{subfigure}{0.485\textwidth}
+%             \caption{Violent protests.}
+%             \includegraphics[width=\textwidth]{per_scandal_box_num_violent_MM_w30_apex_v2.pdf}
+%         \end{subfigure}\hfill
+%         \begin{subfigure}{0.485\textwidth}
+%             \caption{Peaceful protests.}
+%             \includegraphics[width=\textwidth]{per_scandal_box_num_peaceful_MM_w30_apex_v2.pdf}
+%         \end{subfigure}
+%     \end{center}
+%     \footnotesize{We estimate the OLS post-scandal coefficient of \autoref{eq:main} on the $\pm$30-day window of each implicated country alone (retaining day-of-week and month-of-year fixed effects). Each panel box-plots the cross-scandal distribution of those per-scandal coefficients under the apex partition of \autoref{sup:classification}: President (45), Other Apex (19), Non-Apex (112). Scandals with no within-window variation in the outcome are dropped from the corresponding box plot. Sample period 2008--2018; Venezuela excluded.}
+% \end{figure}
+
+% ---------------------------------------------------------------------
+\clearpage
+\section{Pooled event studies at other window widths}\label{sup:es_pooled_windows}
+
+\autoref{fig:dynamics} in the main text reports the pooled event study---the apex and non-apex event-time paths estimated jointly (\autoref{eq:dynamics}), directly comparable to the aggregate contrast in \autoref{tab:interaction}---at the $\pm 60$-day window. Figures~\ref{fig:sup_es_pooled_w30}--\ref{fig:sup_es_pooled_w120} report the same specification at the $\pm 30$, $\pm 90$, and $\pm 120$-day windows. Within each figure the violent and peaceful panels share a common y-axis.
+
+\begin{figure}[htb!]
+    \caption{Pooled event study, $\pm 30$-day window (15-day bins).}
+    \label{fig:sup_es_pooled_w30}
+    \begin{center}
+    \begin{subfigure}{0.48\textwidth}\caption{Violent protests.}
+        \includegraphics[width=\textwidth]{es_pooled_num_violent_MM_w30_b15_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}\caption{Peaceful protests.}
+        \includegraphics[width=\textwidth]{es_pooled_num_peaceful_MM_w30_b15_ols_90ci.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{Pooled event study (\autoref{eq:dynamics}): event-time coefficients for the Apex (navy circles) and Non-Apex (maroon diamonds) groups, estimated jointly on the pooled sample, at the $\pm 30$-day window. The bin immediately preceding disclosure ($w_{s,t}\in[-15,-1]$) is the omitted reference for each group. Vertical bars are 90\% confidence intervals; SE clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Pooled event study, $\pm 90$-day window (15-day bins).}
+    \label{fig:sup_es_pooled_w90}
+    \begin{center}
+    \begin{subfigure}{0.48\textwidth}\caption{Violent protests.}
+        \includegraphics[width=\textwidth]{es_pooled_num_violent_MM_w90_b15_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}\caption{Peaceful protests.}
+        \includegraphics[width=\textwidth]{es_pooled_num_peaceful_MM_w90_b15_ols_90ci.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{Pooled event study (\autoref{eq:dynamics}): event-time coefficients for the Apex (navy circles) and Non-Apex (maroon diamonds) groups, estimated jointly on the pooled sample, at the $\pm 90$-day window (15-day bins). The bin immediately preceding disclosure ($w_{s,t}\in[-15,-1]$) is the omitted reference for each group. Vertical bars are 90\% confidence intervals; standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Pooled event study, $\pm 120$-day window (15-day bins).}
+    \label{fig:sup_es_pooled_w120}
+    \begin{center}
+    \begin{subfigure}{0.48\textwidth}\caption{Violent protests.}
+        \includegraphics[width=\textwidth]{es_pooled_num_violent_MM_w120_b15_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}\caption{Peaceful protests.}
+        \includegraphics[width=\textwidth]{es_pooled_num_peaceful_MM_w120_b15_ols_90ci.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{Pooled event study (\autoref{eq:dynamics}): event-time coefficients for the Apex (navy circles) and Non-Apex (maroon diamonds) groups, estimated jointly on the pooled sample, at the $\pm 120$-day window (15-day bins). The bin immediately preceding disclosure ($w_{s,t}\in[-15,-1]$) is the omitted reference for each group. Vertical bars are 90\% confidence intervals; standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\clearpage
+\section{Event studies by subsample (15-day bins)}\label{sup:es_windows}
+
+\autoref{fig:dynamics} in the main text reports the \emph{pooled} event study, in which the apex and non-apex paths are estimated jointly. As a complement, this section reports the \emph{subsample} version---the event study estimated separately on the Apex and Non-Apex samples---at all four widths, $T \in \{30, 60, 90, 120\}$ days, keeping 15-day bins throughout. Within each figure all four panels---violent and peaceful, Apex and Non-Apex---share a common y-axis range, so the estimates can be compared by eye and the zero line is aligned across panels.
+
+\begin{figure}[htb!]
+    \caption{Event studies, $\pm 30$-day window (15-day bins).}
+    \label{fig:sup_es_w30}
+    \begin{center}
+    \begin{subfigure}{0.45\textwidth}\caption{Violent, Apex.}
+        \includegraphics[width=\textwidth]{es_num_violent_MM_w30_b15_pa_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Apex.}
+        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w30_b15_pa_ols_90ci.pdf}\end{subfigure} \\
+    \begin{subfigure}{0.45\textwidth}\caption{Violent, Non-Apex.}
+        \includegraphics[width=\textwidth]{es_num_violent_MM_w30_b15_na_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Non-Apex.}
+        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w30_b15_na_ols_90ci.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{OLS event study estimated separately on the Apex and Non-Apex subsamples, on 15-day event-time bin indicators over the $\pm 30$-day window (\autoref{eq:main} with the post indicator replaced by a saturated set of event-time bins). The four panels are violent and peaceful protests $\times$ Apex and Non-Apex; the reference bin (the 15 days before disclosure) is normalized to zero and shown at its position, and the faint thick vertical line marks the disclosure cutoff. All four panels share a common y-axis. Vertical bars are 90\% confidence intervals; standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Event studies, $\pm 60$-day window (15-day bins).}
+    \label{fig:sup_es_w60}
+    \begin{center}
+    \begin{subfigure}{0.45\textwidth}\caption{Violent, Apex.}
+        \includegraphics[width=\textwidth]{es_num_violent_MM_w60_b15_pa_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Apex.}
+        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w60_b15_pa_ols_90ci.pdf}\end{subfigure} \\
+    \begin{subfigure}{0.45\textwidth}\caption{Violent, Non-Apex.}
+        \includegraphics[width=\textwidth]{es_num_violent_MM_w60_b15_na_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Non-Apex.}
+        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w60_b15_na_ols_90ci.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{OLS event study estimated separately on the Apex and Non-Apex subsamples, on 15-day event-time bin indicators over the $\pm 60$-day window. The four panels are violent and peaceful protests $\times$ Apex and Non-Apex; the reference bin (the 15 days before disclosure) is normalized to zero and shown at its position, and the faint thick vertical line marks the disclosure cutoff. All four panels share a common y-axis. Vertical bars are 90\% confidence intervals; standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Event studies, $\pm 90$-day window (15-day bins).}
+    \label{fig:sup_es_w90}
+    \begin{center}
+    \begin{subfigure}{0.45\textwidth}\caption{Violent, Apex.}
+        \includegraphics[width=\textwidth]{es_num_violent_MM_w90_b15_pa_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Apex.}
+        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w90_b15_pa_ols_90ci.pdf}\end{subfigure} \\
+    \begin{subfigure}{0.45\textwidth}\caption{Violent, Non-Apex.}
+        \includegraphics[width=\textwidth]{es_num_violent_MM_w90_b15_na_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Non-Apex.}
+        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w90_b15_na_ols_90ci.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{OLS event study estimated separately on the Apex and Non-Apex subsamples, on 15-day event-time bin indicators over the $\pm 90$-day window. The four panels are violent and peaceful protests $\times$ Apex and Non-Apex; the reference bin (the 15 days before disclosure) is normalized to zero and shown at its position, and the faint thick vertical line marks the disclosure cutoff. All four panels share a common y-axis. Vertical bars are 90\% confidence intervals; standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Event studies, $\pm 120$-day window (15-day bins).}
+    \label{fig:sup_es_w120}
+    \begin{center}
+    \begin{subfigure}{0.45\textwidth}\caption{Violent, Apex.}
+        \includegraphics[width=\textwidth]{es_num_violent_MM_w120_b15_pa_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Apex.}
+        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w120_b15_pa_ols_90ci.pdf}\end{subfigure} \\
+    \begin{subfigure}{0.45\textwidth}\caption{Violent, Non-Apex.}
+        \includegraphics[width=\textwidth]{es_num_violent_MM_w120_b15_na_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Non-Apex.}
+        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w120_b15_na_ols_90ci.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{OLS event study estimated separately on the Apex and Non-Apex subsamples, on 15-day event-time bin indicators over the $\pm 120$-day window. The four panels are violent and peaceful protests $\times$ Apex and Non-Apex; the reference bin (the 15 days before disclosure) is normalized to zero and shown at its position, and the faint thick vertical line marks the disclosure cutoff. All four panels share a common y-axis. Vertical bars are 90\% confidence intervals; standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\clearpage
+\section{Event studies with 30-day bins}\label{sup:es_b30}
+
+Figures~\ref{fig:sup_es_b30_w60}--\ref{fig:sup_es_b30_w120} reproduce the event studies using 30-day bins instead of the 15-day bins used in the main text, for $T \in \{60, 90, 120\}$ (the $\pm 30$-day window admits only one bin per side at this width and is therefore omitted). As above, the four panels within each figure share a common y-axis.
+
+\begin{figure}[htb!]
+    \caption{Event studies, $\pm 60$-day window (30-day bins).}
+    \label{fig:sup_es_b30_w60}
+    \begin{center}
+    \begin{subfigure}{0.45\textwidth}\caption{Violent, Apex.}
+        \includegraphics[width=\textwidth]{es_num_violent_MM_w60_b30_pa_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Apex.}
+        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w60_b30_pa_ols_90ci.pdf}\end{subfigure} \\
+    \begin{subfigure}{0.45\textwidth}\caption{Violent, Non-Apex.}
+        \includegraphics[width=\textwidth]{es_num_violent_MM_w60_b30_na_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Non-Apex.}
+        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w60_b30_na_ols_90ci.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{OLS event study estimated separately on the Apex and Non-Apex subsamples, on 30-day event-time bin indicators over the $\pm 60$-day window (the 30-day-bin analog of the main-text event studies). The four panels are violent and peaceful protests $\times$ Apex and Non-Apex; the reference bin (the 30 days before disclosure) is normalized to zero and shown at its position, and the faint thick vertical line marks the disclosure cutoff. All four panels share a common y-axis. Vertical bars are 90\% confidence intervals; standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Event studies, $\pm 90$-day window (30-day bins).}
+    \label{fig:sup_es_b30_w90}
+    \begin{center}
+    \begin{subfigure}{0.45\textwidth}\caption{Violent, Apex.}
+        \includegraphics[width=\textwidth]{es_num_violent_MM_w90_b30_pa_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Apex.}
+        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w90_b30_pa_ols_90ci.pdf}\end{subfigure} \\
+    \begin{subfigure}{0.45\textwidth}\caption{Violent, Non-Apex.}
+        \includegraphics[width=\textwidth]{es_num_violent_MM_w90_b30_na_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Non-Apex.}
+        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w90_b30_na_ols_90ci.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{OLS event study estimated separately on the Apex and Non-Apex subsamples, on 30-day event-time bin indicators over the $\pm 90$-day window. The four panels are violent and peaceful protests $\times$ Apex and Non-Apex; the reference bin (the 30 days before disclosure) is normalized to zero and shown at its position, and the faint thick vertical line marks the disclosure cutoff. All four panels share a common y-axis. Vertical bars are 90\% confidence intervals; standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Event studies, $\pm 120$-day window (30-day bins).}
+    \label{fig:sup_es_b30_w120}
+    \begin{center}
+    \begin{subfigure}{0.45\textwidth}\caption{Violent, Apex.}
+        \includegraphics[width=\textwidth]{es_num_violent_MM_w120_b30_pa_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Apex.}
+        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w120_b30_pa_ols_90ci.pdf}\end{subfigure} \\
+    \begin{subfigure}{0.45\textwidth}\caption{Violent, Non-Apex.}
+        \includegraphics[width=\textwidth]{es_num_violent_MM_w120_b30_na_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Non-Apex.}
+        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w120_b30_na_ols_90ci.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{OLS event study estimated separately on the Apex and Non-Apex subsamples, on 30-day event-time bin indicators over the $\pm 120$-day window---the 30-day-bin counterpart to the main-text \autoref{fig:dynamics}. The four panels are violent and peaceful protests $\times$ Apex and Non-Apex; the reference bin (the 30 days before disclosure) is normalized to zero and shown at its position, and the faint thick vertical line marks the disclosure cutoff. All four panels share a common y-axis. Vertical bars are 90\% confidence intervals; standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
 \end{figure}
 
 \end{document}

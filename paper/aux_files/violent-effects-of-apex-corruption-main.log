@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.12.10)  14 JUL 2026 16:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.12.10)  21 JUL 2026 11:40
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1148,452 +1148,454 @@ LaTeX Font Info:    Trying to load font information for U+bbm on input line 88.
 File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
 ) [4]
 LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
-(Font)              scaled to size 10.95pt on input line 106.
- (tables/violent_peaceful_ols_panels.tex
+(Font)              scaled to size 10.95pt on input line 114.
+ (tables/sup_interaction_pa_vs_na.tex)
+LaTeX Font Info:    Font shape `T1/zpltlf/m/n' will be
+(Font)              scaled to size 5.0pt on input line 119.
+ [5]
+<./figures/es_num_violent_MM_w60_b15_pa_ols_90ci.pdf, id=217, 397.485pt x 289.08pt>
+File: ./figures/es_num_violent_MM_w60_b15_pa_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_violent_MM_w60_b15_pa_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_violent_MM_w60_b15_pa_ols_90ci.pdf  used on input line 132.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_peaceful_MM_w60_b15_pa_ols_90ci.pdf, id=218, 397.485pt x 289.08pt>
+File: ./figures/es_num_peaceful_MM_w60_b15_pa_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_peaceful_MM_w60_b15_pa_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_peaceful_MM_w60_b15_pa_ols_90ci.pdf  used on input line 137.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_violent_MM_w60_b15_na_ols_90ci.pdf, id=219, 397.485pt x 289.08pt>
+File: ./figures/es_num_violent_MM_w60_b15_na_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_violent_MM_w60_b15_na_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_violent_MM_w60_b15_na_ols_90ci.pdf  used on input line 142.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_peaceful_MM_w60_b15_na_ols_90ci.pdf, id=220, 397.485pt x 289.08pt>
+File: ./figures/es_num_peaceful_MM_w60_b15_na_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_peaceful_MM_w60_b15_na_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_peaceful_MM_w60_b15_na_ols_90ci.pdf  used on input line 147.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+ [6 <./figures/es_num_violent_MM_w60_b15_pa_ols_90ci.pdf> <./figures/es_num_peaceful_MM_w60_b15_pa_ols_90ci.pdf> <./figures/es_num_violent_MM_w60_b15_na_ols_90ci.pdf> <./figures/es_num_peaceful_MM_w60_b15_na_ols_90ci.pdf>] (tables/sup_benchmarks_ols_panels.tex
 LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
 (Font)              scaled to size 8.0pt on input line 8.
 LaTeX Font Info:    Font shape `T1/zpltlf/b/it' will be
 (Font)              scaled to size 8.0pt on input line 8.
-)
-LaTeX Font Info:    Font shape `T1/zpltlf/m/it' will be
-(Font)              scaled to size 9.0pt on input line 111.
- [5] (tables/sup_interaction_pa_vs_na.tex)
-Overfull \hbox (6.8778pt too wide) in paragraph at lines 3--127
- [] 
- []
+) (tables/sup_democracy_split_ols.tex) [7] [8] [9] [10] (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\violent-effects-of-apex-corruption-main.bbl [11
 
-LaTeX Font Info:    Font shape `T1/zpltlf/m/n' will be
-(Font)              scaled to size 5.0pt on input line 128.
-<./figures/es_num_violent_MM_120d_pa_ols_90ci.pdf, id=226, 433.62pt x 289.08pt>
-File: ./figures/es_num_violent_MM_120d_pa_ols_90ci.pdf Graphic file (type pdf)
-<use ./figures/es_num_violent_MM_120d_pa_ols_90ci.pdf>
-Package pdftex.def Info: ./figures/es_num_violent_MM_120d_pa_ols_90ci.pdf  used on input line 141.
-(pdftex.def)             Requested size: 225.21626pt x 150.14601pt.
-<./figures/es_num_peaceful_MM_120d_pa_ols_90ci.pdf, id=227, 433.62pt x 289.08pt>
-File: ./figures/es_num_peaceful_MM_120d_pa_ols_90ci.pdf Graphic file (type pdf)
-<use ./figures/es_num_peaceful_MM_120d_pa_ols_90ci.pdf>
-Package pdftex.def Info: ./figures/es_num_peaceful_MM_120d_pa_ols_90ci.pdf  used on input line 146.
-(pdftex.def)             Requested size: 225.21626pt x 150.14601pt.
-<./figures/es_num_violent_MM_120d_na_ols_90ci.pdf, id=228, 433.62pt x 289.08pt>
-File: ./figures/es_num_violent_MM_120d_na_ols_90ci.pdf Graphic file (type pdf)
-<use ./figures/es_num_violent_MM_120d_na_ols_90ci.pdf>
-Package pdftex.def Info: ./figures/es_num_violent_MM_120d_na_ols_90ci.pdf  used on input line 151.
-(pdftex.def)             Requested size: 225.21626pt x 150.14601pt.
-<./figures/es_num_peaceful_MM_120d_na_ols_90ci.pdf, id=229, 433.62pt x 289.08pt>
-File: ./figures/es_num_peaceful_MM_120d_na_ols_90ci.pdf Graphic file (type pdf)
-<use ./figures/es_num_peaceful_MM_120d_na_ols_90ci.pdf>
-Package pdftex.def Info: ./figures/es_num_peaceful_MM_120d_na_ols_90ci.pdf  used on input line 156.
-(pdftex.def)             Requested size: 225.21626pt x 150.14601pt.
-[6] (tables/sup_benchmarks_ols_panels_shares.tex) [7 <./figures/es_num_violent_MM_120d_pa_ols_90ci.pdf> <./figures/es_num_peaceful_MM_120d_pa_ols_90ci.pdf> <./figures/es_num_violent_MM_120d_na_ols_90ci.pdf> <./figures/es_num_peaceful_MM_120d_na_ols_90ci.pdf>] [8] (tables/sup_democracy_split_ols.tex) [9] [10] [11] (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\violent-effects-of-apex-corruption-main.bbl [12
-
-] [13] [14]) [15] [16
-
-]
-<./figures/randomization_inference_hist_num_violent_MM_w30_pa.pdf, id=635, 397.485pt x 289.08pt>
+] [12] [13]) [14]
+<./figures/randomization_inference_hist_num_violent_MM_w30_pa.pdf, id=405, 397.485pt x 289.08pt>
 File: ./figures/randomization_inference_hist_num_violent_MM_w30_pa.pdf Graphic file (type pdf)
 <use ./figures/randomization_inference_hist_num_violent_MM_w30_pa.pdf>
-Package pdftex.def Info: ./figures/randomization_inference_hist_num_violent_MM_w30_pa.pdf  used on input line 240.
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_violent_MM_w30_pa.pdf  used on input line 230.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/randomization_inference_hist_num_violent_MM_w120_pa.pdf, id=636, 397.485pt x 289.08pt>
+<./figures/randomization_inference_hist_num_violent_MM_w60_pa.pdf, id=406, 397.485pt x 289.08pt>
+File: ./figures/randomization_inference_hist_num_violent_MM_w60_pa.pdf Graphic file (type pdf)
+<use ./figures/randomization_inference_hist_num_violent_MM_w60_pa.pdf>
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_violent_MM_w60_pa.pdf  used on input line 234.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/randomization_inference_hist_num_violent_MM_w90_pa.pdf, id=407, 397.485pt x 289.08pt>
+File: ./figures/randomization_inference_hist_num_violent_MM_w90_pa.pdf Graphic file (type pdf)
+<use ./figures/randomization_inference_hist_num_violent_MM_w90_pa.pdf>
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_violent_MM_w90_pa.pdf  used on input line 238.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/randomization_inference_hist_num_violent_MM_w120_pa.pdf, id=408, 397.485pt x 289.08pt>
 File: ./figures/randomization_inference_hist_num_violent_MM_w120_pa.pdf Graphic file (type pdf)
 <use ./figures/randomization_inference_hist_num_violent_MM_w120_pa.pdf>
-Package pdftex.def Info: ./figures/randomization_inference_hist_num_violent_MM_w120_pa.pdf  used on input line 244.
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_violent_MM_w120_pa.pdf  used on input line 242.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/randomization_inference_hist_num_peaceful_MM_w30_pa.pdf, id=637, 397.485pt x 289.08pt>
+<./figures/randomization_inference_hist_num_peaceful_MM_w30_pa.pdf, id=410, 397.485pt x 289.08pt>
 File: ./figures/randomization_inference_hist_num_peaceful_MM_w30_pa.pdf Graphic file (type pdf)
 <use ./figures/randomization_inference_hist_num_peaceful_MM_w30_pa.pdf>
-Package pdftex.def Info: ./figures/randomization_inference_hist_num_peaceful_MM_w30_pa.pdf  used on input line 248.
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_peaceful_MM_w30_pa.pdf  used on input line 252.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/randomization_inference_hist_num_peaceful_MM_w120_pa.pdf, id=638, 397.485pt x 289.08pt>
+<./figures/randomization_inference_hist_num_peaceful_MM_w60_pa.pdf, id=411, 397.485pt x 289.08pt>
+File: ./figures/randomization_inference_hist_num_peaceful_MM_w60_pa.pdf Graphic file (type pdf)
+<use ./figures/randomization_inference_hist_num_peaceful_MM_w60_pa.pdf>
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_peaceful_MM_w60_pa.pdf  used on input line 256.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/randomization_inference_hist_num_peaceful_MM_w90_pa.pdf, id=412, 397.485pt x 289.08pt>
+File: ./figures/randomization_inference_hist_num_peaceful_MM_w90_pa.pdf Graphic file (type pdf)
+<use ./figures/randomization_inference_hist_num_peaceful_MM_w90_pa.pdf>
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_peaceful_MM_w90_pa.pdf  used on input line 260.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/randomization_inference_hist_num_peaceful_MM_w120_pa.pdf, id=413, 397.485pt x 289.08pt>
 File: ./figures/randomization_inference_hist_num_peaceful_MM_w120_pa.pdf Graphic file (type pdf)
 <use ./figures/randomization_inference_hist_num_peaceful_MM_w120_pa.pdf>
-Package pdftex.def Info: ./figures/randomization_inference_hist_num_peaceful_MM_w120_pa.pdf  used on input line 252.
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_peaceful_MM_w120_pa.pdf  used on input line 264.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/randomization_inference_hist_num_violent_MM_w30_na.pdf, id=640, 397.485pt x 289.08pt>
+<./figures/randomization_inference_hist_num_violent_MM_w30_na.pdf, id=415, 397.485pt x 289.08pt>
 File: ./figures/randomization_inference_hist_num_violent_MM_w30_na.pdf Graphic file (type pdf)
 <use ./figures/randomization_inference_hist_num_violent_MM_w30_na.pdf>
-Package pdftex.def Info: ./figures/randomization_inference_hist_num_violent_MM_w30_na.pdf  used on input line 262.
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_violent_MM_w30_na.pdf  used on input line 274.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/randomization_inference_hist_num_violent_MM_w120_na.pdf, id=641, 397.485pt x 289.08pt>
+<./figures/randomization_inference_hist_num_violent_MM_w60_na.pdf, id=416, 397.485pt x 289.08pt>
+File: ./figures/randomization_inference_hist_num_violent_MM_w60_na.pdf Graphic file (type pdf)
+<use ./figures/randomization_inference_hist_num_violent_MM_w60_na.pdf>
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_violent_MM_w60_na.pdf  used on input line 278.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/randomization_inference_hist_num_violent_MM_w90_na.pdf, id=417, 397.485pt x 289.08pt>
+File: ./figures/randomization_inference_hist_num_violent_MM_w90_na.pdf Graphic file (type pdf)
+<use ./figures/randomization_inference_hist_num_violent_MM_w90_na.pdf>
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_violent_MM_w90_na.pdf  used on input line 282.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/randomization_inference_hist_num_violent_MM_w120_na.pdf, id=418, 397.485pt x 289.08pt>
 File: ./figures/randomization_inference_hist_num_violent_MM_w120_na.pdf Graphic file (type pdf)
 <use ./figures/randomization_inference_hist_num_violent_MM_w120_na.pdf>
-Package pdftex.def Info: ./figures/randomization_inference_hist_num_violent_MM_w120_na.pdf  used on input line 266.
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_violent_MM_w120_na.pdf  used on input line 286.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/randomization_inference_hist_num_peaceful_MM_w30_na.pdf, id=642, 397.485pt x 289.08pt>
+<./figures/randomization_inference_hist_num_peaceful_MM_w30_na.pdf, id=421, 397.485pt x 289.08pt>
 File: ./figures/randomization_inference_hist_num_peaceful_MM_w30_na.pdf Graphic file (type pdf)
 <use ./figures/randomization_inference_hist_num_peaceful_MM_w30_na.pdf>
-Package pdftex.def Info: ./figures/randomization_inference_hist_num_peaceful_MM_w30_na.pdf  used on input line 270.
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_peaceful_MM_w30_na.pdf  used on input line 296.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/randomization_inference_hist_num_peaceful_MM_w120_na.pdf, id=643, 397.485pt x 289.08pt>
+<./figures/randomization_inference_hist_num_peaceful_MM_w60_na.pdf, id=422, 397.485pt x 289.08pt>
+File: ./figures/randomization_inference_hist_num_peaceful_MM_w60_na.pdf Graphic file (type pdf)
+<use ./figures/randomization_inference_hist_num_peaceful_MM_w60_na.pdf>
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_peaceful_MM_w60_na.pdf  used on input line 300.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/randomization_inference_hist_num_peaceful_MM_w90_na.pdf, id=423, 397.485pt x 289.08pt>
+File: ./figures/randomization_inference_hist_num_peaceful_MM_w90_na.pdf Graphic file (type pdf)
+<use ./figures/randomization_inference_hist_num_peaceful_MM_w90_na.pdf>
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_peaceful_MM_w90_na.pdf  used on input line 304.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/randomization_inference_hist_num_peaceful_MM_w120_na.pdf, id=424, 397.485pt x 289.08pt>
 File: ./figures/randomization_inference_hist_num_peaceful_MM_w120_na.pdf Graphic file (type pdf)
 <use ./figures/randomization_inference_hist_num_peaceful_MM_w120_na.pdf>
-Package pdftex.def Info: ./figures/randomization_inference_hist_num_peaceful_MM_w120_na.pdf  used on input line 274.
+Package pdftex.def Info: ./figures/randomization_inference_hist_num_peaceful_MM_w120_na.pdf  used on input line 308.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
- [17
+ [15
 
-] [18 <./figures/randomization_inference_hist_num_violent_MM_w30_pa.pdf> <./figures/randomization_inference_hist_num_violent_MM_w120_pa.pdf> <./figures/randomization_inference_hist_num_peaceful_MM_w30_pa.pdf> <./figures/randomization_inference_hist_num_peaceful_MM_w120_pa.pdf>] [19 <./figures/randomization_inference_hist_num_violent_MM_w30_na.pdf> <./figures/randomization_inference_hist_num_violent_MM_w120_na.pdf> <./figures/randomization_inference_hist_num_peaceful_MM_w30_na.pdf> <./figures/randomization_inference_hist_num_peaceful_MM_w120_na.pdf>]
-<./figures/sup_window_sensitivity_ols_num_violent_MM_pa.pdf, id=753, 397.485pt x 289.08pt>
+] [16 <./figures/randomization_inference_hist_num_violent_MM_w30_pa.pdf> <./figures/randomization_inference_hist_num_violent_MM_w60_pa.pdf> <./figures/randomization_inference_hist_num_violent_MM_w90_pa.pdf> <./figures/randomization_inference_hist_num_violent_MM_w120_pa.pdf>] [17 <./figures/randomization_inference_hist_num_peaceful_MM_w30_pa.pdf> <./figures/randomization_inference_hist_num_peaceful_MM_w60_pa.pdf> <./figures/randomization_inference_hist_num_peaceful_MM_w90_pa.pdf> <./figures/randomization_inference_hist_num_peaceful_MM_w120_pa.pdf>] [18 <./figures/randomization_inference_hist_num_violent_MM_w30_na.pdf> <./figures/randomization_inference_hist_num_violent_MM_w60_na.pdf> <./figures/randomization_inference_hist_num_violent_MM_w90_na.pdf> <./figures/randomization_inference_hist_num_violent_MM_w120_na.pdf>] [19 <./figures/randomization_inference_hist_num_peaceful_MM_w30_na.pdf> <./figures/randomization_inference_hist_num_peaceful_MM_w60_na.pdf> <./figures/randomization_inference_hist_num_peaceful_MM_w90_na.pdf> <./figures/randomization_inference_hist_num_peaceful_MM_w120_na.pdf>]
+<./figures/sup_window_sensitivity_ols_num_violent_MM_pa.pdf, id=630, 397.485pt x 289.08pt>
 File: ./figures/sup_window_sensitivity_ols_num_violent_MM_pa.pdf Graphic file (type pdf)
 <use ./figures/sup_window_sensitivity_ols_num_violent_MM_pa.pdf>
-Package pdftex.def Info: ./figures/sup_window_sensitivity_ols_num_violent_MM_pa.pdf  used on input line 291.
+Package pdftex.def Info: ./figures/sup_window_sensitivity_ols_num_violent_MM_pa.pdf  used on input line 325.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_window_sensitivity_ols_num_peaceful_MM_pa.pdf, id=754, 397.485pt x 289.08pt>
-File: ./figures/sup_window_sensitivity_ols_num_peaceful_MM_pa.pdf Graphic file (type pdf)
-<use ./figures/sup_window_sensitivity_ols_num_peaceful_MM_pa.pdf>
-Package pdftex.def Info: ./figures/sup_window_sensitivity_ols_num_peaceful_MM_pa.pdf  used on input line 295.
-(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_window_sensitivity_ols_num_violent_MM_na.pdf, id=755, 397.485pt x 289.08pt>
+<./figures/sup_window_sensitivity_ols_num_violent_MM_na.pdf, id=631, 397.485pt x 289.08pt>
 File: ./figures/sup_window_sensitivity_ols_num_violent_MM_na.pdf Graphic file (type pdf)
 <use ./figures/sup_window_sensitivity_ols_num_violent_MM_na.pdf>
-Package pdftex.def Info: ./figures/sup_window_sensitivity_ols_num_violent_MM_na.pdf  used on input line 307.
+Package pdftex.def Info: ./figures/sup_window_sensitivity_ols_num_violent_MM_na.pdf  used on input line 329.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_window_sensitivity_ols_num_peaceful_MM_na.pdf, id=756, 397.485pt x 289.08pt>
+<./figures/sup_window_sensitivity_ols_num_peaceful_MM_pa.pdf, id=632, 397.485pt x 289.08pt>
+File: ./figures/sup_window_sensitivity_ols_num_peaceful_MM_pa.pdf Graphic file (type pdf)
+<use ./figures/sup_window_sensitivity_ols_num_peaceful_MM_pa.pdf>
+Package pdftex.def Info: ./figures/sup_window_sensitivity_ols_num_peaceful_MM_pa.pdf  used on input line 333.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/sup_window_sensitivity_ols_num_peaceful_MM_na.pdf, id=633, 397.485pt x 289.08pt>
 File: ./figures/sup_window_sensitivity_ols_num_peaceful_MM_na.pdf Graphic file (type pdf)
 <use ./figures/sup_window_sensitivity_ols_num_peaceful_MM_na.pdf>
-Package pdftex.def Info: ./figures/sup_window_sensitivity_ols_num_peaceful_MM_na.pdf  used on input line 311.
+Package pdftex.def Info: ./figures/sup_window_sensitivity_ols_num_peaceful_MM_na.pdf  used on input line 337.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
  [20
 
- <./figures/sup_window_sensitivity_ols_num_violent_MM_pa.pdf> <./figures/sup_window_sensitivity_ols_num_peaceful_MM_pa.pdf>] [21 <./figures/sup_window_sensitivity_ols_num_violent_MM_na.pdf> <./figures/sup_window_sensitivity_ols_num_peaceful_MM_na.pdf>]
+ <./figures/sup_window_sensitivity_ols_num_violent_MM_pa.pdf> <./figures/sup_window_sensitivity_ols_num_violent_MM_na.pdf> <./figures/sup_window_sensitivity_ols_num_peaceful_MM_pa.pdf> <./figures/sup_window_sensitivity_ols_num_peaceful_MM_na.pdf>]
 LaTeX Font Info:    Font shape `T1/npxtt/m/n' will be
-(Font)              scaled to size 10.95pt on input line 321.
+(Font)              scaled to size 10.95pt on input line 347.
 LaTeX Font Info:    Font shape `T1/npxtt/m/it' in size <10.95> not available
-(Font)              Font shape `T1/npxtt/m/sl' tried instead on input line 321.
+(Font)              Font shape `T1/npxtt/m/sl' tried instead on input line 347.
 LaTeX Font Info:    Font shape `T1/npxtt/m/sl' will be
-(Font)              scaled to size 10.95pt on input line 321.
- [22
+(Font)              scaled to size 10.95pt on input line 347.
+ [21
 
-] (tables/sup_violent_peaceful_poi_panels.tex
-tables/sup_violent_peaceful_poi_panels.tex:5: Extra alignment tab has been changed to \cr.
-<template> \endtemplate 
-                        
-l.5 ...ulticolumn{2}{c}{$\pm 120$-Day Window}    &
-                                                   & & & \\\cmidrule(lr){2-3...
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
+] (../../Protest_Work/results/tables/sup_pres_only_table.tex) (../../Protest_Work/results/tables/sup_pres_plus_apex_table.tex) [22
 
-tables/sup_violent_peaceful_poi_panels.tex:6: Extra alignment tab has been changed to \cr.
-<template> \endtemplate 
-                        
-l.6 ...column{1}{c}{(3)}&\multicolumn{1}{c}{(4)} &
-                                                   & & & \\
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
-
-tables/sup_violent_peaceful_poi_panels.tex:7: Extra alignment tab has been changed to \cr.
-<template> }\unskip \mb@r \endtemplate 
-                                       
-l.7 ...c}{\shortstack{Violent & & & & \\Protests}}
-                                                  &\multicolumn{1}{c}{\short...
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
-
-tables/sup_violent_peaceful_poi_panels.tex:7: Extra alignment tab has been changed to \cr.
-<template> }\unskip \mb@r \endtemplate 
-                                       
-l.7 ...c}{\shortstack{Violent & & & & \\Protests}}
-                                                  &\multicolumn{1}{c}{\short...
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
-
-tables/sup_violent_peaceful_poi_panels.tex:7: Extra alignment tab has been changed to \cr.
-<template> }\unskip \mb@r \endtemplate 
-                                       
-l.7 ...c}{\shortstack{Violent & & & & \\Protests}}
-                                                  &\multicolumn{1}{c}{\short...
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
-
-tables/sup_violent_peaceful_poi_panels.tex:7: Extra alignment tab has been changed to \cr.
-<template> }\unskip \mb@r \endtemplate 
-                                       
-l.7 ...c}{\shortstack{Violent & & & & \\Protests}}
-                                                  &\multicolumn{1}{c}{\short...
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
-
-tables/sup_violent_peaceful_poi_panels.tex:8: Extra alignment tab has been changed to \cr.
-<template> \endtemplate 
-                        
-l.8 ...{\textit{Panel A: President + Other Apex}}}
-                                                   \\
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
-
-tables/sup_violent_peaceful_poi_panels.tex:9: Extra alignment tab has been changed to \cr.
-<recently read> \endtemplate 
-                             
-l.9 ...     1.375\sym{*}  &       1.083          &
-                                                   & & & \\
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
-
-tables/sup_violent_peaceful_poi_panels.tex:10: Extra alignment tab has been changed to \cr.
-<recently read> \endtemplate 
-                             
-l.10 ...  (0.253)         &     (0.303)          &
-                                                   & & & \\
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
-
-tables/sup_violent_peaceful_poi_panels.tex:12: Extra alignment tab has been changed to \cr.
-<recently read> \endtemplate 
-                             
-l.12 ...    0.054         &       0.018          &
-                                                   & & & \\
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
-
-tables/sup_violent_peaceful_poi_panels.tex:13: Extra alignment tab has been changed to \cr.
-<recently read> \endtemplate 
-                             
-l.13 ...     7519         &       12613          &
-                                                   & & & \\
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
-
-tables/sup_violent_peaceful_poi_panels.tex:14: Extra alignment tab has been changed to \cr.
-<recently read> \endtemplate 
-                             
-l.14 ...       34         &          53          &
-                                                   & & & \\
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
-
-tables/sup_violent_peaceful_poi_panels.tex:15: Extra alignment tab has been changed to \cr.
-<recently read> \endtemplate 
-                             
-l.15 ...    0.339         &       0.220          &
-                                                   & & & \\
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
-
-tables/sup_violent_peaceful_poi_panels.tex:17: Extra alignment tab has been changed to \cr.
-<template> \endtemplate 
-                        
-l.17 ...\textbf{\textit{Panel B: Other Non-Apex}}}
-                                                   \\
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
-
-tables/sup_violent_peaceful_poi_panels.tex:18: Extra alignment tab has been changed to \cr.
-<recently read> \endtemplate 
-                             
-l.18 ...    1.932\sym{*}  &       0.778          &
-                                                   & & & \\
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
-
-tables/sup_violent_peaceful_poi_panels.tex:19: Extra alignment tab has been changed to \cr.
-<recently read> \endtemplate 
-                             
-l.19 ...  (0.744)         &     (0.127)          &
-                                                   & & & \\
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
-
-tables/sup_violent_peaceful_poi_panels.tex:21: Extra alignment tab has been changed to \cr.
-<recently read> \endtemplate 
-                             
-l.21 ...    0.031         &       0.098          &
-                                                   & & & \\
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
-
-tables/sup_violent_peaceful_poi_panels.tex:22: Extra alignment tab has been changed to \cr.
-<recently read> \endtemplate 
-                             
-l.22 ...    13604         &       20728          &
-                                                   & & & \\
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
-
-tables/sup_violent_peaceful_poi_panels.tex:23: Extra alignment tab has been changed to \cr.
-<recently read> \endtemplate 
-                             
-l.23 ...       63         &          95          &
-                                                   & & & \\
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
-
-tables/sup_violent_peaceful_poi_panels.tex:24: Extra alignment tab has been changed to \cr.
-<recently read> \endtemplate 
-                             
-l.24 ...    0.260         &       0.322          &
-                                                   & & & \\
-You have given more \span or & marks than there were
-in the preamble to the \halign or \valign now in progress.
-So I'll assume that you meant to type \cr instead.
-
-) [23
-
-] (../../Protest_Work/results/tables/sup_pres_only_table.tex) (../../Protest_Work/results/tables/sup_pres_plus_apex_table.tex) [24
-
-] [25] (../../Protest_Work/results/tables/sup_hierarchy_regression.tex) [26
+] (../../Protest_Work/results/tables/sup_hierarchy_regression.tex) [23
 
 ]
-<../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_violent_MM_w30.pdf, id=864, 397.485pt x 289.08pt>
+<../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_violent_MM_w30.pdf, id=720, 397.485pt x 289.08pt>
 File: ../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_violent_MM_w30.pdf Graphic file (type pdf)
 <use ../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_violent_MM_w30.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_violent_MM_w30.pdf  used on input line 395.
+Package pdftex.def Info: ../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_violent_MM_w30.pdf  used on input line 406.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_violent_MM_w120.pdf, id=865, 397.485pt x 289.08pt>
+<./figures/sup_placebo_within_window_hist_num_violent_MM_w60.pdf, id=721, 397.485pt x 289.08pt>
+File: ./figures/sup_placebo_within_window_hist_num_violent_MM_w60.pdf Graphic file (type pdf)
+<use ./figures/sup_placebo_within_window_hist_num_violent_MM_w60.pdf>
+Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_violent_MM_w60.pdf  used on input line 410.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/sup_placebo_within_window_hist_num_violent_MM_w90.pdf, id=722, 397.485pt x 289.08pt>
+File: ./figures/sup_placebo_within_window_hist_num_violent_MM_w90.pdf Graphic file (type pdf)
+<use ./figures/sup_placebo_within_window_hist_num_violent_MM_w90.pdf>
+Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_violent_MM_w90.pdf  used on input line 414.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_violent_MM_w120.pdf, id=723, 397.485pt x 289.08pt>
 File: ../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_violent_MM_w120.pdf Graphic file (type pdf)
 <use ../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_violent_MM_w120.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_violent_MM_w120.pdf  used on input line 399.
+Package pdftex.def Info: ../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_violent_MM_w120.pdf  used on input line 418.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_peaceful_MM_w30.pdf, id=866, 397.485pt x 289.08pt>
+<../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_peaceful_MM_w30.pdf, id=726, 397.485pt x 289.08pt>
 File: ../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_peaceful_MM_w30.pdf Graphic file (type pdf)
 <use ../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_peaceful_MM_w30.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_peaceful_MM_w30.pdf  used on input line 403.
+Package pdftex.def Info: ../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_peaceful_MM_w30.pdf  used on input line 428.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_peaceful_MM_w120.pdf, id=867, 397.485pt x 289.08pt>
+<./figures/sup_placebo_within_window_hist_num_peaceful_MM_w60.pdf, id=727, 397.485pt x 289.08pt>
+File: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w60.pdf Graphic file (type pdf)
+<use ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w60.pdf>
+Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w60.pdf  used on input line 432.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/sup_placebo_within_window_hist_num_peaceful_MM_w90.pdf, id=728, 397.485pt x 289.08pt>
+File: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w90.pdf Graphic file (type pdf)
+<use ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w90.pdf>
+Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w90.pdf  used on input line 436.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_peaceful_MM_w120.pdf, id=729, 397.485pt x 289.08pt>
 File: ../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_peaceful_MM_w120.pdf Graphic file (type pdf)
 <use ../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_peaceful_MM_w120.pdf>
-Package pdftex.def Info: ../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_peaceful_MM_w120.pdf  used on input line 407.
+Package pdftex.def Info: ../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_peaceful_MM_w120.pdf  used on input line 440.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_placebo_within_window_hist_num_violent_MM_w30_pa.pdf, id=870, 397.485pt x 289.08pt>
+<./figures/sup_placebo_within_window_hist_num_violent_MM_w30_pa.pdf, id=731, 397.485pt x 289.08pt>
 File: ./figures/sup_placebo_within_window_hist_num_violent_MM_w30_pa.pdf Graphic file (type pdf)
 <use ./figures/sup_placebo_within_window_hist_num_violent_MM_w30_pa.pdf>
-Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_violent_MM_w30_pa.pdf  used on input line 417.
+Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_violent_MM_w30_pa.pdf  used on input line 450.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_placebo_within_window_hist_num_violent_MM_w120_pa.pdf, id=871, 397.485pt x 289.08pt>
+<./figures/sup_placebo_within_window_hist_num_violent_MM_w60_pa.pdf, id=732, 397.485pt x 289.08pt>
+File: ./figures/sup_placebo_within_window_hist_num_violent_MM_w60_pa.pdf Graphic file (type pdf)
+<use ./figures/sup_placebo_within_window_hist_num_violent_MM_w60_pa.pdf>
+Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_violent_MM_w60_pa.pdf  used on input line 454.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/sup_placebo_within_window_hist_num_violent_MM_w90_pa.pdf, id=733, 397.485pt x 289.08pt>
+File: ./figures/sup_placebo_within_window_hist_num_violent_MM_w90_pa.pdf Graphic file (type pdf)
+<use ./figures/sup_placebo_within_window_hist_num_violent_MM_w90_pa.pdf>
+Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_violent_MM_w90_pa.pdf  used on input line 458.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/sup_placebo_within_window_hist_num_violent_MM_w120_pa.pdf, id=734, 397.485pt x 289.08pt>
 File: ./figures/sup_placebo_within_window_hist_num_violent_MM_w120_pa.pdf Graphic file (type pdf)
 <use ./figures/sup_placebo_within_window_hist_num_violent_MM_w120_pa.pdf>
-Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_violent_MM_w120_pa.pdf  used on input line 421.
+Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_violent_MM_w120_pa.pdf  used on input line 462.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_placebo_within_window_hist_num_peaceful_MM_w30_pa.pdf, id=872, 397.485pt x 289.08pt>
+<./figures/sup_placebo_within_window_hist_num_peaceful_MM_w30_pa.pdf, id=737, 397.485pt x 289.08pt>
 File: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w30_pa.pdf Graphic file (type pdf)
 <use ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w30_pa.pdf>
-Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w30_pa.pdf  used on input line 425.
+Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w30_pa.pdf  used on input line 472.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_placebo_within_window_hist_num_peaceful_MM_w120_pa.pdf, id=873, 397.485pt x 289.08pt>
+<./figures/sup_placebo_within_window_hist_num_peaceful_MM_w60_pa.pdf, id=738, 397.485pt x 289.08pt>
+File: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w60_pa.pdf Graphic file (type pdf)
+<use ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w60_pa.pdf>
+Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w60_pa.pdf  used on input line 476.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/sup_placebo_within_window_hist_num_peaceful_MM_w90_pa.pdf, id=739, 397.485pt x 289.08pt>
+File: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w90_pa.pdf Graphic file (type pdf)
+<use ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w90_pa.pdf>
+Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w90_pa.pdf  used on input line 480.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/sup_placebo_within_window_hist_num_peaceful_MM_w120_pa.pdf, id=740, 397.485pt x 289.08pt>
 File: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w120_pa.pdf Graphic file (type pdf)
 <use ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w120_pa.pdf>
-Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w120_pa.pdf  used on input line 429.
+Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w120_pa.pdf  used on input line 484.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_placebo_within_window_hist_num_violent_MM_w30_na.pdf, id=876, 397.485pt x 289.08pt>
+<./figures/sup_placebo_within_window_hist_num_violent_MM_w30_na.pdf, id=742, 397.485pt x 289.08pt>
 File: ./figures/sup_placebo_within_window_hist_num_violent_MM_w30_na.pdf Graphic file (type pdf)
 <use ./figures/sup_placebo_within_window_hist_num_violent_MM_w30_na.pdf>
-Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_violent_MM_w30_na.pdf  used on input line 439.
+Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_violent_MM_w30_na.pdf  used on input line 494.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_placebo_within_window_hist_num_violent_MM_w120_na.pdf, id=877, 397.485pt x 289.08pt>
+<./figures/sup_placebo_within_window_hist_num_violent_MM_w60_na.pdf, id=743, 397.485pt x 289.08pt>
+File: ./figures/sup_placebo_within_window_hist_num_violent_MM_w60_na.pdf Graphic file (type pdf)
+<use ./figures/sup_placebo_within_window_hist_num_violent_MM_w60_na.pdf>
+Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_violent_MM_w60_na.pdf  used on input line 498.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/sup_placebo_within_window_hist_num_violent_MM_w90_na.pdf, id=744, 397.485pt x 289.08pt>
+File: ./figures/sup_placebo_within_window_hist_num_violent_MM_w90_na.pdf Graphic file (type pdf)
+<use ./figures/sup_placebo_within_window_hist_num_violent_MM_w90_na.pdf>
+Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_violent_MM_w90_na.pdf  used on input line 502.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/sup_placebo_within_window_hist_num_violent_MM_w120_na.pdf, id=745, 397.485pt x 289.08pt>
 File: ./figures/sup_placebo_within_window_hist_num_violent_MM_w120_na.pdf Graphic file (type pdf)
 <use ./figures/sup_placebo_within_window_hist_num_violent_MM_w120_na.pdf>
-Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_violent_MM_w120_na.pdf  used on input line 443.
+Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_violent_MM_w120_na.pdf  used on input line 506.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_placebo_within_window_hist_num_peaceful_MM_w30_na.pdf, id=878, 397.485pt x 289.08pt>
+<./figures/sup_placebo_within_window_hist_num_peaceful_MM_w30_na.pdf, id=748, 397.485pt x 289.08pt>
 File: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w30_na.pdf Graphic file (type pdf)
 <use ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w30_na.pdf>
-Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w30_na.pdf  used on input line 447.
+Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w30_na.pdf  used on input line 516.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_placebo_within_window_hist_num_peaceful_MM_w120_na.pdf, id=879, 397.485pt x 289.08pt>
+<./figures/sup_placebo_within_window_hist_num_peaceful_MM_w60_na.pdf, id=749, 397.485pt x 289.08pt>
+File: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w60_na.pdf Graphic file (type pdf)
+<use ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w60_na.pdf>
+Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w60_na.pdf  used on input line 520.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/sup_placebo_within_window_hist_num_peaceful_MM_w90_na.pdf, id=750, 397.485pt x 289.08pt>
+File: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w90_na.pdf Graphic file (type pdf)
+<use ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w90_na.pdf>
+Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w90_na.pdf  used on input line 524.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/sup_placebo_within_window_hist_num_peaceful_MM_w120_na.pdf, id=751, 397.485pt x 289.08pt>
 File: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w120_na.pdf Graphic file (type pdf)
 <use ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w120_na.pdf>
-Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w120_na.pdf  used on input line 451.
+Package pdftex.def Info: ./figures/sup_placebo_within_window_hist_num_peaceful_MM_w120_na.pdf  used on input line 528.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
- [27
+ [24
 
- <../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_violent_MM_w30.pdf> <../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_violent_MM_w120.pdf> <../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_peaceful_MM_w30.pdf> <../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_peaceful_MM_w120.pdf>] [28 <./figures/sup_placebo_within_window_hist_num_violent_MM_w30_pa.pdf> <./figures/sup_placebo_within_window_hist_num_violent_MM_w120_pa.pdf> <./figures/sup_placebo_within_window_hist_num_peaceful_MM_w30_pa.pdf> <./figures/sup_placebo_within_window_hist_num_peaceful_MM_w120_pa.pdf>] [29 <./figures/sup_placebo_within_window_hist_num_violent_MM_w30_na.pdf> <./figures/sup_placebo_within_window_hist_num_violent_MM_w120_na.pdf> <./figures/sup_placebo_within_window_hist_num_peaceful_MM_w30_na.pdf> <./figures/sup_placebo_within_window_hist_num_peaceful_MM_w120_na.pdf>] (tables/sup_benchmarks_poi_panels.tex) (tables/sup_democracy_split_poi.tex) [30
-
-] [31]
-<./figures/es_num_violent_MM_120d_pa_poi_90ci.pdf, id=1040, 433.62pt x 289.08pt>
-File: ./figures/es_num_violent_MM_120d_pa_poi_90ci.pdf Graphic file (type pdf)
-<use ./figures/es_num_violent_MM_120d_pa_poi_90ci.pdf>
-Package pdftex.def Info: ./figures/es_num_violent_MM_120d_pa_poi_90ci.pdf  used on input line 529.
-(pdftex.def)             Requested size: 225.21626pt x 150.14601pt.
-<./figures/es_num_peaceful_MM_120d_pa_poi_90ci.pdf, id=1041, 433.62pt x 289.08pt>
-File: ./figures/es_num_peaceful_MM_120d_pa_poi_90ci.pdf Graphic file (type pdf)
-<use ./figures/es_num_peaceful_MM_120d_pa_poi_90ci.pdf>
-Package pdftex.def Info: ./figures/es_num_peaceful_MM_120d_pa_poi_90ci.pdf  used on input line 533.
-(pdftex.def)             Requested size: 225.21626pt x 150.14601pt.
-<./figures/es_num_violent_MM_120d_na_poi_90ci.pdf, id=1042, 433.62pt x 289.08pt>
-File: ./figures/es_num_violent_MM_120d_na_poi_90ci.pdf Graphic file (type pdf)
-<use ./figures/es_num_violent_MM_120d_na_poi_90ci.pdf>
-Package pdftex.def Info: ./figures/es_num_violent_MM_120d_na_poi_90ci.pdf  used on input line 537.
-(pdftex.def)             Requested size: 225.21626pt x 150.14601pt.
-<./figures/es_num_peaceful_MM_120d_na_poi_90ci.pdf, id=1043, 433.62pt x 289.08pt>
-File: ./figures/es_num_peaceful_MM_120d_na_poi_90ci.pdf Graphic file (type pdf)
-<use ./figures/es_num_peaceful_MM_120d_na_poi_90ci.pdf>
-Package pdftex.def Info: ./figures/es_num_peaceful_MM_120d_na_poi_90ci.pdf  used on input line 541.
-(pdftex.def)             Requested size: 225.21626pt x 150.14601pt.
- [32
-
- <./figures/es_num_violent_MM_120d_pa_poi_90ci.pdf> <./figures/es_num_peaceful_MM_120d_pa_poi_90ci.pdf> <./figures/es_num_violent_MM_120d_na_poi_90ci.pdf> <./figures/es_num_peaceful_MM_120d_na_poi_90ci.pdf>]
-<./figures/sup_window_sensitivity_poi_num_violent_MM_pa.pdf, id=1105, 397.485pt x 289.08pt>
-File: ./figures/sup_window_sensitivity_poi_num_violent_MM_pa.pdf Graphic file (type pdf)
-<use ./figures/sup_window_sensitivity_poi_num_violent_MM_pa.pdf>
-Package pdftex.def Info: ./figures/sup_window_sensitivity_poi_num_violent_MM_pa.pdf  used on input line 559.
-(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_window_sensitivity_poi_num_peaceful_MM_pa.pdf, id=1106, 397.485pt x 289.08pt>
-File: ./figures/sup_window_sensitivity_poi_num_peaceful_MM_pa.pdf Graphic file (type pdf)
-<use ./figures/sup_window_sensitivity_poi_num_peaceful_MM_pa.pdf>
-Package pdftex.def Info: ./figures/sup_window_sensitivity_poi_num_peaceful_MM_pa.pdf  used on input line 563.
-(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_window_sensitivity_poi_num_violent_MM_na.pdf, id=1107, 397.485pt x 289.08pt>
-File: ./figures/sup_window_sensitivity_poi_num_violent_MM_na.pdf Graphic file (type pdf)
-<use ./figures/sup_window_sensitivity_poi_num_violent_MM_na.pdf>
-Package pdftex.def Info: ./figures/sup_window_sensitivity_poi_num_violent_MM_na.pdf  used on input line 575.
-(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/sup_window_sensitivity_poi_num_peaceful_MM_na.pdf, id=1108, 397.485pt x 289.08pt>
-File: ./figures/sup_window_sensitivity_poi_num_peaceful_MM_na.pdf Graphic file (type pdf)
-<use ./figures/sup_window_sensitivity_poi_num_peaceful_MM_na.pdf>
-Package pdftex.def Info: ./figures/sup_window_sensitivity_poi_num_peaceful_MM_na.pdf  used on input line 579.
-(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
- [33
-
- <./figures/sup_window_sensitivity_poi_num_violent_MM_pa.pdf> <./figures/sup_window_sensitivity_poi_num_peaceful_MM_pa.pdf> <./figures/sup_window_sensitivity_poi_num_violent_MM_na.pdf> <./figures/sup_window_sensitivity_poi_num_peaceful_MM_na.pdf>] (tables/did_modern_stk_main_pa.tex) (tables/did_modern_stk_main_na.tex)
-<./figures/did_modern_stk_es_mm_violent_pa.pdf, id=1177, 397.485pt x 289.08pt>
+ <../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_violent_MM_w30.pdf> <./figures/sup_placebo_within_window_hist_num_violent_MM_w60.pdf> <./figures/sup_placebo_within_window_hist_num_violent_MM_w90.pdf> <../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_violent_MM_w120.pdf>] [25 <../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_peaceful_MM_w30.pdf> <./figures/sup_placebo_within_window_hist_num_peaceful_MM_w60.pdf> <./figures/sup_placebo_within_window_hist_num_peaceful_MM_w90.pdf> <../../Protest_Work/results/figures/sup_placebo_within_window_hist_num_peaceful_MM_w120.pdf>] [26 <./figures/sup_placebo_within_window_hist_num_violent_MM_w30_pa.pdf> <./figures/sup_placebo_within_window_hist_num_violent_MM_w60_pa.pdf> <./figures/sup_placebo_within_window_hist_num_violent_MM_w90_pa.pdf> <./figures/sup_placebo_within_window_hist_num_violent_MM_w120_pa.pdf>] [27 <./figures/sup_placebo_within_window_hist_num_peaceful_MM_w30_pa.pdf> <./figures/sup_placebo_within_window_hist_num_peaceful_MM_w60_pa.pdf> <./figures/sup_placebo_within_window_hist_num_peaceful_MM_w90_pa.pdf> <./figures/sup_placebo_within_window_hist_num_peaceful_MM_w120_pa.pdf>] [28 <./figures/sup_placebo_within_window_hist_num_violent_MM_w30_na.pdf> <./figures/sup_placebo_within_window_hist_num_violent_MM_w60_na.pdf> <./figures/sup_placebo_within_window_hist_num_violent_MM_w90_na.pdf> <./figures/sup_placebo_within_window_hist_num_violent_MM_w120_na.pdf>] [29 <./figures/sup_placebo_within_window_hist_num_peaceful_MM_w30_na.pdf> <./figures/sup_placebo_within_window_hist_num_peaceful_MM_w60_na.pdf> <./figures/sup_placebo_within_window_hist_num_peaceful_MM_w90_na.pdf> <./figures/sup_placebo_within_window_hist_num_peaceful_MM_w120_na.pdf>] (tables/did_modern_stk_main_pa.tex) (tables/did_modern_stk_main_na.tex)
+<./figures/did_modern_stk_es_mm_violent_pa.pdf, id=1047, 397.485pt x 289.08pt>
 File: ./figures/did_modern_stk_es_mm_violent_pa.pdf Graphic file (type pdf)
 <use ./figures/did_modern_stk_es_mm_violent_pa.pdf>
-Package pdftex.def Info: ./figures/did_modern_stk_es_mm_violent_pa.pdf  used on input line 613.
+Package pdftex.def Info: ./figures/did_modern_stk_es_mm_violent_pa.pdf  used on input line 598.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/did_modern_stk_es_mm_violent_na.pdf, id=1178, 397.485pt x 289.08pt>
+<./figures/did_modern_stk_es_mm_violent_na.pdf, id=1048, 397.485pt x 289.08pt>
 File: ./figures/did_modern_stk_es_mm_violent_na.pdf Graphic file (type pdf)
 <use ./figures/did_modern_stk_es_mm_violent_na.pdf>
-Package pdftex.def Info: ./figures/did_modern_stk_es_mm_violent_na.pdf  used on input line 617.
+Package pdftex.def Info: ./figures/did_modern_stk_es_mm_violent_na.pdf  used on input line 602.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
- (tables/did_modern_main_pa.tex) (tables/did_modern_main_na.tex)
-<./figures/did_modern_es_mm_violent_pa.pdf, id=1179, 397.485pt x 289.08pt>
-File: ./figures/did_modern_es_mm_violent_pa.pdf Graphic file (type pdf)
-<use ./figures/did_modern_es_mm_violent_pa.pdf>
-Package pdftex.def Info: ./figures/did_modern_es_mm_violent_pa.pdf  used on input line 641.
+ (tables/did_modern_main_pa_w60.tex) (tables/did_modern_main_na_w60.tex) (tables/did_modern_main_pa_w90.tex) (tables/did_modern_main_na_w90.tex) (tables/did_modern_main_pa_w120.tex) (tables/did_modern_main_na_w120.tex)
+
+LaTeX Warning: Float too large for page by 244.98369pt on input line 626.
+
+<./figures/did_modern_es_mm_violent_pa_w60.pdf, id=1049, 397.485pt x 289.08pt>
+File: ./figures/did_modern_es_mm_violent_pa_w60.pdf Graphic file (type pdf)
+<use ./figures/did_modern_es_mm_violent_pa_w60.pdf>
+Package pdftex.def Info: ./figures/did_modern_es_mm_violent_pa_w60.pdf  used on input line 634.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
-<./figures/did_modern_es_mm_violent_na.pdf, id=1180, 397.485pt x 289.08pt>
-File: ./figures/did_modern_es_mm_violent_na.pdf Graphic file (type pdf)
-<use ./figures/did_modern_es_mm_violent_na.pdf>
-Package pdftex.def Info: ./figures/did_modern_es_mm_violent_na.pdf  used on input line 645.
+<./figures/did_modern_es_mm_violent_na_w60.pdf, id=1050, 397.485pt x 289.08pt>
+File: ./figures/did_modern_es_mm_violent_na_w60.pdf Graphic file (type pdf)
+<use ./figures/did_modern_es_mm_violent_na_w60.pdf>
+Package pdftex.def Info: ./figures/did_modern_es_mm_violent_na_w60.pdf  used on input line 638.
 (pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
- [34
+<./figures/did_modern_es_mm_violent_pa_w90.pdf, id=1051, 397.485pt x 289.08pt>
+File: ./figures/did_modern_es_mm_violent_pa_w90.pdf Graphic file (type pdf)
+<use ./figures/did_modern_es_mm_violent_pa_w90.pdf>
+Package pdftex.def Info: ./figures/did_modern_es_mm_violent_pa_w90.pdf  used on input line 650.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/did_modern_es_mm_violent_na_w90.pdf, id=1052, 397.485pt x 289.08pt>
+File: ./figures/did_modern_es_mm_violent_na_w90.pdf Graphic file (type pdf)
+<use ./figures/did_modern_es_mm_violent_na_w90.pdf>
+Package pdftex.def Info: ./figures/did_modern_es_mm_violent_na_w90.pdf  used on input line 654.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/did_modern_es_mm_violent_pa_w120.pdf, id=1054, 397.485pt x 289.08pt>
+File: ./figures/did_modern_es_mm_violent_pa_w120.pdf Graphic file (type pdf)
+<use ./figures/did_modern_es_mm_violent_pa_w120.pdf>
+Package pdftex.def Info: ./figures/did_modern_es_mm_violent_pa_w120.pdf  used on input line 666.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+<./figures/did_modern_es_mm_violent_na_w120.pdf, id=1055, 397.485pt x 289.08pt>
+File: ./figures/did_modern_es_mm_violent_na_w120.pdf Graphic file (type pdf)
+<use ./figures/did_modern_es_mm_violent_na_w120.pdf>
+Package pdftex.def Info: ./figures/did_modern_es_mm_violent_na_w120.pdf  used on input line 670.
+(pdftex.def)             Requested size: 240.23016pt x 174.71529pt.
+[30
 
 ]
 
-LaTeX Warning: Text page 35 contains only floats.
+LaTeX Warning: Text page 31 contains only floats.
 
-[35 <./figures/did_modern_stk_es_mm_violent_pa.pdf> <./figures/did_modern_stk_es_mm_violent_na.pdf>]
+[31 <./figures/did_modern_stk_es_mm_violent_pa.pdf> <./figures/did_modern_stk_es_mm_violent_na.pdf>] [32 <./figures/did_modern_es_mm_violent_pa_w60.pdf> <./figures/did_modern_es_mm_violent_na_w60.pdf> <./figures/did_modern_es_mm_violent_pa_w90.pdf> <./figures/did_modern_es_mm_violent_na_w90.pdf>] [33] [34 <./figures/did_modern_es_mm_violent_pa_w120.pdf> <./figures/did_modern_es_mm_violent_na_w120.pdf>]
+<./figures/es_num_violent_MM_w30_b15_pa_ols_90ci.pdf, id=1188, 397.485pt x 289.08pt>
+File: ./figures/es_num_violent_MM_w30_b15_pa_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_violent_MM_w30_b15_pa_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_violent_MM_w30_b15_pa_ols_90ci.pdf  used on input line 723.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_peaceful_MM_w30_b15_pa_ols_90ci.pdf, id=1189, 397.485pt x 289.08pt>
+File: ./figures/es_num_peaceful_MM_w30_b15_pa_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_peaceful_MM_w30_b15_pa_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_peaceful_MM_w30_b15_pa_ols_90ci.pdf  used on input line 725.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_violent_MM_w30_b15_na_ols_90ci.pdf, id=1190, 397.485pt x 289.08pt>
+File: ./figures/es_num_violent_MM_w30_b15_na_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_violent_MM_w30_b15_na_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_violent_MM_w30_b15_na_ols_90ci.pdf  used on input line 727.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_peaceful_MM_w30_b15_na_ols_90ci.pdf, id=1191, 397.485pt x 289.08pt>
+File: ./figures/es_num_peaceful_MM_w30_b15_na_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_peaceful_MM_w30_b15_na_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_peaceful_MM_w30_b15_na_ols_90ci.pdf  used on input line 729.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+File: ./figures/es_num_violent_MM_w60_b15_pa_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_violent_MM_w60_b15_pa_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_violent_MM_w60_b15_pa_ols_90ci.pdf  used on input line 739.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+File: ./figures/es_num_peaceful_MM_w60_b15_pa_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_peaceful_MM_w60_b15_pa_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_peaceful_MM_w60_b15_pa_ols_90ci.pdf  used on input line 741.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+File: ./figures/es_num_violent_MM_w60_b15_na_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_violent_MM_w60_b15_na_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_violent_MM_w60_b15_na_ols_90ci.pdf  used on input line 743.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+File: ./figures/es_num_peaceful_MM_w60_b15_na_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_peaceful_MM_w60_b15_na_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_peaceful_MM_w60_b15_na_ols_90ci.pdf  used on input line 745.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_violent_MM_w90_b15_pa_ols_90ci.pdf, id=1193, 397.485pt x 289.08pt>
+File: ./figures/es_num_violent_MM_w90_b15_pa_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_violent_MM_w90_b15_pa_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_violent_MM_w90_b15_pa_ols_90ci.pdf  used on input line 755.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_peaceful_MM_w90_b15_pa_ols_90ci.pdf, id=1194, 397.485pt x 289.08pt>
+File: ./figures/es_num_peaceful_MM_w90_b15_pa_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_peaceful_MM_w90_b15_pa_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_peaceful_MM_w90_b15_pa_ols_90ci.pdf  used on input line 757.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_violent_MM_w90_b15_na_ols_90ci.pdf, id=1195, 397.485pt x 289.08pt>
+File: ./figures/es_num_violent_MM_w90_b15_na_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_violent_MM_w90_b15_na_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_violent_MM_w90_b15_na_ols_90ci.pdf  used on input line 759.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_peaceful_MM_w90_b15_na_ols_90ci.pdf, id=1196, 397.485pt x 289.08pt>
+File: ./figures/es_num_peaceful_MM_w90_b15_na_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_peaceful_MM_w90_b15_na_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_peaceful_MM_w90_b15_na_ols_90ci.pdf  used on input line 761.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+ [35
 
-LaTeX Warning: Text page 36 contains only floats.
+ <./figures/es_num_violent_MM_w30_b15_pa_ols_90ci.pdf> <./figures/es_num_peaceful_MM_w30_b15_pa_ols_90ci.pdf> <./figures/es_num_violent_MM_w30_b15_na_ols_90ci.pdf> <./figures/es_num_peaceful_MM_w30_b15_na_ols_90ci.pdf>] [36] [37 <./figures/es_num_violent_MM_w90_b15_pa_ols_90ci.pdf> <./figures/es_num_peaceful_MM_w90_b15_pa_ols_90ci.pdf> <./figures/es_num_violent_MM_w90_b15_na_ols_90ci.pdf> <./figures/es_num_peaceful_MM_w90_b15_na_ols_90ci.pdf>]
+<./figures/es_num_violent_MM_w60_b30_pa_ols_90ci.pdf, id=1305, 397.485pt x 289.08pt>
+File: ./figures/es_num_violent_MM_w60_b30_pa_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_violent_MM_w60_b30_pa_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_violent_MM_w60_b30_pa_ols_90ci.pdf  used on input line 777.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_peaceful_MM_w60_b30_pa_ols_90ci.pdf, id=1306, 397.485pt x 289.08pt>
+File: ./figures/es_num_peaceful_MM_w60_b30_pa_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_peaceful_MM_w60_b30_pa_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_peaceful_MM_w60_b30_pa_ols_90ci.pdf  used on input line 779.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_violent_MM_w60_b30_na_ols_90ci.pdf, id=1307, 397.485pt x 289.08pt>
+File: ./figures/es_num_violent_MM_w60_b30_na_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_violent_MM_w60_b30_na_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_violent_MM_w60_b30_na_ols_90ci.pdf  used on input line 781.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_peaceful_MM_w60_b30_na_ols_90ci.pdf, id=1308, 397.485pt x 289.08pt>
+File: ./figures/es_num_peaceful_MM_w60_b30_na_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_peaceful_MM_w60_b30_na_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_peaceful_MM_w60_b30_na_ols_90ci.pdf  used on input line 783.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_violent_MM_w90_b30_pa_ols_90ci.pdf, id=1309, 397.485pt x 289.08pt>
+File: ./figures/es_num_violent_MM_w90_b30_pa_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_violent_MM_w90_b30_pa_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_violent_MM_w90_b30_pa_ols_90ci.pdf  used on input line 793.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_peaceful_MM_w90_b30_pa_ols_90ci.pdf, id=1310, 397.485pt x 289.08pt>
+File: ./figures/es_num_peaceful_MM_w90_b30_pa_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_peaceful_MM_w90_b30_pa_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_peaceful_MM_w90_b30_pa_ols_90ci.pdf  used on input line 795.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_violent_MM_w90_b30_na_ols_90ci.pdf, id=1311, 397.485pt x 289.08pt>
+File: ./figures/es_num_violent_MM_w90_b30_na_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_violent_MM_w90_b30_na_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_violent_MM_w90_b30_na_ols_90ci.pdf  used on input line 797.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_peaceful_MM_w90_b30_na_ols_90ci.pdf, id=1312, 397.485pt x 289.08pt>
+File: ./figures/es_num_peaceful_MM_w90_b30_na_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_peaceful_MM_w90_b30_na_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_peaceful_MM_w90_b30_na_ols_90ci.pdf  used on input line 799.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_violent_MM_w120_b30_pa_ols_90ci.pdf, id=1314, 397.485pt x 289.08pt>
+File: ./figures/es_num_violent_MM_w120_b30_pa_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_violent_MM_w120_b30_pa_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_violent_MM_w120_b30_pa_ols_90ci.pdf  used on input line 809.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_peaceful_MM_w120_b30_pa_ols_90ci.pdf, id=1315, 397.485pt x 289.08pt>
+File: ./figures/es_num_peaceful_MM_w120_b30_pa_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_peaceful_MM_w120_b30_pa_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_peaceful_MM_w120_b30_pa_ols_90ci.pdf  used on input line 811.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_violent_MM_w120_b30_na_ols_90ci.pdf, id=1316, 397.485pt x 289.08pt>
+File: ./figures/es_num_violent_MM_w120_b30_na_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_violent_MM_w120_b30_na_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_violent_MM_w120_b30_na_ols_90ci.pdf  used on input line 813.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+<./figures/es_num_peaceful_MM_w120_b30_na_ols_90ci.pdf, id=1317, 397.485pt x 289.08pt>
+File: ./figures/es_num_peaceful_MM_w120_b30_na_ols_90ci.pdf Graphic file (type pdf)
+<use ./figures/es_num_peaceful_MM_w120_b30_na_ols_90ci.pdf>
+Package pdftex.def Info: ./figures/es_num_peaceful_MM_w120_b30_na_ols_90ci.pdf  used on input line 815.
+(pdftex.def)             Requested size: 225.21626pt x 163.79807pt.
+ [38
 
-[36 <./figures/did_modern_es_mm_violent_pa.pdf> <./figures/did_modern_es_mm_violent_na.pdf>] (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\violent-effects-of-apex-corruption-main.aux * soulpos - computing points - it may take a few seconds *
+ <./figures/es_num_violent_MM_w60_b30_pa_ols_90ci.pdf> <./figures/es_num_peaceful_MM_w60_b30_pa_ols_90ci.pdf> <./figures/es_num_violent_MM_w60_b30_na_ols_90ci.pdf> <./figures/es_num_peaceful_MM_w60_b30_na_ols_90ci.pdf>] [39 <./figures/es_num_violent_MM_w90_b30_pa_ols_90ci.pdf> <./figures/es_num_peaceful_MM_w90_b30_pa_ols_90ci.pdf> <./figures/es_num_violent_MM_w90_b30_na_ols_90ci.pdf> <./figures/es_num_peaceful_MM_w90_b30_na_ols_90ci.pdf>] [40 <./figures/es_num_violent_MM_w120_b30_pa_ols_90ci.pdf> <./figures/es_num_peaceful_MM_w120_b30_pa_ols_90ci.pdf> <./figures/es_num_violent_MM_w120_b30_na_ols_90ci.pdf> <./figures/es_num_peaceful_MM_w120_b30_na_ols_90ci.pdf>] (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\violent-effects-of-apex-corruption-main.aux * soulpos - computing points - it may take a few seconds *
 \openout4 = `violent-effects-of-apex-corruption-main.upb'.
 
  (c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\violent-effects-of-apex-corruption-main.upa))
@@ -1602,21 +1604,21 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2020/03/25>
  ***********
 Package rerunfilecheck Info: File `violent-effects-of-apex-corruption-main.out' has not changed.
-(rerunfilecheck)             Checksum: 0158E5FE8077EEBDC83F8E2223459728;1670.
+(rerunfilecheck)             Checksum: A2A61E072C35A3F19DD1EA9308390887;1502.
  ) 
 Here is how much of TeX's memory you used:
- 43959 strings out of 467871
- 1018064 string characters out of 5418375
- 1526992 words of memory out of 5000000
- 71883 multiletter control sequences out of 15000+600000
- 703269 words of font info for 126 fonts, out of 8000000 for 9000
+ 44290 strings out of 467871
+ 1039373 string characters out of 5418375
+ 1535992 words of memory out of 5000000
+ 72207 multiletter control sequences out of 15000+600000
+ 700315 words of font info for 125 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 104i,12n,111p,1648b,753s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\rob98\AppData\Local\MiKTeX\fonts/pk/ljfour/public/bbm/dpi657\bbm10.pk><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cmextra/cmex9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/t1xtt.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/t1xtt.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplb.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplbi.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplr.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplri.pfb>
-Output written on c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\violent-effects-of-apex-corruption-main.pdf (36 pages, 2298969 bytes).
+ 104i,12n,111p,1648b,730s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\rob98\AppData\Local\MiKTeX\fonts/pk/ljfour/public/bbm/dpi657\bbm10.pk><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cmextra/cmex9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/t1xtt.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/t1xtt.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplb.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplbi.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplr.pfb><C:/Users/rob98/AppData/Local/Programs/MiKTeX/fonts/type1/public/newpx/zplri.pfb>
+Output written on c:\Users\rob98\Dropbox\Corrupcion\protest_repo\paper\aux_files\violent-effects-of-apex-corruption-main.pdf (40 pages, 3893245 bytes).
 PDF statistics:
- 1384 PDF objects out of 1440 (max. 8388607)
- 1124 compressed objects within 12 object streams
- 135 named destinations out of 1000 (max. 500000)
- 373 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1601 PDF objects out of 1728 (max. 8388607)
+ 1196 compressed objects within 12 object streams
+ 142 named destinations out of 1000 (max. 500000)
+ 537 words of extra memory for PDF output out of 10000 (max. 10000000)
 

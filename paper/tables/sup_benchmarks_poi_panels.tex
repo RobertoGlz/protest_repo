@@ -1,45 +1,45 @@
 {
 \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
-\begin{tabular}{l*{4}{c}}
+\begin{tabular}{l*{8}{c}}
 \toprule
-&\multicolumn{2}{c}{$\pm 30$-Day Window}    &\multicolumn{2}{c}{$\pm 120$-Day Window}   \\\cmidrule(lr){2-3}\cmidrule(lr){4-5}
-&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
-&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}\\
-\midrule \multicolumn{5}{l}{\textbf{\textit{Panel A: Apex corruption (President + Other Apex)}}} \\
-Post Event (IRR)&       2.180\sym{**} &       1.138         &       1.375\sym{*}  &       1.083         \\
-&     (0.660)         &     (0.556)         &     (0.253)         &     (0.303)         \\
+&\multicolumn{2}{c}{$\pm 30$-Day Window}    &\multicolumn{2}{c}{$\pm 60$-Day Window}    &\multicolumn{2}{c}{$\pm 90$-Day Window}    &\multicolumn{2}{c}{$\pm 120$-Day Window}   \\\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
+&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}\\
+&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}\\
+\midrule \multicolumn{9}{l}{\textbf{\textit{Panel A: Apex}}} \\
+Post Event (IRR)&       2.180\sym{**} &       1.138         &       1.520\sym{**} &       0.983         &       1.223         &       1.350         &       1.335         &       1.116         \\
+&     (0.660)         &     (0.556)         &     (0.279)         &     (0.300)         &     (0.225)         &     (0.426)         &     (0.247)         &     (0.310)         \\
 \midrule
-Mean (Pre-Event Bin)&       0.101         &       0.041         &       0.054         &       0.018         \\
-Observations&        1397         &        1778         &        7519         &       12613         \\
-Number of Events&          28         &          32         &          34         &          53         \\
-Pseudo R-squared&       0.299         &       0.170         &       0.339         &       0.220         \\
+Mean (Pre-Event)&       0.076         &       0.031         &       0.084         &       0.025         &       0.100         &       0.027         &       0.081         &       0.039         \\
+Observations&        1397         &        1778         &        3493         &        5803         &        5240         &        8650         &        7278         &       12372         \\
+Number of Events&          28         &          32         &          31         &          50         &          32         &          50         &          34         &          53         \\
+Pseudo R-squared&       0.299         &       0.170         &       0.336         &       0.160         &       0.335         &       0.186         &       0.346         &       0.224         \\
 \midrule
-\multicolumn{5}{l}{\textbf{\textit{Panel B: Non-apex corruption (Other Non-Apex)}}} \\
-Post Event (IRR)&       0.875         &       1.189         &       1.932\sym{*}  &       0.778         \\
-&     (0.284)         &     (0.210)         &     (0.744)         &     (0.127)         \\
+\multicolumn{9}{l}{\textbf{\textit{Panel B: Non-Apex}}} \\
+Post Event (IRR)&       0.875         &       1.189         &       1.448         &       0.970         &       1.788         &       0.851         &       1.932\sym{*}  &       0.778         \\
+&     (0.284)         &     (0.210)         &     (0.441)         &     (0.195)         &     (0.681)         &     (0.145)         &     (0.744)         &     (0.127)         \\
 \midrule
-Mean (Pre-Event Bin)&       0.077         &       0.176         &       0.031         &       0.098         \\
-Observations&        1884         &        3763         &       13604         &       20728         \\
-Number of Events&          41         &          64         &          63         &          95         \\
-Pseudo R-squared&       0.339         &       0.436         &       0.260         &       0.322         \\
+Mean (Pre-Event)&       0.064         &       0.140         &       0.029         &       0.118         &       0.026         &       0.111         &       0.029         &       0.098         \\
+Observations&        1884         &        3763         &        5746         &        9115         &        9574         &       14657         &       13604         &       20728         \\
+Number of Events&          41         &          64         &          52         &          79         &          58         &          88         &          63         &          95         \\
+Pseudo R-squared&       0.339         &       0.436         &       0.338         &       0.379         &       0.262         &       0.334         &       0.260         &       0.322         \\
 \bottomrule
-\multicolumn{5}{l}{\textbf{\textit{Panel C: Football match losses}}} \\
-Post Event (IRR)&       1.531         &       1.213         &       1.268         &       1.361         \\
-&     (0.541)         &     (0.362)         &     (0.494)         &     (0.490)         \\
+\multicolumn{9}{l}{\textbf{\textit{Panel C: Football match losses}}} \\
+Post Event (IRR)&       1.531         &       1.213         &       1.847         &       1.205         &       1.408         &       1.350         &       1.268         &       1.361         \\
+&     (0.541)         &     (0.362)         &     (0.696)         &     (0.394)         &     (0.505)         &     (0.473)         &     (0.494)         &     (0.490)         \\
 \midrule
-Mean (Pre-Event Bin)&       0.048         &       0.142         &       0.031         &       0.073         \\
-Observations&        1251         &        2928         &       11741         &       23068         \\
-Number of Events&          21         &          48         &          49         &          96         \\
-Pseudo R-squared&       0.470         &       0.385         &       0.417         &       0.304         \\
+Mean (Pre-Event)&       0.074         &       0.147         &       0.112         &       0.077         &       0.045         &       0.069         &       0.028         &       0.058         \\
+Observations&        1251         &        2928         &        2453         &        9250         &        6993         &       15681         &       11741         &       23068         \\
+Number of Events&          21         &          48         &          22         &          77         &          39         &          87         &          49         &          96         \\
+Pseudo R-squared&       0.470         &       0.385         &       0.438         &       0.341         &       0.453         &       0.326         &       0.417         &       0.304         \\
 \bottomrule
-\multicolumn{5}{l}{\textbf{\textit{Panel D: Currency depreciations}}} \\
-Post Event (IRR)&       1.361         &       0.967         &       1.409\sym{*}  &       0.731\sym{*}  \\
-&     (0.373)         &     (0.299)         &     (0.283)         &     (0.131)         \\
+\multicolumn{9}{l}{\textbf{\textit{Panel D: Currency depreciations}}} \\
+Post Event (IRR)&       1.361         &       0.967         &       1.316         &       0.709         &       1.311         &       0.749         &       1.409\sym{*}  &       0.731\sym{*}  \\
+&     (0.373)         &     (0.299)         &     (0.375)         &     (0.182)         &     (0.300)         &     (0.157)         &     (0.283)         &     (0.131)         \\
 \midrule
-Mean (Pre-Event Bin)&       0.070         &       0.050         &       0.063         &       0.033         \\
-Observations&        2673         &        5378         &       14630         &       31115         \\
-Number of Events&          46         &          96         &          72         &         138         \\
-Pseudo R-squared&       0.322         &       0.274         &       0.428         &       0.232         \\
+Mean (Pre-Event)&       0.089         &       0.049         &       0.073         &       0.043         &       0.072         &       0.041         &       0.070         &       0.036         \\
+Observations&        2673         &        5378         &        6471         &       13387         &       10652         &       21099         &       14630         &       31115         \\
+Number of Events&          46         &          96         &          60         &         122         &          69         &         128         &          72         &         138         \\
+Pseudo R-squared&       0.322         &       0.274         &       0.373         &       0.239         &       0.404         &       0.237         &       0.428         &       0.232         \\
 \bottomrule
 \end{tabular}
 }

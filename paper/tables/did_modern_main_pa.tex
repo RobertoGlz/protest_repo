@@ -1,19 +1,21 @@
 {
 \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
-\begin{tabular}{l*{4}{c}}
+\begin{tabular}{l*{9}{c}}
 \toprule
-            &\multicolumn{1}{c}{\shortstack{Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Non-violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Gvt.~Violent\\Response}}\\
+ & \multicolumn{3}{c}{Violent Protests} & \multicolumn{3}{c}{Non-violent Protests} & \multicolumn{3}{c}{Protests (any)} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
+ & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} \\
 \midrule
-OLS (TWFE) & -0.136 & -0.075 & -0.061 & -0.026 \\
-             & (0.088) & (0.072) & (0.093) & (0.022) \\
-dCDH & 0.323\sym{**} & 0.152 & 0.171 & 0.026 \\
-             & (0.163) & (0.180) & (0.141) & (0.038) \\
-BJS & -0.123\sym{*} & -0.056 & -0.067 & -0.028 \\
-             & (0.073) & (0.069) & (0.075) & (0.023) \\
-SA & -0.152 & -0.072 & -0.079 & 0.008 \\
-             & (0.173) & (0.149) & (0.087) & (0.008) \\
+OLS (TWFE) & -0.244 & -0.244 & -0.244 & -0.027 & -0.027 & -0.027 & -0.272 & -0.272 & -0.272 \\
+             & (0.180) & (0.180) & (0.180) & (0.168) & (0.168) & (0.168) & (0.174) & (0.174) & (0.174) \\
+dCDH & 0.305 & 0.238 & 0.193 & 0.315 & 0.650 & 0.973 & 0.620 & 0.888 & 1.165\sym{*} \\
+             & (0.367) & (0.317) & (0.315) & (0.306) & (0.607) & (0.751) & (0.494) & (0.583) & (0.693) \\
+BJS & -0.211 & -0.211 & -0.211 & -0.028 & -0.028 & -0.028 & -0.239\sym{*} & -0.239\sym{*} & -0.239\sym{*} \\
+             & (0.173) & (0.173) & (0.173) & (0.114) & (0.114) & (0.114) & (0.133) & (0.133) & (0.133) \\
+SA & -0.204 & -0.285 & -0.337 & -0.200 & 0.201 & 0.565 & -0.403 & -0.084 & 0.229 \\
+             & (0.394) & (0.307) & (0.267) & (0.211) & (0.381) & (0.376) & (0.469) & (0.496) & (0.455) \\
 \midrule
-Observations & 14,697 & 14,697 & 14,697 & 14,697 \\
+Observations & 6,453 & 6,453 & 6,453 & 6,453 & 6,453 & 6,453 & 6,453 & 6,453 & 6,453 \\
 \bottomrule
 \end{tabular}
 }

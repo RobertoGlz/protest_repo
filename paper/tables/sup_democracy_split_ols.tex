@@ -2,20 +2,20 @@
 \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
 \begin{tabular}{l*{8}{c}}
 \toprule
-            &\multicolumn{2}{c}{$\pm 30$-Day Window}    &\multicolumn{2}{c}{$\pm 120$-Day Window}   &\multicolumn{2}{c}{Shares ($\pm 30$-Day)}  &\multicolumn{2}{c}{Shares ($\pm 120$-Day)} \\\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
+            &\multicolumn{2}{c}{$\pm 30$-Day Window}    &\multicolumn{2}{c}{$\pm 60$-Day Window}    &\multicolumn{2}{c}{$\pm 90$-Day Window}    &\multicolumn{2}{c}{$\pm 120$-Day Window}   \\\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
             &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}\\
-            &\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Share\\Violent}}&\multicolumn{1}{c}{\shortstack{Share\\Peaceful}}&\multicolumn{1}{c}{\shortstack{Share\\Violent}}&\multicolumn{1}{c}{\shortstack{Share\\Peaceful}}\\
+            &\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}\\
 \midrule
-Post $\times$ High Democracy (2008)&       0.021\sym{**} &       0.013         &       0.024\sym{***}&      -0.008         &       0.020\sym{**} &       0.017\sym{*}  &       0.024\sym{***}&      -0.009         \\
-            &     (0.008)         &     (0.008)         &     (0.008)         &     (0.008)         &     (0.008)         &     (0.010)         &     (0.008)         &     (0.007)         \\
-Post $\times$ Low Democracy (2008)&       0.009\sym{*}  &       0.005         &       0.005         &      -0.009         &       0.009\sym{*}  &       0.002         &       0.005         &      -0.010         \\
-            &     (0.005)         &     (0.012)         &     (0.009)         &     (0.012)         &     (0.005)         &     (0.012)         &     (0.009)         &     (0.012)         \\
+Post $\times$ High Democracy (2008)&       0.021\sym{**} &       0.013         &       0.023\sym{**} &       0.003         &       0.019\sym{**} &      -0.004         &       0.024\sym{***}&      -0.008         \\
+            &     (0.008)         &     (0.008)         &     (0.010)         &     (0.009)         &     (0.009)         &     (0.008)         &     (0.008)         &     (0.008)         \\
+Post $\times$ Low Democracy (2008)&       0.009\sym{*}  &       0.005         &       0.009\sym{*}  &      -0.002         &       0.004         &      -0.002         &       0.004         &      -0.010         \\
+            &     (0.005)         &     (0.012)         &     (0.005)         &     (0.016)         &     (0.007)         &     (0.013)         &     (0.009)         &     (0.012)         \\
 \midrule
-p-value: High $=$ Low&       0.245         &       0.539         &       0.115         &       0.921         &       0.256         &       0.273         &       0.122         &       0.893         \\
-Mean (Pre-Scandal Bin)&       0.027         &       0.069         &       0.020         &       0.053         &       0.027         &       0.061         &       0.020         &       0.048         \\
-Observations&       10736         &       10736         &       42657         &       42657         &       10736         &       10736         &       42657         &       42657         \\
+p-value: High $=$ Low&       0.245         &       0.539         &       0.238         &       0.807         &       0.183         &       0.896         &       0.116         &       0.891         \\
+Mean (Pre-Scandal)&       0.020         &       0.053         &       0.021         &       0.056         &       0.024         &       0.057         &       0.023         &       0.057         \\
+Observations&       10736         &       10736         &       21296         &       21296         &       31856         &       31856         &       42416         &       42416         \\
 Number of Scandals&         176         &         176         &         176         &         176         &         176         &         176         &         176         &         176         \\
-R-squared   &       0.160         &       0.473         &       0.127         &       0.300         &       0.167         &       0.493         &       0.130         &       0.292         \\
+R-squared   &       0.160         &       0.473         &       0.154         &       0.396         &       0.133         &       0.348         &       0.128         &       0.300         \\
 \bottomrule
 \end{tabular}
 }

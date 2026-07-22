@@ -92,22 +92,17 @@ save `base_panel'
    ============================================================ */
 foreach sample in pa na {
 foreach outcome of local outcome_list {
-foreach T in 30 120 {
+foreach T in 30 60 90 120 {
 
-	/* ----- Observed beta on this subsample x (outcome, T) ----- */
+	/* ----- Observed beta on this subsample x (outcome, T) -----
+	   Restrict to the +-T window for EVERY T, so the observed beta matches
+	   the corresponding column of Table~1 (previously only T==30 was
+	   restricted, so 60/90/120 used the full +-120 panel). */
 	use `base_panel', clear
-	if `T' == 30 {
-		quietly reghdfe `outcome' post i.month i.day ///
-			if year >= `firstyear' & abs(window) <= `T' & in_`sample' == 1, ///
-			absorb(i.country_id#i.year) ///
-			vce(cluster i.country_id#i.year#i.grupo_dias)
-	}
-	else {
-		quietly reghdfe `outcome' post i.month i.day ///
-			if year >= `firstyear' & in_`sample' == 1, ///
-			absorb(i.country_id#i.year) ///
-			vce(cluster i.country_id#i.year#i.grupo_dias)
-	}
+	quietly reghdfe `outcome' post i.month i.day ///
+		if year >= `firstyear' & abs(window) <= `T' & in_`sample' == 1, ///
+		absorb(i.country_id#i.year) ///
+		vce(cluster i.country_id#i.year#i.grupo_dias)
 	local observed_beta_T = _b[post]
 	local observed_se_T   = _se[post]
 
@@ -124,12 +119,7 @@ foreach T in 30 120 {
 		local k = -`i'
 
 		use `base_panel', clear
-		if `T' == 30 {
-			keep if year >= `firstyear' & abs(window) <= `T' & in_`sample' == 1
-		}
-		else {
-			keep if year >= `firstyear' & in_`sample' == 1
-		}
+		keep if year >= `firstyear' & abs(window) <= `T' & in_`sample' == 1
 		drop if missing(`outcome')
 
 		gen byte placebo_post = (window >= `k')

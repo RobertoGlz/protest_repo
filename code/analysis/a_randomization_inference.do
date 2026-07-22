@@ -224,24 +224,18 @@ local max_att : display `max_cy_attempts' + `max_uncond_attempts'
    STEP 3 - LOOP OVER (OUTCOME, WINDOW) AND RUN THE PERMUTATION TEST
    ============================================================ */
 foreach outcome of local outcome_list {
-foreach T in 30 120 {
+foreach T in 30 60 90 120 {
 
 	local win_size = 2*`T' + 1
 
-	/* ----- 3a. Compute the OBSERVED beta on this (outcome, window) ----- */
+	/* ----- 3a. Compute the OBSERVED beta on this (outcome, window) -----
+	   Restrict to the +-T window for EVERY T (previously only T==30 was
+	   restricted, so 60/90 used the full +-120 panel). */
 	use `obs_panel', clear
-	if `T' == 30 {
-		quietly reghdfe `outcome' post i.month i.day ///
-			if year >= `firstyear' & abs(window) <= `T', ///
-			absorb(i.country_id#i.year) ///
-			vce(cluster i.country_id#i.year#i.grupo_dias)
-	}
-	else {
-		quietly reghdfe `outcome' post i.month i.day ///
-			if year >= `firstyear', ///
-			absorb(i.country_id#i.year) ///
-			vce(cluster i.country_id#i.year#i.grupo_dias)
-	}
+	quietly reghdfe `outcome' post i.month i.day ///
+		if year >= `firstyear' & abs(window) <= `T', ///
+		absorb(i.country_id#i.year) ///
+		vce(cluster i.country_id#i.year#i.grupo_dias)
 	local observed_beta_T = _b[post]
 	local observed_se_T   = _se[post]
 
@@ -401,25 +395,50 @@ foreach T in 30 120 {
 	if "`outcome'" == "num_violent_MM"  local outlbl "violent protests"
 	if "`outcome'" == "num_peaceful_MM" local outlbl "peaceful protests"
 
-	/* Invisible dummy series so the legend can carry the RI p-value.  */
-	gen double _leg_dummy = .
+	/* invisible dummy series that seed the two legend rows:
+	   _leg_beta -> a maroon line key (matches the observed-beta line)
+	   _leg_p    -> a blank key (p-value row, text only)                 */
+	gen double _leg_beta = .
+	gen double _leg_p    = .
 
+	/* ----- x-axis wide enough to show BOTH the placebo distribution and
+	         the observed estimate ----- */
+	quietly summarize beta_placebo
+	local xlo = min(r(min), `observed_beta_T', 0)
+	local xhi = max(r(max), `observed_beta_T', 0)
+	local xrng = `xhi' - `xlo'
+	if `xrng' <= 0 local xrng = 0.01
+	local xlo = `xlo' - 0.10 * `xrng'
+	local xhi = `xhi' + 0.10 * `xrng'
+	local xraw = (`xhi' - `xlo') / 5
+	local xmag = 10 ^ floor(log10(`xraw'))
+	local xmul = `xraw' / `xmag'
+	if `xmul' < 1.5      local xstep = 1  * `xmag'
+	else if `xmul' < 3.5 local xstep = 2  * `xmag'
+	else if `xmul' < 7.5 local xstep = 5  * `xmag'
+	else                 local xstep = 10 * `xmag'
+	local xlo_t = floor(`xlo' / `xstep') * `xstep'
+	local xhi_t = ceil( `xhi' / `xstep') * `xstep'
+
+	/* The observed-beta VALUE lives in the legend (a maroon-keyed row), not
+	   as a floating text label that gets clipped when the line sits high. */
 	twoway (histogram beta_placebo, percent bin(50) ///
-	            color(gs6) lcolor(gs8)) ///
-	       (scatter _leg_dummy beta_placebo, msymbol(none)), ///
+	            color(gs13) lcolor(gs10)) ///
+	       (line _leg_beta beta_placebo, lcolor("128 0 0") lwidth(medthick)) ///
+	       (line _leg_p    beta_placebo, lcolor(none)), ///
 		xline(`observed_beta_T', lcolor("128 0 0") lwidth(medthick) ///
 		     lpattern(solid)) ///
 		xline(0, lcolor(black) lwidth(vthin) lpattern(dot)) ///
-		text(5 `observed_beta_T' "{&beta} = `obs_str'", ///
-		     place(e) orientation(vertical) size(medsmall) ///
-		     color("128 0 0")) ///
 		xtitle("Effect on `outlbl'", size(medium)) ///
 		ytitle("Percent", size(medium)) ///
-		xlabel(, format(%5.3f)) ///
+		xscale(range(`xlo_t' `xhi_t')) ///
+		xlabel(`xlo_t'(`xstep')`xhi_t', format(%5.3f) labsize(small)) ///
 		ylabel(, angle(0) format(%3.0f)) ///
-		legend(order(2) label(2 "RI p = `p2_str'") ///
-		       pos(2) ring(0) region(lcolor(black) fcolor(white)) ///
-		       size(medium) symxsize(0)) ///
+		legend(order(2 3) ///
+		       label(2 "Observed {&beta} = `obs_str'") ///
+		       label(3 "RI p = `p2_str'") ///
+		       cols(1) pos(2) ring(0) ///
+		       region(lcolor(black) fcolor(white)) size(medsmall)) ///
 		scheme(s2color) graphregion(color(white))
 	graph export "${figout}/randomization_inference_hist_`outcome'_w`T'.pdf", replace
 }
