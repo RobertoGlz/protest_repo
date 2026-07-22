@@ -131,12 +131,12 @@ local firstyear = 2008
 tempfile base
 save `base'
 
-local outcomes  "num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM share_violent share_peaceful share_violent share_peaceful"
-local windows   "30 30 120 120 30 30 120 120"
+local outcomes  "num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM"
+local windows   "30 30 60 60 90 90 120 120"
 local nspecs : word count `outcomes'
 
-local poi_out   "num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM"
-local poi_win   "30 30 120 120"
+local poi_out   "`outcomes'"
+local poi_win   "`windows'"
 local poi_n : word count `poi_out'
 
 /* ============================================================
@@ -146,22 +146,14 @@ eststo clear
 forvalues k = 1/`nspecs' {
 	local outcome : word `k' of `outcomes'
 	local window  : word `k' of `windows'
-	local bin_size = cond(`window' == 30, 6, 30)
 
 	use `base', clear
-	if `window' == 30 {
-		eststo m`k': reghdfe `outcome' post_high post_low i.month i.day ///
-			if year >= `firstyear' & abs(window) <= 30 & !missing(high_dem), ///
-			absorb($fe1) vce($CLUSTER2)
-	}
-	else {
-		eststo m`k': reghdfe `outcome' post_high post_low i.month i.day ///
-			if year >= `firstyear' & !missing(high_dem), ///
-			absorb($fe1) vce($CLUSTER2)
-	}
+	eststo m`k': reghdfe `outcome' post_high post_low i.month i.day ///
+		if year >= `firstyear' & abs(window) <= `window' & !missing(high_dem), ///
+		absorb($fe1) vce($CLUSTER2)
 
 	quietly summarize `outcome' if e(sample) ///
-		& window >= -`bin_size' & window <= -1
+		& window >= -`window' & window <= -1
 	estadd scalar baseline = r(mean)
 	quietly levelsof id if e(sample) == 1
 	estadd scalar num_scandals = r(r)
@@ -177,18 +169,18 @@ esttab _all using "${tables}/sup_democracy_split_ols.tex", ///
 	        "\shortstack{Peaceful\\Protests}" ///
 	        "\shortstack{Violent\\Protests}" ///
 	        "\shortstack{Peaceful\\Protests}" ///
-	        "\shortstack{Share\\Violent}" ///
-	        "\shortstack{Share\\Peaceful}" ///
-	        "\shortstack{Share\\Violent}" ///
-	        "\shortstack{Share\\Peaceful}") ///
-	mgroups("$\pm 30$-Day Window" "$\pm 120$-Day Window" ///
-	        "Shares ($\pm 30$-Day)" "Shares ($\pm 120$-Day)", ///
+	        "\shortstack{Violent\\Protests}" ///
+	        "\shortstack{Peaceful\\Protests}" ///
+	        "\shortstack{Violent\\Protests}" ///
+	        "\shortstack{Peaceful\\Protests}") ///
+	mgroups("$\pm 30$-Day Window" "$\pm 60$-Day Window" ///
+	        "$\pm 90$-Day Window" "$\pm 120$-Day Window", ///
 	        pattern(1 0 1 0 1 0 1 0) ///
 	        prefix(\multicolumn{2}{c}{) suffix(}) span ///
 	        erepeat(\cmidrule(lr){@span})) ///
 	stats(p_hl baseline N num_scandals r2, ///
 	      label("p-value: High $$=$$ Low" ///
-	            "Mean (Pre-Scandal Bin)" ///
+	            "Mean (Pre-Scandal)" ///
 	            "Observations" ///
 	            "Number of Scandals" ///
 	            "R-squared") ///
@@ -235,14 +227,19 @@ esttab _all using "${tables}/sup_democracy_split_poi.tex", ///
 	mtitles("\shortstack{Violent\\Protests}" ///
 	        "\shortstack{Peaceful\\Protests}" ///
 	        "\shortstack{Violent\\Protests}" ///
+	        "\shortstack{Peaceful\\Protests}" ///
+	        "\shortstack{Violent\\Protests}" ///
+	        "\shortstack{Peaceful\\Protests}" ///
+	        "\shortstack{Violent\\Protests}" ///
 	        "\shortstack{Peaceful\\Protests}") ///
-	mgroups("$\pm 30$-Day Window" "$\pm 120$-Day Window", ///
-	        pattern(1 0 1 0) ///
+	mgroups("$\pm 30$-Day Window" "$\pm 60$-Day Window" ///
+	        "$\pm 90$-Day Window" "$\pm 120$-Day Window", ///
+	        pattern(1 0 1 0 1 0 1 0) ///
 	        prefix(\multicolumn{2}{c}{) suffix(}) span ///
 	        erepeat(\cmidrule(lr){@span})) ///
 	stats(p_hl baseline N num_scandals r2_p, ///
 	      label("p-value: High $$=$$ Low" ///
-	            "Mean (Pre-Scandal Bin)" ///
+	            "Mean (Pre-Scandal)" ///
 	            "Observations" ///
 	            "Number of Scandals" ///
 	            "Pseudo R-squared") ///

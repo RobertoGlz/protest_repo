@@ -165,63 +165,81 @@ gen double irr_ci_hi  = irr + `zcrit' * irr_se
 tempfile allests
 save `allests'
 
-/* --- Loop over (sample, estimator) and plot the two outcome panels
-       with a SHARED y-axis range computed across both outcomes --- */
-foreach sample in full pa na {
+/* --- Precompute shared y-ranges.
+       For the Apex / Non-Apex plots we use ONE common range, computed
+       across BOTH subsamples and BOTH outcomes, so pa and na (placed
+       side by side in the paper) are directly comparable by eye.  The
+       full-sample plots use their own range. --- */
+foreach est in OLS Poisson {
+	if "`est'" == "OLS" {
+		local rylo "ci_lo"
+		local ryhi "ci_hi"
+		local nullref 0
+	}
+	else {
+		local rylo "irr_ci_lo"
+		local ryhi "irr_ci_hi"
+		local nullref 1
+	}
 
-	/* filename suffix */
-	if "`sample'" == "full" local suf ""
-	if "`sample'" == "pa"   local suf "_pa"
-	if "`sample'" == "na"   local suf "_na"
-
-	foreach est in OLS Poisson {
-
+	foreach grp in split full {
 		use `allests', clear
-		keep if sample == "`sample'" & estimator == "`est'"
+		if "`grp'" == "split" keep if inlist(sample, "pa", "na") & estimator == "`est'"
+		else                  keep if sample == "full"           & estimator == "`est'"
 
-		if "`est'" == "OLS" {
-			local yvar    "beta"
-			local ylo     "ci_lo"
-			local yhi     "ci_hi"
-			local nullref 0
-			local ytpre   "Effect on"
-			local outfx   "ols"
-		}
-		else {
-			local yvar    "irr"
-			local ylo     "irr_ci_lo"
-			local yhi     "irr_ci_hi"
-			local nullref 1
-			local ytpre   "IRR on"
-			local outfx   "poi"
-		}
-
-		/* --- Shared y-range across both outcomes --- */
-		quietly summarize `ylo'
-		local ymin_lo = r(min)
-		quietly summarize `yhi'
-		local ymax_hi = r(max)
-		local ymin = min(`ymin_lo', `nullref')
-		local ymax = max(`ymax_hi', `nullref')
+		quietly summarize `rylo'
+		local ymin = min(r(min), `nullref')
+		quietly summarize `ryhi'
+		local ymax = max(r(max), `nullref')
 		local ypad = 0.10 * (`ymax' - `ymin')
 		local ylo_pad = `ymin' - `ypad'
 		local yhi_pad = `ymax' + `ypad'
+		local range = `yhi_pad' - `ylo_pad'
+		if `range' <= 0 local range = 0.01
+		local raw = `range' / 6
+		local mag = 10 ^ floor(log10(`raw'))
+		local mult = `raw' / `mag'
+		if `mult' < 1.5      local step = 1  * `mag'
+		else if `mult' < 3.5 local step = 2  * `mag'
+		else if `mult' < 7.5 local step = 5  * `mag'
+		else                 local step = 10 * `mag'
+		local ylo_`est'_`grp'  = floor(`ylo_pad' / `step') * `step'
+		local yhi_`est'_`grp'  = ceil( `yhi_pad' / `step') * `step'
+		local step_`est'_`grp' = `step'
+	}
+}
 
-		/* Nice tick step: pick ~5-8 ticks spanning [ylo_pad, yhi_pad].
-		   Round ylo_pad down and yhi_pad up to multiples of `step'
-		   so the tick sequence is visually clean.                    */
-		local range   = `yhi_pad' - `ylo_pad'
-		local target  = 6                       /* target ~= 6 ticks */
-		local raw     = `range' / `target'
-		local mag     = 10 ^ floor(log10(`raw'))
-		local mult    = `raw' / `mag'
-		if `mult' < 1.5      local step = 1   * `mag'
-		else if `mult' < 3.5 local step = 2   * `mag'
-		else if `mult' < 7.5 local step = 5   * `mag'
-		else                 local step = 10  * `mag'
+/* --- Plot.  Highlight ALL four table windows (30/60/90/120) in red. --- */
+foreach sample in full pa na {
 
-		local ylo_tick = floor(`ylo_pad' / `step') * `step'
-		local yhi_tick = ceil( `yhi_pad' / `step') * `step'
+	if "`sample'" == "full" local suf ""
+	if "`sample'" == "full" local grp "full"
+	if "`sample'" == "pa"   local suf "_pa"
+	if "`sample'" == "pa"   local grp "split"
+	if "`sample'" == "na"   local suf "_na"
+	if "`sample'" == "na"   local grp "split"
+
+	foreach est in OLS Poisson {
+
+		if "`est'" == "OLS" {
+			local yvar "beta"
+			local ylo "ci_lo"
+			local yhi "ci_hi"
+			local nullref 0
+			local ytpre "Effect on"
+			local outfx "ols"
+		}
+		else {
+			local yvar "irr"
+			local ylo "irr_ci_lo"
+			local yhi "irr_ci_hi"
+			local nullref 1
+			local ytpre "IRR on"
+			local outfx "poi"
+		}
+		local ylo_tick = `ylo_`est'_`grp''
+		local yhi_tick = `yhi_`est'_`grp''
+		local step     = `step_`est'_`grp''
 
 		foreach outcome in num_violent_MM num_peaceful_MM {
 
@@ -229,16 +247,17 @@ foreach sample in full pa na {
 			if "`outcome'" == "num_peaceful_MM" local outlbl "peaceful protests"
 
 			preserve
-				keep if outcome == "`outcome'"
+				use `allests', clear
+				keep if sample == "`sample'" & estimator == "`est'" & outcome == "`outcome'"
 				sort T
 
-				twoway (rcap `ylo' `yhi' T if !inlist(T, 30, 120), ///
+				twoway (rcap `ylo' `yhi' T if !inlist(T, 30, 60, 90, 120), ///
 				            lcolor(gs6) lwidth(thin)) ///
-				       (rcap `ylo' `yhi' T if  inlist(T, 30, 120), ///
+				       (rcap `ylo' `yhi' T if  inlist(T, 30, 60, 90, 120), ///
 				            lcolor("220 0 0") lwidth(medthick)) ///
 				       (line `yvar' T, lcolor(black) lwidth(medium)) ///
 				       (scatter `yvar' T, msymbol(O) msize(medium) mcolor(black)) ///
-				       (scatter `yvar' T if inlist(T, 30, 120), ///
+				       (scatter `yvar' T if inlist(T, 30, 60, 90, 120), ///
 				            msymbol(O) msize(medlarge) mcolor("220 0 0")), ///
 					yline(`nullref', lcolor(black%10) lwidth(vvthick) lpattern(solid)) ///
 					xlabel(15(15)150) ///

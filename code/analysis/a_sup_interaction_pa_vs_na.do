@@ -98,37 +98,38 @@ global fe1      "i.country_id#i.year"
 global CLUSTER2 "cluster i.country_id#i.year#i.grupo_dias"
 
 local firstyear = 2008
-local outcomes  "num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM share_violent share_peaceful share_violent share_peaceful"
-local windows   "30 30 120 120 30 30 120 120"
+local outcomes  "num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM"
+local windows   "30 30 60 60 90 90 120 120"
 local nspecs : word count `outcomes'
 
 eststo clear
 forvalues k = 1/`nspecs' {
 	local outcome : word `k' of `outcomes'
 	local window  : word `k' of `windows'
-	local bin_size = cond(`window' == 30, 6, 30)
 
-	if `window' == 30 {
-		eststo m`k': reghdfe `outcome' post_pa post_na i.month i.day ///
-			if year >= `firstyear' & abs(window) <= 30 & (in_pa == 1 | in_na == 1), ///
-			absorb($fe1) vce($CLUSTER2)
-	}
-	else {
-		eststo m`k': reghdfe `outcome' post_pa post_na i.month i.day ///
-			if year >= `firstyear' & (in_pa == 1 | in_na == 1), ///
-			absorb($fe1) vce($CLUSTER2)
-	}
+	eststo m`k': reghdfe `outcome' post_pa post_na i.month i.day ///
+		if year >= `firstyear' & abs(window) <= `window' & (in_pa == 1 | in_na == 1), ///
+		absorb($fe1) vce($CLUSTER2)
 
 	quietly summarize `outcome' if e(sample) ///
-		& window >= -`bin_size' & window <= -1
+		& window >= -`window' & window <= -1
 	estadd scalar baseline = r(mean)
 
 	quietly levelsof id if e(sample) == 1
 	estadd scalar num_scandals = r(r)
 
-	/* Equality test */
+	/* Equality test (two-sided): H0: Apex = Non-Apex */
 	test post_pa = post_na
-	estadd scalar p_pa_na = r(p)
+	local p_two = r(p)
+	estadd scalar p_pa_na = `p_two'
+
+	/* One-sided test H1: Apex > Non-Apex.  With a single restriction the
+	   two-sided F/t p-value halves in the direction of the estimated
+	   difference. */
+	quietly lincom post_pa - post_na
+	if r(estimate) > 0 local p_one = `p_two' / 2
+	else               local p_one = 1 - `p_two' / 2
+	estadd scalar p_pa_gt_na = `p_one'
 }
 
 esttab _all using "${tables}/sup_interaction_pa_vs_na.tex", ///
@@ -138,25 +139,26 @@ esttab _all using "${tables}/sup_interaction_pa_vs_na.tex", ///
 	        "\shortstack{Peaceful\\Protests}" ///
 	        "\shortstack{Violent\\Protests}" ///
 	        "\shortstack{Peaceful\\Protests}" ///
-	        "\shortstack{Share\\Violent}" ///
-	        "\shortstack{Share\\Peaceful}" ///
-	        "\shortstack{Share\\Violent}" ///
-	        "\shortstack{Share\\Peaceful}") ///
-	mgroups("$\pm 30$-Day Window" "$\pm 120$-Day Window" ///
-	        "Shares ($\pm 30$-Day)" "Shares ($\pm 120$-Day)", ///
+	        "\shortstack{Violent\\Protests}" ///
+	        "\shortstack{Peaceful\\Protests}" ///
+	        "\shortstack{Violent\\Protests}" ///
+	        "\shortstack{Peaceful\\Protests}") ///
+	mgroups("$\pm 30$-Day Window" "$\pm 60$-Day Window" ///
+	        "$\pm 90$-Day Window" "$\pm 120$-Day Window", ///
 	        pattern(1 0 1 0 1 0 1 0) ///
 	        prefix(\multicolumn{2}{c}{) suffix(}) span ///
 	        erepeat(\cmidrule(lr){@span})) ///
-	stats(p_pa_na baseline N num_scandals r2, ///
-	      label("p-value: Pres.+Other Apex $$=$$ Other Non-Apex" ///
-	            "Mean (Pre-Scandal Bin)" ///
+	stats(p_pa_na p_pa_gt_na baseline N num_scandals r2, ///
+	      label("p-value: Apex $$=$$ Non-Apex" ///
+	            "p-value: Apex $$>$$ Non-Apex (one-sided)" ///
+	            "Mean (Pre-Scandal)" ///
 	            "Observations" ///
 	            "Number of Scandals" ///
 	            "R-squared") ///
-	      fmt(3 3 0 0 3)) ///
+	      fmt(3 3 3 0 0 3)) ///
 	keep(post_pa post_na) ///
-	coeflabels(post_pa "Post $\times$ (President + Other Apex)" ///
-	           post_na "Post $\times$ Other Non-Apex") ///
+	coeflabels(post_pa "Post $\times$ Apex" ///
+	           post_na "Post $\times$ Non-Apex") ///
 	substitute("$$" "$")
 
 display in green "a_sup_interaction_pa_vs_na.do finished OK"

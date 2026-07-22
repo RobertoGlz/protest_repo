@@ -2,28 +2,28 @@
                     Violent effects of apex corruption
 
     Code author: Roberto Gonzalez
-    Date: 2026-07-13
+    Date: 2026-07-14
 
     Objective:
-        Split version of a_did_modern_stacked.do (the Cengiz-Dube-Lindner-
-        Zipperer "stacked by scandal" design -- the modern-DiD design most
-        comparable to the paper's main event-window specification).  Run
-        SEPARATELY on the two apex-partition subsamples of Table~1:
-            - pa : President + Other Apex scandals
-            - na : Other Non-Apex scandals
+        Modern staggered-DiD estimators on the Cengiz-Dube-Lindner-Zipperer
+        "stacked by scandal" design, run SEPARATELY on the two apex-partition
+        subsamples (pa = Apex, na = Non-Apex).
 
+        *** ALIGNED WITH THE EVENT STUDIES ***
+        To make these estimates as comparable as possible to the OLS event
+        studies in a_sup_event_study_pa_vs_na.do, this design now uses the
+        SAME event-time geometry as the main event-study specification:
+            - 15-day bins (was: 3-day bins)
+            - +-8 bins = +-120-day window (was: +-10 bins = +-30 days)
+            - bin -1 (the 15 days before disclosure) is the reference
+            - same two headline outcomes (violent / non-violent counts)
         Only scandals in the subsample form TREATED stacks; the clean
-        control cohort within each stack is still every country with NO
-        scandal of ANY type in the +-10-bin window (so a PA stack's
-        controls are not contaminated by NA scandals and vice versa).
+        control cohort within each stack is every country with NO scandal
+        of ANY type in the +-8-bin window.
 
         Treated-scandal identity comes from the classified event-window
-        panel (protests_scandals_30days_v3 + scandals_classified.csv),
-        matched into the country-day panel on country + calendar date, so
-        no reliance on a scandal_id key shared across the two files.
+        panel, matched into the country-day panel on country + date.
 
-        The observation is a COUNTRY x 3-day BIN; event window +-10 bins
-        (+-30 days); bin -1 = reference.  Venezuela dropped.
         Estimators: OLS two-way FE, dCDH, BJS, SA.
 
     Outputs (paper/{tables,figures}/):
@@ -48,8 +48,17 @@ global datfin "${path}/Data/final"
 global tabout "${identity}/Corrupcion/protest_repo/paper/tables"
 global figout "${identity}/Corrupcion/protest_repo/paper/figures"
 
+capture log close _all
+log using "${identity}/Corrupcion/protest_repo/code/analysis/a_did_modern_stacked_pa_vs_na.log", replace text
+
+/* ---- event-time geometry: MATCHES the event studies ---- */
+local BIN   = 15    /* bin width in days */
+/* NBIN (bins per side) loops over 4/6/8 => +-60/90/120-day windows below,
+   so the stacked design matches the imputation design's outcome x window
+   table and per-window event studies. */
+
 /* ============================================================
-   0.  COUNTRY x 3-DAY-BIN PANEL (shared by both subsamples)
+   0.  COUNTRY x 15-DAY-BIN PANEL (shared by both subsamples)
    ============================================================ */
 use "${datfin}/panel_country_day.dta", clear
 keep if year >= 2008
@@ -57,17 +66,16 @@ drop if country == "Venezuela"
 
 quietly summarize date
 scalar d0 = r(min)
-gen long bin3 = floor((date - d0)/3) + 1
+gen long ebin = floor((date - d0)/`BIN') + 1
 
 /* collapsed country-bin panel + per-cell any-scandal indicator */
 collapse (sum) mm_protests mm_violent mm_nonviolent mm_gvr ///
-	(max) sc = scandal_today (firstnm) country_id, by(country bin3)
+	(max) sc = scandal_today (firstnm) country_id, by(country ebin)
 tempfile cbin
 save `cbin'
 
 /* ============================================================
    1.  APEX-LABELLED SCANDAL LIST (one row per scandal)
-       country, scandal 3-day bin, in_pa, in_na
    ============================================================ */
 import delimited using "${datfin}/scandals_classified.csv", ///
 	clear varnames(1) bindquotes(strict)
@@ -92,7 +100,7 @@ replace in_na = 1 if position == "sc_judge_congressman" & ///
 replace in_na = 1 if position == "other_judiciary"
 replace in_na = 1 if position == "others"
 
-gen long scandal_bin = floor((date - d0)/3) + 1
+gen long scandal_bin = floor((date - d0)/`BIN') + 1
 keep country scandal_bin in_pa in_na
 tempfile sclist_all
 save `sclist_all'
@@ -104,10 +112,9 @@ foreach sample in pa na {
 
 	di as result _newline _newline ///
 		"=================================================================" _n ///
-		"   DID MODERN (stacked by scandal)  --  subsample = `sample'" _n ///
+		"   DID MODERN (stacked, `BIN'-day bins, +-`NBIN' bins) -- `sample'" _n ///
 		"================================================================="
 
-	/* --- treated-scandal list for this subsample --- */
 	use `sclist_all', clear
 	keep if in_`sample' == 1
 	gen long scandal_id = _n
@@ -117,7 +124,10 @@ foreach sample in pa na {
 	save `sclist'
 	display in yellow "Scandals to stack [`sample']: `nscandals'"
 
-	/* --- build the stacked panel: +-10 3-day bins per scandal --- */
+	foreach NBIN of numlist 4 6 8 {
+	local T = `NBIN' * `BIN'      /* event-window width in days: 60/90/120 */
+
+	/* --- build the stacked panel: +-NBIN bins per scandal --- */
 	clear
 	tempfile stack
 	save `stack', emptyok replace
@@ -128,11 +138,11 @@ foreach sample in pa na {
 		local scb = scandal_bin[1]
 
 		use `cbin', clear
-		keep if inrange(bin3, `scb'-10, `scb'+10)
+		keep if inrange(ebin, `scb'-`NBIN', `scb'+`NBIN')
 		bysort country: egen _anysc = max(sc)
 		keep if country == "`scc'" | _anysc == 0
 		gen long stack        = `s'
-		gen long etime        = bin3 - `scb'
+		gen long etime        = ebin - `scb'
 		gen byte treated_unit = (country == "`scc'")
 		drop _anysc
 		append using `stack'
@@ -145,23 +155,35 @@ foreach sample in pa na {
 	gen long cohort = 0 if treated_unit == 1
 	gen byte I_never_treated = (treated_unit == 0)
 
-	di as result "=== Stacked country x 3-day-bin panel [`sample'] ==="
+	di as result "=== Stacked country x `BIN'-day-bin panel [`sample'] ==="
 	count
 	quietly levelsof stack
 	di "Stacks (scandals): " r(r)
 
-	/* event-study dummies (+-10 bins, omit bin -1) */
+	/* event-study dummies: bins -NBIN..-2 and 0..NBIN-1; bin -1 omitted */
 	capture drop ev_l* ev_g*
-	forvalues k = 2/10 {
+	forvalues k = 2/`NBIN' {
 		gen byte ev_l`k' = (etime == -`k') & treated_unit == 1
 	}
-	forvalues k = 0/9 {
+	local kmax = `NBIN' - 1
+	forvalues k = 0/`kmax' {
 		gen byte ev_g`k' = (etime == `k') & treated_unit == 1
 	}
-	local es_dummies ev_l10 ev_l9 ev_l8 ev_l7 ev_l6 ev_l5 ev_l4 ev_l3 ev_l2 ///
-		ev_g0 ev_g1 ev_g2 ev_g3 ev_g4 ev_g5 ev_g6 ev_g7 ev_g8 ev_g9
+	local es_dummies ""
+	forvalues k = `NBIN'(-1)2 {
+		local es_dummies "`es_dummies' ev_l`k'"
+	}
+	forvalues k = 0/`kmax' {
+		local es_dummies "`es_dummies' ev_g`k'"
+	}
 
-	local outcomes mm_protests mm_violent mm_nonviolent mm_gvr
+	/* plot grid: 2*NBIN columns = bins -NBIN..-1, 0..NBIN-1
+	   col 1..NBIN-1 = bins -NBIN..-2 ; col NBIN = bin -1 (reference, 0)
+	   col NBIN+1..2*NBIN = bins 0..NBIN-1                              */
+	local ncol = 2 * `NBIN'
+	local refcol = `NBIN'
+
+	local outcomes mm_violent mm_nonviolent mm_protests
 
 	tempfile stackfull
 	save `stackfull'
@@ -176,14 +198,14 @@ foreach sample in pa na {
 		if "`y'" == "mm_nonviolent" local ytitle "Number of non-violent protests"
 		if "`y'" == "mm_gvr"        local ytitle "Number of govt. violent responses"
 
-		matrix M_ols_b  = J(1,20,0)
-		matrix M_ols_se = J(1,20,0)
-		matrix M_dcdh_b  = J(1,20,0)
-		matrix M_dcdh_se = J(1,20,0)
-		matrix M_bjs_b  = J(1,20,0)
-		matrix M_bjs_se = J(1,20,0)
-		matrix M_sa_b  = J(1,20,0)
-		matrix M_sa_se = J(1,20,0)
+		matrix M_ols_b   = J(1,`ncol',0)
+		matrix M_ols_se  = J(1,`ncol',0)
+		matrix M_dcdh_b  = J(1,`ncol',0)
+		matrix M_dcdh_se = J(1,`ncol',0)
+		matrix M_bjs_b   = J(1,`ncol',0)
+		matrix M_bjs_se  = J(1,`ncol',0)
+		matrix M_sa_b    = J(1,`ncol',0)
+		matrix M_sa_se   = J(1,`ncol',0)
 
 		use `stackfull', clear
 
@@ -195,30 +217,30 @@ foreach sample in pa na {
 		scalar n_ols_`oc'  = e(N)
 		quietly reghdfe `y' `es_dummies', absorb(unit_id etime) cluster(country_id)
 		local cc = 0
-		foreach k of numlist 10 9 8 7 6 5 4 3 2 {
+		forvalues k = `NBIN'(-1)2 {
 			local ++cc
 			matrix M_ols_b[1,`cc']  = _b[ev_l`k']
 			matrix M_ols_se[1,`cc'] = _se[ev_l`k']
 		}
-		forvalues k = 0/9 {
-			matrix M_ols_b[1, 11+`k']  = _b[ev_g`k']
-			matrix M_ols_se[1, 11+`k'] = _se[ev_g`k']
+		forvalues k = 0/`kmax' {
+			matrix M_ols_b[1, `refcol'+1+`k']  = _b[ev_g`k']
+			matrix M_ols_se[1, `refcol'+1+`k'] = _se[ev_g`k']
 		}
 
 		/* (2) dCDH */
 		di as result "--- dCDH: `y' [`sample'] ---"
 		capture noisily did_multiplegt_dyn `y' unit_id etime D, ///
-			effects(10) placebo(10) cluster(country_id) graph_off
+			effects(`NBIN') placebo(`NBIN') cluster(country_id) graph_off
 		if _rc == 0 {
 			scalar b_dcdh_`oc'  = e(Av_tot_effect)
 			scalar se_dcdh_`oc' = e(se_avg_total_effect)
-			forvalues k = 1/10 {
-				capture matrix M_dcdh_b[1, 11-`k']  = e(Placebo_`k')
-				capture matrix M_dcdh_se[1, 11-`k'] = e(se_placebo_`k')
+			forvalues k = 1/`NBIN' {
+				capture matrix M_dcdh_b[1, `refcol'+1-`k']  = e(Placebo_`k')
+				capture matrix M_dcdh_se[1, `refcol'+1-`k'] = e(se_placebo_`k')
 			}
-			forvalues k = 1/10 {
-				capture matrix M_dcdh_b[1, 10+`k']  = e(Effect_`k')
-				capture matrix M_dcdh_se[1, 10+`k'] = e(se_effect_`k')
+			forvalues k = 1/`NBIN' {
+				capture matrix M_dcdh_b[1, `refcol'+`k']  = e(Effect_`k')
+				capture matrix M_dcdh_se[1, `refcol'+`k'] = e(se_effect_`k')
 			}
 		}
 		else {
@@ -241,20 +263,21 @@ foreach sample in pa na {
 			display in red "BJS (static) failed for `y' [`sample']"
 		}
 		capture noisily did_imputation `y' unit_id etime cohort, ///
-			horizons(0/9) pretrends(10) autosample minn(0) delta(1) cluster(country_id)
+			horizons(0/`kmax') pretrends(`NBIN') autosample minn(0) delta(1) ///
+			cluster(country_id)
 		if _rc == 0 {
-			forvalues k = 2/10 {
+			forvalues k = 2/`NBIN' {
 				capture quietly lincom pre`k' - pre1
 				if _rc == 0 {
-					matrix M_bjs_b[1, 11-`k']  = r(estimate)
-					matrix M_bjs_se[1, 11-`k'] = r(se)
+					matrix M_bjs_b[1, `refcol'+1-`k']  = r(estimate)
+					matrix M_bjs_se[1, `refcol'+1-`k'] = r(se)
 				}
 			}
-			forvalues k = 0/9 {
+			forvalues k = 0/`kmax' {
 				capture quietly lincom tau`k' - pre1
 				if _rc == 0 {
-					matrix M_bjs_b[1, 11+`k']  = r(estimate)
-					matrix M_bjs_se[1, 11+`k'] = r(se)
+					matrix M_bjs_b[1, `refcol'+1+`k']  = r(estimate)
+					matrix M_bjs_se[1, `refcol'+1+`k'] = r(se)
 				}
 			}
 		}
@@ -268,7 +291,7 @@ foreach sample in pa na {
 			matrix b_iw = e(b_iw)
 			matrix V_iw = e(V_iw)
 			local cc = 0
-			foreach k of numlist 10 9 8 7 6 5 4 3 2 {
+			forvalues k = `NBIN'(-1)2 {
 				local ++cc
 				local j = colnumb(b_iw, "ev_l`k'")
 				if `j' < . {
@@ -276,16 +299,16 @@ foreach sample in pa na {
 					matrix M_sa_se[1,`cc'] = sqrt(V_iw[`j',`j'])
 				}
 			}
-			forvalues k = 0/9 {
+			forvalues k = 0/`kmax' {
 				local j = colnumb(b_iw, "ev_g`k'")
 				if `j' < . {
-					matrix M_sa_b[1, 11+`k']  = b_iw[1,`j']
-					matrix M_sa_se[1, 11+`k'] = sqrt(V_iw[`j',`j'])
+					matrix M_sa_b[1, `refcol'+1+`k']  = b_iw[1,`j']
+					matrix M_sa_se[1, `refcol'+1+`k'] = sqrt(V_iw[`j',`j'])
 				}
 			}
 			matrix wgt = J(1, colsof(b_iw), 0)
 			local npost = 0
-			forvalues k = 0/9 {
+			forvalues k = 0/`kmax' {
 				local j = colnumb(b_iw, "ev_g`k'")
 				if `j' < . {
 					matrix wgt[1,`j'] = 1
@@ -306,57 +329,84 @@ foreach sample in pa na {
 			display in red "SA failed for `y' [`sample']"
 		}
 
+		/* store static coefficients keyed by (window, outcome) for the
+		   compact per-sample table assembled after the window loop */
+		foreach er in ols dcdh bjs sa {
+			scalar B_`er'_w`T'_`oc' = b_`er'_`oc'
+			scalar S_`er'_w`T'_`oc' = se_`er'_`oc'
+		}
+		scalar N_w`T'_`oc' = n_ols_`oc'
+
 		/* ---------- combined event-study plot ---------- */
 		preserve
 			clear
-			set obs 20
-			gen bin = _n - 11
+			set obs `ncol'
+			gen bin = _n - `refcol' - 1        /* event bin: -NBIN..-1, 0..NBIN-1 */
+			gen days = bin * `BIN'             /* bin start in days */
+			replace days = days + `BIN' if days >= 0   /* POST bins -> right edge; PRE keep left edge */
 			foreach est in ols dcdh bjs sa {
 				gen double b_`est'  = .
 				gen double se_`est' = .
-				forvalues j = 1/20 {
+				forvalues j = 1/`ncol' {
 					replace b_`est'  = M_`est'_b[1,`j']  in `j'
 					replace se_`est' = M_`est'_se[1,`j'] in `j'
 				}
 				gen double ci_lo_`est' = b_`est' - 1.645*se_`est'
 				gen double ci_hi_`est' = b_`est' + 1.645*se_`est'
 			}
-			gen double bin_ols  = bin - 0.21
-			gen double bin_dcdh = bin - 0.07
-			gen double bin_bjs  = bin + 0.07
-			gen double bin_sa   = bin + 0.21
+			gen double days_ols  = days - 0.21 * `BIN'
+			gen double days_dcdh = days - 0.07 * `BIN'
+			gen double days_bjs  = days + 0.07 * `BIN'
+			gen double days_sa   = days + 0.21 * `BIN'
+
+			local labday = 15
+			if `NBIN' >= 6 local labday = 30
+			local xlabs ""
+			forvalues bb = -`NBIN'/`=`NBIN'-1' {
+				if `bb' < 0 local dd = `bb' * `BIN'
+				else        local dd = (`bb' + 1) * `BIN'
+				if mod(`dd', `labday') == 0 local xlabs "`xlabs' `dd'"
+			}
+			local xpad   = 0.6 * `BIN'
+			local xlo_ax = -`NBIN' * `BIN' - `xpad'
+			local xhi_ax = `NBIN' * `BIN' + `xpad'
 
 			twoway ///
-				(rspike ci_lo_ols  ci_hi_ols  bin_ols,  lcolor(navy)         lwidth(medium)) ///
-				(scatter b_ols  bin_ols,  mcolor(navy)         msymbol(O)  msize(small)) ///
-				(rspike ci_lo_dcdh ci_hi_dcdh bin_dcdh, lcolor(cranberry)    lwidth(medium)) ///
-				(scatter b_dcdh bin_dcdh, mcolor(cranberry)    msymbol(T)  msize(small)) ///
-				(rspike ci_lo_bjs  ci_hi_bjs  bin_bjs,  lcolor(forest_green) lwidth(medium)) ///
-				(scatter b_bjs  bin_bjs,  mcolor(forest_green) msymbol(D)  msize(small)) ///
-				(rspike ci_lo_sa   ci_hi_sa   bin_sa,   lcolor(midblue)      lwidth(medium)) ///
-				(scatter b_sa   bin_sa,   mcolor(midblue)      msymbol(Oh) msize(small)), ///
+				(rspike ci_lo_ols  ci_hi_ols  days_ols,  lcolor(navy)         lwidth(medium)) ///
+				(scatter b_ols  days_ols,  mcolor(navy)         msymbol(O)  msize(small)) ///
+				(rspike ci_lo_dcdh ci_hi_dcdh days_dcdh, lcolor(cranberry)    lwidth(medium)) ///
+				(scatter b_dcdh days_dcdh, mcolor(cranberry)    msymbol(T)  msize(small)) ///
+				(rspike ci_lo_bjs  ci_hi_bjs  days_bjs,  lcolor(forest_green) lwidth(medium)) ///
+				(scatter b_bjs  days_bjs,  mcolor(forest_green) msymbol(D)  msize(small)) ///
+				(rspike ci_lo_sa   ci_hi_sa   days_sa,   lcolor(midblue)      lwidth(medium)) ///
+				(scatter b_sa   days_sa,   mcolor(midblue)      msymbol(Oh) msize(small)), ///
 				yline(0, lcolor(red) lpattern(solid) lwidth(medthin)) ///
-				xline(-0.5, lcolor(black%20) lpattern(solid) lwidth(vthick)) ///
-				xtitle("Days since scandal (3-day bins)", size(medium)) ///
-				ytitle("`ytitle'", size(medium)) ///
-				xlabel(-10 "-30" -8 "-24" -6 "-18" -4 "-12" -2 "-6" ///
-					0 "0" 2 "6" 4 "12" 6 "18" 8 "24", labsize(medsmall)) ///
-				ylabel(, labsize(medsmall) format(%4.3fc)) ///
+				xline(0, lcolor(black%20) lpattern(solid) lwidth(vthick)) ///
+				xtitle("Days since scandal", size(large)) ///
+				ytitle("`ytitle'", size(large)) ///
+				xscale(range(`xlo_ax' `xhi_ax')) ///
+				xlabel(`xlabs', labsize(large)) ///
+				ylabel(, labsize(large) format(%4.3fc) angle(0)) ///
 				legend(order(2 "OLS (TWFE)" 4 "dCDH" 6 "BJS" 8 "SA") ///
 					rows(1) size(small) position(6) region(lcolor(none))) ///
 				graphregion(color(white)) scheme(s2color)
-			graph export "${figout}/did_modern_stk_es_`y'_`sample'.pdf", replace
+			graph export "${figout}/did_modern_stk_es_`y'_`sample'_w`T'.pdf", replace
 		restore
 	}
+	}
 
-	/* ---------- 4x4 table for this subsample ---------- */
+	/* ---------- compact per-sample table: rows = estimators, columns =
+	   outcome x window (Violent / Non-violent / Protests at +-60/90/120;
+	   government-violent-response outcome dropped) ---------- */
 	capture file close _tbl
 	file open _tbl using "${tabout}/did_modern_stk_main_`sample'.tex", write replace
 	file write _tbl "{" _n
 	file write _tbl "\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}" _n
-	file write _tbl "\begin{tabular}{l*{4}{c}}" _n
+	file write _tbl "\begin{tabular}{l*{9}{c}}" _n
 	file write _tbl "\toprule" _n
-	file write _tbl "            &\multicolumn{1}{c}{\shortstack{Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Non-violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Gvt.~Violent\\Response}}\\" _n
+	file write _tbl " & \multicolumn{3}{c}{Violent Protests} & \multicolumn{3}{c}{Non-violent Protests} & \multicolumn{3}{c}{Protests (any)} \\" _n
+	file write _tbl "\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}" _n
+	file write _tbl " & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} \\" _n
 	file write _tbl "\midrule" _n
 	foreach er in ols dcdh bjs sa {
 		if "`er'" == "ols"  local rowlab "OLS (TWFE)"
@@ -365,38 +415,38 @@ foreach sample in pa na {
 		if "`er'" == "sa"   local rowlab "SA"
 		local brow "`rowlab'"
 		local srow "            "
-		foreach oc of numlist 1/4 {
-			local b = b_`er'_`oc'
-			local s = se_`er'_`oc'
+		foreach oc of numlist 1/3 {
+		foreach TT of numlist 60 90 120 {
+			local b = B_`er'_w`TT'_`oc'
+			local s = S_`er'_w`TT'_`oc'
 			if missing(`b') | missing(`s') | `s' <= 0 {
 				local brow "`brow' & --"
 				local srow "`srow' & "
 			}
 			else {
-				local p = 2*normal(-abs(`b'/`s'))
+				local pv = 2*normal(-abs(`b'/`s'))
 				local st = ""
-				if `p' < 0.10 local st = "*"
-				if `p' < 0.05 local st = "**"
-				if `p' < 0.01 local st = "***"
-				if "`st'" != "" {
-					local bcell = string(`b',"%6.4f") + "\sym{`st'}"
-				}
-				else {
-					local bcell = string(`b',"%6.4f")
-				}
-				local scell = "(" + string(`s',"%6.4f") + ")"
+				if `pv' < 0.10 local st = "*"
+				if `pv' < 0.05 local st = "**"
+				if `pv' < 0.01 local st = "***"
+				if "`st'" != "" local bcell = string(`b',"%5.3f") + "\sym{`st'}"
+				else            local bcell = string(`b',"%5.3f")
+				local scell = "(" + string(`s',"%5.3f") + ")"
 				local brow "`brow' & `bcell'"
 				local srow "`srow' & `scell'"
 			}
+		}
 		}
 		file write _tbl "`brow' \\" _n
 		file write _tbl "`srow' \\" _n
 	}
 	file write _tbl "\midrule" _n
 	local nrow "Observations"
-	foreach oc of numlist 1/4 {
-		local ncell = trim(string(n_ols_`oc', "%12.0fc"))
+	foreach oc of numlist 1/3 {
+	foreach TT of numlist 60 90 120 {
+		local ncell = trim(string(N_w`TT'_`oc', "%12.0fc"))
 		local nrow "`nrow' & `ncell'"
+	}
 	}
 	file write _tbl "`nrow' \\" _n
 	file write _tbl "\bottomrule" _n
@@ -407,3 +457,5 @@ foreach sample in pa na {
 }
 
 display in green "a_did_modern_stacked_pa_vs_na.do finished OK"
+
+capture log close _all
