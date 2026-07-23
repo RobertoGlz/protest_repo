@@ -183,7 +183,7 @@ foreach sample in pa na {
 	local ncol = 2 * `NBIN'
 	local refcol = `NBIN'
 
-	local outcomes mm_violent mm_nonviolent mm_protests
+	local outcomes mm_violent mm_nonviolent
 
 	tempfile stackfull
 	save `stackfull'
@@ -396,17 +396,17 @@ foreach sample in pa na {
 	}
 
 	/* ---------- compact per-sample table: rows = estimators, columns =
-	   outcome x window (Violent / Non-violent / Protests at +-60/90/120;
-	   government-violent-response outcome dropped) ---------- */
+	   outcome x window (Violent / Non-violent at +-60/90/120; the
+	   government-violent-response and any-protests outcomes dropped) ---------- */
 	capture file close _tbl
 	file open _tbl using "${tabout}/did_modern_stk_main_`sample'.tex", write replace
 	file write _tbl "{" _n
 	file write _tbl "\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}" _n
-	file write _tbl "\begin{tabular}{l*{9}{c}}" _n
+	file write _tbl "\begin{tabular}{l*{6}{c}}" _n
 	file write _tbl "\toprule" _n
-	file write _tbl " & \multicolumn{3}{c}{Violent Protests} & \multicolumn{3}{c}{Non-violent Protests} & \multicolumn{3}{c}{Protests (any)} \\" _n
-	file write _tbl "\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}" _n
-	file write _tbl " & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} \\" _n
+	file write _tbl " & \multicolumn{3}{c}{Violent Protests} & \multicolumn{3}{c}{Non-violent Protests} \\" _n
+	file write _tbl "\cmidrule(lr){2-4}\cmidrule(lr){5-7}" _n
+	file write _tbl " & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} \\" _n
 	file write _tbl "\midrule" _n
 	foreach er in ols dcdh bjs sa {
 		if "`er'" == "ols"  local rowlab "OLS (TWFE)"
@@ -415,7 +415,7 @@ foreach sample in pa na {
 		if "`er'" == "sa"   local rowlab "SA"
 		local brow "`rowlab'"
 		local srow "            "
-		foreach oc of numlist 1/3 {
+		foreach oc of numlist 1/2 {
 		foreach TT of numlist 60 90 120 {
 			local b = B_`er'_w`TT'_`oc'
 			local s = S_`er'_w`TT'_`oc'
@@ -442,7 +442,7 @@ foreach sample in pa na {
 	}
 	file write _tbl "\midrule" _n
 	local nrow "Observations"
-	foreach oc of numlist 1/3 {
+	foreach oc of numlist 1/2 {
 	foreach TT of numlist 60 90 120 {
 		local ncell = trim(string(N_w`TT'_`oc', "%12.0fc"))
 		local nrow "`nrow' & `ncell'"

@@ -599,56 +599,80 @@ If the effect really begins at the public-disclosure date and there is no antici
 
 Because scandals are staggered in calendar time, a two-way fixed-effects (TWFE) estimator could in principle be contaminated by ``forbidden comparisons'' between newly- and already-treated units~\citep{decade2024dcdh,goodmanbacon2021difference}. We therefore re-estimate the effect with three heterogeneity-robust estimators---Sun \& Abraham (SA)~\citep{sun2021estimating}, Borusyak, Jaravel \& Spiess (BJS)~\citep{borusyak2024revisiting}, and de Chaisemartin \& D'Haultf{\oe}uille (dCDH)~\citep{decade2024dcdh}---against a TWFE OLS baseline, under two designs, each split by subsample.
 
-\paragraph{Design 1 (stacked by scandal).} The design closest to our main event-window specification is a Cengiz-style stack~\citep{cengiz2019effect}: for each scandal we take the treated country's $\pm 120$-day (15-day-bin) window together with every country with no scandal of any type in that window as a clean control cohort, and pool the stacks. Table~\ref{tab:sup_did_stk} reports the static post-scandal coefficient from each estimator, split into Apex (Panel A) and Non-Apex (Panel B); Figure~\ref{fig:sup_did_stk_es} overlays the four estimators' event-study paths for violent protests.
+\paragraph{Design 1 (stacked by scandal).} The design closest to our main event-window specification is a Cengiz-style stack~\citep{cengiz2019effect}: for each scandal we take the treated country's $\pm T$-day (15-day-bin) window together with every country with no scandal of any type in that window as a clean control cohort, and pool the stacks; we report the design at $T\in\{60,90,120\}$ days. Table~\ref{tab:sup_did_stk} reports the static post-scandal coefficient from each estimator, split into Apex (Panel A) and Non-Apex (Panel B); Figures~\ref{fig:sup_did_stk_es}--\ref{fig:sup_did_stk_es_w120} overlay the four estimators' event-study paths for violent protests at each window.
 
 \paragraph{Design 2 (first-scandal, 15-day bins).} As a complementary check we collapse the data to a country $\times$ 15-day-bin panel and define treatment as a country's \emph{first} scandal bin, letting each estimator use its native never-treated control group; event time is measured in 15-day bins, exactly as in the OLS event studies of \autoref{sup:es_windows}, so the two are directly comparable. We report this design at the $\pm 60$, $\pm 90$, and $\pm 120$-day windows (4, 6, and 8 bins per side). Table~\ref{tab:sup_did_cw} collects the static coefficients and Figures~\ref{fig:sup_did_cw_es}--\ref{fig:sup_did_cw_es_w120} the event-study paths. Across both designs and all three estimators, the violent-protest response in the Apex subsample is of the same sign and broad magnitude as the headline estimates, while the Non-Apex subsample stays flat---so the main result is not an artifact of TWFE aggregation. (Outcomes are Mass-Mobilization counts: ``Violent'' $=$ \texttt{mm\_violent}, ``Non-violent'' $=$ \texttt{mm\_nonviolent}.)
 
 \begin{table}[htb!]
     \caption{Modern DiD estimators, stacked-by-scandal design.}
     \label{tab:sup_did_stk}
-    \begin{center}
-        \textbf{Panel A: Apex}\\[3pt]
-        \scriptsize{\input{did_modern_stk_main_pa}}\\[10pt]
-        \textbf{Panel B: Non-Apex}\\[3pt]
-        \scriptsize{\input{did_modern_stk_main_na}}
+    \begin{center}\scriptsize
+        \textbf{\textit{Panel A: Apex}}\\[3pt]
+        \input{did_modern_stk_main_pa}\\[10pt]
+        \textbf{\textit{Panel B: Non-Apex}}\\[3pt]
+        \input{did_modern_stk_main_na}
     \end{center}
-    \footnotesize{Static post-scandal coefficient (standard error) from OLS TWFE, dCDH, BJS, and SA on the Cengiz-style stacked panel (country $\times$ 15-day bin, $\pm 120$-day window; clean-control cohort $=$ countries with no scandal of any type in the window). Columns are the four Mass-Mobilization outcomes. Standard errors clustered at the country level. Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+    \footnotesize{Static post-scandal coefficient (standard error) from four estimators---OLS two-way fixed effects (TWFE), de Chaisemartin--D'Haultf{\oe}uille (dCDH), Borusyak--Jaravel--Spiess (BJS), and Sun--Abraham (SA)---on the Cengiz-style stacked-by-scandal panel (country $\times$ 15-day bin; clean-control cohort $=$ countries with no scandal of any type in the $\pm T$ window). Columns are two Mass-Mobilization outcomes---violent protests and non-violent protests---each at the $\pm 60$-, $\pm 90$-, and $\pm 120$-day windows (4/6/8 bins per side). Standard errors clustered at the country level. Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
 \end{table}
 
 \begin{figure}[htb!]
-    \caption{Modern DiD event studies (violent protests), stacked-by-scandal design.}
+    \caption{Modern DiD event studies (violent protests), stacked-by-scandal design, $\pm 60$-day window.}
     \label{fig:sup_did_stk_es}
     \begin{center}
     \begin{subfigure}{0.48\textwidth}
         \caption{Apex.}
-        \includegraphics[width=\textwidth]{did_modern_stk_es_mm_violent_pa.pdf}
+        \includegraphics[width=\textwidth]{did_modern_stk_es_mm_violent_pa_w60.pdf}
     \end{subfigure}\hfill
     \begin{subfigure}{0.48\textwidth}
         \caption{Non-Apex.}
-        \includegraphics[width=\textwidth]{did_modern_stk_es_mm_violent_na.pdf}
+        \includegraphics[width=\textwidth]{did_modern_stk_es_mm_violent_na_w60.pdf}
     \end{subfigure}
     \end{center}
-    \footnotesize{Event-study coefficients on violent protests from the four estimators overlaid, on the stacked-by-scandal panel; time axis in 15-day bins (labeled in days), reference bin $-1$. Vertical bars are 90\% confidence intervals; SE clustered at the country level.}
+    \footnotesize{Event-study coefficients on violent protests from four estimators---OLS two-way fixed effects (TWFE), de Chaisemartin--D'Haultf{\oe}uille (dCDH), Borusyak--Jaravel--Spiess (BJS), and Sun--Abraham (SA)---overlaid, on the Cengiz-style stacked-by-scandal panel (country $\times$ 15-day bin, $\pm 60$-day window; clean-control cohort $=$ countries with no scandal of any type in the window). The two panels are the Apex and Non-Apex subsamples; the time axis is in days (15-day bins) and the bin immediately before disclosure ($-1$) is the reference. Vertical bars are 90\% confidence intervals; standard errors clustered at the country level. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Modern DiD event studies (violent protests), stacked-by-scandal design, $\pm 90$-day window.}
+    \label{fig:sup_did_stk_es_w90}
+    \begin{center}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Apex.}
+        \includegraphics[width=\textwidth]{did_modern_stk_es_mm_violent_pa_w90.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Non-Apex.}
+        \includegraphics[width=\textwidth]{did_modern_stk_es_mm_violent_na_w90.pdf}
+    \end{subfigure}
+    \end{center}
+    \footnotesize{Event-study coefficients on violent protests from four estimators---OLS TWFE, dCDH, BJS, and SA---overlaid, on the Cengiz-style stacked-by-scandal panel (country $\times$ 15-day bin, $\pm 90$-day window; clean-control cohort $=$ countries with no scandal of any type in the window). The two panels are the Apex and Non-Apex subsamples; time axis in days (15-day bins), reference bin $-1$. Vertical bars are 90\% confidence intervals; standard errors clustered at the country level. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Modern DiD event studies (violent protests), stacked-by-scandal design, $\pm 120$-day window.}
+    \label{fig:sup_did_stk_es_w120}
+    \begin{center}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Apex.}
+        \includegraphics[width=\textwidth]{did_modern_stk_es_mm_violent_pa_w120.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Non-Apex.}
+        \includegraphics[width=\textwidth]{did_modern_stk_es_mm_violent_na_w120.pdf}
+    \end{subfigure}
+    \end{center}
+    \footnotesize{Event-study coefficients on violent protests from four estimators---OLS TWFE, dCDH, BJS, and SA---overlaid, on the Cengiz-style stacked-by-scandal panel (country $\times$ 15-day bin, $\pm 120$-day window; clean-control cohort $=$ countries with no scandal of any type in the window). The two panels are the Apex and Non-Apex subsamples; time axis in days (15-day bins), reference bin $-1$. Vertical bars are 90\% confidence intervals; standard errors clustered at the country level. Sample period 2008--2018; Venezuela excluded.}
 \end{figure}
 
 \begin{table}[htb!]
     \caption{Modern DiD estimators, 15-day-bin staggered design.}
     \label{tab:sup_did_cw}
-    \begin{center}
-        \textbf{Panel A: Apex ($\pm 60$)}\\[3pt]
-        \scriptsize{\input{did_modern_main_pa_w60}}\\[6pt]
-        \textbf{Panel B: Non-Apex ($\pm 60$)}\\[3pt]
-        \scriptsize{\input{did_modern_main_na_w60}}\\[10pt]
-        \textbf{Panel C: Apex ($\pm 90$)}\\[3pt]
-        \scriptsize{\input{did_modern_main_pa_w90}}\\[6pt]
-        \textbf{Panel D: Non-Apex ($\pm 90$)}\\[3pt]
-        \scriptsize{\input{did_modern_main_na_w90}}\\[10pt]
-        \textbf{Panel E: Apex ($\pm 120$)}\\[3pt]
-        \scriptsize{\input{did_modern_main_pa_w120}}\\[6pt]
-        \textbf{Panel F: Non-Apex ($\pm 120$)}\\[3pt]
-        \scriptsize{\input{did_modern_main_na_w120}}
+    \begin{center}\scriptsize
+        \textbf{\textit{Panel A: Apex}}\\[3pt]
+        \input{did_modern_main_pa}\\[10pt]
+        \textbf{\textit{Panel B: Non-Apex}}\\[3pt]
+        \input{did_modern_main_na}
     \end{center}
-    \footnotesize{Static post-treatment coefficient (standard error) from OLS TWFE, dCDH, BJS, and SA on the country $\times$ 15-day-bin staggered panel, treatment defined as the country's first-scandal bin (never-treated cohort $=$ countries with no subsample scandal), at the $\pm 60$/$\pm 90$/$\pm 120$-day windows (4/6/8 bins per side). Columns are the four Mass-Mobilization outcomes. Standard errors clustered at the country level. Sample period 2008--2018. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+    \footnotesize{Static post-treatment coefficient (standard error) from four estimators---OLS two-way fixed effects (TWFE), de Chaisemartin--D'Haultf{\oe}uille (dCDH), Borusyak--Jaravel--Spiess (BJS), and Sun--Abraham (SA)---on the country $\times$ 15-day-bin staggered panel, with treatment defined as each country's first-scandal bin. The control cohort is restricted to country-years with no scandal of any type, and protest counts are zero on no-protest days. Columns are two Mass-Mobilization outcomes---violent protests and non-violent protests---each at the $\pm 60$-, $\pm 90$-, and $\pm 120$-day windows (4/6/8 bins per side). Standard errors clustered at the country level. Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
 \end{table}
 
 \begin{figure}[htb!]
@@ -664,7 +688,7 @@ Because scandals are staggered in calendar time, a two-way fixed-effects (TWFE) 
         \includegraphics[width=\textwidth]{did_modern_es_mm_violent_na_w60.pdf}
     \end{subfigure}
     \end{center}
-    \footnotesize{Event-study coefficients on violent protests from the four estimators overlaid, on the country $\times$ 15-day-bin staggered panel; time axis in days (15-day bins), reference bin $-1$ (the 15 days before disclosure). Vertical bars are 90\% confidence intervals; SE clustered at the country level.}
+    \footnotesize{Event-study coefficients on violent protests from four estimators---OLS two-way fixed effects (TWFE), de Chaisemartin--D'Haultf{\oe}uille (dCDH), Borusyak--Jaravel--Spiess (BJS), and Sun--Abraham (SA)---overlaid, estimated on the country $\times$ 15-day-bin staggered panel with treatment defined as each country's first-scandal bin (never-treated cohort $=$ countries with no subsample scandal), at the $\pm 60$-day window (4 bins per side). The two panels are the Apex and Non-Apex subsamples; the time axis is in days (15-day bins) and the bin immediately before disclosure ($-1$, the 15 days before disclosure) is the reference. Vertical bars are 90\% confidence intervals; standard errors clustered at the country level. Sample period 2008--2018; Venezuela excluded.}
 \end{figure}
 
 \begin{figure}[htb!]
@@ -680,7 +704,7 @@ Because scandals are staggered in calendar time, a two-way fixed-effects (TWFE) 
         \includegraphics[width=\textwidth]{did_modern_es_mm_violent_na_w90.pdf}
     \end{subfigure}
     \end{center}
-    \footnotesize{Same construction as \autoref{fig:sup_did_cw_es}, at the $\pm 90$-day window (6 bins per side).}
+    \footnotesize{Event-study coefficients on violent protests from four estimators---OLS TWFE, dCDH, BJS, and SA---overlaid, estimated on the country $\times$ 15-day-bin staggered panel with treatment defined as each country's first-scandal bin, at the $\pm 90$-day window (6 bins per side). The two panels are the Apex and Non-Apex subsamples; the time axis is in days (15-day bins) and the bin immediately before disclosure ($-1$) is the reference. Vertical bars are 90\% confidence intervals; standard errors clustered at the country level. Sample period 2008--2018; Venezuela excluded.}
 \end{figure}
 
 \begin{figure}[htb!]
@@ -696,7 +720,7 @@ Because scandals are staggered in calendar time, a two-way fixed-effects (TWFE) 
         \includegraphics[width=\textwidth]{did_modern_es_mm_violent_na_w120.pdf}
     \end{subfigure}
     \end{center}
-    \footnotesize{Same construction as \autoref{fig:sup_did_cw_es}, at the $\pm 120$-day window (8 bins per side).}
+    \footnotesize{Event-study coefficients on violent protests from four estimators---OLS TWFE, dCDH, BJS, and SA---overlaid, estimated on the country $\times$ 15-day-bin staggered panel with treatment defined as each country's first-scandal bin, at the $\pm 120$-day window (8 bins per side). The two panels are the Apex and Non-Apex subsamples; the time axis is in days (15-day bins) and the bin immediately before disclosure ($-1$) is the reference. Vertical bars are 90\% confidence intervals; standard errors clustered at the country level. Sample period 2008--2018; Venezuela excluded.}
 \end{figure}
 
 % ---------------------------------------------------------------------
@@ -781,7 +805,7 @@ As a complement to the subsample event studies of \autoref{fig:dynamics}, this s
 \clearpage
 \section{Event studies at other window widths (15-day bins)}\label{sup:es_windows}
 
-The main text reports the event study on the $\pm 120$-day window with 15-day bins (\autoref{fig:dynamics}). Figures~\ref{fig:sup_es_w30}--\ref{fig:sup_es_w90} repeat the exercise at the three narrower widths, $T \in \{30, 60, 90\}$ days, keeping 15-day bins throughout. Within each figure all four panels---violent and peaceful, Apex and Non-Apex---share a common y-axis range, so the estimates can be compared by eye and the zero line is aligned across panels.
+\autoref{fig:dynamics} in the main text reports the subsample event study at the $\pm 60$-day window. Figures~\ref{fig:sup_es_w30}--\ref{fig:sup_es_w120} report the same subsample event study---estimated separately on the Apex and Non-Apex samples---at all four widths, $T \in \{30, 60, 90, 120\}$ days, keeping 15-day bins throughout. Within each figure all four panels---violent and peaceful, Apex and Non-Apex---share a common y-axis range, so the estimates can be compared by eye and the zero line is aligned across panels.
 
 \begin{figure}[htb!]
     \caption{Event studies, $\pm 30$-day window (15-day bins).}
@@ -829,6 +853,22 @@ The main text reports the event study on the $\pm 120$-day window with 15-day bi
         \includegraphics[width=\textwidth]{es_num_peaceful_MM_w90_b15_na_ols_90ci.pdf}\end{subfigure}
     \end{center}
     \footnotesize{Same construction as \autoref{fig:sup_es_w30}, on the $\pm 90$-day window.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Event studies, $\pm 120$-day window (15-day bins).}
+    \label{fig:sup_es_w120}
+    \begin{center}
+    \begin{subfigure}{0.45\textwidth}\caption{Violent, Apex.}
+        \includegraphics[width=\textwidth]{es_num_violent_MM_w120_b15_pa_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Apex.}
+        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w120_b15_pa_ols_90ci.pdf}\end{subfigure} \\
+    \begin{subfigure}{0.45\textwidth}\caption{Violent, Non-Apex.}
+        \includegraphics[width=\textwidth]{es_num_violent_MM_w120_b15_na_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Non-Apex.}
+        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w120_b15_na_ols_90ci.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{Same construction as \autoref{fig:sup_es_w30}, on the $\pm 120$-day window.}
 \end{figure}
 
 % ---------------------------------------------------------------------

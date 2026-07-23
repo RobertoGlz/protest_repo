@@ -201,7 +201,7 @@ foreach sample in pa na {
 	tempfile wdata
 	save `wdata'
 
-	local outcomes mm_violent mm_nonviolent mm_protests
+	local outcomes mm_violent mm_nonviolent
 
 	/* number of plotted event-time slots: bins -nbin..(nbin-1) */
 	local nslot = 2 * `nbin'
@@ -381,11 +381,11 @@ foreach sample in pa na {
 		file open _tbl using "${tabout}/did_modern_main_`sample'.tex", write replace
 		file write _tbl "{" _n
 		file write _tbl "\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}" _n
-		file write _tbl "\begin{tabular}{l*{9}{c}}" _n
+		file write _tbl "\begin{tabular}{l*{6}{c}}" _n
 		file write _tbl "\toprule" _n
-		file write _tbl " & \multicolumn{3}{c}{Violent Protests} & \multicolumn{3}{c}{Non-violent Protests} & \multicolumn{3}{c}{Protests (any)} \\" _n
-		file write _tbl "\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}" _n
-		file write _tbl " & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} \\" _n
+		file write _tbl " & \multicolumn{3}{c}{Violent Protests} & \multicolumn{3}{c}{Non-violent Protests} \\" _n
+		file write _tbl "\cmidrule(lr){2-4}\cmidrule(lr){5-7}" _n
+		file write _tbl " & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} \\" _n
 		file write _tbl "\midrule" _n
 		foreach er in ols dcdh bjs sa {
 			if "`er'" == "ols"  local rowlab "OLS (TWFE)"
@@ -394,7 +394,7 @@ foreach sample in pa na {
 			if "`er'" == "sa"   local rowlab "SA"
 			local brow "`rowlab'"
 			local srow "            "
-			foreach oc of numlist 1/3 {
+			foreach oc of numlist 1/2 {
 			foreach TT of numlist 60 90 120 {
 				local b = B_`er'_w`TT'_`oc'
 				local s = S_`er'_w`TT'_`oc'
@@ -421,7 +421,7 @@ foreach sample in pa na {
 		}
 		file write _tbl "\midrule" _n
 		local nrow "Observations"
-		foreach oc of numlist 1/3 {
+		foreach oc of numlist 1/2 {
 		foreach TT of numlist 60 90 120 {
 			local ncell = trim(string(N_w`TT'_`oc', "%12.0fc"))
 			local nrow "`nrow' & `ncell'"
@@ -460,7 +460,7 @@ egen double hi_all = rowmax(hi_ols hi_dcdh hi_bjs hi_sa)
 tempfile allcoef
 save `allcoef'
 
-foreach y in mm_protests mm_violent mm_nonviolent mm_gvr {
+foreach y in mm_violent mm_nonviolent {
 
 	if "`y'" == "mm_protests"   local ytitle "Number of protests"
 	if "`y'" == "mm_violent"    local ytitle "Number of violent protests"
