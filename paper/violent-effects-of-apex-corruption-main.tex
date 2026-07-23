@@ -124,31 +124,21 @@ where $\mathrm{Apex}_s$ ($\mathrm{Non-Apex}_s$) indicates a Apex (Non-Apex) scan
 \autoref{fig:dynamics} traces the dynamics of the effect, replacing the post-scandal indicator with a fully saturated set of 15-day event-time bin indicators over the $\pm 60$-day window,  andestimated separately on the two subsamples of Table~\ref{tab:main}. In the Apex subsample, violent protests (\autoref{fig:dynamics:pav}) show arguably no pre-trend and then jump at disclosure, remaining elevated in the month that follows before converging back to the pre-scandal levels; peaceful protests (\autoref{fig:dynamics:pap}) show no immediate increase, but they do however slightly increase in the months that follow, though by a small magnitude. In the Non-Apex subsample, violent protests (\autoref{fig:dynamics:nav}) do not increase by large amounts with scandal disclosures, and the response is delayed. Overall, Non-Apex scandals cause no effects---positive or negative---on peaceful protests (\autoref{fig:dynamics:nap}). The absence of a pre-trend in every panel supports the identifying assumption that the within-year timing of disclosure is as good as random relative to the protest baseline.
 
 \begin{figure}[htb!]
-    \caption{Protest dynamics by apex-partition subsample ($\pm 60$-day window, 15-day bins).}
+    \caption{Protest dynamics: Apex vs.\ Non-Apex ($\pm 60$-day window, 15-day bins).}
     \label{fig:dynamics}
     \begin{center}
-    \begin{subfigure}{0.45\textwidth}
-        \caption{Violent, Apex.}
-        \includegraphics[width=\textwidth]{es_num_violent_MM_w60_b15_pa_ols_90ci.pdf}
-        \label{fig:dynamics:pav}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Violent protests.}
+        \includegraphics[width=\textwidth]{es_pooled_num_violent_MM_w60_b15_ols_90ci.pdf}
+        \label{fig:dynamics:violent}
     \end{subfigure}\hfill
-    \begin{subfigure}{0.45\textwidth}
-        \caption{Peaceful, Apex.}
-        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w60_b15_pa_ols_90ci.pdf}
-        \label{fig:dynamics:pap}
-    \end{subfigure} \\
-    \begin{subfigure}{0.45\textwidth}
-        \caption{Violent, Non-Apex.}
-        \includegraphics[width=\textwidth]{es_num_violent_MM_w60_b15_na_ols_90ci.pdf}
-        \label{fig:dynamics:nav}
-    \end{subfigure}\hfill
-    \begin{subfigure}{0.45\textwidth}
-        \caption{Peaceful, Non-Apex.}
-        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w60_b15_na_ols_90ci.pdf}
-        \label{fig:dynamics:nap}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Peaceful protests.}
+        \includegraphics[width=\textwidth]{es_pooled_num_peaceful_MM_w60_b15_ols_90ci.pdf}
+        \label{fig:dynamics:peaceful}
     \end{subfigure}
     \end{center}
-    \footnotesize{OLS estimates on event-time 15-day-bin indicators from the modified \autoref{eq:main}, estimated separately on the Apex subsample (top row) and the Non-Apex subsample (bottom row). The reference bin---the 15 days immediately preceding disclosure ($w_{s,t}\in[-15,-1]$)---is normalized to zero and plotted at its position; the faint thick vertical line marks the disclosure cutoff. All four panels share a common y-axis. Vertical bars are 90\% confidence intervals; standard errors clustered at country $\times$ year $\times$ day-bin. An observation is a country-scandal-date. Sample period 2008--2018; Venezuela excluded.}
+    \footnotesize{OLS estimates of the event-time coefficients $\{\beta^{\text{Apex}}_k\}$ (navy circles) and $\{\beta^{\text{NA}}_k\}$ (maroon diamonds) from a pooled event-study specification that interacts 15-day event-time bin indicators with the apex and non-apex flags, estimated \emph{jointly} on the pooled sample. The bin immediately preceding disclosure ($w_{s,t}\in[-15,-1]$) is the omitted reference for each group; the faint vertical band marks the disclosure cutoff. Vertical bars are 90\% confidence intervals; standard errors clustered at country $\times$ year $\times$ day-bin. An observation is a country-scandal-date. Sample period 2008--2018; Venezuela excluded.}
 \end{figure}
 
 \subsection{The protest response is specific to apex corruption}
