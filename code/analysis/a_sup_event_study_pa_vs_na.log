@@ -1,0 +1,661 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\rob98/Dropbox/Corrupcion/protest_repo/code/analysis/a_sup
+> _event_study_pa_vs_na.log
+  log type:  text
+ opened on:  29 Jul 2026, 11:36:37
+
+. 
+. local firstyear = 2008
+
+. local ci_level  = 90
+
+. local zcrit     = invnormal(0.95)   /* 1.6449 for a 90% CI */
+
+. 
+. /* --------------- Load + attach classification --------------- */
+. import delimited using "${datfin}/scandals_classified.csv", ///
+>         clear varnames(1) bindquotes(strict)
+(encoding automatically selected: UTF-8)
+(7 vars, 190 obs)
+
+. keep id country position
+
+. tempfile cls
+
+. save `cls'
+file C:\Users\rob98\AppData\Local\Temp\ST_8114_000001.tmp saved as .dta
+    format
+
+. 
+. use "${datfin}/protests_scandals_30days_v3", clear
+
+. drop if country == "Venezuela"
+(3,374 observations deleted)
+
+. merge m:1 id country using `cls', keep(1 3) generate(_mclass)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                            42,657  (_mclass==3)
+    -----------------------------------------
+
+. 
+. gen byte in_pa = 0
+
+. replace in_pa = 1 if position == "president"
+(10,845 real changes made)
+
+. replace in_pa = 1 if position == "governor"
+(3,615 real changes made)
+
+. replace in_pa = 1 if position == "sc_judge_congressman" & ///
+>         inlist(id, "202", "NEW26", "NEW30", "332")
+(964 real changes made)
+
+. 
+. gen byte in_na = 0
+
+. replace in_na = 1 if position == "sc_judge_congressman" & ///
+>         !inlist(id, "202", "NEW26", "NEW30", "332")
+(3,374 real changes made)
+
+. replace in_na = 1 if position == "other_judiciary"
+(3,856 real changes made)
+
+. replace in_na = 1 if position == "others"
+(20,003 real changes made)
+
+. 
+. /* Clustering / FE identifiers (same as the tables) */
+. egen grupo_dias    = group(s_lag30 s_lag60 s_lag90 s_lag120 ///
+>                            s_lead30 s_lead60 s_lead90 s_lead120)
+
+. egen group_cluster = group(country_id year grupo_dias)
+
+. egen auxvar        = group(country year)   /* country x year FE */
+
+. 
+. tempfile base
+
+. save `base'
+file C:\Users\rob98\AppData\Local\Temp\ST_8114_000002.tmp saved as .dta
+    format
+
+. 
+. /* ============================================================
+>    LOOP OVER BIN WIDTH AND EVENT-WINDOW WIDTH
+>    ============================================================ */
+. foreach B in 15 30 {
+  2. foreach T in 30 60 90 120 {
+  3. 
+.         local nb = `T' / `B'                  /* bins per side */
+  4.         if `nb' < 2 {
+  5.                 display in yellow "SKIP: T=`T', B=`B' gives only `nb' bin(
+> s) per side."
+  6.                 continue
+  7.         }
+  8. 
+.         /* ---- names of the event-time dummies and their axis labels ---- */
+.         local esvars ""
+  9.         local eslabs ""
+ 10.         forvalues j = `nb'(-1)2 {
+ 11.                 local esvars "`esvars' ebin_m`j'"
+ 12.                 local lo = -`j' * `B'
+ 13.                 local eslabs `"`eslabs' ebin_m`j' = "`lo'""'
+ 14.         }
+ 15.         forvalues j = 1/`nb' {
+ 16.                 local esvars "`esvars' ebin_p`j'"
+ 17.                 local lo = (`j' - 1) * `B'
+ 18.                 local eslabs `"`eslabs' ebin_p`j' = "`lo'""'
+ 19.         }
+ 20. 
+.         /* ============ PASS 1: common y-range across all four panels =======
+> ===== */
+.         local ymin = 0
+ 21.         local ymax = 0
+ 22. 
+.         foreach sample in pa na {
+ 23.         foreach outcome in num_violent_MM num_peaceful_MM {
+ 24. 
+.                 use `base', clear
+ 25.                 /* event-time bin index; bin -1 (the B days before) is the
+>  reference */
+.                 gen int ebin = .
+ 26.                 replace ebin =  floor(window / `B') + 1        if window >
+> = 0
+ 27.                 replace ebin = -(floor((-window - 1) / `B') + 1) if window
+>  <  0
+ 28.                 forvalues j = 2/`nb' {
+ 29.                         gen byte ebin_m`j' = (ebin == -`j')
+ 30.                 }
+ 31.                 forvalues j = 1/`nb' {
+ 32.                         gen byte ebin_p`j' = (ebin ==  `j')
+ 33.                 }
+ 34. 
+.                 quietly reghdfe `outcome' `esvars' ///
+>                         if year >= `firstyear' & abs(window) <= `T' & in_`sam
+> ple' == 1, ///
+>                         absorb(month day auxvar) cluster(group_cluster)
+ 35. 
+.                 foreach v of local esvars {
+ 36.                         local lo = _b[`v'] - `zcrit' * _se[`v']
+ 37.                         local hi = _b[`v'] + `zcrit' * _se[`v']
+ 38.                         local ymin = min(`ymin', `lo')
+ 39.                         local ymax = max(`ymax', `hi')
+ 40.                 }
+ 41.         }
+ 42.         }
+ 43. 
+.         /* padded, rounded tick sequence spanning [ymin, ymax] (0 always insi
+> de) */
+.         local rng = `ymax' - `ymin'
+ 44.         if `rng' <= 0 local rng = 0.01
+ 45.         local ylo = `ymin' - 0.08 * `rng'
+ 46.         local yhi = `ymax' + 0.08 * `rng'
+ 47.         local raw = (`yhi' - `ylo') / 6
+ 48.         local mag = 10 ^ floor(log10(`raw'))
+ 49.         local mult = `raw' / `mag'
+ 50.         if `mult' < 1.5      local step = 1  * `mag'
+ 51.         else if `mult' < 3.5 local step = 2  * `mag'
+ 52.         else if `mult' < 7.5 local step = 5  * `mag'
+ 53.         else                 local step = 10 * `mag'
+ 54.         local ylo_t = floor(`ylo' / `step') * `step'
+ 55.         local yhi_t = ceil( `yhi' / `step') * `step'
+ 56. 
+.         display in green "T=`T', B=`B': common y-range [`ylo_t', `yhi_t'] ste
+> p `step'"
+ 57. 
+.         /* ---- x-axis labels: 15-day labels (every bin) in the +-30 and +-60
+>                 windows; 30-day labels (every other bin) in the wider +-90 an
+> d
+>                 +-120 windows so labels do not pile up.  With 30-day bins eve
+> ry
+>                 bin is already 30 days, so label every bin. ---- */
+.         local labday = 15
+ 58.         if `B' == 15 & `T' >= 90 local labday = 30
+ 59.         local xlabs ""
+ 60.         forvalues bi = -`nb'/`=`nb'-1' {
+ 61.                 if `bi' < 0 local d = `bi' * `B'
+ 62.                 else        local d = (`bi' + 1) * `B'
+ 63.                 if mod(`d', `labday') == 0 {
+ 64.                         local xlabs "`xlabs' `d'"
+ 65.                 }
+ 66.         }
+ 67. 
+.         /* ---- x-axis range with a small gap on each side, so the first
+>                 coefficient is not jammed against the y-axis ---- */
+.         local xpad   = 0.6 * `B'
+ 68.         local xlo_ax = -`nb' * `B' - `xpad'
+ 69.         local xhi_ax = `nb' * `B' + `xpad'
+ 70. 
+.         /* ============ PASS 2: plot each panel with the fixed range ========
+> ====
+>            Manual twoway (not coefplot) so the format is identical across
+>            windows: the omitted reference bin (days [-`B',-1]) is shown as a
+>            point at 0, a faint thick vertical line marks the disclosure cutof
+> f
+>            between the reference bin and bin 0, and the x-axis is continuous 
+> in
+>            days.                                                             
+>     */
+.         foreach sample in pa na {
+ 71.         foreach outcome in num_violent_MM num_peaceful_MM {
+ 72. 
+.                 use `base', clear
+ 73.                 gen int ebin = .
+ 74.                 replace ebin =  floor(window / `B') + 1        if window >
+> = 0
+ 75.                 replace ebin = -(floor((-window - 1) / `B') + 1) if window
+>  <  0
+ 76.                 forvalues j = 2/`nb' {
+ 77.                         gen byte ebin_m`j' = (ebin == -`j')
+ 78.                 }
+ 79.                 forvalues j = 1/`nb' {
+ 80.                         gen byte ebin_p`j' = (ebin ==  `j')
+ 81.                 }
+ 82. 
+.                 quietly reghdfe `outcome' `esvars' ///
+>                         if year >= `firstyear' & abs(window) <= `T' & in_`sam
+> ple' == 1, ///
+>                         absorb(month day auxvar) cluster(group_cluster)
+ 83. 
+.                 /* one row per bin (incl. the reference bin at 0), keyed by t
+> he
+>                    bin's start day */
+.                 local nrows = 2 * `nb'
+ 84.                 matrix B = J(`nrows', 3, .)
+ 85.                 matrix colnames B = day b se
+ 86.                 local row = 0
+ 87.                 forvalues bi = -`nb'/`=`nb'-1' {
+ 88.                         local ++row
+ 89.                         matrix B[`row', 1] = `bi' * `B'
+ 90.                         if `bi' == -1 {
+ 91.                                 matrix B[`row', 2] = 0
+ 92.                                 matrix B[`row', 3] = 0
+ 93.                         }
+ 94.                         else if `bi' <= -2 {
+ 95.                                 local jj = -`bi'
+ 96.                                 matrix B[`row', 2] = _b[ebin_m`jj']
+ 97.                                 matrix B[`row', 3] = _se[ebin_m`jj']
+ 98.                         }
+ 99.                         else {
+100.                                 local jj = `bi' + 1
+101.                                 matrix B[`row', 2] = _b[ebin_p`jj']
+102.                                 matrix B[`row', 3] = _se[ebin_p`jj']
+103.                         }
+104.                 }
+105. 
+.                 preserve
+106.                         clear
+107.                         svmat B, names(col)
+108.                         replace day = day + `B' if day >= 0   /* POST bins
+>  -> right edge; PRE keep left edge */
+109.                         gen ci_lo = b - `zcrit' * se
+110.                         gen ci_hi = b + `zcrit' * se
+111. 
+.                         twoway (rspike ci_lo ci_hi day, lcolor(black) lwidth(
+> medthick)) ///
+>                                (scatter b day, mcolor(black) msymbol(O) msize
+> (medlarge)), ///
+>                                 xline(0, lcolor(black%10) lwidth(vvthick) lpa
+> ttern(solid)) ///
+>                                 yline(0, lpattern(dash) lcolor(black)) ///
+>                                 ytitle("Effect on protests", size(large)) ///
+>                                 yscale(range(`ylo_t' `yhi_t')) ///
+>                                 ylabel(`ylo_t'(`step')`yhi_t', labsize(large)
+>  format(%5.3fc) angle(0)) ///
+>                                 xtitle("Days since scandal", size(large)) ///
+>                                 xscale(range(`xlo_ax' `xhi_ax')) ///
+>                                 xlabel(`xlabs', labsize(large)) ///
+>                                 graphregion(color(white) fcolor(white)) schem
+> e(s2color) legend(off)
+112.                         graph export ///
+>                                 "${figout}/es_`outcome'_w`T'_b`B'_`sample'_ol
+> s_`ci_level'ci.pdf", ///
+>                                 replace
+113.                 restore
+114.         }
+115.         }
+116. }
+117. }
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+T=30, B=15: common y-range [-.08, .1] step .02
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 4
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 4.
+(2 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w30_b15_pa_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 4
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 4.
+(2 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w30_b15_pa_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 4
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 4.
+(2 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w30_b15_na_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 4
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 4.
+(2 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w30_b15_na_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+T=60, B=15: common y-range [-.08, .1] step .02
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 8
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 8.
+(4 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w60_b15_pa_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 8
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 8.
+(4 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w60_b15_pa_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 8
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 8.
+(4 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w60_b15_na_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 8
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 8.
+(4 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w60_b15_na_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+T=90, B=15: common y-range [-.08, .1] step .02
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 12
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 12.
+(6 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w90_b15_pa_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 12
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 12.
+(6 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w90_b15_pa_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 12
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 12.
+(6 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w90_b15_na_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 12
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 12.
+(6 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w90_b15_na_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+T=120, B=15: common y-range [-.1, .1] step .02
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 16
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 16.
+(8 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w120_b15_pa_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 16
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 16.
+(8 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w120_b15_pa_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 16
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 16.
+(8 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w120_b15_na_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 16
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 16.
+(8 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w120_b15_na_ols_90ci.pdf saved as PDF format
+SKIP: T=30, B=30 gives only 1 bin(s) per side.
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+T=60, B=30: common y-range [-.04, .1] step .02
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 4
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 4.
+(2 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w60_b30_pa_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 4
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 4.
+(2 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w60_b30_pa_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 4
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 4.
+(2 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w60_b30_na_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 4
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 4.
+(2 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w60_b30_na_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+T=90, B=30: common y-range [-.06, .08] step .02
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 6
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 6.
+(3 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w90_b30_pa_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 6
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 6.
+(3 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w90_b30_pa_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 6
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 6.
+(3 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w90_b30_na_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 6
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 6.
+(3 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w90_b30_na_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+T=120, B=30: common y-range [-.08, .08] step .02
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 8
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 8.
+(4 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w120_b30_pa_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 8
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 8.
+(4 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w120_b30_pa_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 8
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 8.
+(4 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w120_b30_na_ols_90ci.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+number of observations will be reset to 8
+Press any key to continue, or Break to abort
+Number of observations (_N) was 0, now 8.
+(4 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w120_b30_na_ols_90ci.pdf saved as PDF format
+
+. 
+. display in green "a_sup_event_study_pa_vs_na.do finished OK"
+a_sup_event_study_pa_vs_na.do finished OK
+
+. 
+. capture log close _all

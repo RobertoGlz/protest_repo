@@ -80,9 +80,9 @@ local  firstyear = 2008
    ============================================================ */
 foreach est in ols poi {
 
-	/* eight cells: (violent, peaceful) x (30, 60, 90, 120) */
-	local out_list "num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM"
-	local win_list "30 30 60 60 90 90 120 120"
+	/* six cells: (violent, peaceful) x (30, 60, 90) -- +-120 dropped */
+	local out_list "num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM"
+	local win_list "30 30 60 60 90 90"
 	local ncell : word count `out_list'
 
 	foreach p in corrpa corrna football deprec {
@@ -103,11 +103,11 @@ foreach est in ols poi {
 			replace in_pa = 1 if position == "president"
 			replace in_pa = 1 if position == "governor"
 			replace in_pa = 1 if position == "sc_judge_congressman" & ///
-				inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+				inlist(id, "202", "NEW26", "NEW30", "332")
 
 			gen byte in_na = 0
 			replace in_na = 1 if position == "sc_judge_congressman" & ///
-				!inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+				!inlist(id, "202", "NEW26", "NEW30", "332")
 			replace in_na = 1 if position == "other_judiciary"
 			replace in_na = 1 if position == "others"
 
@@ -174,20 +174,18 @@ foreach est in ols poi {
 			local postlab  "Post Event (IRR)"
 		}
 
-		esttab m1 m2 m3 m4 m5 m6 m7 m8 using "${tables}/bench_`est'_`p'_temp.tex", ///
+		esttab m1 m2 m3 m4 m5 m6 using "${tables}/bench_`est'_`p'_temp.tex", ///
 			replace booktabs nonotes nogaps b(3) se(3) `eformopt' ///
 			star(* 0.10 ** 0.05 *** 0.01) ///
-			mtitles("\shortstack{Violent\\Protests}" ///
-			        "\shortstack{Peaceful\\Protests}" ///
-			        "\shortstack{Violent\\Protests}" ///
-			        "\shortstack{Peaceful\\Protests}" ///
-			        "\shortstack{Violent\\Protests}" ///
-			        "\shortstack{Peaceful\\Protests}" ///
-			        "\shortstack{Violent\\Protests}" ///
-			        "\shortstack{Peaceful\\Protests}") ///
+			mtitles("\shortstack{Violent\Protests}" ///
+			        "\shortstack{Peaceful\Protests}" ///
+			        "\shortstack{Violent\Protests}" ///
+			        "\shortstack{Peaceful\Protests}" ///
+			        "\shortstack{Violent\Protests}" ///
+			        "\shortstack{Peaceful\Protests}") ///
 			mgroups("$\pm 30$-Day Window" "$\pm 60$-Day Window" ///
-			        "$\pm 90$-Day Window" "$\pm 120$-Day Window", ///
-			        pattern(1 0 1 0 1 0 1 0) ///
+			        "$\pm 90$-Day Window", ///
+			        pattern(1 0 1 0 1 0) ///
 			        prefix(\multicolumn{2}{c}{) suffix(}) span ///
 			        erepeat(\cmidrule(lr){@span})) ///
 			stats(baseline N num_events `r2stat', ///
@@ -208,7 +206,7 @@ foreach est in ols poi {
 		    "${tables}/bench_`est'_deprec_temp.tex") ///
 		paneltitles("Apex" "Non-Apex" ///
 		            "Football match losses" "Currency depreciations") ///
-		columncount(9) ///
+		columncount(7) ///
 		save("${tables}/`outname'") ///
 		cleanup
 }

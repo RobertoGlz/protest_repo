@@ -1,0 +1,2684 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      StataNow 19.5
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2025 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-782-8272        https://www.stata.com
+                                   979-696-4600        service@stata.com
+
+Stata license: Unlimited-user 16-core network, expiring  2 Jul 2027
+Serial number: 501909320077
+  Licensed to: Roberto Gonzalez Tellez
+               Stanford University GSB
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do a_did_ra_ipw_pa_vs_na.do 
+
+. /* --------------------------------------------------------------------------
+> --
+>                     Violent effects of apex corruption
+> 
+>     Code author: Roberto Gonzalez
+>     Date: 2026-07-25
+> 
+>     Objective:
+>         A TRANSPARENT robustness check in the spirit of Acemoglu, Naidu,
+>         Restrepo & Robinson (2019): condition the event study on the outcome'
+> s
+>         own pre-scandal dynamics and on a propensity reweighting, and show th
+> at
+>         (i) the post-scandal effect is stable and (ii) the pre-scandal LEAD
+>         coefficients stay flat.  Everything is built by hand from reghdfe +
+>         probit, so each step is legible:
+> 
+>             No adjustment  : event study with country + 15-day-bin FE only (T
+> WFE)
+>             Regression adj.: + J lags of the outcome        (Acemoglu Panel A
+> )
+>             IPW            : reweight clean controls by p/(1-p), where p is t
+> he
+>                              propensity of being a treated country given a
+>                              baseline protest covariate   (Acemoglu Panel B)
+>             Doubly robust  : IPW weights AND outcome lags   (Acemoglu Panel C
+> )
+> 
+>         Run SEPARATELY on the two apex-partition subsamples (pa / na) on the
+>         country x 15-day-bin panel, at +-60/90/120-day windows.  The J outcom
+> e
+>         lags are the direct analog of Acemoglu et al.'s "four lags of GDP".
+> 
+>     Control group: identical clean-control rule as the imputation design
+>         (a_did_modern_pa_vs_na.do): never-treated country-YEARS that contain 
+> a
+>         scandal of any type are dropped; treated countries keep their full
+>         trajectory.  So the "No adjustment" column reproduces the existing
+>         OLS TWFE event study, and the other columns are perturbations of it.
+> 
+>     Outputs (paper/{tables,figures}/):
+>         - did_ra_es_mm_violent_<sample>_w<T>.pdf  (event study: 4 specs overl
+> aid)
+>         - did_ra_main_<sample>.tex                 (windowed ATT + pre-trend 
+> p)
+>       where <sample> in {pa, na}, <T> in {60, 90, 120}.
+> ---------------------------------------------------------------------------- 
+> */
+. 
+. set more off
+
+. clear all
+
+. 
+. if "`c(username)'" == "lalov" {
+.         gl identity "C:\Users\lalov\ITAM Seira Research Dropbox\Eduardo River
+> a"
+. }
+
+. if "`c(username)'" == "Rob_9" {
+.         global identity "C:/Users/Rob_9/Dropbox"
+. }
+
+. if "`c(username)'" == "rob98" {
+.         global identity "~/Dropbox"
+. }
+
+. 
+. global work   "${identity}/Corrupcion/Protest_Work"
+
+. global path   "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
+
+. global datfin "${path}/Data/final"
+
+. global tabout "${identity}/Corrupcion/protest_repo/paper/tables"
+
+. global figout "${identity}/Corrupcion/protest_repo/paper/figures"
+
+. 
+. local BIN = 15                       /* bin width in days */
+
+. local J   = 4                        /* # of outcome lags (Acemoglu use 4) */
+
+. 
+. /* ============================================================
+>    STEP 0 - subsample-specific first-scandal date per country
+>    ============================================================ */
+. import delimited using "${datfin}/scandals_classified.csv", ///
+>         clear varnames(1) bindquotes(strict)
+(encoding automatically selected: UTF-8)
+(7 vars, 190 obs)
+
+. keep id country position
+
+. tempfile cls
+
+. save `cls'
+file C:\Users\rob98\AppData\Local\Temp\ST_b570_000001.tmp saved as .dta
+    format
+
+. 
+. use "${datfin}/protests_scandals_30days_v3", clear
+
+. keep if window == 0
+(45,841 observations deleted)
+
+. drop if country == "Venezuela"
+(14 observations deleted)
+
+. merge m:1 id country using `cls', keep(1 3) generate(_mclass)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                               176  (_mclass==3)
+    -----------------------------------------
+
+. 
+. gen byte in_pa = 0
+
+. replace in_pa = 1 if position == "president"
+(45 real changes made)
+
+. replace in_pa = 1 if position == "governor"
+(14 real changes made)
+
+. replace in_pa = 1 if position == "sc_judge_congressman" & ///
+>         inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+(5 real changes made)
+
+. 
+. gen byte in_na = 0
+
+. replace in_na = 1 if position == "sc_judge_congressman" & ///
+>         !inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+(13 real changes made)
+
+. replace in_na = 1 if position == "other_judiciary"
+(16 real changes made)
+
+. replace in_na = 1 if position == "others"
+(83 real changes made)
+
+. 
+. preserve
+
+.         keep if in_pa == 1
+(112 observations deleted)
+
+.         bysort country: egen double fs_pa = min(date)
+
+.         format fs_pa %td
+
+.         keep country fs_pa
+
+.         duplicates drop
+
+Duplicates in terms of all variables
+
+(52 observations deleted)
+
+.         tempfile pa_dates
+
+.         save `pa_dates'
+file C:\Users\rob98\AppData\Local\Temp\ST_b570_000003.tmp saved as .dta
+    format
+
+. restore
+
+. 
+. preserve
+
+.         keep if in_na == 1
+(64 observations deleted)
+
+.         bysort country: egen double fs_na = min(date)
+
+.         format fs_na %td
+
+.         keep country fs_na
+
+.         duplicates drop
+
+Duplicates in terms of all variables
+
+(96 observations deleted)
+
+.         tempfile na_dates
+
+.         save `na_dates'
+file C:\Users\rob98\AppData\Local\Temp\ST_b570_000005.tmp saved as .dta
+    format
+
+. restore
+
+. 
+. /* ============================================================
+>    STEP 1 - collapse the country-DAY panel into 15-day bins
+>    ============================================================ */
+. use "${datfin}/panel_country_day.dta", clear
+
+. keep if year >= 2008
+(151,202 observations deleted)
+
+. 
+. local anchor = mdy(1, 1, 2008)
+
+. gen long bin_idx = floor((date - `anchor') / `BIN') + 1
+
+. gen int  binyear = year(`anchor' + (bin_idx - 1) * `BIN')
+
+. 
+. bysort country year: egen byte cy_scan = max(scandal_today)
+
+. 
+. collapse (sum) mm_protests mm_violent mm_nonviolent mm_gvr ///
+>          (firstnm) country_id (max) cy_any_scandal = cy_scan ///
+>          (firstnm) binyear, ///
+>         by(country bin_idx)
+
+. 
+. tempfile binpanel
+
+. save `binpanel'
+file C:\Users\rob98\AppData\Local\Temp\ST_b570_000006.tmp saved as .dta
+    format
+
+. 
+. /* postfile for the violent-outcome event-study paths (all four specs) */
+. tempname P
+
+. tempfile plotdata
+
+. postfile `P' str4 sample int T str6 spec int etime double days ///
+>         double b double se using "`plotdata'", replace
+(file C:\Users\rob98\AppData\Local\Temp\ST_b570_000007.tmp not found)
+
+. 
+. /* ============================================================
+>    SAMPLE LOOP
+>    ============================================================ */
+. foreach sample in pa na {
+  2. 
+.         di as result _newline _newline ///
+>                 "============================================================
+> ====="  _n ///
+>                 "   RA / IPW / DR event study  --  sample=`sample'"          
+>          _n ///
+>                 "============================================================
+> ====="
+  3. 
+.         use `binpanel', clear
+  4.         if "`sample'" == "pa" {
+  5.                 merge m:1 country using `pa_dates', keep(1 3) nogenerate
+  6.                 rename fs_pa first_scandal_date
+  7.         }
+  8.         else {
+  9.                 merge m:1 country using `na_dates', keep(1 3) nogenerate
+ 10.                 rename fs_na first_scandal_date
+ 11.         }
+ 12.         format first_scandal_date %td
+ 13. 
+.         gen byte ever_treated = !missing(first_scandal_date)
+ 14.         gen long first_scandal_bin = ///
+>                 floor((first_scandal_date - `anchor') / `BIN') + 1 if ever_tr
+> eated
+ 15. 
+.         /* clean controls: drop never-treated country-YEARS with any scandal 
+> */
+.         drop if ever_treated == 0 & cy_any_scandal == 1
+ 16. 
+.         xtset country_id bin_idx
+ 17.         gen long etime = bin_idx - first_scandal_bin if ever_treated == 1
+ 18. 
+.         tempfile samp
+ 19.         save `samp'
+ 20. 
+.         /* pre-initialise every table cell to missing so the write-out loop
+>            never references an undefined scalar (Stata does not short-circuit
+> ) */
+.         foreach spec in none ra ipw dr {
+ 21.         foreach tg in v nv {
+ 22.         foreach T in 60 90 120 {
+ 23.                 scalar B_`spec'_`tg'_`T'  = .
+ 24.                 scalar S_`spec'_`tg'_`T'  = .
+ 25.                 scalar PP_`spec'_`tg'_`T' = .
+ 26.         }
+ 27.         }
+ 28.         }
+ 29. 
+.         foreach oc in mm_violent mm_nonviolent {
+ 30. 
+.                 local tag = cond("`oc'" == "mm_violent", "v", "nv")
+ 31. 
+.                 use `samp', clear
+ 32. 
+.                 /* ---- J lags of the outcome (computed on the full series) -
+> --- */
+.                 local lagvars ""
+ 33.                 forvalues j = 1/`J' {
+ 34.                         gen double Lo`j' = L`j'.`oc'
+ 35.                         local lagvars "`lagvars' Lo`j'"
+ 36.                 }
+ 37. 
+.                 /* ---- baseline pre-scandal protest intensity (country level
+> ) ---- */
+.                 gen double _pre = `oc' if (ever_treated == 0 | bin_idx < firs
+> t_scandal_bin)
+ 38.                 bysort country_id: egen double basecov = mean(_pre)
+ 39.                 drop _pre
+ 40. 
+.                 /* ---- propensity of being a treated country given the basel
+> ine
+>                         covariate; Abadie/Sant'Anna-Zhao IPW weights ---- */
+.                 preserve
+ 41.                         keep country_id ever_treated basecov
+ 42.                         duplicates drop
+ 43.                         capture probit ever_treated basecov
+ 44.                         if _rc {
+ 45.                                 gen double pscore = .
+ 46.                         }
+ 47.                         else {
+ 48.                                 predict double pscore, pr
+ 49.                         }
+ 50.                         keep country_id pscore
+ 51.                         tempfile ps
+ 52.                         save `ps'
+ 53.                 restore
+ 54.                 merge m:1 country_id using `ps', nogenerate
+ 55.                 replace pscore = min(max(pscore, .001), .999)
+ 56.                 gen double ipw = cond(ever_treated == 1, 1, ///
+>                         cond(missing(pscore), 1, pscore / (1 - pscore)))
+ 57. 
+.                 /* ---- window loop: build event dummies, run the 4 specs ---
+> - */
+.                 foreach T in 60 90 120 {
+ 58.                         local nbin = `T' / `BIN'
+ 59. 
+.                         capture drop ev_lead* ev_lag*
+ 60.                         local esv ""
+ 61.                         local leadv ""
+ 62.                         local lagv ""
+ 63.                         forvalues k = `nbin'(-1)2 {
+ 64.                                 gen byte ev_lead`k' = (etime == -`k') & ev
+> er_treated == 1
+ 65.                                 local esv   "`esv' ev_lead`k'"
+ 66.                                 local leadv "`leadv' ev_lead`k'"
+ 67.                         }
+ 68.                         forvalues k = 0/`=`nbin'-1' {
+ 69.                                 gen byte ev_lag`k' = (etime == `k') & ever
+> _treated == 1
+ 70.                                 local esv  "`esv' ev_lag`k'"
+ 71.                                 local lagv "`lagv' ev_lag`k'"
+ 72.                         }
+ 73. 
+.                         /* windowed post-average = (ev_lag0+...+ev_lag[nbin-1
+> ]) / nbin */
+.                         local postsum ""
+ 74.                         forvalues k = 0/`=`nbin'-1' {
+ 75.                                 local postsum "`postsum' + ev_lag`k'"
+ 76.                         }
+ 77.                         local postsum = subinstr("`postsum'", "+", "", 1) 
+>   /* drop leading + */
+ 78.                         local postexpr "(`postsum') / `nbin'"
+ 79. 
+.                         /* estimation sample: all clean-control obs + treated
+>  obs inside
+>                            the +-T window (far treated periods excluded, not 
+> binned to 0) */
+.                         gen byte insamp`T' = (ever_treated == 0) | ///
+>                                 inrange(etime, -`nbin', `=`nbin'-1')
+ 80. 
+.                         foreach spec in none ra ipw dr {
+ 81. 
+.                                 if "`spec'" == "none" local rhs "`esv'"
+ 82.                                 if "`spec'" == "ra"   local rhs "`esv' `la
+> gvars'"
+ 83.                                 if "`spec'" == "ipw"  local rhs "`esv'"
+ 84.                                 if "`spec'" == "dr"   local rhs "`esv' `la
+> gvars'"
+ 85.                                 local wgt ""
+ 86.                                 if inlist("`spec'", "ipw", "dr") local wgt
+>  "[pw=ipw]"
+ 87. 
+.                                 capture noisily reghdfe `oc' `rhs' `wgt' if i
+> nsamp`T' == 1, ///
+>                                         absorb(country_id bin_idx) cluster(co
+> untry_id)
+ 88.                                 if _rc {
+ 89.                                         display in red "reghdfe failed: `s
+> pec' `oc' `sample' w`T'"
+ 90.                                         continue
+ 91.                                 }
+ 92. 
+.                                 /* windowed post ATT */
+.                                 capture quietly lincom `postexpr'
+ 93.                                 if _rc == 0 {
+ 94.                                         scalar B_`spec'_`tag'_`T' = r(esti
+> mate)
+ 95.                                         scalar S_`spec'_`tag'_`T' = r(se)
+ 96.                                 }
+ 97.                                 /* joint pre-trend test on the lead coeffi
+> cients */
+.                                 capture quietly test `leadv'
+ 98.                                 if _rc == 0 scalar PP_`spec'_`tag'_`T' = r
+> (p)
+ 99. 
+.                                 /* store the event-study path (violent only) 
+> for the figure */
+.                                 if "`oc'" == "mm_violent" {
+100.                                         forvalues k = `nbin'(-1)2 {
+101.                                                 post `P' ("`sample'") (`T'
+> ) ("`spec'") ///
+>                                                         (-`k') (-`k' * `BIN')
+>  (_b[ev_lead`k']) (_se[ev_lead`k'])
+102.                                         }
+103.                                         post `P' ("`sample'") (`T') ("`spe
+> c'") (-1) (-1 * `BIN') (0) (0)
+104.                                         forvalues k = 0/`=`nbin'-1' {
+105.                                                 post `P' ("`sample'") (`T'
+> ) ("`spec'") ///
+>                                                         (`k') (`k' * `BIN') (
+> _b[ev_lag`k']) (_se[ev_lag`k'])
+106.                                         }
+107.                                 }
+108.                         }
+109.                         drop insamp`T'
+110.                 }
+111.         }
+112. 
+.         /* ---------- compact per-sample table ---------- */
+.         capture file close _tbl
+113.         file open _tbl using "${tabout}/did_ra_main_`sample'.tex", write r
+> eplace
+114.         file write _tbl "{" _n
+115.         file write _tbl "\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}" _n
+116.         file write _tbl "\begin{tabular}{l*{6}{c}}" _n
+117.         file write _tbl "\toprule" _n
+118.         file write _tbl " & \multicolumn{3}{c}{Violent Protests} & \multic
+> olumn{3}{c}{Non-violent Protests} \\" _n
+119.         file write _tbl "\cmidrule(lr){2-4}\cmidrule(lr){5-7}" _n
+120.         file write _tbl " & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \e
+> nsuremath{\pm 120} & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{
+> \pm 120} \\" _n
+121.         file write _tbl "\midrule" _n
+122.         file write _tbl "\multicolumn{7}{l}{\textit{Panel A: windowed ATT 
+> (average post-scandal effect)}}\\" _n
+123.         foreach spec in none ra ipw dr {
+124.                 if "`spec'" == "none" local rl "No adjustment"
+125.                 if "`spec'" == "ra"   local rl "Regression adj."
+126.                 if "`spec'" == "ipw"  local rl "IPW"
+127.                 if "`spec'" == "dr"   local rl "Doubly robust"
+128.                 local brow "`rl'"
+129.                 local srow "            "
+130.                 foreach tag in v nv {
+131.                 foreach T in 60 90 120 {
+132.                         if missing(B_`spec'_`tag'_`T') | S_`spec'_`tag'_`T
+> ' <= 0 {
+133.                                 local brow "`brow' & --"
+134.                                 local srow "`srow' & "
+135.                         }
+136.                         else {
+137.                                 local b = B_`spec'_`tag'_`T'
+138.                                 local s = S_`spec'_`tag'_`T'
+139.                                 local pv = 2*normal(-abs(`b'/`s'))
+140.                                 local st = ""
+141.                                 if `pv' < 0.10 local st = "*"
+142.                                 if `pv' < 0.05 local st = "**"
+143.                                 if `pv' < 0.01 local st = "***"
+144.                                 if "`st'" != "" local bcell = string(`b',"
+> %5.3f") + "\sym{`st'}"
+145.                                 else            local bcell = string(`b',"
+> %5.3f")
+146.                                 local scell = "(" + string(`s',"%5.3f") + 
+> ")"
+147.                                 local brow "`brow' & `bcell'"
+148.                                 local srow "`srow' & `scell'"
+149.                         }
+150.                 }
+151.                 }
+152.                 file write _tbl "`brow' \\" _n
+153.                 file write _tbl "`srow' \\" _n
+154.         }
+155.         file write _tbl "\midrule" _n
+156.         file write _tbl "\multicolumn{7}{l}{\textit{Panel B: pre-trend tes
+> t, \(p\)-value (joint: all lead coefficients \(=0\))}}\\" _n
+157.         foreach spec in none ra ipw dr {
+158.                 if "`spec'" == "none" local rl "No adjustment"
+159.                 if "`spec'" == "ra"   local rl "Regression adj."
+160.                 if "`spec'" == "ipw"  local rl "IPW"
+161.                 if "`spec'" == "dr"   local rl "Doubly robust"
+162.                 local prow "`rl'"
+163.                 foreach tag in v nv {
+164.                 foreach T in 60 90 120 {
+165.                         if missing(PP_`spec'_`tag'_`T') {
+166.                                 local prow "`prow' & --"
+167.                         }
+168.                         else {
+169.                                 local pcell = string(PP_`spec'_`tag'_`T', 
+> "%4.3f")
+170.                                 local prow "`prow' & `pcell'"
+171.                         }
+172.                 }
+173.                 }
+174.                 file write _tbl "`prow' \\" _n
+175.         }
+176.         file write _tbl "\bottomrule" _n
+177.         file write _tbl "\end{tabular}" _n
+178.         file write _tbl "}" _n
+179.         file close _tbl
+180.         display in green "did_ra_main_`sample'.tex written"
+181. 
+.         /* clear this sample's stored scalars before the next sample */
+.         capture scalar drop _all
+182. }
+
+
+=================================================================
+   RA / IPW / DR event study  --  sample=pa
+=================================================================
+(variable country was str18, now str44 to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         3,289
+        from master                     3,289  
+        from using                          0  
+
+    Matched                             3,588  
+    -----------------------------------------
+(3,289 missing values generated)
+(424 observations deleted)
+
+Panel variable: country_id (unbalanced)
+ Time variable: bin_idx, 1 to 299, but with gaps
+         Delta: 1 unit
+(2,865 missing values generated)
+file C:\Users\rob98\AppData\Local\Temp\ST_b570_000008.tmp saved as .dta
+    format
+(34 missing values generated)
+(68 missing values generated)
+(102 missing values generated)
+(136 missing values generated)
+(1,633 missing values generated)
+
+Duplicates in terms of all variables
+
+(6,430 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_b570_00000a.tmp saved as .dta
+    format
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             6,453  
+    -----------------------------------------
+(0 real changes made)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,961
+Absorbing 2 HDFE groups                           F(   7,     22) =       0.73
+Statistics robust to heteroskedasticity           Prob > F        =     0.6467
+                                                  R-squared       =     0.1730
+                                                  Adj R-squared   =     0.0702
+                                                  Within R-sq.    =     0.0009
+Number of clusters (country_id) =         23      Root MSE        =     2.0880
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead4 |   .5640539   .3668408     1.54   0.138    -.1967273    1.324835
+    ev_lead3 |   .3143864   .3565693     0.88   0.387     -.425093    1.053866
+    ev_lead2 |   .2358918   .2140833     1.10   0.282    -.2080897    .6798734
+     ev_lag0 |  -.0140821   .1526641    -0.09   0.927     -.330688    .3025238
+     ev_lag1 |   .0799358   .2478664     0.32   0.750    -.4341076    .5939793
+     ev_lag2 |   .0035432   .4094565     0.01   0.993    -.8456176    .8527041
+     ev_lag3 |   1.063264   1.166712     0.91   0.372     -1.35635    3.482877
+       _cons |    .320512   .0082598    38.80   0.000     .3033822    .3376418
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,873
+Absorbing 2 HDFE groups                           F(  11,     22) =     916.98
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.7868
+                                                  Adj R-squared   =     0.7594
+                                                  Within R-sq.    =     0.7415
+Number of clusters (country_id) =         23      Root MSE        =     1.0769
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead4 |   .0007816   .4917475     0.00   0.999     -1.01904    1.020604
+    ev_lead3 |   .0055257   .3581225     0.02   0.988    -.7371748    .7482262
+    ev_lead2 |   .1883115   .2663291     0.71   0.487    -.3640212    .7406443
+     ev_lag0 |    .191397   .2671443     0.72   0.481    -.3626263    .7454203
+     ev_lag1 |   .2901904    .320597     0.91   0.375    -.3746871     .955068
+     ev_lag2 |   .1193022   .3199946     0.37   0.713     -.544326    .7829303
+     ev_lag3 |   1.279559   1.013367     1.26   0.220    -.8220358    3.381154
+         Lo1 |   .9531002   .0753878    12.64   0.000     .7967554    1.109445
+         Lo2 |  -.1621021   .0699153    -2.32   0.030    -.3070975   -.0171067
+         Lo3 |    .068787   .0761259     0.90   0.376    -.0890884    .2266624
+         Lo4 |   .0133825    .052762     0.25   0.802    -.0960392    .1228041
+       _cons |   .0416535   .0111258     3.74   0.001       .01858    .0647271
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,961
+Absorbing 2 HDFE groups                           F(   7,     22) =       1.21
+Statistics robust to heteroskedasticity           Prob > F        =     0.3370
+                                                  R-squared       =     0.1122
+                                                  Adj R-squared   =     0.0020
+                                                  Within R-sq.    =     0.0055
+Number of clusters (country_id) =         23      Root MSE        =     0.8569
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead4 |   .1280134   .0808101     1.58   0.127    -.0395764    .2956032
+    ev_lead3 |   .0025688   .1769292     0.01   0.989    -.3643599    .3694976
+    ev_lead2 |   .0090005   .0259986     0.35   0.732    -.0449173    .0629183
+     ev_lag0 |   .0223455   .0166379     1.34   0.193    -.0121594    .0568503
+     ev_lag1 |  -.0063409   .0234555    -0.27   0.789    -.0549847    .0423029
+     ev_lag2 |   .1348966   .1393309     0.97   0.343     -.154058    .4238512
+     ev_lag3 |   1.189061   1.121639     1.06   0.301    -1.137076    3.515197
+       _cons |   .0648935   .0041812    15.52   0.000     .0562222    .0735648
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,873
+Absorbing 2 HDFE groups                           F(  11,     22) =      22.64
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.5488
+                                                  Adj R-squared   =     0.4908
+                                                  Within R-sq.    =     0.4927
+Number of clusters (country_id) =         23      Root MSE        =     0.6179
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead4 |  -.1962542   .3038645    -0.65   0.525    -.8264306    .4339223
+    ev_lead3 |  -.0373132   .2634508    -0.14   0.889    -.5836768    .5090503
+    ev_lead2 |   .0433591    .153929     0.28   0.781    -.2758701    .3625884
+     ev_lag0 |   .0479632   .0456033     1.05   0.304    -.0466123    .1425386
+     ev_lag1 |   .0122159   .0428397     0.29   0.778    -.0766283    .1010601
+     ev_lag2 |   .1732809   .1415164     1.22   0.234    -.1202061     .466768
+     ev_lag3 |   1.119844   1.023433     1.09   0.286    -1.002625    3.242314
+         Lo1 |   .7754702   .1670806     4.64   0.000     .4289662    1.121974
+         Lo2 |  -.1150541   .1221491    -0.94   0.356    -.3683758    .1382676
+         Lo3 |   .0432268   .0742641     0.58   0.566    -.1107875    .1972412
+         Lo4 |   .0495253   .0129984     3.81   0.001     .0225682    .0764824
+       _cons |   .0172126   .0073751     2.33   0.029     .0019177    .0325076
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      3,009
+Absorbing 2 HDFE groups                           F(  11,     22) =       0.82
+Statistics robust to heteroskedasticity           Prob > F        =     0.6240
+                                                  R-squared       =     0.1713
+                                                  Adj R-squared   =     0.0689
+                                                  Within R-sq.    =     0.0013
+Number of clusters (country_id) =         23      Root MSE        =     2.0748
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead6 |   .5922076   .4458625     1.33   0.198    -.3324546     1.51687
+    ev_lead5 |    .845628   .4744126     1.78   0.088    -.1382435    1.829499
+    ev_lead4 |   .5829959   .3742931     1.56   0.134    -.1932405    1.359232
+    ev_lead3 |   .3293339   .3584758     0.92   0.368    -.4140995    1.072767
+    ev_lead2 |   .2420325   .2134661     1.13   0.269    -.2006691    .6847341
+     ev_lag0 |  -.0021392    .140689    -0.02   0.988    -.2939103    .2896319
+     ev_lag1 |    .087426   .2409155     0.36   0.720    -.4122023    .5870542
+     ev_lag2 |   .0254705    .406221     0.06   0.951    -.8169802    .8679213
+     ev_lag3 |   1.084853   1.171579     0.93   0.365    -1.344854     3.51456
+     ev_lag4 |   .1456279   .4731301     0.31   0.761     -.835584     1.12684
+     ev_lag5 |   .2891088   .4918374     0.59   0.563    -.7308995    1.309117
+       _cons |   .3091823   .0132093    23.41   0.000     .2817878    .3365768
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 8 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,921
+Absorbing 2 HDFE groups                           F(  15,     22) =    2665.72
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.7736
+                                                  Adj R-squared   =     0.7447
+                                                  Within R-sq.    =     0.7261
+Number of clusters (country_id) =         23      Root MSE        =     1.1012
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead6 |   .2147914   .2449283     0.88   0.390    -.2931588    .7227415
+    ev_lead5 |   .5314788   .4268128     1.25   0.226    -.3536769    1.416634
+    ev_lead4 |   .0167766   .4655166     0.04   0.972    -.9486457    .9821989
+    ev_lead3 |   .0158125   .3480395     0.05   0.964    -.7059774    .7376023
+    ev_lead2 |   .1907589   .2557077     0.75   0.464    -.3395464    .7210642
+     ev_lag0 |   .2002144   .2548662     0.79   0.441    -.3283458    .7287745
+     ev_lag1 |   .2860358   .3161853     0.90   0.375    -.3696925     .941764
+     ev_lag2 |   .1439256   .3220105     0.45   0.659    -.5238833    .8117345
+     ev_lag3 |    1.28097   1.014623     1.26   0.220    -.8232295    3.385169
+     ev_lag4 |  -.6298705   1.009652    -0.62   0.539    -2.723762     1.46402
+     ev_lag5 |   .3807575   .3053069     1.25   0.225    -.2524104    1.013925
+         Lo1 |   .9023145   .0856702    10.53   0.000     .7246452    1.079984
+         Lo2 |  -.1144013   .0732911    -1.56   0.133    -.2663977     .037595
+         Lo3 |   .0666472   .0758702     0.88   0.389    -.0906981    .2239924
+         Lo4 |   .0100929   .0477526     0.21   0.835    -.0889398    .1091257
+       _cons |   .0390878   .0135499     2.88   0.009     .0109871    .0671885
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      3,009
+Absorbing 2 HDFE groups                           F(  11,     22) =       1.35
+Statistics robust to heteroskedasticity           Prob > F        =     0.2657
+                                                  R-squared       =     0.1089
+                                                  Adj R-squared   =    -0.0012
+                                                  Within R-sq.    =     0.0062
+Number of clusters (country_id) =         23      Root MSE        =     0.8566
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead6 |   .0283772   .0354697     0.80   0.432    -.0451824    .1019368
+    ev_lead5 |   .4757626   .3927299     1.21   0.239    -.3387094    1.290235
+    ev_lead4 |   .1307058   .0821814     1.59   0.126    -.0397279    .3011395
+    ev_lead3 |   .0022912    .174912     0.01   0.990     -.360454    .3650364
+    ev_lead2 |    .012597    .025795     0.49   0.630    -.0408985    .0660924
+     ev_lag0 |   .0251548   .0176739     1.42   0.169    -.0114987    .0618083
+     ev_lag1 |  -.0051415   .0232393    -0.22   0.827    -.0533368    .0430537
+     ev_lag2 |   .1436266   .1454677     0.99   0.334    -.1580548     .445308
+     ev_lag3 |   1.200859   1.127396     1.07   0.298    -1.137216    3.538935
+     ev_lag4 |  -.0199133   .0860495    -0.23   0.819     -.198369    .1585424
+     ev_lag5 |   .0320955   .0383332     0.84   0.411    -.0474028    .1115938
+       _cons |   .0636181   .0042005    15.15   0.000     .0549067    .0723294
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,921
+Absorbing 2 HDFE groups                           F(  15,     22) =     397.67
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4990
+                                                  Adj R-squared   =     0.4349
+                                                  Within R-sq.    =     0.4392
+Number of clusters (country_id) =         23      Root MSE        =     0.6496
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead6 |   -.070085   .0782481    -0.90   0.380    -.2323615    .0921915
+    ev_lead5 |   .4710574   .4031158     1.17   0.255    -.3649535    1.307068
+    ev_lead4 |   -.155825   .2631079    -0.59   0.560    -.7014773    .3898273
+    ev_lead3 |  -.0515998    .244487    -0.21   0.835    -.5586348    .4554352
+    ev_lead2 |   .0353185   .1287274     0.27   0.786    -.2316458    .3022827
+     ev_lag0 |   .0526837   .0416378     1.27   0.219    -.0336677    .1390351
+     ev_lag1 |   .0106729   .0372445     0.29   0.777    -.0665674    .0879131
+     ev_lag2 |   .1789678   .1472562     1.22   0.237    -.1264229    .4843586
+     ev_lag3 |   1.135774   1.048649     1.08   0.290    -1.038991     3.31054
+     ev_lag4 |  -.7854075   .7374461    -1.07   0.298    -2.314777    .7439622
+     ev_lag5 |   .0890454   .1190554     0.75   0.462    -.1578604    .3359512
+         Lo1 |   .6703012   .1505384     4.45   0.000     .3581038    .9824987
+         Lo2 |  -.0471289    .091417    -0.52   0.611    -.2367161    .1424584
+         Lo3 |    .047625   .0797432     0.60   0.556    -.1177523    .2130024
+         Lo4 |   .0416018   .0128771     3.23   0.004     .0148964    .0683072
+       _cons |   .0189818   .0064615     2.94   0.008     .0055816    .0323821
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 8 iterations)
+
+HDFE Linear regression                            Number of obs   =      3,057
+Absorbing 2 HDFE groups                           F(  15,     22) =       3.24
+Statistics robust to heteroskedasticity           Prob > F        =     0.0062
+                                                  R-squared       =     0.1693
+                                                  Adj R-squared   =     0.0670
+                                                  Within R-sq.    =     0.0014
+Number of clusters (country_id) =         23      Root MSE        =     2.0609
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead8 |     .46591    .504437     0.92   0.366    -.5802282    1.512048
+    ev_lead7 |   .6142938   .4762856     1.29   0.211     -.373462     1.60205
+    ev_lead6 |   .5722023     .43222     1.32   0.199    -.3241671    1.468572
+    ev_lead5 |   .8165572     .46726     1.75   0.094    -.1524807    1.785595
+    ev_lead4 |   .5582109    .359288     1.55   0.135    -.1869068    1.303329
+    ev_lead3 |   .3046145   .3482483     0.87   0.391    -.4176083    1.026837
+    ev_lead2 |   .2204909   .2063438     1.07   0.297      -.20744    .6484217
+     ev_lag0 |  -.0157216   .1602734    -0.10   0.923    -.3481083    .3166651
+     ev_lag1 |   .0891717   .2419725     0.37   0.716    -.4126485    .5909919
+     ev_lag2 |   .0283866   .3899011     0.07   0.943    -.7802189    .8369921
+     ev_lag3 |   1.071682   1.172605     0.91   0.371    -1.360152    3.503517
+     ev_lag4 |    .134907   .4609804     0.29   0.773    -.8211077    1.090922
+     ev_lag5 |   .2748384   .4882639     0.56   0.579     -.737759    1.287436
+     ev_lag6 |   .2126926   .4953285     0.43   0.672    -.8145559    1.239941
+     ev_lag7 |   .0344092   .5741042     0.06   0.953     -1.15621    1.225028
+       _cons |   .3001008   .0192964    15.55   0.000     .2600826    .3401191
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 8 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,969
+Absorbing 2 HDFE groups                           F(  19,     22) =   37561.90
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.7717
+                                                  Adj R-squared   =     0.7426
+                                                  Within R-sq.    =     0.7244
+Number of clusters (country_id) =         23      Root MSE        =     1.0970
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead8 |   .2297197   .5334619     0.43   0.671    -.8766125    1.336052
+    ev_lead7 |     .24183   .3054389     0.79   0.437    -.3916116    .8752716
+    ev_lead6 |   .2055216   .2369441     0.87   0.395    -.2858705    .6969136
+    ev_lead5 |   .5293202   .4384055     1.21   0.240    -.3798771    1.438518
+    ev_lead4 |   .0102654   .4569762     0.02   0.982    -.9374452     .957976
+    ev_lead3 |   .0157008   .3372951     0.05   0.963    -.6838063     .715208
+    ev_lead2 |   .1684269   .2295289     0.73   0.471     -.307587    .6444407
+     ev_lag0 |   .1773369   .2479003     0.72   0.482    -.3367769    .6914507
+     ev_lag1 |    .287874   .3188394     0.90   0.376    -.3733584    .9491064
+     ev_lag2 |   .1411277   .3180287     0.44   0.662    -.5184234    .8006788
+     ev_lag3 |   1.265249   1.014075     1.25   0.225    -.8378141    3.368311
+     ev_lag4 |   -.658423   1.005347    -0.65   0.519    -2.743386     1.42654
+     ev_lag5 |   .3510474   .2947245     1.19   0.246    -.2601739    .9622687
+     ev_lag6 |   .1408987   .2523166     0.56   0.582    -.3823738    .6641712
+     ev_lag7 |   .0318795   .3193708     0.10   0.921    -.6304551    .6942141
+         Lo1 |   .8973453   .0851358    10.54   0.000     .7207845    1.073906
+         Lo2 |   -.095384   .0770924    -1.24   0.229    -.2552637    .0644958
+         Lo3 |   .0455221   .0634024     0.72   0.480    -.0859665    .1770106
+         Lo4 |   .0130956   .0417167     0.31   0.757    -.0734196    .0996107
+       _cons |   .0363377    .017569     2.07   0.051    -.0000982    .0727736
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      3,057
+Absorbing 2 HDFE groups                           F(  15,     22) =       1.86
+Statistics robust to heteroskedasticity           Prob > F        =     0.0896
+                                                  R-squared       =     0.1060
+                                                  Adj R-squared   =    -0.0040
+                                                  Within R-sq.    =     0.0070
+Number of clusters (country_id) =         23      Root MSE        =     0.8524
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead8 |  -.0118185   .1868809    -0.06   0.950    -.3993859    .3757488
+    ev_lead7 |   .0344705   .0499747     0.69   0.498    -.0691706    .1381116
+    ev_lead6 |   .0380728   .0367232     1.04   0.311    -.0380864    .1142321
+    ev_lead5 |   .4845134   .4009435     1.21   0.240    -.3469926    1.316019
+    ev_lead4 |   .1336237   .0830493     1.61   0.122      -.03861    .3058573
+    ev_lead3 |   .0126383   .1648644     0.08   0.940    -.3292695    .3545461
+    ev_lead2 |   .0140739   .0259626     0.54   0.593    -.0397693    .0679171
+     ev_lag0 |   .0261885   .0194415     1.35   0.192    -.0141306    .0665077
+     ev_lag1 |    .002961   .0288044     0.10   0.919    -.0567757    .0626977
+     ev_lag2 |   .1446202   .1469238     0.98   0.336    -.1600812    .4493215
+     ev_lag3 |   1.201307   1.128508     1.06   0.299    -1.139075     3.54169
+     ev_lag4 |  -.0160367    .080068    -0.20   0.843    -.1820875    .1500141
+     ev_lag5 |   .0323664   .0391746     0.83   0.418    -.0488768    .1136096
+     ev_lag6 |  -.0282123    .074689    -0.38   0.709    -.1831079    .1266832
+     ev_lag7 |  -.1876741   .2191817    -0.86   0.401    -.6422292     .266881
+       _cons |   .0635347    .004615    13.77   0.000     .0539637    .0731057
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,969
+Absorbing 2 HDFE groups                           F(  19,     22) =    1709.87
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4928
+                                                  Adj R-squared   =     0.4282
+                                                  Within R-sq.    =     0.4346
+Number of clusters (country_id) =         23      Root MSE        =     0.6492
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead8 |  -.0998695   .3455813    -0.29   0.775    -.8165612    .6168222
+    ev_lead7 |  -.0282384   .1518174    -0.19   0.854    -.3430884    .2866117
+    ev_lead6 |  -.0450993   .0604951    -0.75   0.464    -.1705585      .08036
+    ev_lead5 |   .4745132   .4096218     1.16   0.259    -.3749904    1.324017
+    ev_lead4 |  -.1609847   .2634923    -0.61   0.547    -.7074343    .3854649
+    ev_lead3 |  -.0534112   .2335078    -0.23   0.821    -.5376766    .4308543
+    ev_lead2 |   .0370449   .1167195     0.32   0.754    -.2050165    .2791063
+     ev_lag0 |   .0379493   .0379757     1.00   0.329    -.0408074     .116706
+     ev_lag1 |   .0119571   .0390981     0.31   0.763    -.0691273    .0930416
+     ev_lag2 |    .171779   .1462186     1.17   0.253    -.1314597    .4750178
+     ev_lag3 |   1.129177    1.04829     1.08   0.293    -1.044844    3.303199
+     ev_lag4 |  -.8017322    .744094    -1.08   0.293    -2.344889    .7414243
+     ev_lag5 |   .0678889   .1095086     0.62   0.542     -.159218    .2949958
+     ev_lag6 |   -.043946   .0905423    -0.49   0.632    -.2317193    .1438273
+     ev_lag7 |  -.1922721   .1733645    -1.11   0.279    -.5518081    .1672639
+         Lo1 |   .6715888   .1478884     4.54   0.000     .3648869    .9782906
+         Lo2 |  -.0311575   .0870275    -0.36   0.724    -.2116415    .1493266
+         Lo3 |   .0129369   .0534007     0.24   0.811    -.0978093    .1236832
+         Lo4 |   .0349182   .0176973     1.97   0.061    -.0017839    .0716202
+       _cons |   .0205215   .0072834     2.82   0.010     .0054167    .0356263
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(34 missing values generated)
+(68 missing values generated)
+(102 missing values generated)
+(136 missing values generated)
+(1,633 missing values generated)
+
+Duplicates in terms of all variables
+
+(6,430 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_b570_00000c.tmp saved as .dta
+    format
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             6,453  
+    -----------------------------------------
+(0 real changes made)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,961
+Absorbing 2 HDFE groups                           F(   7,     22) =       0.80
+Statistics robust to heteroskedasticity           Prob > F        =     0.5940
+                                                  R-squared       =     0.1643
+                                                  Adj R-squared   =     0.0605
+                                                  Within R-sq.    =     0.0003
+Number of clusters (country_id) =         23      Root MSE        =     1.8575
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead4 |   .0932179   .2313894     0.40   0.691    -.3866543    .5730901
+    ev_lead3 |   .3451464   .3281811     1.05   0.304    -.3354595    1.025752
+    ev_lead2 |   .0418768   .1475899     0.28   0.779    -.2642059    .3479594
+     ev_lag0 |   .4273161   .4289112     1.00   0.330    -.4621914    1.316824
+     ev_lag1 |   .0725886   .3760781     0.19   0.849    -.7073496    .8525268
+     ev_lag2 |   .4700929   .4345732     1.08   0.291    -.4311569    1.371343
+     ev_lag3 |   .2371861   .3014349     0.79   0.440    -.3879516    .8623238
+       _cons |   .3167007   .0046763    67.72   0.000     .3070027    .3263988
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,873
+Absorbing 2 HDFE groups                           F(  11,     22) =      10.47
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.6282
+                                                  Adj R-squared   =     0.5804
+                                                  Within R-sq.    =     0.5520
+Number of clusters (country_id) =         23      Root MSE        =     1.2450
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead4 |  -.0901253   .1761594    -0.51   0.614    -.4554576     .275207
+    ev_lead3 |   .1900326   .3898716     0.49   0.631    -.6185116    .9985769
+    ev_lead2 |  -.1749822   .3155179    -0.55   0.585    -.8293264     .479362
+     ev_lag0 |   .4454813   .4385536     1.02   0.321    -.4640233    1.354986
+     ev_lag1 |  -.2051958   .4038917    -0.51   0.616    -1.042816    .6324243
+     ev_lag2 |   .5106455   .2982215     1.71   0.101    -.1078281    1.129119
+     ev_lag3 |  -.1138075   .2402485    -0.47   0.640    -.6120524    .3844375
+         Lo1 |   .7709808   .1083228     7.12   0.000      .546333    .9956286
+         Lo2 |   -.095802   .0586343    -1.63   0.117    -.2174021    .0257982
+         Lo3 |   .1089535   .0269154     4.05   0.001     .0531343    .1647727
+         Lo4 |   .0275946    .029665     0.93   0.362    -.0339268     .089116
+       _cons |   .0670971   .0362248     1.85   0.077    -.0080285    .1422226
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,961
+Absorbing 2 HDFE groups                           F(   7,     22) =       0.78
+Statistics robust to heteroskedasticity           Prob > F        =     0.6074
+                                                  R-squared       =     0.1379
+                                                  Adj R-squared   =     0.0309
+                                                  Within R-sq.    =     0.0005
+Number of clusters (country_id) =         23      Root MSE        =     1.5951
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead4 |   .0597329   .1899744     0.31   0.756    -.3342499    .4537156
+    ev_lead3 |   .3336278    .327427     1.02   0.319    -.3454143     1.01267
+    ev_lead2 |   .0203931   .1496148     0.14   0.893    -.2898889    .3306752
+     ev_lag0 |   .4637666   .4111844     1.13   0.272    -.3889776    1.316511
+     ev_lag1 |    .158926   .2716514     0.59   0.564    -.4044445    .7222966
+     ev_lag2 |   .5584572   .3543857     1.58   0.129    -.1764937    1.293408
+     ev_lag3 |   .2712357   .2677855     1.01   0.322    -.2841176    .8265889
+       _cons |   .2528023   .0036021    70.18   0.000     .2453321    .2602726
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,873
+Absorbing 2 HDFE groups                           F(  11,     22) =      10.19
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.5607
+                                                  Adj R-squared   =     0.5042
+                                                  Within R-sq.    =     0.4874
+Number of clusters (country_id) =         23      Root MSE        =     1.1387
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead4 |  -.0719606   .1661987    -0.43   0.669    -.4166356    .2727144
+    ev_lead3 |   .2072074   .3806383     0.54   0.592    -.5821882    .9966029
+    ev_lead2 |  -.1677802   .2987751    -0.56   0.580    -.7874017    .4518414
+     ev_lag0 |   .4710342   .4274697     1.10   0.282    -.4154836    1.357552
+     ev_lag1 |  -.1388619   .3629211    -0.38   0.706    -.8915141    .6137903
+     ev_lag2 |   .5248361   .3000919     1.75   0.094    -.0975165    1.147189
+     ev_lag3 |  -.1260705   .2239836    -0.56   0.579     -.590584     .338443
+         Lo1 |   .7201686    .111403     6.46   0.000      .489133    .9512042
+         Lo2 |  -.0841507   .0632019    -1.33   0.197    -.2152235    .0469221
+         Lo3 |   .1000013   .0294688     3.39   0.003     .0388867     .161116
+         Lo4 |   .0251528   .0352983     0.71   0.484    -.0480515     .098357
+       _cons |   .0631072   .0346669     1.82   0.082    -.0087876     .135002
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      3,009
+Absorbing 2 HDFE groups                           F(  11,     22) =       1.05
+Statistics robust to heteroskedasticity           Prob > F        =     0.4411
+                                                  R-squared       =     0.1806
+                                                  Adj R-squared   =     0.0793
+                                                  Within R-sq.    =     0.0048
+Number of clusters (country_id) =         23      Root MSE        =     1.8897
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead6 |   1.333572   1.041389     1.28   0.214    -.8261364    3.493281
+    ev_lead5 |   .3139669   .3215036     0.98   0.339    -.3527908    .9807247
+    ev_lead4 |   .1414046   .2529591     0.56   0.582    -.3832004    .6660097
+    ev_lead3 |   .2946503   .3937194     0.75   0.462    -.5218738    1.111174
+    ev_lead2 |   .0767755   .1531683     0.50   0.621     -.240876     .394427
+     ev_lag0 |   .3250819   .3889371     0.84   0.412    -.4815242    1.131688
+     ev_lag1 |   .1123153   .3484931     0.32   0.750    -.6104151    .8350457
+     ev_lag2 |   .5161872   .4163023     1.24   0.228    -.3471709    1.379545
+     ev_lag3 |   .2386017   .2914754     0.82   0.422    -.3658813    .8430847
+     ev_lag4 |   .7722858   .7228557     1.07   0.297    -.7268251    2.271397
+     ev_lag5 |   2.103687   1.876653     1.12   0.274    -1.788253    5.995627
+       _cons |   .3118171   .0167695    18.59   0.000     .2770394    .3465948
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,921
+Absorbing 2 HDFE groups                           F(  15,     22) =      34.09
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.6244
+                                                  Adj R-squared   =     0.5763
+                                                  Within R-sq.    =     0.5404
+Number of clusters (country_id) =         23      Root MSE        =     1.2864
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead6 |   .5186621   .3400039     1.53   0.141    -.1864628    1.223787
+    ev_lead5 |  -.6765947   .6375102    -1.06   0.300     -1.99871    .6455205
+    ev_lead4 |  -.0499114   .2374746    -0.21   0.835    -.5424035    .4425807
+    ev_lead3 |   .1446878   .4582753     0.32   0.755     -.805717    1.095093
+    ev_lead2 |  -.1485923   .3436834    -0.43   0.670     -.861348    .5641634
+     ev_lag0 |   .3686703   .3887542     0.95   0.353    -.4375565    1.174897
+     ev_lag1 |  -.1715055    .394135    -0.44   0.668    -.9888914    .6458804
+     ev_lag2 |   .5634229   .3303687     1.71   0.102    -.1217198    1.248566
+     ev_lag3 |  -.1054745   .2530728    -0.42   0.681    -.6303155    .4193664
+     ev_lag4 |   .7033917   .7037971     1.00   0.328    -.7561941    2.162977
+     ev_lag5 |   1.552892   1.375303     1.13   0.271    -1.299311    4.405095
+         Lo1 |   .7867917   .1023066     7.69   0.000     .5746208    .9989625
+         Lo2 |   -.128222   .0533644    -2.40   0.025    -.2388929   -.0175511
+         Lo3 |   .1162343   .0252689     4.60   0.000     .0638298    .1686387
+         Lo4 |   .0302507   .0317343     0.95   0.351    -.0355623    .0960636
+       _cons |   .0667667   .0369561     1.81   0.085    -.0098755    .1434089
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      3,009
+Absorbing 2 HDFE groups                           F(  11,     22) =       1.01
+Statistics robust to heteroskedasticity           Prob > F        =     0.4717
+                                                  R-squared       =     0.1594
+                                                  Adj R-squared   =     0.0555
+                                                  Within R-sq.    =     0.0064
+Number of clusters (country_id) =         23      Root MSE        =     1.6342
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead6 |   1.278433   1.054418     1.21   0.238    -.9082955    3.465161
+    ev_lead5 |   .2378136   .2543611     0.93   0.360     -.289699    .7653262
+    ev_lead4 |   .1011871   .2122941     0.48   0.638     -.339084    .5414582
+    ev_lead3 |   .2869141   .3858648     0.74   0.465    -.5133206    1.087149
+    ev_lead2 |   .0542731   .1510545     0.36   0.723    -.2589947    .3675409
+     ev_lag0 |   .3677161   .3637689     1.01   0.323    -.3866944    1.122127
+     ev_lag1 |   .1879537   .2556249     0.74   0.470    -.3421798    .7180873
+     ev_lag2 |   .5964673   .3469434     1.72   0.100    -.1230492    1.315984
+     ev_lag3 |   .2736604   .2624527     1.04   0.308    -.2706331     .817954
+     ev_lag4 |   .8803573   .6772299     1.30   0.207    -.5241316    2.284846
+     ev_lag5 |    2.23879   1.892543     1.18   0.249    -1.686105    6.163684
+       _cons |    .248974   .0149264    16.68   0.000     .2180185    .2799295
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,921
+Absorbing 2 HDFE groups                           F(  15,     22) =      30.65
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.5606
+                                                  Adj R-squared   =     0.5044
+                                                  Within R-sq.    =     0.4770
+Number of clusters (country_id) =         23      Root MSE        =     1.1829
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead6 |    .523622   .3453733     1.52   0.144    -.1926384    1.239882
+    ev_lead5 |  -.6577924   .6139685    -1.07   0.296    -1.931085    .6155004
+    ev_lead4 |  -.0295917   .2272522    -0.13   0.898    -.5008839    .4417004
+    ev_lead3 |   .1614004   .4387305     0.37   0.716    -.7484711    1.071272
+    ev_lead2 |  -.1458736   .3263939    -0.45   0.659     -.822773    .5310258
+     ev_lag0 |    .393944   .3748775     1.05   0.305    -.3835043    1.171392
+     ev_lag1 |  -.1170767   .3610546    -0.32   0.749    -.8658581    .6317047
+     ev_lag2 |   .5714193   .3293393     1.74   0.097    -.1115887    1.254427
+     ev_lag3 |   -.122628   .2406338    -0.51   0.615     -.621672     .376416
+     ev_lag4 |   .7749297   .6994613     1.11   0.280    -.6756643    2.225524
+     ev_lag5 |   1.619243   1.436444     1.13   0.272    -1.359758    4.598245
+         Lo1 |   .7393302   .1062676     6.96   0.000     .5189447    .9597158
+         Lo2 |  -.1196982    .059493    -2.01   0.057    -.2430792    .0036828
+         Lo3 |   .1066553   .0290822     3.67   0.001     .0463425    .1669682
+         Lo4 |   .0261809    .037697     0.69   0.495    -.0519979    .1043597
+       _cons |   .0633844   .0352267     1.80   0.086    -.0096713    .1364401
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      3,057
+Absorbing 2 HDFE groups                           F(  15,     22) =       4.46
+Statistics robust to heteroskedasticity           Prob > F        =     0.0008
+                                                  R-squared       =     0.2101
+                                                  Adj R-squared   =     0.1129
+                                                  Within R-sq.    =     0.0102
+Number of clusters (country_id) =         23      Root MSE        =     1.9095
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead8 |   1.542976   .8079894     1.91   0.069    -.1326913    3.218644
+    ev_lead7 |   1.301117   1.326551     0.98   0.337    -1.449981    4.052215
+    ev_lead6 |   1.392442   1.109432     1.26   0.223    -.9083796    3.693263
+    ev_lead5 |   .3453829   .3374892     1.02   0.317    -.3545268    1.045293
+    ev_lead4 |   .1708299   .2799452     0.61   0.548    -.4097409    .7514008
+    ev_lead3 |   .3254416   .3470947     0.94   0.359    -.3943889    1.045272
+    ev_lead2 |   .0827132   .1455126     0.57   0.576    -.2190613    .3844878
+     ev_lag0 |   .3572439   .4130161     0.86   0.396    -.4992991    1.213787
+     ev_lag1 |    .085675   .3379325     0.25   0.802    -.6151542    .7865042
+     ev_lag2 |   .4899969   .4045465     1.21   0.239    -.3489813    1.328975
+     ev_lag3 |   .2744788   .2910654     0.94   0.356     -.329154    .8781115
+     ev_lag4 |   .8113412   .7439831     1.09   0.287    -.7315852    2.354268
+     ev_lag5 |   2.133544   1.913505     1.11   0.277    -1.834823    6.101911
+     ev_lag6 |   2.311911   1.364594     1.69   0.104    -.5180844    5.141907
+     ev_lag7 |   1.922068   1.192769     1.61   0.121    -.5515841    4.395719
+       _cons |   .3059974   .0328913     9.30   0.000     .2377851    .3742097
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,969
+Absorbing 2 HDFE groups                           F(  19,     22) =     267.13
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.6191
+                                                  Adj R-squared   =     0.5706
+                                                  Within R-sq.    =     0.5190
+Number of clusters (country_id) =         23      Root MSE        =     1.3339
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead8 |   1.259122   .7832881     1.61   0.122    -.3653177    2.883563
+    ev_lead7 |   .2980999   1.317096     0.23   0.823    -2.433391    3.029591
+    ev_lead6 |   .5706296   .3595616     1.59   0.127    -.1750557    1.316315
+    ev_lead5 |  -.6461821   .6084507    -1.06   0.300    -1.908032    .6156673
+    ev_lead4 |  -.0563241   .2197896    -0.26   0.800    -.5121398    .3994917
+    ev_lead3 |   .1646388   .4394287     0.37   0.711    -.7466805    1.075958
+    ev_lead2 |   -.068785   .3352948    -0.21   0.839    -.7641439    .6265739
+     ev_lag0 |   .3994727   .4075071     0.98   0.338    -.4456452    1.244591
+     ev_lag1 |  -.1022506   .3415442    -0.30   0.767    -.8105699    .6060687
+     ev_lag2 |   .5533584    .311608     1.78   0.090     -.092877    1.199594
+     ev_lag3 |  -.0776205   .2518733    -0.31   0.761    -.5999737    .4447327
+     ev_lag4 |   .7192676   .7085714     1.02   0.321    -.7502195    2.188755
+     ev_lag5 |   1.596205   1.418137     1.13   0.272    -1.344832    4.537242
+     ev_lag6 |   .8590222   .8542393     1.01   0.326    -.9125616    2.630606
+     ev_lag7 |   .4007391   .6728398     0.60   0.558    -.9946453    1.796124
+         Lo1 |   .7430349   .1035852     7.17   0.000     .5282124    .9578574
+         Lo2 |  -.0997833   .0507105    -1.97   0.062    -.2049504    .0053838
+         Lo3 |   .1236241   .0283254     4.36   0.000     .0648808    .1823674
+         Lo4 |   .0233485   .0314694     0.74   0.466    -.0419151     .088612
+       _cons |   .0681845   .0390573     1.75   0.095    -.0128154    .1491844
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      3,057
+Absorbing 2 HDFE groups                           F(  15,     22) =       3.91
+Statistics robust to heteroskedasticity           Prob > F        =     0.0020
+                                                  R-squared       =     0.1967
+                                                  Adj R-squared   =     0.0978
+                                                  Within R-sq.    =     0.0131
+Number of clusters (country_id) =         23      Root MSE        =     1.6599
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead8 |   1.461133   .8089446     1.81   0.085    -.2165158    3.138781
+    ev_lead7 |   1.264937   1.331849     0.95   0.353    -1.497149    4.027022
+    ev_lead6 |   1.335368   1.116976     1.20   0.245    -.9810984    3.651835
+    ev_lead5 |   .2730086   .2738324     1.00   0.330     -.294885    .8409023
+    ev_lead4 |   .1348515   .2422854     0.56   0.583    -.3676176    .6373206
+    ev_lead3 |    .320939   .3431423     0.94   0.360    -.3906946    1.032573
+    ev_lead2 |   .0631845   .1449907     0.44   0.667    -.2375077    .3638768
+     ev_lag0 |   .4018956   .3899972     1.03   0.314    -.4069092      1.2107
+     ev_lag1 |   .1660692   .2483808     0.67   0.511    -.3490411    .6811794
+     ev_lag2 |   .5718124   .3400755     1.68   0.107     -.133461    1.277086
+     ev_lag3 |   .3070684   .2642271     1.16   0.258     -.240905    .8550418
+     ev_lag4 |   .9157167   .6993737     1.31   0.204    -.5346955    2.366129
+     ev_lag5 |   2.267643    1.92714     1.18   0.252    -1.729001    6.264287
+     ev_lag6 |   2.398913   1.380194     1.74   0.096    -.4634352    5.261261
+     ev_lag7 |   2.019848   1.208669     1.67   0.109    -.4867778    4.526473
+       _cons |   .2443281   .0297558     8.21   0.000     .1826183     .306038
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,969
+Absorbing 2 HDFE groups                           F(  19,     22) =     307.48
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.5623
+                                                  Adj R-squared   =     0.5066
+                                                  Within R-sq.    =     0.4580
+Number of clusters (country_id) =         23      Root MSE        =     1.2280
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead8 |   1.259062   .7942056     1.59   0.127    -.3880192    2.906144
+    ev_lead7 |   .3755613   1.307668     0.29   0.777    -2.336376    3.087498
+    ev_lead6 |   .5761165   .3779895     1.52   0.142    -.2077856    1.360019
+    ev_lead5 |  -.6241734    .584551    -1.07   0.297    -1.836458    .5881111
+    ev_lead4 |  -.0325345   .2139096    -0.15   0.880    -.4761559    .4110869
+    ev_lead3 |   .1871671   .4169696     0.45   0.658    -.6775749    1.051909
+    ev_lead2 |  -.0709965    .317366    -0.22   0.825    -.7291733    .5871803
+     ev_lag0 |   .4258084    .393539     1.08   0.291    -.3903415    1.241958
+     ev_lag1 |  -.0527616   .3067582    -0.17   0.865    -.6889392    .5834161
+     ev_lag2 |   .5635289   .3112256     1.81   0.084    -.0819134    1.208971
+     ev_lag3 |  -.0884142   .2392592    -0.37   0.715    -.5846074     .407779
+     ev_lag4 |   .7906546   .7041198     1.12   0.274    -.6696005     2.25091
+     ev_lag5 |   1.667669   1.480923     1.13   0.272    -1.403577    4.738914
+     ev_lag6 |   .9328312    .849063     1.10   0.284    -.8280177     2.69368
+     ev_lag7 |   .5167946   .7052066     0.73   0.471    -.9457143    1.979303
+         Lo1 |   .6966745   .1031588     6.75   0.000     .4827362    .9106128
+         Lo2 |  -.0911252   .0547613    -1.66   0.110    -.2046932    .0224429
+         Lo3 |   .1115778   .0318916     3.50   0.002     .0454386    .1777169
+         Lo4 |   .0195215   .0381985     0.51   0.614    -.0596974    .0987404
+       _cons |   .0644417   .0367542     1.75   0.093    -.0117819    .1406653
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+did_ra_main_pa.tex written
+
+
+=================================================================
+   RA / IPW / DR event study  --  sample=na
+=================================================================
+(variable country was str18, now str44 to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         2,093
+        from master                     2,093  
+        from using                          0  
+
+    Matched                             4,784  
+    -----------------------------------------
+(2,093 missing values generated)
+(125 observations deleted)
+
+Panel variable: country_id (unbalanced)
+ Time variable: bin_idx, 1 to 299, but with gaps
+         Delta: 1 unit
+(1,968 missing values generated)
+file C:\Users\rob98\AppData\Local\Temp\ST_b570_00000d.tmp saved as .dta
+    format
+(26 missing values generated)
+(52 missing values generated)
+(78 missing values generated)
+(104 missing values generated)
+(2,776 missing values generated)
+
+Duplicates in terms of all variables
+
+(6,729 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_b570_00000f.tmp saved as .dta
+    format
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             6,752  
+    -----------------------------------------
+(0 real changes made)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,096
+Absorbing 2 HDFE groups                           F(   7,     22) =       1.31
+Statistics robust to heteroskedasticity           Prob > F        =     0.2937
+                                                  R-squared       =     0.1901
+                                                  Adj R-squared   =     0.0403
+                                                  Within R-sq.    =     0.0004
+Number of clusters (country_id) =         23      Root MSE        =     1.4594
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead4 |  -.0622749   .2702259    -0.23   0.820    -.6226892    .4981394
+    ev_lead3 |   .1088334   .1876589     0.58   0.568    -.2803474    .4980141
+    ev_lead2 |   .3038498    .164447     1.85   0.078    -.0371923     .644892
+     ev_lag0 |   .0457288   .1445734     0.32   0.755     -.254098    .3455556
+     ev_lag1 |   .1739388   .1902732     0.91   0.371    -.2206638    .5685413
+     ev_lag2 |   .2048326   .1974836     1.04   0.311    -.2047234    .6143886
+     ev_lag3 |   .0938338   .2042256     0.46   0.650    -.3297043    .5173719
+       _cons |   .1560592   .0091475    17.06   0.000     .1370884      .17503
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,056
+Absorbing 2 HDFE groups                           F(  11,     22) =  141384.32
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.7339
+                                                  Adj R-squared   =     0.6835
+                                                  Within R-sq.    =     0.6697
+Number of clusters (country_id) =         23      Root MSE        =     0.8432
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead4 |  -.0254595   .2571214    -0.10   0.922    -.5586966    .5077776
+    ev_lead3 |    .383279   .2062461     1.86   0.077    -.0444493    .8110073
+    ev_lead2 |   .3390108   .2230976     1.52   0.143    -.1236652    .8016869
+     ev_lag0 |   .2092801   .2554393     0.82   0.421    -.3204686    .7390289
+     ev_lag1 |   .2675641   .2265645     1.18   0.250     -.202302    .7374302
+     ev_lag2 |   .2778803   .1961093     1.42   0.170    -.1288255    .6845861
+     ev_lag3 |   .1194663   .1937476     0.62   0.544    -.2823417    .5212743
+         Lo1 |   .7927895   .1282674     6.18   0.000     .5267792      1.0588
+         Lo2 |  -.0953597   .1010558    -0.94   0.356    -.3049367    .1142172
+         Lo3 |   .1795606   .0600989     2.99   0.007     .0549231    .3041981
+         Lo4 |  -.0366336   .0707813    -0.52   0.610    -.1834251    .1101579
+       _cons |   .0119372    .010838     1.10   0.283    -.0105394    .0344139
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,096
+Absorbing 2 HDFE groups                           F(   7,     22) =       1.25
+Statistics robust to heteroskedasticity           Prob > F        =     0.3182
+                                                  R-squared       =     0.2138
+                                                  Adj R-squared   =     0.0684
+                                                  Within R-sq.    =     0.0002
+Number of clusters (country_id) =         23      Root MSE        =     1.5920
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead4 |  -.0820722   .3053698    -0.27   0.791    -.7153703    .5512259
+    ev_lead3 |   .1055835   .1972921     0.54   0.598    -.3035753    .5147423
+    ev_lead2 |   .3076027    .170309     1.81   0.085    -.0455965    .6608018
+     ev_lag0 |   .0519559   .1532926     0.34   0.738    -.2659534    .3698653
+     ev_lag1 |   .1819369    .194263     0.94   0.359    -.2209399    .5848137
+     ev_lag2 |   .2016447   .2006051     1.01   0.326    -.2143847    .6176741
+     ev_lag3 |   .0952075   .2087342     0.46   0.653    -.3376807    .5280958
+       _cons |   .1883763   .0043373    43.43   0.000     .1793813    .1973712
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,056
+Absorbing 2 HDFE groups                           F(  11,     22) =  337756.86
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.7558
+                                                  Adj R-squared   =     0.7096
+                                                  Within R-sq.    =     0.6877
+Number of clusters (country_id) =         23      Root MSE        =     0.8952
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead4 |  -.0431554   .2766609    -0.16   0.877     -.616915    .5306041
+    ev_lead3 |    .404052   .2248848     1.80   0.086    -.0623306    .8704345
+    ev_lead2 |   .3313494   .2364263     1.40   0.175    -.1589688    .8216677
+     ev_lag0 |   .2053082   .2675265     0.77   0.451    -.3495079    .7601243
+     ev_lag1 |   .2622135   .2309932     1.14   0.269    -.2168371     .741264
+     ev_lag2 |   .2689807   .2032703     1.32   0.199    -.1525761    .6905376
+     ev_lag3 |   .1156134    .198362     0.58   0.566    -.2957644    .5269911
+         Lo1 |   .8149607   .1183472     6.89   0.000     .5695237    1.060398
+         Lo2 |   -.105882   .0996633    -1.06   0.300    -.3125711     .100807
+         Lo3 |   .1845684    .064564     2.86   0.009     .0506709    .3184659
+         Lo4 |  -.0464395   .0685507    -0.68   0.505    -.1886049    .0957259
+       _cons |   .0228195   .0072257     3.16   0.005     .0078342    .0378047
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,160
+Absorbing 2 HDFE groups                           F(  11,     22) =       1.02
+Statistics robust to heteroskedasticity           Prob > F        =     0.4603
+                                                  R-squared       =     0.1895
+                                                  Adj R-squared   =     0.0427
+                                                  Within R-sq.    =     0.0006
+Number of clusters (country_id) =         23      Root MSE        =     1.4384
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead6 |  -.1057756   .3170002    -0.33   0.742    -.7631939    .5516426
+    ev_lead5 |   .2111774    .310665     0.68   0.504    -.4331023    .8554572
+    ev_lead4 |  -.0582021   .2745009    -0.21   0.834    -.6274822    .5110779
+    ev_lead3 |   .1051205   .1823811     0.58   0.570    -.2731148    .4833559
+    ev_lead2 |   .2985973   .1603001     1.86   0.076    -.0338448    .6310394
+     ev_lag0 |   .0457562   .1444029     0.32   0.754    -.2537171    .3452294
+     ev_lag1 |    .170474   .1887459     0.90   0.376     -.220961     .561909
+     ev_lag2 |   .2045447   .1987609     1.03   0.315    -.2076602    .6167495
+     ev_lag3 |   .0913856   .2040866     0.45   0.659    -.3318641    .5146352
+     ev_lag4 |   .0491359   .2146528     0.23   0.821    -.3960268    .4942985
+     ev_lag5 |   .0755495   .2072686     0.36   0.719    -.3542992    .5053983
+       _cons |   .1516647   .0153504     9.88   0.000     .1198299    .1834996
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,120
+Absorbing 2 HDFE groups                           F(  15,     22) =   64462.73
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.7313
+                                                  Adj R-squared   =     0.6816
+                                                  Within R-sq.    =     0.6669
+Number of clusters (country_id) =         23      Root MSE        =     0.8344
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead6 |   .2480039   .2231375     1.11   0.278    -.2147549    .7107628
+    ev_lead5 |   .5130714   .2901974     1.77   0.091    -.0887612    1.114904
+    ev_lead4 |  -.0222796   .2566845    -0.09   0.932    -.5546106    .5100514
+    ev_lead3 |   .3843242   .2062907     1.86   0.076    -.0434966     .812145
+    ev_lead2 |   .3367359   .2220579     1.52   0.144     -.123784    .7972557
+     ev_lag0 |   .2093708   .2557798     0.82   0.422     -.321084    .7398256
+     ev_lag1 |   .2587906   .2187714     1.18   0.249    -.1949135    .7124946
+     ev_lag2 |   .2804162   .1958525     1.43   0.166     -.125757    .6865895
+     ev_lag3 |   .1202323   .1949029     0.62   0.544    -.2839716    .5244361
+     ev_lag4 |   .1542849   .2091261     0.74   0.468     -.279416    .5879858
+     ev_lag5 |   .1797737   .1747033     1.03   0.315    -.1825389    .5420862
+         Lo1 |    .791661   .1274133     6.21   0.000     .5274219      1.0559
+         Lo2 |  -.0966392    .102009    -0.95   0.354     -.308193    .1149146
+         Lo3 |   .1799755   .0603432     2.98   0.007     .0548313    .3051196
+         Lo4 |  -.0359811   .0710816    -0.51   0.618    -.1833954    .1114332
+       _cons |   .0053558   .0149828     0.36   0.724    -.0257166    .0364282
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,160
+Absorbing 2 HDFE groups                           F(  11,     22) =       1.12
+Statistics robust to heteroskedasticity           Prob > F        =     0.3913
+                                                  R-squared       =     0.2133
+                                                  Adj R-squared   =     0.0709
+                                                  Within R-sq.    =     0.0003
+Number of clusters (country_id) =         23      Root MSE        =     1.5800
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead6 |  -.1413072   .3605571    -0.39   0.699    -.8890569    .6064425
+    ev_lead5 |   .1947057    .346499     0.56   0.580    -.5238893    .9133006
+    ev_lead4 |  -.0805208   .3074093    -0.26   0.796    -.7180487    .5570071
+    ev_lead3 |   .1034676   .1946397     0.53   0.600    -.3001905    .5071256
+    ev_lead2 |   .3052221   .1682821     1.81   0.083    -.0437737    .6542178
+     ev_lag0 |   .0519623   .1530795     0.34   0.737    -.2655051    .3694297
+     ev_lag1 |    .179868   .1929436     0.93   0.361    -.2202726    .5800085
+     ev_lag2 |   .2012366   .2008988     1.00   0.327    -.2154021    .6178753
+     ev_lag3 |   .0939798    .208662     0.45   0.657    -.3387588    .5267184
+     ev_lag4 |   .0415309   .2228808     0.19   0.854    -.4206956    .5037573
+     ev_lag5 |   .0773531   .2101007     0.37   0.716    -.3583691    .5130753
+       _cons |   .1860645   .0075018    24.80   0.000     .1705067    .2016224
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,120
+Absorbing 2 HDFE groups                           F(  15,     22) =  254106.05
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.7546
+                                                  Adj R-squared   =     0.7092
+                                                  Within R-sq.    =     0.6864
+Number of clusters (country_id) =         23      Root MSE        =     0.8901
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead6 |   .2485041   .2411936     1.03   0.314    -.2517007    .7487089
+    ev_lead5 |   .5219543   .3121881     1.67   0.109    -.1254843    1.169393
+    ev_lead4 |  -.0419015   .2763933    -0.15   0.881    -.6151062    .5313032
+    ev_lead3 |   .4048039    .224773     1.80   0.085    -.0613468    .8709545
+    ev_lead2 |   .3302723   .2358272     1.40   0.175    -.1588034    .8193481
+     ev_lag0 |   .2053256   .2675993     0.77   0.451    -.3496415    .7602927
+     ev_lag1 |   .2575218   .2265573     1.14   0.268    -.2123293    .7273728
+     ev_lag2 |   .2703207   .2030672     1.33   0.197    -.1508149    .6914564
+     ev_lag3 |   .1158671   .1988634     0.58   0.566    -.2965503    .5282844
+     ev_lag4 |   .1356635   .2211812     0.61   0.546    -.3230381    .5943652
+     ev_lag5 |   .1719845   .1777727     0.97   0.344    -.1966935    .5406625
+         Lo1 |   .8143425   .1177235     6.92   0.000     .5701989    1.058486
+         Lo2 |  -.1065796   .1000724    -1.07   0.298     -.314117    .1009578
+         Lo3 |   .1849236   .0646544     2.86   0.009     .0508385    .3190087
+         Lo4 |  -.0461373   .0687431    -0.67   0.509    -.1887017    .0964271
+       _cons |   .0196806    .008399     2.34   0.029      .002262    .0370991
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 8 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,224
+Absorbing 2 HDFE groups                           F(  15,     22) =       1.27
+Statistics robust to heteroskedasticity           Prob > F        =     0.2956
+                                                  R-squared       =     0.1851
+                                                  Adj R-squared   =     0.0406
+                                                  Within R-sq.    =     0.0017
+Number of clusters (country_id) =         23      Root MSE        =     1.4194
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead8 |  -.4187223   .4068872    -1.03   0.315    -1.262555      .42511
+    ev_lead7 |  -.2552926   .3433042    -0.74   0.465    -.9672619    .4566767
+    ev_lead6 |  -.1252034   .2982254    -0.42   0.679    -.7436851    .4932783
+    ev_lead5 |   .1969892   .2927019     0.67   0.508    -.4100374    .8040159
+    ev_lead4 |  -.0713735   .2505478    -0.28   0.778    -.5909778    .4482307
+    ev_lead3 |   .0939318   .1633197     0.58   0.571    -.2447724    .4326361
+    ev_lead2 |   .2845131   .1481452     1.92   0.068    -.0227213    .5917475
+     ev_lag0 |   .0322238   .1329609     0.24   0.811    -.2435201    .3079677
+     ev_lag1 |   .1482369   .1637468     0.91   0.375    -.1913531     .487827
+     ev_lag2 |   .1792964   .1739034     1.03   0.314    -.1813572      .53995
+     ev_lag3 |   .0508296   .1784962     0.28   0.778    -.3193488     .421008
+     ev_lag4 |   .0147415   .1922467     0.08   0.940    -.3839536    .4134367
+     ev_lag5 |    .055426    .181869     0.30   0.763    -.3217472    .4325993
+     ev_lag6 |   .1172074   .1565797     0.75   0.462     -.207519    .4419337
+     ev_lag7 |   .0322229   .1814692     0.18   0.861    -.3441212    .4085671
+       _cons |   .1531653   .0187843     8.15   0.000      .114209    .1921216
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 8 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,184
+Absorbing 2 HDFE groups                           F(  19,     22) = 1151855.56
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.7295
+                                                  Adj R-squared   =     0.6805
+                                                  Within R-sq.    =     0.6668
+Number of clusters (country_id) =         23      Root MSE        =     0.8236
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead8 |   -.132173   .2765262    -0.48   0.637    -.7056532    .4413072
+    ev_lead7 |   .2130439   .2028103     1.05   0.305    -.2075588    .6336467
+    ev_lead6 |   .2306175   .2023986     1.14   0.267    -.1891316    .6503665
+    ev_lead5 |   .4989444    .281815     1.77   0.091    -.0855043    1.083393
+    ev_lead4 |  -.0367575   .2430153    -0.15   0.881    -.5407404    .4672254
+    ev_lead3 |   .3727367   .2006185     1.86   0.077    -.0433205    .7887939
+    ev_lead2 |   .3209387   .2143929     1.50   0.149    -.1236849    .7655623
+     ev_lag0 |   .1894346    .231423     0.82   0.422    -.2905073    .6693765
+     ev_lag1 |   .2386708   .1985786     1.20   0.242     -.173156    .6504976
+     ev_lag2 |    .261536   .1783219     1.47   0.157     -.108281     .631353
+     ev_lag3 |   .0905061   .1781728     0.51   0.617    -.2790016    .4600139
+     ev_lag4 |   .1377689   .1915996     0.72   0.480    -.2595843     .535122
+     ev_lag5 |   .1639381   .1558326     1.05   0.304     -.159239    .4871151
+     ev_lag6 |   .2431036   .1528755     1.59   0.126    -.0739407    .5601479
+     ev_lag7 |   .1042633   .1775849     0.59   0.563    -.2640253    .4725519
+         Lo1 |   .7937887   .1276988     6.22   0.000     .5289575     1.05862
+         Lo2 |   -.099223    .104248    -0.95   0.352    -.3154201    .1169742
+         Lo3 |   .1799179   .0604434     2.98   0.007      .054566    .3052698
+         Lo4 |  -.0349904   .0709544    -0.49   0.627    -.1821407    .1121599
+       _cons |   .0033649   .0173963     0.19   0.848    -.0327128    .0394426
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,224
+Absorbing 2 HDFE groups                           F(  15,     22) =       1.44
+Statistics robust to heteroskedasticity           Prob > F        =     0.2108
+                                                  R-squared       =     0.2109
+                                                  Adj R-squared   =     0.0709
+                                                  Within R-sq.    =     0.0009
+Number of clusters (country_id) =         23      Root MSE        =     1.5693
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead8 |   -.476041   .4829428    -0.99   0.335    -1.477603    .5255211
+    ev_lead7 |  -.2942923   .4112758    -0.72   0.482    -1.147226    .5586414
+    ev_lead6 |   -.150908   .3504535    -0.43   0.671    -.8777041     .575888
+    ev_lead5 |   .1884253   .3366984     0.56   0.581    -.5098444    .8866951
+    ev_lead4 |  -.0865841   .2944359    -0.29   0.771    -.6972068    .5240386
+    ev_lead3 |    .098136   .1844423     0.53   0.600    -.2843738    .4806459
+    ev_lead2 |   .2983149   .1617499     1.84   0.079    -.0371339    .6337636
+     ev_lag0 |   .0451873   .1470921     0.31   0.762    -.2598631    .3502377
+     ev_lag1 |   .1690016   .1802761     0.94   0.359     -.204868    .5428713
+     ev_lag2 |    .188747   .1881492     1.00   0.327    -.2014505    .5789445
+     ev_lag3 |   .0728659   .1954243     0.37   0.713    -.3324193    .4781511
+     ev_lag4 |   .0237271   .2116075     0.11   0.912    -.4151199    .4625741
+     ev_lag5 |   .0673805   .1970718     0.34   0.736    -.3413214    .4760825
+     ev_lag6 |   .1257971   .1732997     0.73   0.476    -.2336044    .4851986
+     ev_lag7 |   .0409077   .1992782     0.21   0.839    -.3723701    .4541854
+       _cons |   .1861841   .0101094    18.42   0.000     .1652185    .2071496
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 6 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,184
+Absorbing 2 HDFE groups                           F(  19,     22) = 1839171.60
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.7537
+                                                  Adj R-squared   =     0.7091
+                                                  Within R-sq.    =     0.6864
+Number of clusters (country_id) =         23      Root MSE        =     0.8842
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+  mm_violent | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead8 |  -.1665229   .3231817    -0.52   0.612    -.8367607     .503715
+    ev_lead7 |   .2268686   .2205062     1.03   0.315    -.2304333    .6841704
+    ev_lead6 |   .2402022   .2302623     1.04   0.308    -.2373325    .7177369
+    ev_lead5 |   .5158412   .3080966     1.67   0.108    -.1231119    1.154794
+    ev_lead4 |  -.0490799   .2693209    -0.18   0.857    -.6076173    .5094575
+    ev_lead3 |   .3994195   .2226389     1.79   0.087    -.0623053    .8611443
+    ev_lead2 |    .322656   .2317112     1.39   0.178    -.1578837    .8031956
+     ev_lag0 |   .1954411   .2544042     0.77   0.451    -.3321609    .7230431
+     ev_lag1 |   .2476192   .2159766     1.15   0.264    -.2002888    .6955273
+     ev_lag2 |   .2613721   .1940927     1.35   0.192    -.1411515    .6638957
+     ev_lag3 |   .1005662   .1902566     0.53   0.602    -.2940019    .4951343
+     ev_lag4 |   .1279819   .2120564     0.60   0.552    -.3117961    .5677599
+     ev_lag5 |   .1644394    .167972     0.98   0.338    -.1839131     .512792
+     ev_lag6 |   .2425133   .1682387     1.44   0.164    -.1063924     .591419
+     ev_lag7 |   .1045482   .1896782     0.55   0.587    -.2888203    .4979166
+         Lo1 |   .8154533   .1177594     6.92   0.000     .5712353    1.059671
+         Lo2 |  -.1078883   .1009766    -1.07   0.297     -.317301    .1015244
+         Lo3 |   .1850101   .0646411     2.86   0.009     .0509528    .3190675
+         Lo4 |  -.0457217   .0686108    -0.67   0.512    -.1880119    .0965684
+       _cons |   .0182411   .0096878     1.88   0.073    -.0018502    .0383324
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(26 missing values generated)
+(52 missing values generated)
+(78 missing values generated)
+(104 missing values generated)
+(2,776 missing values generated)
+
+Duplicates in terms of all variables
+
+(6,729 observations deleted)
+file C:\Users\rob98\AppData\Local\Temp\ST_b570_00000h.tmp saved as .dta
+    format
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                             6,752  
+    -----------------------------------------
+(0 real changes made)
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,096
+Absorbing 2 HDFE groups                           F(   7,     22) =       1.98
+Statistics robust to heteroskedasticity           Prob > F        =     0.1040
+                                                  R-squared       =     0.3841
+                                                  Adj R-squared   =     0.2701
+                                                  Within R-sq.    =     0.0214
+Number of clusters (country_id) =         23      Root MSE        =     1.1579
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead4 |   .2308802   .2515562     0.92   0.369    -.2908155    .7525759
+    ev_lead3 |   1.525708   .8225775     1.85   0.077     -.180213     3.23163
+    ev_lead2 |   .9148628   .6870441     1.33   0.197    -.5099794    2.339705
+     ev_lag0 |   .1506943   .1916192     0.79   0.440    -.2466996    .5480883
+     ev_lag1 |   .0250116    .350188     0.07   0.944    -.7012339    .7512572
+     ev_lag2 |  -.5320707   .8726459    -0.61   0.548    -2.341828    1.277686
+     ev_lag3 |  -.7553677   .9174457    -0.82   0.419    -2.658033    1.147298
+       _cons |   .2266434   .0203431    11.14   0.000     .1844544    .2688323
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,056
+Absorbing 2 HDFE groups                           F(  11,     22) =      13.98
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.5280
+                                                  Adj R-squared   =     0.4386
+                                                  Within R-sq.    =     0.2356
+Number of clusters (country_id) =         23      Root MSE        =     0.9991
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead4 |    .603245   .3284184     1.84   0.080    -.0778531    1.284343
+    ev_lead3 |   1.530336    .963536     1.59   0.126    -.4679156    3.528587
+    ev_lead2 |   .2783137   .6704269     0.42   0.682    -1.112067    1.668694
+     ev_lag0 |     .39749   .2654043     1.50   0.148    -.1529248    .9479047
+     ev_lag1 |    .195457   .3051544     0.64   0.528    -.4373945    .8283085
+     ev_lag2 |  -.2961928   .6744635    -0.44   0.665    -1.694945    1.102559
+     ev_lag3 |  -.3192325   .5004244    -0.64   0.530    -1.357049    .7185842
+         Lo1 |   .5063049   .0853082     5.94   0.000     .3293865    .6832234
+         Lo2 |  -.1633281   .0700797    -2.33   0.029    -.3086646   -.0179916
+         Lo3 |   .0239798   .0410202     0.58   0.565    -.0610909    .1090505
+         Lo4 |  -.0706326   .0492481    -1.43   0.166     -.172767    .0315018
+       _cons |   .1475229   .0362461     4.07   0.001      .072353    .2226928
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,096
+Absorbing 2 HDFE groups                           F(   7,     22) =       1.20
+Statistics robust to heteroskedasticity           Prob > F        =     0.3452
+                                                  R-squared       =     0.3421
+                                                  Adj R-squared   =     0.2205
+                                                  Within R-sq.    =     0.0088
+Number of clusters (country_id) =         23      Root MSE        =     1.2978
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead4 |   .4426685   .4137886     1.07   0.296    -.4154765    1.300813
+    ev_lead3 |   1.633696   .9631171     1.70   0.104    -.3636871    3.631078
+    ev_lead2 |   1.164154   .8197831     1.42   0.170    -.5359717    2.864281
+     ev_lag0 |   .2156223   .4118653     0.52   0.606    -.6385341    1.069779
+     ev_lag1 |   .2595013   .5832835     0.44   0.661    -.9501545    1.469157
+     ev_lag2 |  -.2283221   1.046338    -0.22   0.829    -2.398293    1.941649
+     ev_lag3 |  -.4280986   1.094233    -0.39   0.699    -2.697398    1.841201
+       _cons |   .2778386   .0155875    17.82   0.000     .2455121    .3101651
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,056
+Absorbing 2 HDFE groups                           F(  11,     22) =      19.42
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.5070
+                                                  Adj R-squared   =     0.4137
+                                                  Within R-sq.    =     0.2531
+Number of clusters (country_id) =         23      Root MSE        =     1.0784
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead4 |   .7397954   .4481126     1.65   0.113    -.1895334    1.669124
+    ev_lead3 |   1.710912   1.069153     1.60   0.124    -.5063757      3.9282
+    ev_lead2 |   .3691302   .7702819     0.48   0.637    -1.228337    1.966597
+     ev_lag0 |   .3844653   .3503588     1.10   0.284    -.3421344    1.111065
+     ev_lag1 |   .2863651    .508088     0.56   0.579    -.7673449    1.340075
+     ev_lag2 |  -.1619159   .8194326    -0.20   0.845    -1.861315    1.537483
+     ev_lag3 |  -.1326529   .6380794    -0.21   0.837    -1.455949    1.190643
+         Lo1 |   .5492323   .0685918     8.01   0.000     .4069817     .691483
+         Lo2 |  -.1653924   .0594752    -2.78   0.011    -.2887365   -.0420483
+         Lo3 |   .0342312   .0341279     1.00   0.327    -.0365458    .1050081
+         Lo4 |  -.0315898   .0300404    -1.05   0.304    -.0938898    .0307102
+       _cons |   .1596154   .0299803     5.32   0.000     .0974402    .2217907
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,160
+Absorbing 2 HDFE groups                           F(  11,     22) =       3.87
+Statistics robust to heteroskedasticity           Prob > F        =     0.0034
+                                                  R-squared       =     0.3247
+                                                  Adj R-squared   =     0.2024
+                                                  Within R-sq.    =     0.0276
+Number of clusters (country_id) =         23      Root MSE        =     1.1974
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead6 |  -.6141995   .8662333    -0.71   0.486    -2.410657    1.182258
+    ev_lead5 |  -.7282646   .8750462    -0.83   0.414    -2.542999     1.08647
+    ev_lead4 |   .2089838   .2611614     0.80   0.432    -.3326318    .7505994
+    ev_lead3 |   1.509052   .8220181     1.84   0.080    -.1957092    3.213813
+    ev_lead2 |   .9023387   .6856785     1.32   0.202    -.5196714    2.324349
+     ev_lag0 |   .1507217   .1913209     0.79   0.439    -.2460536    .5474969
+     ev_lag1 |   .0169711   .3543805     0.05   0.962     -.717969    .7519112
+     ev_lag2 |  -.5453038   .8782444    -0.62   0.541    -2.366671    1.276064
+     ev_lag3 |  -.7520891   .9230232    -0.81   0.424    -2.666322    1.162144
+     ev_lag4 |  -.2624246   .9548634    -0.27   0.786     -2.24269    1.717841
+     ev_lag5 |  -.7051471   .9317736    -0.76   0.457    -2.637527    1.227233
+       _cons |   .2454212   .0452698     5.42   0.000     .1515375    .3393049
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,120
+Absorbing 2 HDFE groups                           F(  15,     22) =      18.46
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.5019
+                                                  Adj R-squared   =     0.4097
+                                                  Within R-sq.    =     0.2741
+Number of clusters (country_id) =         23      Root MSE        =     1.0134
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead6 |  -.0969445   .4391345    -0.22   0.827    -1.007654    .8137647
+    ev_lead5 |  -.2546423   .5433444    -0.47   0.644     -1.38147     .872185
+    ev_lead4 |   .7449543   .4633551     1.61   0.122    -.2159853    1.705894
+    ev_lead3 |   1.645722   .9876663     1.67   0.110    -.4025729    3.694016
+    ev_lead2 |   .3095949    .689611     0.45   0.658    -1.120571    1.739761
+     ev_lag0 |   .4279294   .2729446     1.57   0.131     -.138123    .9939818
+     ev_lag1 |    .260854   .3042299     0.86   0.400    -.3700801    .8917881
+     ev_lag2 |  -.2189427   .6358194    -0.34   0.734    -1.537551    1.099666
+     ev_lag3 |  -.2061538   .4252665    -0.48   0.633    -1.088103    .6757949
+     ev_lag4 |   .3337998   .4880217     0.68   0.501    -.6782953    1.345895
+     ev_lag5 |   -.362104   .4534207    -0.80   0.433    -1.302441     .578233
+         Lo1 |   .5418271   .0889552     6.09   0.000     .3573453    .7263089
+         Lo2 |  -.1244177   .0775755    -1.60   0.123    -.2852993     .036464
+         Lo3 |    .038726   .0333606     1.16   0.258    -.0304596    .1079115
+         Lo4 |  -.0681352   .0480912    -1.42   0.171    -.1678702    .0315998
+       _cons |   .1251045   .0340518     3.67   0.001     .0544854    .1957237
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,160
+Absorbing 2 HDFE groups                           F(  11,     22) =       3.59
+Statistics robust to heteroskedasticity           Prob > F        =     0.0052
+                                                  R-squared       =     0.3133
+                                                  Adj R-squared   =     0.1890
+                                                  Within R-sq.    =     0.0115
+Number of clusters (country_id) =         23      Root MSE        =     1.3157
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead6 |  -.2969038   1.010981    -0.29   0.772     -2.39355    1.799742
+    ev_lead5 |  -.4130731   1.035418    -0.40   0.694    -2.560399    1.734253
+    ev_lead4 |   .4299307   .4126463     1.04   0.309    -.4258454    1.285707
+    ev_lead3 |   1.626162   .9625697     1.69   0.105    -.3700852     3.62241
+    ev_lead2 |   1.158876   .8201058     1.41   0.172    -.5419195    2.859671
+     ev_lag0 |   .2156236   .4112664     0.52   0.605    -.6372906    1.068538
+     ev_lag1 |   .2558182   .5849128     0.44   0.666    -.9572168    1.468853
+     ev_lag2 |  -.2355244   1.047705    -0.22   0.824    -2.408332    1.937283
+     ev_lag3 |  -.4293804   1.094028    -0.39   0.698    -2.698255    1.839495
+     ev_lag4 |   .0188373    1.10633     0.02   0.987     -2.27555    2.313225
+     ev_lag5 |  -.3937877   1.095915    -0.36   0.723    -2.666577    1.879001
+       _cons |   .2821183   .0312532     9.03   0.000     .2173031    .3469335
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,120
+Absorbing 2 HDFE groups                           F(  15,     22) =      17.91
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4947
+                                                  Adj R-squared   =     0.4012
+                                                  Within R-sq.    =     0.2727
+Number of clusters (country_id) =         23      Root MSE        =     1.0831
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead6 |    .005399   .5722421     0.01   0.993    -1.181358    1.192157
+    ev_lead5 |  -.1196771   .6736658    -0.18   0.861    -1.516775     1.27742
+    ev_lead4 |   .7975888     .50733     1.57   0.130    -.2545493    1.849727
+    ev_lead3 |   1.759227   1.075873     1.64   0.116    -.4719975    3.990452
+    ev_lead2 |   .3799074   .7749791     0.49   0.629    -1.227301    1.987116
+     ev_lag0 |   .3990074   .3510084     1.14   0.268    -.3289396    1.126954
+     ev_lag1 |   .3226753   .4990066     0.65   0.525    -.7122011    1.357552
+     ev_lag2 |  -.1224854   .7932461    -0.15   0.879    -1.767577    1.522606
+     ev_lag3 |  -.0862879    .597545    -0.14   0.886     -1.32552    1.152945
+     ev_lag4 |   .4014996   .6535479     0.61   0.545    -.9538758    1.756875
+     ev_lag5 |  -.2509311   .6280225    -0.40   0.693     -1.55337    1.051508
+         Lo1 |     .56524   .0694506     8.14   0.000     .4212082    .7092717
+         Lo2 |  -.1485221   .0628156    -2.36   0.027    -.2787937   -.0182504
+         Lo3 |   .0410018   .0312422     1.31   0.203    -.0237906    .1057942
+         Lo4 |  -.0323343   .0304889    -1.06   0.300    -.0955643    .0308957
+       _cons |   .1467787   .0295494     4.97   0.000     .0854971    .2080603
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 8 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,224
+Absorbing 2 HDFE groups                           F(  15,     22) =       4.73
+Statistics robust to heteroskedasticity           Prob > F        =     0.0005
+                                                  R-squared       =     0.2877
+                                                  Adj R-squared   =     0.1613
+                                                  Within R-sq.    =     0.0315
+Number of clusters (country_id) =         23      Root MSE        =     1.2128
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead8 |  -.9092438   .9351984    -0.97   0.341    -2.848727    1.030239
+    ev_lead7 |  -.6049259   .9677616    -0.63   0.538    -2.611941    1.402089
+    ev_lead6 |  -.5747758   .8562771    -0.67   0.509    -2.350586    1.201034
+    ev_lead5 |  -.7244691    .873363    -0.83   0.416    -2.535713    1.086775
+    ev_lead4 |   .2164302   .2580909     0.84   0.411    -.3188176    .7516781
+    ev_lead3 |   1.519905   .8174228     1.86   0.076    -.1753261    3.215136
+    ev_lead2 |   .9157895   .6813672     1.34   0.193    -.4972795    2.328858
+     ev_lag0 |   .1566917   .1915879     0.82   0.422    -.2406373    .5540207
+     ev_lag1 |   .0306308   .3447653     0.09   0.930    -.6843686    .7456302
+     ev_lag2 |   -.524399   .8704139    -0.60   0.553    -2.329527    1.280729
+     ev_lag3 |  -.7482713   .9206719    -0.81   0.425    -2.657628    1.161085
+     ev_lag4 |  -.2731948   .9514865    -0.29   0.777    -2.246457    1.700067
+     ev_lag5 |  -.6806938   .9221771    -0.74   0.468    -2.593172    1.231784
+     ev_lag6 |  -.6509377   .9192905    -0.71   0.486    -2.557429    1.255554
+     ev_lag7 |  -.4776012   .8339449    -0.57   0.573    -2.207097    1.251895
+       _cons |   .2613602   .0690726     3.78   0.001     .1181124     .404608
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 8 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,184
+Absorbing 2 HDFE groups                           F(  19,     22) =      33.18
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4878
+                                                  Adj R-squared   =     0.3949
+                                                  Within R-sq.    =     0.2976
+Number of clusters (country_id) =         23      Root MSE        =     1.0132
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead8 |  -.1541995   .5150798    -0.30   0.767     -1.22241    .9140107
+    ev_lead7 |   .0683523   .4646589     0.15   0.884    -.8952913    1.031996
+    ev_lead6 |  -.0017969   .4012379    -0.00   0.996    -.8339133    .8303195
+    ev_lead5 |  -.1816116   .4981682    -0.36   0.719    -1.214749    .8515261
+    ev_lead4 |   .8356968   .5268459     1.59   0.127    -.2569147    1.928308
+    ev_lead3 |   1.708462   1.008525     1.69   0.104    -.3830901    3.800015
+    ev_lead2 |   .3305226   .7033161     0.47   0.643    -1.128066    1.789111
+     ev_lag0 |   .4294375   .2652536     1.62   0.120    -.1206647    .9795398
+     ev_lag1 |   .2633009   .3171263     0.83   0.415    -.3943788    .9209805
+     ev_lag2 |  -.1962004   .6470479    -0.30   0.765    -1.538096    1.145695
+     ev_lag3 |  -.1579295   .4224483    -0.37   0.712    -1.034034    .7181745
+     ev_lag4 |   .3839605   .4710837     0.82   0.424    -.5930074    1.360928
+     ev_lag5 |  -.2913713   .4268484    -0.68   0.502    -1.176601     .593858
+     ev_lag6 |  -.0055269   .4617581    -0.01   0.991    -.9631546    .9521009
+     ev_lag7 |   .0799912   .3802131     0.21   0.835    -.7085224    .8685048
+         Lo1 |   .5615433    .091207     6.16   0.000     .3723915    .7506951
+         Lo2 |  -.1051507   .0762581    -1.38   0.182    -.2633004     .052999
+         Lo3 |    .046556   .0269642     1.73   0.098    -.0093643    .1024764
+         Lo4 |  -.0499765   .0365628    -1.37   0.185     -.125803      .02585
+       _cons |   .1071823   .0398897     2.69   0.013     .0244562    .1899084
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,224
+Absorbing 2 HDFE groups                           F(  15,     22) =       5.65
+Statistics robust to heteroskedasticity           Prob > F        =     0.0001
+                                                  R-squared       =     0.2951
+                                                  Adj R-squared   =     0.1700
+                                                  Within R-sq.    =     0.0134
+Number of clusters (country_id) =         23      Root MSE        =     1.3218
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead8 |  -.5984575   1.104985    -0.54   0.594    -2.890055     1.69314
+    ev_lead7 |   -.299802   1.138802    -0.26   0.795    -2.661533    2.061929
+    ev_lead6 |  -.2765991   1.005185    -0.28   0.786    -2.361225    1.808027
+    ev_lead5 |  -.4163009   1.032861    -0.40   0.691    -2.558323    1.725721
+    ev_lead4 |   .4355123   .4096732     1.06   0.299    -.4140978    1.285122
+    ev_lead3 |   1.630349   .9598752     1.70   0.104    -.3603107    3.621008
+    ev_lead2 |   1.163672    .816013     1.43   0.168    -.5286349     2.85598
+     ev_lag0 |   .2174395   .4102849     0.53   0.601    -.6334393    1.068318
+     ev_lag1 |   .2613118   .5795097     0.45   0.656    -.9405177    1.463141
+     ev_lag2 |  -.2244053   1.042661    -0.22   0.832    -2.386753    1.937942
+     ev_lag3 |  -.4284809   1.092613    -0.39   0.699    -2.694422     1.83746
+     ev_lag4 |   .0110299   1.104192     0.01   0.992    -2.278924    2.300984
+     ev_lag5 |  -.3843861   1.087455    -0.35   0.727    -2.639631    1.870858
+     ev_lag6 |  -.3370386   1.083907    -0.31   0.759    -2.584924    1.910847
+     ev_lag7 |  -.2651731   .9623138    -0.28   0.785     -2.26089    1.730544
+       _cons |   .2860685    .046908     6.10   0.000     .1887873    .3833497
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       299           1         298     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(MWFE estimator converged in 7 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,184
+Absorbing 2 HDFE groups                           F(  19,     22) =      53.01
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4873
+                                                  Adj R-squared   =     0.3944
+                                                  Within R-sq.    =     0.2848
+Number of clusters (country_id) =         23      Root MSE        =     1.0817
+
+                            (Std. err. adjusted for 23 clusters in country_id)
+------------------------------------------------------------------------------
+             |               Robust
+mm_nonviol~t | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    ev_lead8 |  -.0210042   .6650192    -0.03   0.975     -1.40017    1.358161
+    ev_lead7 |   .1458636   .6106567     0.24   0.813    -1.120561    1.412288
+    ev_lead6 |   .0521917    .544092     0.10   0.924    -1.076186     1.18057
+    ev_lead5 |  -.0900122   .6427558    -0.14   0.890    -1.423006    1.242982
+    ev_lead4 |   .8427351   .5371868     1.57   0.131    -.2713222    1.956792
+    ev_lead3 |   1.788729    1.08153     1.65   0.112    -.4542271    4.031685
+    ev_lead2 |   .3893611   .7787729     0.50   0.622    -1.225715    2.004437
+     ev_lag0 |   .3997487   .3476024     1.15   0.262    -.3211346    1.120632
+     ev_lag1 |   .3286134    .507094     0.65   0.524    -.7230353    1.380262
+     ev_lag2 |  -.1090111   .7957161    -0.14   0.892    -1.759225    1.541203
+     ev_lag3 |  -.0611013   .5897265    -0.10   0.918    -1.284119    1.161916
+     ev_lag4 |   .4252948   .6375127     0.67   0.512    -.8968256    1.747415
+     ev_lag5 |   -.219052   .6056896    -0.36   0.721    -1.475175    1.037071
+     ev_lag6 |   .1014228   .6127506     0.17   0.870    -1.169344     1.37219
+     ev_lag7 |   .0709195   .4948217     0.14   0.887    -.9552779    1.097117
+         Lo1 |   .5742362   .0699148     8.21   0.000     .4292418    .7192306
+         Lo2 |  -.1380024   .0630306    -2.19   0.039    -.2687199   -.0072849
+         Lo3 |   .0441536   .0284145     1.55   0.134    -.0147745    .1030817
+         Lo4 |  -.0235489   .0240785    -0.98   0.339    -.0734846    .0263868
+       _cons |   .1358756   .0322007     4.22   0.000     .0690956    .2026557
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+  country_id |        23          23           0    *|
+     bin_idx |       295           1         294     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+(file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/tables/did_ra_main_n
+    > a.tex not found)
+did_ra_main_na.tex written
+
+. 
+. postclose `P'
+
+. 
+. /* ============================================================
+>    FIGURES: violent-protest event study, four specs overlaid,
+>    right-edge 15-day-bin labelling.
+>    ============================================================ */
+. use "`plotdata'", clear
+
+. gen double lo = b - 1.645 * se
+
+. gen double hi = b + 1.645 * se
+
+. 
+. foreach sample in pa na {
+  2. foreach T in 60 90 120 {
+  3. 
+.         local nbin = `T' / `BIN'
+  4. 
+.         preserve
+  5.                 keep if sample == "`sample'" & T == `T'
+  6.                 if _N == 0 {
+  7.                         restore
+  8.                         continue
+  9.                 }
+ 10. 
+.                 replace days = days + `BIN' if etime >= 0
+ 11. 
+.                 local labday = 15
+ 12.                 if `T' >= 90 local labday = 30
+ 13.                 local xlabs ""
+ 14.                 forvalues bi = -`nbin'/`=`nbin'-1' {
+ 15.                         if `bi' < 0 local d = `bi' * `BIN'
+ 16.                         else        local d = (`bi' + 1) * `BIN'
+ 17.                         if mod(`d', `labday') == 0 local xlabs "`xlabs' `d
+> '"
+ 18.                 }
+ 19.                 local xpad   = 0.6 * `BIN'
+ 20.                 local xlo_ax = -`nbin' * `BIN' - `xpad'
+ 21.                 local xhi_ax = `nbin' * `BIN' + `xpad'
+ 22. 
+.                 gen double days_p = days
+ 23.                 replace days_p = days - 0.21 * `BIN' if spec == "none"
+ 24.                 replace days_p = days - 0.07 * `BIN' if spec == "ra"
+ 25.                 replace days_p = days + 0.07 * `BIN' if spec == "ipw"
+ 26.                 replace days_p = days + 0.21 * `BIN' if spec == "dr"
+ 27. 
+.                 twoway ///
+>                         (rspike lo hi days_p if spec=="none", lcolor(gs9)    
+>       lwidth(medthick)) ///
+>                         (scatter b days_p    if spec=="none", mcolor(gs9)    
+>       msymbol(O)  msize(medium)) ///
+>                         (rspike lo hi days_p if spec=="ra",   lcolor(navy)   
+>       lwidth(medthick)) ///
+>                         (scatter b days_p    if spec=="ra",   mcolor(navy)   
+>       msymbol(S)  msize(medium)) ///
+>                         (rspike lo hi days_p if spec=="ipw",  lcolor(cranberr
+> y)    lwidth(medthick)) ///
+>                         (scatter b days_p    if spec=="ipw",  mcolor(cranberr
+> y)    msymbol(T)  msize(medium)) ///
+>                         (rspike lo hi days_p if spec=="dr",   lcolor(forest_g
+> reen) lwidth(medthick)) ///
+>                         (scatter b days_p    if spec=="dr",   mcolor(forest_g
+> reen) msymbol(D)  msize(medium)), ///
+>                         yline(0, lcolor(red) lpattern(solid) lwidth(medthin))
+>  ///
+>                         xline(0, lcolor(black%20) lpattern(solid) lwidth(vthi
+> ck)) ///
+>                         xtitle("Days since scandal", size(large)) ///
+>                         ytitle("Number of violent protests", size(large)) ///
+>                         ylabel(, labsize(large) format(%4.2fc) angle(0)) ///
+>                         xscale(range(`xlo_ax' `xhi_ax')) ///
+>                         xlabel(`xlabs', labsize(large)) ///
+>                         legend(order(2 "No adj." 4 "Reg. adj." 6 "IPW" 8 "Dou
+> bly robust") ///
+>                                 rows(1) size(small) position(6) region(lcolor
+> (none))) ///
+>                         graphregion(color(white)) scheme(s2color)
+ 28.                 graph export "${figout}/did_ra_es_mm_violent_`sample'_w`T'
+> .pdf", replace
+ 29.         restore
+ 30. }
+ 31. }
+(256 observations deleted)
+(16 real changes made)
+(8 real changes made)
+(8 real changes made)
+(8 real changes made)
+(8 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/did_ra_es_mm
+    > _violent_pa_w60.pdf saved as PDF format
+(240 observations deleted)
+(24 real changes made)
+(12 real changes made)
+(12 real changes made)
+(12 real changes made)
+(12 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/did_ra_es_mm
+    > _violent_pa_w90.pdf saved as PDF format
+(224 observations deleted)
+(32 real changes made)
+(16 real changes made)
+(16 real changes made)
+(16 real changes made)
+(16 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/did_ra_es_mm
+    > _violent_pa_w120.pdf saved as PDF format
+(256 observations deleted)
+(16 real changes made)
+(8 real changes made)
+(8 real changes made)
+(8 real changes made)
+(8 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/did_ra_es_mm
+    > _violent_na_w60.pdf saved as PDF format
+(240 observations deleted)
+(24 real changes made)
+(12 real changes made)
+(12 real changes made)
+(12 real changes made)
+(12 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/did_ra_es_mm
+    > _violent_na_w90.pdf saved as PDF format
+(224 observations deleted)
+(32 real changes made)
+(16 real changes made)
+(16 real changes made)
+(16 real changes made)
+(16 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/did_ra_es_mm
+    > _violent_na_w120.pdf saved as PDF format
+
+. 
+. display in green "a_did_ra_ipw_pa_vs_na.do finished OK"
+a_did_ra_ipw_pa_vs_na.do finished OK
+
+. 
+end of do-file

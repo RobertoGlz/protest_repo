@@ -74,11 +74,11 @@ gen byte in_pa = 0
 replace in_pa = 1 if position == "president"
 replace in_pa = 1 if position == "governor"
 replace in_pa = 1 if position == "sc_judge_congressman" & ///
-	inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+	inlist(id, "202", "NEW26", "NEW30", "332")
 
 gen byte in_na = 0
 replace in_na = 1 if position == "sc_judge_congressman" & ///
-	!inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+	!inlist(id, "202", "NEW26", "NEW30", "332")
 replace in_na = 1 if position == "other_judiciary"
 replace in_na = 1 if position == "others"
 

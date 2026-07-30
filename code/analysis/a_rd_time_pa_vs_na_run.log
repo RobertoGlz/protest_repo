@@ -1,0 +1,437 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\rob98\Dropbox\Corrupcion\protest_repo\code\analysis\a_rd_
+> time_pa_vs_na_run.log
+  log type:  text
+ opened on:  29 Jul 2026, 11:33:45
+
+. 
+. set more off
+
+. clear all
+
+. 
+. if "`c(username)'" == "lalov" {
+.         gl identity "C:\Users\lalov\ITAM Seira Research Dropbox\Eduardo River
+> a"
+. }
+
+. if "`c(username)'" == "Rob_9" {
+.         global identity "C:/Users/Rob_9/Dropbox"
+. }
+
+. if "`c(username)'" == "rob98" {
+.         global identity "~/Dropbox"
+. }
+
+. 
+. global path    "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
+
+. global datfin  "${path}/Data/final"
+
+. global tabout  "${identity}/Corrupcion/protest_repo/paper/tables"
+
+. global figout  "${identity}/Corrupcion/protest_repo/paper/figures"
+
+. 
+. local firstyear = 2008
+
+. 
+. /* --------------- Load + attach classification --------------- */
+. import delimited using "${datfin}/scandals_classified.csv", ///
+>         clear varnames(1) bindquotes(strict)
+(encoding automatically selected: UTF-8)
+(7 vars, 190 obs)
+
+. keep id country position
+
+. tempfile cls
+
+. save `cls'
+file C:\Users\rob98\AppData\Local\Temp\ST_93f0_000001.tmp saved as .dta
+    format
+
+. 
+. use "${datfin}/protests_scandals_30days_v3", clear
+
+. drop if country == "Venezuela"
+(3,374 observations deleted)
+
+. merge m:1 id country using `cls', keep(1 3) generate(_mclass)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                            42,657  (_mclass==3)
+    -----------------------------------------
+
+. 
+. gen byte in_pa = 0
+
+. replace in_pa = 1 if position == "president"
+(10,845 real changes made)
+
+. replace in_pa = 1 if position == "governor"
+(3,615 real changes made)
+
+. replace in_pa = 1 if position == "sc_judge_congressman" & ///
+>         inlist(id, "202", "NEW26", "NEW30", "332")
+(964 real changes made)
+
+. 
+. gen byte in_na = 0
+
+. replace in_na = 1 if position == "sc_judge_congressman" & ///
+>         !inlist(id, "202", "NEW26", "NEW30", "332")
+(3,374 real changes made)
+
+. replace in_na = 1 if position == "other_judiciary"
+(3,856 real changes made)
+
+. replace in_na = 1 if position == "others"
+(20,003 real changes made)
+
+. 
+. egen grupo_dias    = group(s_lag30 s_lag60 s_lag90 s_lag120 ///
+>                            s_lead30 s_lead60 s_lead90 s_lead120)
+
+. egen group_cluster = group(country_id year grupo_dias)
+
+. egen auxvar        = group(country year)
+
+. 
+. /* running variable centred at the cutoff; Post = 1{window >= 0} */
+. gen double rv   = window
+
+. gen byte   Post = (window >= 0)
+
+. 
+. tempfile base
+
+. save `base'
+file C:\Users\rob98\AppData\Local\Temp\ST_93f0_000002.tmp saved as .dta
+    format
+
+. 
+. /* ============================================================
+>    ESTIMATION: RD jump (tau) for sample x outcome x bandwidth x poly
+>    ============================================================ */
+. tempname R
+
+. tempfile rdres
+
+. postfile `R' str4 sample str16 outcome int bw int poly ///
+>         double tau double se double n using "`rdres'", replace
+(file C:\Users\rob98\AppData\Local\Temp\ST_93f0_000003.tmp not found)
+
+. 
+. foreach sample in pa na {
+  2. foreach oc in num_violent_MM num_peaceful_MM {
+  3. foreach BW in 30 60 90 {
+  4. 
+.         /* local linear: Post + rv + Post#rv */
+.         use `base', clear
+  5.         quietly reghdfe `oc' i.Post##c.rv ///
+>                 if year >= `firstyear' & abs(rv) <= `BW' & in_`sample' == 1, 
+> ///
+>                 absorb(month day auxvar) cluster(group_cluster)
+  6.         post `R' ("`sample'") ("`oc'") (`BW') (1) ///
+>                 (_b[1.Post]) (_se[1.Post]) (e(N))
+  7. 
+.         /* local quadratic: Post + rv + rv^2, each interacted with Post */
+.         use `base', clear
+  8.         quietly reghdfe `oc' i.Post##c.rv i.Post##c.rv#c.rv ///
+>                 if year >= `firstyear' & abs(rv) <= `BW' & in_`sample' == 1, 
+> ///
+>                 absorb(month day auxvar) cluster(group_cluster)
+  9.         post `R' ("`sample'") ("`oc'") (`BW') (2) ///
+>                 (_b[1.Post]) (_se[1.Post]) (e(N))
+ 10. }
+ 11. }
+ 12. }
+
+. postclose `R'
+
+. 
+. /* ============================================================
+>    TABLE: rows = Apex/Non-Apex x poly; cols = Violent/Non... x bw
+>    ============================================================ */
+. use "`rdres'", clear
+
+. capture file close _tbl
+
+. file open _tbl using "${tabout}/sup_rd_time.tex", write replace
+
+. file write _tbl "{" _n
+
+. file write _tbl "\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}" _n
+
+. file write _tbl "\begin{tabular}{ll*{6}{c}}" _n
+
+. file write _tbl "\toprule" _n
+
+. file write _tbl " & & \multicolumn{3}{c}{Violent Protests} & \multicolumn{3}{
+> c}{Peaceful Protests} \\" _n
+
+. file write _tbl "\cmidrule(lr){3-5}\cmidrule(lr){6-8}" _n
+
+. file write _tbl " & & \ensuremath{h=30} & \ensuremath{h=60} & \ensuremath{h=9
+> 0} & \ensuremath{h=30} & \ensuremath{h=60} & \ensuremath{h=90} \\" _n
+
+. file write _tbl "\midrule" _n
+
+. 
+. foreach s in pa na {
+  2.         if "`s'" == "pa" local slab "Apex"
+  3.         else             local slab "Non-Apex"
+  4.         file write _tbl "\multicolumn{8}{l}{\textit{`slab'}}\\" _n
+  5.         foreach p in 1 2 {
+  6.                 if `p' == 1 local plab "Local linear"
+  7.                 else        local plab "Local quadratic"
+  8.                 local brow "`plab' &"
+  9.                 local srow " &"
+ 10.                 foreach oc in num_violent_MM num_peaceful_MM {
+ 11.                 foreach BW in 30 60 90 {
+ 12.                         quietly summarize tau if sample=="`s'" & outcome==
+> "`oc'" & bw==`BW' & poly==`p', meanonly
+ 13.                         local b = r(mean)
+ 14.                         quietly summarize se if sample=="`s'" & outcome=="
+> `oc'" & bw==`BW' & poly==`p', meanonly
+ 15.                         local se = r(mean)
+ 16.                         if missing(`b') | missing(`se') | `se' <= 0 {
+ 17.                                 local brow "`brow' & --"
+ 18.                                 local srow "`srow' & "
+ 19.                         }
+ 20.                         else {
+ 21.                                 local pv = 2*normal(-abs(`b'/`se'))
+ 22.                                 local st = ""
+ 23.                                 if `pv' < 0.10 local st = "*"
+ 24.                                 if `pv' < 0.05 local st = "**"
+ 25.                                 if `pv' < 0.01 local st = "***"
+ 26.                                 if "`st'" != "" local bcell = string(`b',"
+> %5.3f") + "\sym{`st'}"
+ 27.                                 else            local bcell = string(`b',"
+> %5.3f")
+ 28.                                 local scell = "(" + string(`se',"%5.3f") +
+>  ")"
+ 29.                                 local brow "`brow' & `bcell'"
+ 30.                                 local srow "`srow' & `scell'"
+ 31.                         }
+ 32.                 }
+ 33.                 }
+ 34.                 file write _tbl "`brow' \\" _n
+ 35.                 file write _tbl "`srow' \\" _n
+ 36.         }
+ 37.         if "`s'" == "pa" file write _tbl "\midrule" _n
+ 38. }
+
+. file write _tbl "\bottomrule" _n
+
+. file write _tbl "\end{tabular}" _n
+
+. file write _tbl "}" _n
+
+. file close _tbl
+
+. display in green "sup_rd_time.tex written"
+sup_rd_time.tex written
+
+. 
+. /* ============================================================
+>    FIGURES: RD plots (residualise on FE, bin, fit each side).
+>    Linear and local-quadratic fits, at h = 30, 60, 90 days.
+>    Output: rd_time[_quad]_<outcome>_<sample>_h<BW>.pdf
+>    ============================================================ */
+. 
+. /* common y-range across all bandwidth x sample x outcome, so every RD plot
+>    (all bandwidths, both fits) shares one vertical scale for eyeballing */
+. local gmax = 0
+
+. foreach BW in 30 60 90 {
+  2. foreach sample in pa na {
+  3. foreach oc in num_violent_MM num_peaceful_MM {
+  4.         use `base', clear
+  5.         keep if year >= `firstyear' & abs(rv) <= `BW' & in_`sample' == 1
+  6.         quietly reghdfe `oc', absorb(month day auxvar) residuals(_ry0)
+  7.         gen int _wb0 = 5 * floor(rv / 5) + 2
+  8.         quietly collapse (mean) _ry0, by(_wb0)
+  9.         quietly summarize _ry0
+ 10.         local gmax = max(`gmax', abs(r(min)), abs(r(max)))
+ 11. }
+ 12. }
+ 13. }
+(38,814 observations deleted)
+(38,814 observations deleted)
+(35,764 observations deleted)
+(35,764 observations deleted)
+(35,034 observations deleted)
+(35,034 observations deleted)
+(28,984 observations deleted)
+(28,984 observations deleted)
+(31,254 observations deleted)
+(31,254 observations deleted)
+(22,204 observations deleted)
+(22,204 observations deleted)
+
+. local yr  = ceil((`gmax' * 1.6) / 0.02) * 0.02
+
+. local ylo = -`yr'
+
+. local yhi =  `yr'
+
+. 
+. foreach BW in 30 60 90 {
+  2.         local xs = 15
+  3.         if `BW' == 90 local xs = 30
+  4. 
+. foreach sample in pa na {
+  5. foreach oc in num_violent_MM num_peaceful_MM {
+  6. 
+.         use `base', clear
+  7.         keep if year >= `firstyear' & abs(rv) <= `BW' & in_`sample' == 1
+  8. 
+.         /* residualise the outcome on the fixed effects only */
+.         quietly reghdfe `oc', absorb(month day auxvar) residuals(ry)
+  9. 
+.         /* 5-day bins of the running variable, mean residual per bin */
+.         gen int wbin = 5 * floor(rv / 5) + 2          /* bin centre */
+ 10.         preserve
+ 11.                 collapse (mean) ry (mean) rvbar = rv, by(wbin)
+ 12.                 gen byte Postb = (wbin >= 0)
+ 13. 
+.                 /* local-linear fit each side */
+.                 twoway (scatter ry wbin, mcolor(navy%70) msymbol(O) msize(sma
+> ll)) ///
+>                        (lfit ry wbin if wbin < 0,  lcolor(navy)      lwidth(m
+> edthick)) ///
+>                        (lfit ry wbin if wbin >= 0, lcolor(cranberry) lwidth(m
+> edthick)), ///
+>                         xline(0, lcolor(black%25) lwidth(medthick) lpattern(s
+> olid)) ///
+>                         ytitle("Protest count (residualised)", size(medium)) 
+> ///
+>                         xtitle("Days since scandal", size(medium)) ///
+>                         xlabel(-`BW'(`xs')`BW') ///
+>                         yscale(range(`ylo' `yhi')) ylabel(`ylo'(0.02)`yhi', f
+> ormat(%4.3fc) angle(horizontal)) ///
+>                         legend(off) ///
+>                         graphregion(color(white) fcolor(white)) scheme(s2colo
+> r)
+ 14.                 graph export "${figout}/rd_time_`oc'_`sample'_h`BW'.pdf", 
+> replace
+ 15. 
+.                 /* local-quadratic fit each side */
+.                 twoway (scatter ry wbin, mcolor(navy%70) msymbol(O) msize(sma
+> ll)) ///
+>                        (qfit ry wbin if wbin < 0,  lcolor(navy)      lwidth(m
+> edthick)) ///
+>                        (qfit ry wbin if wbin >= 0, lcolor(cranberry) lwidth(m
+> edthick)), ///
+>                         xline(0, lcolor(black%25) lwidth(medthick) lpattern(s
+> olid)) ///
+>                         ytitle("Protest count (residualised)", size(medium)) 
+> ///
+>                         xtitle("Days since scandal", size(medium)) ///
+>                         xlabel(-`BW'(`xs')`BW') ///
+>                         yscale(range(`ylo' `yhi')) ylabel(`ylo'(0.02)`yhi', f
+> ormat(%4.3fc) angle(horizontal)) ///
+>                         legend(off) ///
+>                         graphregion(color(white) fcolor(white)) scheme(s2colo
+> r)
+ 16.                 graph export "${figout}/rd_time_quad_`oc'_`sample'_h`BW'.p
+> df", replace
+ 17.         restore
+ 18.         drop ry wbin
+ 19. }
+ 20. }
+ 21. }
+(38,814 observations deleted)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_num_
+    > violent_MM_pa_h30.pdf saved as PDF format
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_quad
+    > _num_violent_MM_pa_h30.pdf saved as PDF format
+(38,814 observations deleted)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_num_
+    > peaceful_MM_pa_h30.pdf saved as PDF format
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_quad
+    > _num_peaceful_MM_pa_h30.pdf saved as PDF format
+(35,764 observations deleted)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_num_
+    > violent_MM_na_h30.pdf saved as PDF format
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_quad
+    > _num_violent_MM_na_h30.pdf saved as PDF format
+(35,764 observations deleted)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_num_
+    > peaceful_MM_na_h30.pdf saved as PDF format
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_quad
+    > _num_peaceful_MM_na_h30.pdf saved as PDF format
+(35,034 observations deleted)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_num_
+    > violent_MM_pa_h60.pdf saved as PDF format
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_quad
+    > _num_violent_MM_pa_h60.pdf saved as PDF format
+(35,034 observations deleted)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_num_
+    > peaceful_MM_pa_h60.pdf saved as PDF format
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_quad
+    > _num_peaceful_MM_pa_h60.pdf saved as PDF format
+(28,984 observations deleted)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_num_
+    > violent_MM_na_h60.pdf saved as PDF format
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_quad
+    > _num_violent_MM_na_h60.pdf saved as PDF format
+(28,984 observations deleted)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_num_
+    > peaceful_MM_na_h60.pdf saved as PDF format
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_quad
+    > _num_peaceful_MM_na_h60.pdf saved as PDF format
+(31,254 observations deleted)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_num_
+    > violent_MM_pa_h90.pdf saved as PDF format
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_quad
+    > _num_violent_MM_pa_h90.pdf saved as PDF format
+(31,254 observations deleted)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_num_
+    > peaceful_MM_pa_h90.pdf saved as PDF format
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_quad
+    > _num_peaceful_MM_pa_h90.pdf saved as PDF format
+(22,204 observations deleted)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_num_
+    > violent_MM_na_h90.pdf saved as PDF format
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_quad
+    > _num_violent_MM_na_h90.pdf saved as PDF format
+(22,204 observations deleted)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_num_
+    > peaceful_MM_na_h90.pdf saved as PDF format
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_quad
+    > _num_peaceful_MM_na_h90.pdf saved as PDF format
+
+. 
+. display in green "a_rd_time_pa_vs_na.do finished OK"
+a_rd_time_pa_vs_na.do finished OK
+
+. capture log close _all

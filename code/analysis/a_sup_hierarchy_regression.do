@@ -29,10 +29,14 @@
         President      = position == "president"
         Other Apex     = position == "governor"
                          OR (position == "sc_judge_congressman" AND
-                             id in {"202","NEW26","NEW30","332","NEW23"})
+                             id in {"202","NEW26","NEW30","332"})
         Other Non-Apex = position == "other_judiciary" | "others"
                          OR (position == "sc_judge_congressman" AND
                              id not in the SC-Judge set above)
+        NOTE (2026-07-29): NEW23 was dropped from the SC-Judge set. Its raw
+        source (Appended_News) shows a San Luis Potosi case involving
+        diputados (congressmen), not a Supreme Court justice, so it is
+        Other Non-Apex.  This moves Other Apex 19->18, Non-Apex 112->113.
 
    Inputs:
      - ${datfin}/protests_scandals_30days_v3.dta
@@ -89,9 +93,9 @@ gen byte apex_cat = .
 replace apex_cat = 1 if position == "president"
 replace apex_cat = 2 if position == "governor"
 replace apex_cat = 2 if position == "sc_judge_congressman" & ///
-	inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+	inlist(id, "202", "NEW26", "NEW30", "332")
 replace apex_cat = 3 if position == "sc_judge_congressman" & ///
-	!inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+	!inlist(id, "202", "NEW26", "NEW30", "332")
 replace apex_cat = 3 if position == "other_judiciary"
 replace apex_cat = 3 if position == "others"
 

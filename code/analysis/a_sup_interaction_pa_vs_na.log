@@ -1,0 +1,660 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      StataNow 19.5
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2025 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-782-8272        https://www.stata.com
+                                   979-696-4600        service@stata.com
+
+Stata license: Unlimited-user 16-core network, expiring  2 Jul 2027
+Serial number: 501909320077
+  Licensed to: Roberto Gonzalez Tellez
+               Stanford University GSB
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do a_sup_interaction_pa_vs_na.do 
+
+. /* --------------------------------------------------------------------------
+> --
+>    Project: Apex Corruption protests paper - SUPPLEMENTARY MATERIALS
+> 
+>    Code author: Roberto Gonzalez
+>    Date: 2026-07-13
+> 
+>    Objective:
+>      Two-group pooled-interaction regression that lets us formally
+>      test whether the post-scandal effect on protests differs between:
+>         (i)  scandals implicating President + Other Apex officials
+>              (post_pa)
+>         (ii) scandals implicating Other Non-Apex officials
+>              (post_na)
+> 
+>      For each (outcome, window) we estimate
+> 
+>         Y_{c(s)t} = beta_pa * post_st * 1{PA_s}
+>                   + beta_na * post_st * 1{NA_s}
+>                   + alpha_d + lambda_m + theta_cy + eps_{c(s)t}
+> 
+>      and report the p-value from testing H0: beta_pa = beta_na.
+> 
+>      Eight columns (same layout as main Table~1): count outcomes on
+>      +-30 and +-120 windows, then share outcomes on the same two
+>      windows.  Poisson columns are NOT included -- this table is
+>      OLS-only.
+> 
+>    Inputs:
+>      - ${datfin}/protests_scandals_30days_v3.dta
+>      - ${datfin}/scandals_classified.csv
+> 
+>    Outputs (under paper/tables/):
+>      - sup_interaction_pa_vs_na.tex
+> ---------------------------------------------------------------------------- 
+> */
+. 
+. set more off
+
+. clear all
+
+. 
+. if "`c(username)'" == "Diego" {
+.         gl identity "D:/Documents/Dropbox"
+. }
+
+. if "`c(username)'" == "dtocre" {
+.         gl identity "C:/Users/dtocre/Dropbox"
+. }
+
+. if "`c(username)'" == "lalov" {
+.         gl identity "C:/Users/lalov/ITAM Seira Research Dropbox/Eduardo River
+> a"
+. }
+
+. if "`c(username)'" == "Rob_9" {
+.         global identity "C:/Users/Rob_9/Dropbox"
+. }
+
+. if "`c(username)'" == "rob98" {
+.         global identity "~/Dropbox"
+. }
+
+. 
+. global path    "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
+
+. global datfin  "${path}/Data/final"
+
+. global work    "${identity}/Corrupcion/Protest_Work"
+
+. global tables  "${identity}/Corrupcion/protest_repo/paper/tables"
+
+. 
+. /* --------------- Load + attach classification --------------- */
+. import delimited using "${datfin}/scandals_classified.csv", ///
+>         clear varnames(1) bindquotes(strict)
+(encoding automatically selected: UTF-8)
+(7 vars, 190 obs)
+
+. keep id country position
+
+. tempfile cls
+
+. save `cls'
+file C:\Users\rob98\AppData\Local\Temp\ST_beb0_000001.tmp saved as .dta
+    format
+
+. 
+. use "${datfin}/protests_scandals_30days_v3", clear
+
+. drop if country == "Venezuela"
+(3,374 observations deleted)
+
+. merge m:1 id country using `cls', keep(1 3) generate(_mclass)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                            42,657  (_mclass==3)
+    -----------------------------------------
+
+. 
+. /* Apex partition v2 flags */
+. gen byte in_pa = 0
+
+. replace in_pa = 1 if position == "president"
+(10,845 real changes made)
+
+. replace in_pa = 1 if position == "governor"
+(3,615 real changes made)
+
+. replace in_pa = 1 if position == "sc_judge_congressman" & ///
+>         inlist(id, "202", "NEW26", "NEW30", "332")
+(964 real changes made)
+
+. 
+. gen byte in_na = 0
+
+. replace in_na = 1 if position == "sc_judge_congressman" & ///
+>         !inlist(id, "202", "NEW26", "NEW30", "332")
+(3,374 real changes made)
+
+. replace in_na = 1 if position == "other_judiciary"
+(3,856 real changes made)
+
+. replace in_na = 1 if position == "others"
+(20,003 real changes made)
+
+. 
+. /* Share outcomes (0 imputed on no-protest days) */
+. gen double share_violent  = num_violent_MM  / num_protests_MM if num_protests
+> _MM > 0
+(39,349 missing values generated)
+
+. gen double share_peaceful = num_peaceful_MM / num_protests_MM if num_protests
+> _MM > 0
+(39,349 missing values generated)
+
+. replace    share_violent  = 0 if num_protests_MM == 0
+(39,349 real changes made)
+
+. replace    share_peaceful = 0 if num_protests_MM == 0
+(39,349 real changes made)
+
+. 
+. /* Interaction terms (no stand-alone post term below). */
+. gen byte post_pa = post * in_pa
+
+. gen byte post_na = post * in_na
+
+. 
+. egen grupo_dias = group(s_lag30 s_lag60 s_lag90 s_lag120 ///
+>                         s_lead30 s_lead60 s_lead90 s_lead120)
+
+. 
+. global fe1      "i.country_id#i.year"
+
+. global CLUSTER2 "cluster i.country_id#i.year#i.grupo_dias"
+
+. 
+. local firstyear = 2008
+
+. local outcomes  "num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_M
+> M num_violent_MM num_peaceful_MM"
+
+. local windows   "30 30 60 60 90 90"
+
+. local nspecs : word count `outcomes'
+
+. 
+. eststo clear
+
+. forvalues k = 1/`nspecs' {
+  2.         local outcome : word `k' of `outcomes'
+  3.         local window  : word `k' of `windows'
+  4. 
+.         eststo m`k': reghdfe `outcome' post_pa post_na i.month i.day ///
+>                 if year >= `firstyear' & abs(window) <= `window' & (in_pa == 
+> 1 | in_na == 1), ///
+>                 absorb($fe1) vce($CLUSTER2)
+  5. 
+.         quietly summarize `outcome' if e(sample) ///
+>                 & window >= -`window' & window <= -1
+  6.         estadd scalar baseline = r(mean)
+  7. 
+.         quietly levelsof id if e(sample) == 1
+  8.         estadd scalar num_scandals = r(r)
+  9. 
+.         /* Equality test (two-sided): H0: Apex = Non-Apex */
+.         test post_pa = post_na
+ 10.         local p_two = r(p)
+ 11.         estadd scalar p_pa_na = `p_two'
+ 12. 
+.         /* One-sided test H1: Apex > Non-Apex.  With a single restriction the
+>            two-sided F/t p-value halves in the direction of the estimated
+>            difference. */
+.         quietly lincom post_pa - post_na
+ 13.         if r(estimate) > 0 local p_one = `p_two' / 2
+ 14.         else               local p_one = 1 - `p_two' / 2
+ 15.         estadd scalar p_pa_gt_na = `p_one'
+ 16. }
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     10,736
+Absorbing 1 HDFE group                            F(  19,    162) =       2.75
+Statistics robust to heteroskedasticity           Prob > F        =     0.0003
+                                                  R-squared       =     0.1706
+                                                  Adj R-squared   =     0.1626
+                                                  Within R-sq.    =     0.0663
+Number of clusters (country_id#year#grupo_dias) =        163Root MSE=     0.144
+> 4
+
+           (Std. err. adjusted for 163 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     post_pa |   .0517088    .018777     2.75   0.007     .0146295    .0887881
+     post_na |  -.0043405    .007972    -0.54   0.587    -.0200829    .0114018
+             |
+       month |
+          2  |  -.0997109   .0402698    -2.48   0.014    -.1792324   -.0201895
+          3  |  -.1728038   .0627919    -2.75   0.007       -.2968   -.0488076
+          4  |  -.1559948   .0624368    -2.50   0.013    -.2792897   -.0326998
+          5  |  -.1288401   .0596148    -2.16   0.032    -.2465625   -.0111177
+          6  |  -.1152719   .0614024    -1.88   0.062    -.2365242    .0059805
+          7  |  -.1025339   .0650286    -1.58   0.117    -.2309469    .0258792
+          8  |  -.1212942   .0643148    -1.89   0.061    -.2482977    .0057092
+          9  |  -.1396316   .0600869    -2.32   0.021    -.2582861   -.0209771
+         10  |  -.1413174   .0605996    -2.33   0.021    -.2609843   -.0216505
+         11  |  -.1302947   .0627075    -2.08   0.039    -.2541241   -.0064653
+         12  |  -.0831863   .0740011    -1.12   0.263    -.2293174    .0629447
+             |
+         day |
+          1  |    .001348   .0024674     0.55   0.586    -.0035244    .0062205
+          2  |   .0024774   .0038259     0.65   0.518    -.0050777    .0100324
+          3  |   .0036776   .0038079     0.97   0.336    -.0038419    .0111972
+          4  |   .0004843   .0029428     0.16   0.869    -.0053269    .0062954
+          5  |  -.0028969   .0024341    -1.19   0.236    -.0077036    .0019098
+          6  |  -.0046111   .0021045    -2.19   0.030     -.008767   -.0004552
+             |
+       _cons |    .131955   .0523672     2.52   0.013     .0285446    .2353653
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        84           0          84     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .02045455
+
+added scalar:
+       e(num_scandals) =  176
+
+ ( 1)  post_pa - post_na = 0
+
+       F(  1,   162) =    5.12
+            Prob > F =    0.0249
+
+added scalar:
+            e(p_pa_na) =  .02492918
+
+added scalar:
+         e(p_pa_gt_na) =  .01246459
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     10,736
+Absorbing 1 HDFE group                            F(  19,    162) =       0.95
+Statistics robust to heteroskedasticity           Prob > F        =     0.5230
+                                                  R-squared       =     0.4737
+                                                  Adj R-squared   =     0.4687
+                                                  Within R-sq.    =     0.0337
+Number of clusters (country_id#year#grupo_dias) =        163Root MSE=     0.175
+> 4
+
+           (Std. err. adjusted for 163 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     post_pa |  -.0068909   .0132212    -0.52   0.603    -.0329989    .0192172
+     post_na |   .0189062   .0128892     1.47   0.144    -.0065463    .0443588
+             |
+       month |
+          2  |  -.0049618   .0244527    -0.20   0.839    -.0532489    .0433252
+          3  |   .0237802   .0302039     0.79   0.432    -.0358639    .0834243
+          4  |   .0498211   .0407213     1.22   0.223    -.0305919    .1302341
+          5  |    .101422   .0484432     2.09   0.038     .0057605    .1970835
+          6  |   .1018638   .0413614     2.46   0.015     .0201869    .1835408
+          7  |   .0335822   .0282801     1.19   0.237    -.0222631    .0894274
+          8  |   .0358147   .0291532     1.23   0.221    -.0217546    .0933839
+          9  |   .0840386   .0464444     1.81   0.072    -.0076759    .1757531
+         10  |   .0519798   .0453048     1.15   0.253    -.0374843    .1414439
+         11  |   .0115588    .037533     0.31   0.759    -.0625582    .0856757
+         12  |    .003986   .0348295     0.11   0.909    -.0647922    .0727643
+             |
+         day |
+          1  |  -.0055424   .0039618    -1.40   0.164    -.0133658    .0022811
+          2  |  -.0069634    .004206    -1.66   0.100     -.015269    .0013422
+          3  |  -.0070205   .0050588    -1.39   0.167    -.0170103    .0029693
+          4  |  -.0061965   .0042276    -1.47   0.145    -.0145447    .0021518
+          5  |  -.0045633   .0055056    -0.83   0.408    -.0154352    .0063086
+          6  |  -.0067403   .0057467    -1.17   0.243    -.0180884    .0046079
+             |
+       _cons |   .0073094   .0298163     0.25   0.807    -.0515693    .0661881
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        84           0          84     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .0532197
+
+added scalar:
+       e(num_scandals) =  176
+
+ ( 1)  post_pa - post_na = 0
+
+       F(  1,   162) =    1.40
+            Prob > F =    0.2383
+
+added scalar:
+            e(p_pa_na) =  .23828518
+
+added scalar:
+         e(p_pa_gt_na) =  .88085741
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     21,296
+Absorbing 1 HDFE group                            F(  19,    326) =       1.99
+Statistics robust to heteroskedasticity           Prob > F        =     0.0086
+                                                  R-squared       =     0.1581
+                                                  Adj R-squared   =     0.1539
+                                                  Within R-sq.    =     0.0579
+Number of clusters (country_id#year#grupo_dias) =        327Root MSE=     0.146
+> 2
+
+           (Std. err. adjusted for 327 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     post_pa |   .0404938   .0144308     2.81   0.005     .0121047     .068883
+     post_na |   .0037901   .0069718     0.54   0.587    -.0099253    .0175055
+             |
+       month |
+          2  |  -.1191173   .0366183    -3.25   0.001    -.1911552   -.0470794
+          3  |  -.1409118   .0425952    -3.31   0.001    -.2247079   -.0571156
+          4  |  -.1493995   .0456095    -3.28   0.001    -.2391257   -.0596733
+          5  |  -.1339425   .0459825    -2.91   0.004    -.2244024   -.0434826
+          6  |  -.1290217   .0459906    -2.81   0.005    -.2194974    -.038546
+          7  |  -.1195667   .0486435    -2.46   0.014    -.2152616   -.0238719
+          8  |   -.119028   .0486632    -2.45   0.015    -.2147615   -.0232944
+          9  |  -.1483172   .0457726    -3.24   0.001    -.2383642   -.0582703
+         10  |  -.1507032   .0450821    -3.34   0.001    -.2393918   -.0620146
+         11  |  -.1456808   .0462108    -3.15   0.002    -.2365897   -.0547718
+         12  |  -.0904764   .0501489    -1.80   0.072    -.1891327    .0081799
+             |
+         day |
+          1  |   .0018329   .0017483     1.05   0.295    -.0016064    .0052722
+          2  |    .001891   .0021564     0.88   0.381    -.0023512    .0061333
+          3  |   .0027289    .002254     1.21   0.227    -.0017053     .007163
+          4  |   .0008144    .002007     0.41   0.685     -.003134    .0047627
+          5  |   -.000523   .0016617    -0.31   0.753     -.003792    .0027461
+          6  |   .0001368   .0017646     0.08   0.938    -.0033346    .0036081
+             |
+       _cons |   .1378639   .0416575     3.31   0.001     .0559124    .2198153
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        88           0          88     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .02111742
+
+added scalar:
+       e(num_scandals) =  176
+
+ ( 1)  post_pa - post_na = 0
+
+       F(  1,   326) =    4.09
+            Prob > F =    0.0441
+
+added scalar:
+            e(p_pa_na) =  .04406055
+
+added scalar:
+         e(p_pa_gt_na) =  .02203028
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     21,296
+Absorbing 1 HDFE group                            F(  19,    326) =       1.56
+Statistics robust to heteroskedasticity           Prob > F        =     0.0646
+                                                  R-squared       =     0.3961
+                                                  Adj R-squared   =     0.3930
+                                                  Within R-sq.    =     0.0119
+Number of clusters (country_id#year#grupo_dias) =        327Root MSE=     0.186
+> 6
+
+           (Std. err. adjusted for 327 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     post_pa |  -.0076481   .0089822    -0.85   0.395    -.0253185    .0100223
+     post_na |   .0058934   .0128739     0.46   0.647     -.019433    .0312198
+             |
+       month |
+          2  |   .0049958   .0151507     0.33   0.742    -.0248097    .0348012
+          3  |   .0393527   .0194558     2.02   0.044     .0010779    .0776274
+          4  |   .0488127   .0233366     2.09   0.037     .0029034     .094722
+          5  |   .0561529    .027453     2.05   0.042     .0021455    .1101604
+          6  |   .0704169   .0272637     2.58   0.010     .0167818    .1240519
+          7  |   .0312224   .0207042     1.51   0.133    -.0095083    .0719532
+          8  |   .0335032   .0232185     1.44   0.150    -.0121739    .0791802
+          9  |   .0511316   .0252946     2.02   0.044     .0013704    .1008928
+         10  |   .0567765   .0328425     1.73   0.085    -.0078335    .1213865
+         11  |   .0137508   .0243064     0.57   0.572    -.0340665     .061568
+         12  |   .0046295   .0219045     0.21   0.833    -.0384625    .0477215
+             |
+         day |
+          1  |  -.0067678   .0032122    -2.11   0.036    -.0130871   -.0004486
+          2  |  -.0065585   .0033448    -1.96   0.051    -.0131386    .0000217
+          3  |  -.0023723   .0036475    -0.65   0.516    -.0095479    .0048033
+          4  |   -.003207   .0035868    -0.89   0.372    -.0102632    .0038491
+          5  |  -.0012829   .0047339    -0.27   0.787    -.0105957    .0080299
+          6  |  -.0068761   .0039572    -1.74   0.083     -.014661    .0009087
+             |
+       _cons |   .0212464    .017707     1.20   0.231     -.013588    .0560809
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        88           0          88     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .05577652
+
+added scalar:
+       e(num_scandals) =  176
+
+ ( 1)  post_pa - post_na = 0
+
+       F(  1,   326) =    0.73
+            Prob > F =    0.3947
+
+added scalar:
+            e(p_pa_na) =  .39470866
+
+added scalar:
+         e(p_pa_gt_na) =  .80264567
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     31,856
+Absorbing 1 HDFE group                            F(  19,    497) =       2.20
+Statistics robust to heteroskedasticity           Prob > F        =     0.0025
+                                                  R-squared       =     0.1339
+                                                  Adj R-squared   =     0.1307
+                                                  Within R-sq.    =     0.0416
+Number of clusters (country_id#year#grupo_dias) =        498Root MSE=     0.151
+> 7
+
+           (Std. err. adjusted for 498 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_violen~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     post_pa |   .0265388   .0108911     2.44   0.015     .0051405    .0479372
+     post_na |   .0044348   .0065753     0.67   0.500    -.0084841    .0173537
+             |
+       month |
+          2  |  -.1078204   .0299854    -3.60   0.000    -.1667342   -.0489066
+          3  |  -.1160728   .0350632    -3.31   0.001    -.1849632   -.0471824
+          4  |  -.1262891   .0345053    -3.66   0.000    -.1940833   -.0584949
+          5  |  -.1229184   .0358264    -3.43   0.001    -.1933082   -.0525285
+          6  |  -.1139932   .0363118    -3.14   0.002    -.1853368   -.0426497
+          7  |  -.1061977   .0381626    -2.78   0.006    -.1811776   -.0312177
+          8  |  -.0976552   .0393803    -2.48   0.013    -.1750276   -.0202828
+          9  |  -.1263812   .0369093    -3.42   0.001    -.1988986   -.0538638
+         10  |  -.1325434   .0359982    -3.68   0.000    -.2032708    -.061816
+         11  |  -.1217472   .0358373    -3.40   0.001    -.1921585   -.0513359
+         12  |  -.0734256   .0400482    -1.83   0.067    -.1521103     .005259
+             |
+         day |
+          1  |    .000258   .0016452     0.16   0.875    -.0029745    .0034905
+          2  |  -.0002397   .0018368    -0.13   0.896    -.0038484    .0033691
+          3  |   .0021329   .0018754     1.14   0.256    -.0015518    .0058175
+          4  |   .0005051   .0017116     0.30   0.768    -.0028578    .0038681
+          5  |  -.0011083   .0014755    -0.75   0.453    -.0040074    .0017907
+          6  |  -.0013295   .0014742    -0.90   0.368    -.0042259    .0015668
+             |
+       _cons |   .1257757    .033193     3.79   0.000     .0605599    .1909915
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        99           0          99     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .02392677
+
+added scalar:
+       e(num_scandals) =  176
+
+ ( 1)  post_pa - post_na = 0
+
+       F(  1,   497) =    2.96
+            Prob > F =    0.0860
+
+added scalar:
+            e(p_pa_na) =  .0859565
+
+added scalar:
+         e(p_pa_gt_na) =  .04297825
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =     31,856
+Absorbing 1 HDFE group                            F(  19,    497) =       1.97
+Statistics robust to heteroskedasticity           Prob > F        =     0.0086
+                                                  R-squared       =     0.3476
+                                                  Adj R-squared   =     0.3452
+                                                  Within R-sq.    =     0.0083
+Number of clusters (country_id#year#grupo_dias) =        498Root MSE=     0.195
+> 6
+
+           (Std. err. adjusted for 498 clusters in country_id#year#grupo_dias)
+------------------------------------------------------------------------------
+             |               Robust
+num_peacef~M | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     post_pa |  -.0047479   .0091201    -0.52   0.603    -.0226667    .0131709
+     post_na |  -.0015174   .0100423    -0.15   0.880     -.021248    .0182132
+             |
+       month |
+          2  |   .0086124   .0121434     0.71   0.479    -.0152464    .0324712
+          3  |    .029051   .0143071     2.03   0.043     .0009411     .057161
+          4  |   .0539192   .0197886     2.72   0.007     .0150396    .0927989
+          5  |   .0470186   .0200497     2.35   0.019      .007626    .0864111
+          6  |   .0554961    .019833     2.80   0.005     .0165293     .094463
+          7  |   .0211364   .0151216     1.40   0.163    -.0085736    .0508465
+          8  |   .0263258   .0162651     1.62   0.106     -.005631    .0582826
+          9  |   .0366995   .0196502     1.87   0.062    -.0019081    .0753071
+         10  |   .0612804   .0238921     2.56   0.011     .0143385    .1082224
+         11  |   .0248516   .0211688     1.17   0.241    -.0167398     .066443
+         12  |   .0109848    .017564     0.63   0.532    -.0235241    .0454937
+             |
+         day |
+          1  |   -.006072   .0024025    -2.53   0.012    -.0107924   -.0013517
+          2  |  -.0041152   .0026635    -1.55   0.123    -.0093482    .0011179
+          3  |  -.0010966   .0028645    -0.38   0.702    -.0067246    .0045313
+          4  |  -.0001212   .0028622    -0.04   0.966    -.0057447    .0055023
+          5  |   .0010892   .0041536     0.26   0.793    -.0070715    .0092499
+          6  |  -.0038471   .0033054    -1.16   0.245    -.0103413    .0026471
+             |
+       _cons |   .0262444    .012315     2.13   0.034     .0020485    .0504404
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------------+
+       Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------------+---------------------------------------|
+   country_id#year |        99           0          99     |
+-----------------------------------------------------------+
+
+added scalar:
+           e(baseline) =  .05650253
+
+added scalar:
+       e(num_scandals) =  176
+
+ ( 1)  post_pa - post_na = 0
+
+       F(  1,   497) =    0.06
+            Prob > F =    0.8094
+
+added scalar:
+            e(p_pa_na) =  .80940213
+
+added scalar:
+         e(p_pa_gt_na) =  .59529894
+
+. 
+. esttab _all using "${tables}/sup_interaction_pa_vs_na.tex", ///
+>         replace booktabs nonotes nogaps b(3) se(3) ///
+>         star(* 0.10 ** 0.05 *** 0.01) ///
+>         mtitles("\shortstack{Violent\\Protests}" ///
+>                 "\shortstack{Peaceful\\Protests}" ///
+>                 "\shortstack{Violent\\Protests}" ///
+>                 "\shortstack{Peaceful\\Protests}" ///
+>                 "\shortstack{Violent\\Protests}" ///
+>                 "\shortstack{Peaceful\\Protests}") ///
+>         mgroups("$\pm 30$-Day Window" "$\pm 60$-Day Window" ///
+>                 "$\pm 90$-Day Window", ///
+>                 pattern(1 0 1 0 1 0) ///
+>                 prefix(\multicolumn{2}{c}{) suffix(}) span ///
+>                 erepeat(\cmidrule(lr){@span})) ///
+>         stats(p_pa_na p_pa_gt_na baseline N num_scandals r2, ///
+>               label("p-value: Apex $$=$$ Non-Apex" ///
+>                     "p-value: Apex $$>$$ Non-Apex (one-sided)" ///
+>                     "Mean (Pre-Scandal)" ///
+>                     "Observations" ///
+>                     "Number of Scandals" ///
+>                     "R-squared") ///
+>               fmt(3 3 3 0 0 3)) ///
+>         keep(post_pa post_na) ///
+>         coeflabels(post_pa "Post $\times$ Apex" ///
+>                    post_na "Post $\times$ Non-Apex") ///
+>         substitute("$$" "$")
+(output written to ~/Dropbox/Corrupcion/protest_repo/paper/tables/sup_interacti
+> on_pa_vs_na.tex)
+
+. 
+. display in green "a_sup_interaction_pa_vs_na.do finished OK"
+a_sup_interaction_pa_vs_na.do finished OK
+
+. 
+end of do-file
