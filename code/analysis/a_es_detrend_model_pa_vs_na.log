@@ -1,0 +1,610 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      StataNow 19.5
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2025 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-782-8272        https://www.stata.com
+                                   979-696-4600        service@stata.com
+
+Stata license: Unlimited-user 16-core network, expiring  2 Jul 2027
+Serial number: 501909320077
+  Licensed to: Roberto Gonzalez Tellez
+               Stanford University GSB
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do a_es_detrend_model_pa_vs_na.do 
+
+. /* --------------------------------------------------------------------------
+> --
+>                     Violent effects of apex corruption
+> 
+>     Code author: Roberto Gonzalez
+>     Date: 2026-07-27
+> 
+>     Objective:
+>         ANRR-style pre-trend correction, IN-MODEL version.  Instead of fittin
+> g
+>         a linear trend to the estimated event-study coefficients and subtract
+> ing
+>         it afterwards (a_es_detrend_pa_vs_na.do), here the linear time trend 
+> is a
+>         REGRESSOR in the model -- the selection-on-observables control.  The
+>         incoming (pre-scandal) trend is modelled parametrically and the
+>         treatment effects are the post-period deviations from it.
+> 
+>         Specification (per group g in {apex, non-apex} or per subsample):
+> 
+>            Y_{c(s)t} = gamma_g * w_{st}                      (linear event-ti
+> me
+>                      + sum_{k=1}^{nb} beta^g_k D_{k,st}        trend, w = 0 a
+> t
+>                      + alpha_d + lambda_m + theta_cy + eps     the reference 
+> bin)
+> 
+>         Event-time bins (15-day): ebin = -nb..-1 (pre; -1 = reference) and
+>         1..nb (post).  w is a CONTINUOUS event-time index equal to 0 at the
+>         reference bin and stepping by 1 per bin (w = ebin+1 on the pre side,
+>         w = ebin on the post side), so gamma_g is identified off the pre-scan
+> dal
+>         bins (which carry no post dummy) and the post-bin dummies D_k measure
+>         the effect NET of the extrapolated linear trend.  beta^g_k and its SE
+>         come straight from the single regression (no Mata, no post-hoc algebr
+> a).
+> 
+>         Produced for BOTH main OLS event studies, 15-day bins, T in {30,60,90
+> ,120}:
+>           - POOLED  (apex & non-apex jointly, group-specific trends)
+>           - SUBSAMPLE (pa / na separately)
+> 
+>     Inputs:
+>         - ${datfin}/protests_scandals_30days_v3.dta
+>         - ${datfin}/scandals_classified.csv
+> 
+>     Outputs (paper/figures/), a "_dtm" (de-trended, in-model) sibling:
+>         - es_pooled_<outcome>_w<T>_b15_ols_90ci_dtm.pdf
+>         - es_<outcome>_w<T>_b15_<sample>_ols_90ci_dtm.pdf
+> 
+>     NOTE: the pre-scandal bins are, by construction, modelled by the linear
+>     trend, so they sit on the reference line (points at 0, no CI); the estima
+> ted
+>     effects are the post-period deviations from the extrapolated trend.
+> ---------------------------------------------------------------------------- 
+> */
+. 
+. capture log close _all
+
+. log using "a_es_detrend_model_pa_vs_na_run.log", replace text
+(file
+    C:\Users\rob98\Dropbox\Corrupcion\protest_repo\code\analysis\a_es_detrend
+    > _model_pa_vs_na_run.log not found)
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\rob98\Dropbox\Corrupcion\protest_repo\code\analysis\a_es_
+> detrend_model_pa_vs_na_run.log
+  log type:  text
+ opened on:  27 Jul 2026, 16:29:49
+
+. 
+. set more off
+
+. clear all
+
+. 
+. if "`c(username)'" == "lalov" {
+.         gl identity "C:\Users\lalov\ITAM Seira Research Dropbox\Eduardo River
+> a"
+. }
+
+. if "`c(username)'" == "Rob_9" {
+.         global identity "C:/Users/Rob_9/Dropbox"
+. }
+
+. if "`c(username)'" == "rob98" {
+.         global identity "~/Dropbox"
+. }
+
+. 
+. global path    "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
+
+. global datfin  "${path}/Data/final"
+
+. global figout  "${identity}/Corrupcion/protest_repo/paper/figures"
+
+. 
+. local firstyear = 2008
+
+. local ci_level  = 90
+
+. local zcrit     = invnormal(0.95)
+
+. local B         = 15                 /* bin width in days */
+
+. 
+. /* --------------- Load + attach classification --------------- */
+. import delimited using "${datfin}/scandals_classified.csv", ///
+>         clear varnames(1) bindquotes(strict)
+(encoding automatically selected: UTF-8)
+(7 vars, 190 obs)
+
+. keep id country position
+
+. tempfile cls
+
+. save `cls'
+file C:\Users\rob98\AppData\Local\Temp\ST_291c_000001.tmp saved as .dta
+    format
+
+. 
+. use "${datfin}/protests_scandals_30days_v3", clear
+
+. drop if country == "Venezuela"
+(3,374 observations deleted)
+
+. merge m:1 id country using `cls', keep(1 3) generate(_mclass)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                            42,657  (_mclass==3)
+    -----------------------------------------
+
+. 
+. gen byte in_pa = 0
+
+. replace in_pa = 1 if position == "president"
+(10,845 real changes made)
+
+. replace in_pa = 1 if position == "governor"
+(3,615 real changes made)
+
+. replace in_pa = 1 if position == "sc_judge_congressman" & ///
+>         inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+(1,205 real changes made)
+
+. 
+. gen byte in_na = 0
+
+. replace in_na = 1 if position == "sc_judge_congressman" & ///
+>         !inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+(3,133 real changes made)
+
+. replace in_na = 1 if position == "other_judiciary"
+(3,856 real changes made)
+
+. replace in_na = 1 if position == "others"
+(20,003 real changes made)
+
+. 
+. egen grupo_dias    = group(s_lag30 s_lag60 s_lag90 s_lag120 ///
+>                            s_lead30 s_lead60 s_lead90 s_lead120)
+
+. egen group_cluster = group(country_id year grupo_dias)
+
+. egen auxvar        = group(country year)
+
+. 
+. tempfile base
+
+. save `base'
+file C:\Users\rob98\AppData\Local\Temp\ST_291c_000002.tmp saved as .dta
+    format
+
+. 
+. /* ============================================================
+>    PART 1 - POOLED (apex & non-apex jointly, group-specific trends)
+>    ============================================================ */
+. foreach T in 30 60 90 120 {
+  2.         local nb = `T' / `B'
+  3. 
+.         foreach outcome in num_violent_MM num_peaceful_MM {
+  4. 
+.                 use `base', clear
+  5.                 keep if year >= `firstyear' & abs(window) <= `T'
+  6.                 gen int ebin = .
+  7.                 replace ebin =  floor(window / `B') + 1          if window
+>  >= 0
+  8.                 replace ebin = -(floor((-window - 1) / `B') + 1) if window
+>  <  0
+  9. 
+.                 /* continuous event-time index: 0 at the reference bin (ebin 
+> -1),
+>                    +1 per bin (no gap between the reference and the first pos
+> t bin) */
+.                 gen double et = cond(ebin < 0, ebin + 1, ebin)
+ 10.                 gen double w_pa = et * in_pa
+ 11.                 gen double w_na = et * in_na
+ 12. 
+.                 /* post-period bin dummies (ebin 1..nb) by group */
+.                 local rhs "w_pa w_na"
+ 13.                 forvalues k = 1/`nb' {
+ 14.                         gen byte pa_p`k' = (ebin == `k') & in_pa
+ 15.                         gen byte na_p`k' = (ebin == `k') & in_na
+ 16.                         local rhs "`rhs' pa_p`k' na_p`k'"
+ 17.                 }
+ 18. 
+.                 quietly reghdfe `outcome' `rhs', ///
+>                         absorb(month day auxvar) cluster(group_cluster)
+ 19. 
+.                 /* x-axis labels */
+.                 local labday = 15
+ 20.                 if `T' >= 90 local labday = 30
+ 21.                 local xlabs ""
+ 22.                 forvalues bi = -`nb'/`=`nb'-1' {
+ 23.                         if `bi' < 0 local d = `bi' * `B'
+ 24.                         else        local d = (`bi' + 1) * `B'
+ 25.                         if mod(`d', `labday') == 0 local xlabs "`xlabs' `d
+> '"
+ 26.                 }
+ 27.                 local xpad   = 0.6 * `B'
+ 28.                 local xlo_ax = -`nb' * `B' - `xpad'
+ 29.                 local xhi_ax =  `nb' * `B' + `xpad'
+ 30. 
+.                 preserve
+ 31.                         clear
+ 32.                         local npts = 2 * `nb'
+ 33.                         set obs `npts'
+ 34.                         /* plot index bi = -nb..nb-1 (bi = -1 is the refer
+> ence); post
+>                            points bi>=0 map to post dummy k = bi+1 (ebin = bi
+> +1) */
+.                         gen int    bi  = _n - `nb' - 1
+ 35.                         gen double day = bi * `B'
+ 36.                         gen double bpa = 0
+ 37.                         gen double sepa = 0
+ 38.                         gen double bna = 0
+ 39.                         gen double sena = 0
+ 40.                         forvalues j = 0/`=`nb'-1' {
+ 41.                                 local k = `j' + 1
+ 42.                                 quietly replace bpa  = _b[pa_p`k']  if bi 
+> == `j'
+ 43.                                 quietly replace sepa = _se[pa_p`k'] if bi 
+> == `j'
+ 44.                                 quietly replace bna  = _b[na_p`k']  if bi 
+> == `j'
+ 45.                                 quietly replace sena = _se[na_p`k'] if bi 
+> == `j'
+ 46.                         }
+ 47.                         replace day = day + `B' if bi >= 0
+ 48.                         gen ci_lo_pa = bpa - `zcrit' * sepa
+ 49.                         gen ci_hi_pa = bpa + `zcrit' * sepa
+ 50.                         gen ci_lo_na = bna - `zcrit' * sena
+ 51.                         gen ci_hi_na = bna + `zcrit' * sena
+ 52.                         gen double day_pa = day - 0.12 * `B'
+ 53.                         gen double day_na = day + 0.12 * `B'
+ 54. 
+.                         twoway (rspike ci_lo_pa ci_hi_pa day_pa, lcolor(navy)
+>  lwidth(medthick)) ///
+>                                (scatter bpa day_pa, mcolor(navy) msymbol(O) m
+> size(medium)) ///
+>                                (rspike ci_lo_na ci_hi_na day_na, lcolor(cranb
+> erry) lwidth(medthick)) ///
+>                                (scatter bna day_na, mcolor(cranberry) msymbol
+> (D) msize(medium)), ///
+>                                 xline(0, lcolor(black%10) lwidth(vvthick) lpa
+> ttern(solid)) ///
+>                                 yline(0, lpattern(dash) lcolor(black)) ///
+>                                 ytitle("Effect on protests (linear-trend mode
+> l)", size(medium)) ///
+>                                 ylabel(, labsize(large) format(%5.3fc) angle(
+> 0)) ///
+>                                 xtitle("Days since scandal", size(large)) ///
+>                                 xscale(range(`xlo_ax' `xhi_ax')) ///
+>                                 xlabel(`xlabs', labsize(large)) ///
+>                                 legend(order(2 "Apex" 4 "Non-Apex") rows(1) s
+> ize(medium) ///
+>                                         position(6) region(lcolor(none))) ///
+>                                 graphregion(color(white) fcolor(white)) schem
+> e(s2color)
+ 55.                         graph export ///
+>                                 "${figout}/es_pooled_`outcome'_w`T'_b`B'_ols_
+> `ci_level'ci_dtm.pdf", ///
+>                                 replace
+ 56.                 restore
+ 57.         }
+ 58. }
+(31,921 observations deleted)
+(10,736 missing values generated)
+(5,456 real changes made)
+(5,280 real changes made)
+Number of observations (_N) was 0, now 4.
+(2 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_pooled_nu
+    > m_violent_MM_w30_b15_ols_90ci_dtm.pdf saved as PDF format
+(31,921 observations deleted)
+(10,736 missing values generated)
+(5,456 real changes made)
+(5,280 real changes made)
+Number of observations (_N) was 0, now 4.
+(2 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_pooled_nu
+    > m_peaceful_MM_w30_b15_ols_90ci_dtm.pdf saved as PDF format
+(21,361 observations deleted)
+(21,296 missing values generated)
+(10,736 real changes made)
+(10,560 real changes made)
+Number of observations (_N) was 0, now 8.
+(4 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_pooled_nu
+    > m_violent_MM_w60_b15_ols_90ci_dtm.pdf saved as PDF format
+(21,361 observations deleted)
+(21,296 missing values generated)
+(10,736 real changes made)
+(10,560 real changes made)
+Number of observations (_N) was 0, now 8.
+(4 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_pooled_nu
+    > m_peaceful_MM_w60_b15_ols_90ci_dtm.pdf saved as PDF format
+(10,801 observations deleted)
+(31,856 missing values generated)
+(16,016 real changes made)
+(15,840 real changes made)
+Number of observations (_N) was 0, now 12.
+(6 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_pooled_nu
+    > m_violent_MM_w90_b15_ols_90ci_dtm.pdf saved as PDF format
+(10,801 observations deleted)
+(31,856 missing values generated)
+(16,016 real changes made)
+(15,840 real changes made)
+Number of observations (_N) was 0, now 12.
+(6 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_pooled_nu
+    > m_peaceful_MM_w90_b15_ols_90ci_dtm.pdf saved as PDF format
+(241 observations deleted)
+(42,416 missing values generated)
+(21,296 real changes made)
+(21,120 real changes made)
+Number of observations (_N) was 0, now 16.
+(8 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_pooled_nu
+    > m_violent_MM_w120_b15_ols_90ci_dtm.pdf saved as PDF format
+(241 observations deleted)
+(42,416 missing values generated)
+(21,296 real changes made)
+(21,120 real changes made)
+Number of observations (_N) was 0, now 16.
+(8 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_pooled_nu
+    > m_peaceful_MM_w120_b15_ols_90ci_dtm.pdf saved as PDF format
+
+. 
+. /* ============================================================
+>    PART 2 - SUBSAMPLE (pa / na separately)
+>    ============================================================ */
+. foreach T in 30 60 90 120 {
+  2.         local nb = `T' / `B'
+  3. 
+.         foreach sample in pa na {
+  4.         foreach outcome in num_violent_MM num_peaceful_MM {
+  5. 
+.                 use `base', clear
+  6.                 gen int ebin = .
+  7.                 replace ebin =  floor(window / `B') + 1          if window
+>  >= 0
+  8.                 replace ebin = -(floor((-window - 1) / `B') + 1) if window
+>  <  0
+  9. 
+.                 gen double w = cond(ebin < 0, ebin + 1, ebin)     /* linear t
+> rend */
+ 10.                 local rhs "w"
+ 11.                 forvalues k = 1/`nb' {
+ 12.                         gen byte p`k' = (ebin == `k')
+ 13.                         local rhs "`rhs' p`k'"
+ 14.                 }
+ 15. 
+.                 quietly reghdfe `outcome' `rhs' ///
+>                         if year >= `firstyear' & abs(window) <= `T' & in_`sam
+> ple' == 1, ///
+>                         absorb(month day auxvar) cluster(group_cluster)
+ 16. 
+.                 local labday = 15
+ 17.                 if `T' >= 90 local labday = 30
+ 18.                 local xlabs ""
+ 19.                 forvalues bi = -`nb'/`=`nb'-1' {
+ 20.                         if `bi' < 0 local d = `bi' * `B'
+ 21.                         else        local d = (`bi' + 1) * `B'
+ 22.                         if mod(`d', `labday') == 0 local xlabs "`xlabs' `d
+> '"
+ 23.                 }
+ 24.                 local xpad   = 0.6 * `B'
+ 25.                 local xlo_ax = -`nb' * `B' - `xpad'
+ 26.                 local xhi_ax =  `nb' * `B' + `xpad'
+ 27. 
+.                 preserve
+ 28.                         clear
+ 29.                         local npts = 2 * `nb'
+ 30.                         set obs `npts'
+ 31.                         gen int    bi  = _n - `nb' - 1
+ 32.                         gen double day = bi * `B'
+ 33.                         gen double b  = 0
+ 34.                         gen double se = 0
+ 35.                         forvalues j = 0/`=`nb'-1' {
+ 36.                                 local k = `j' + 1
+ 37.                                 quietly replace b  = _b[p`k']  if bi == `j
+> '
+ 38.                                 quietly replace se = _se[p`k'] if bi == `j
+> '
+ 39.                         }
+ 40.                         replace day = day + `B' if bi >= 0
+ 41.                         gen ci_lo = b - `zcrit' * se
+ 42.                         gen ci_hi = b + `zcrit' * se
+ 43. 
+.                         twoway (rspike ci_lo ci_hi day, lcolor(black) lwidth(
+> medthick)) ///
+>                                (scatter b day, mcolor(black) msymbol(O) msize
+> (medlarge)), ///
+>                                 xline(0, lcolor(black%10) lwidth(vvthick) lpa
+> ttern(solid)) ///
+>                                 yline(0, lpattern(dash) lcolor(black)) ///
+>                                 ytitle("Effect on protests (linear-trend mode
+> l)", size(medium)) ///
+>                                 ylabel(, labsize(large) format(%5.3fc) angle(
+> 0)) ///
+>                                 xtitle("Days since scandal", size(large)) ///
+>                                 xscale(range(`xlo_ax' `xhi_ax')) ///
+>                                 xlabel(`xlabs', labsize(large)) ///
+>                                 graphregion(color(white) fcolor(white)) schem
+> e(s2color) legend(off)
+ 44.                         graph export ///
+>                                 "${figout}/es_`outcome'_w`T'_b`B'_`sample'_ol
+> s_`ci_level'ci_dtm.pdf", ///
+>                                 replace
+ 45.                 restore
+ 46.         }
+ 47.         }
+ 48. }
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+Number of observations (_N) was 0, now 4.
+(2 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w30_b15_pa_ols_90ci_dtm.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+Number of observations (_N) was 0, now 4.
+(2 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w30_b15_pa_ols_90ci_dtm.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+Number of observations (_N) was 0, now 4.
+(2 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w30_b15_na_ols_90ci_dtm.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+Number of observations (_N) was 0, now 4.
+(2 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w30_b15_na_ols_90ci_dtm.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+Number of observations (_N) was 0, now 8.
+(4 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w60_b15_pa_ols_90ci_dtm.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+Number of observations (_N) was 0, now 8.
+(4 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w60_b15_pa_ols_90ci_dtm.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+Number of observations (_N) was 0, now 8.
+(4 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w60_b15_na_ols_90ci_dtm.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+Number of observations (_N) was 0, now 8.
+(4 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w60_b15_na_ols_90ci_dtm.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+Number of observations (_N) was 0, now 12.
+(6 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w90_b15_pa_ols_90ci_dtm.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+Number of observations (_N) was 0, now 12.
+(6 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w90_b15_pa_ols_90ci_dtm.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+Number of observations (_N) was 0, now 12.
+(6 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w90_b15_na_ols_90ci_dtm.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+Number of observations (_N) was 0, now 12.
+(6 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w90_b15_na_ols_90ci_dtm.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+Number of observations (_N) was 0, now 16.
+(8 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w120_b15_pa_ols_90ci_dtm.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+Number of observations (_N) was 0, now 16.
+(8 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w120_b15_pa_ols_90ci_dtm.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+Number of observations (_N) was 0, now 16.
+(8 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_viole
+    > nt_MM_w120_b15_na_ols_90ci_dtm.pdf saved as PDF format
+(42,657 missing values generated)
+(21,537 real changes made)
+(21,120 real changes made)
+Number of observations (_N) was 0, now 16.
+(8 real changes made)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/es_num_peace
+    > ful_MM_w120_b15_na_ols_90ci_dtm.pdf saved as PDF format
+
+. 
+. display in green "a_es_detrend_model_pa_vs_na.do finished OK"
+a_es_detrend_model_pa_vs_na.do finished OK
+
+. capture log close _all
+
+. 
+end of do-file

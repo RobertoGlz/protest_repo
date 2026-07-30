@@ -73,11 +73,11 @@ gen byte in_pa = 0
 replace in_pa = 1 if position == "president"
 replace in_pa = 1 if position == "governor"
 replace in_pa = 1 if position == "sc_judge_congressman" & ///
-	inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+	inlist(id, "202", "NEW26", "NEW30", "332")
 
 gen byte in_na = 0
 replace in_na = 1 if position == "sc_judge_congressman" & ///
-	!inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+	!inlist(id, "202", "NEW26", "NEW30", "332")
 replace in_na = 1 if position == "other_judiciary"
 replace in_na = 1 if position == "others"
 
@@ -98,8 +98,8 @@ global fe1      "i.country_id#i.year"
 global CLUSTER2 "cluster i.country_id#i.year#i.grupo_dias"
 
 local firstyear = 2008
-local outcomes  "num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM"
-local windows   "30 30 60 60 90 90 120 120"
+local outcomes  "num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM"
+local windows   "30 30 60 60 90 90"
 local nspecs : word count `outcomes'
 
 eststo clear
@@ -140,12 +140,10 @@ esttab _all using "${tables}/sup_interaction_pa_vs_na.tex", ///
 	        "\shortstack{Violent\\Protests}" ///
 	        "\shortstack{Peaceful\\Protests}" ///
 	        "\shortstack{Violent\\Protests}" ///
-	        "\shortstack{Peaceful\\Protests}" ///
-	        "\shortstack{Violent\\Protests}" ///
 	        "\shortstack{Peaceful\\Protests}") ///
 	mgroups("$\pm 30$-Day Window" "$\pm 60$-Day Window" ///
-	        "$\pm 90$-Day Window" "$\pm 120$-Day Window", ///
-	        pattern(1 0 1 0 1 0 1 0) ///
+	        "$\pm 90$-Day Window", ///
+	        pattern(1 0 1 0 1 0) ///
 	        prefix(\multicolumn{2}{c}{) suffix(}) span ///
 	        erepeat(\cmidrule(lr){@span})) ///
 	stats(p_pa_na p_pa_gt_na baseline N num_scandals r2, ///

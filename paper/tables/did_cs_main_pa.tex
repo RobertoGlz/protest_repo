@@ -1,0 +1,23 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{6}{c}}
+\toprule
+ & \multicolumn{3}{c}{Violent Protests} & \multicolumn{3}{c}{Non-violent Protests} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+ & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} \\
+\midrule
+\multicolumn{7}{l}{\textit{Panel A: windowed ATT (average post-scandal effect)}}\\
+Regression adj. & -- & -- & -- & -- & -- & -- \\
+             &  &  &  &  &  &  \\
+IPW & -- & -- & -- & 0.833\sym{***} & 0.910\sym{***} & 1.035\sym{***} \\
+             &  &  &  & (0.314) & (0.339) & (0.354) \\
+Doubly robust & -- & -- & -- & 0.793\sym{***} & 0.876\sym{***} & 0.998\sym{***} \\
+             &  &  &  & (0.287) & (0.317) & (0.343) \\
+\midrule
+\multicolumn{7}{l}{\textit{Panel B: pre-trend test, \(p\)-value (avg.\ pre-scandal placebo ATT \(=0\))}}\\
+Regression adj. & -- & -- & -- & -- & -- & -- \\
+IPW & -- & -- & -- & 0.130 & 0.386 & 0.067 \\
+Doubly robust & -- & -- & -- & 0.148 & 0.379 & 0.076 \\
+\bottomrule
+\end{tabular}
+}

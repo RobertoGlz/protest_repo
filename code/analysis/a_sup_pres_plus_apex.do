@@ -74,7 +74,7 @@ gen byte _keep = 0
 replace _keep = 1 if position == "president"
 replace _keep = 1 if position == "governor"
 replace _keep = 1 if position == "sc_judge_congressman" & ///
-	inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+	inlist(id, "202", "NEW26", "NEW30", "332")
 keep if _keep == 1
 drop _keep
 

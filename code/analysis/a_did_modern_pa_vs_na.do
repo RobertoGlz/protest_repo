@@ -72,11 +72,11 @@ gen byte in_pa = 0
 replace in_pa = 1 if position == "president"
 replace in_pa = 1 if position == "governor"
 replace in_pa = 1 if position == "sc_judge_congressman" & ///
-	inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+	inlist(id, "202", "NEW26", "NEW30", "332")
 
 gen byte in_na = 0
 replace in_na = 1 if position == "sc_judge_congressman" & ///
-	!inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+	!inlist(id, "202", "NEW26", "NEW30", "332")
 replace in_na = 1 if position == "other_judiciary"
 replace in_na = 1 if position == "others"
 
@@ -142,9 +142,9 @@ postfile `P' str16 outcome str4 sample int T int slot double days ///
    ============================================================ */
 foreach sample in pa na {
 
-	foreach T in 60 90 120 {
+	foreach T in 30 60 90 120 {
 
-	local nbin = `T' / `BIN'          /* bins per side: 4, 6, 8 */
+	local nbin = `T' / `BIN'          /* bins per side: 2, 4, 6, 8 */
 
 	di as result _newline _newline ///
 		"=================================================================" _n ///
@@ -219,8 +219,8 @@ foreach sample in pa na {
 
 		matrix M_ols_b   = J(1, `nslot', 0)
 		matrix M_ols_se  = J(1, `nslot', 0)
-		matrix M_dcdh_b  = J(1, `nslot', 0)
-		matrix M_dcdh_se = J(1, `nslot', 0)
+		matrix M_dcdh_b  = J(1, `nslot', .)
+		matrix M_dcdh_se = J(1, `nslot', .)
 		matrix M_bjs_b   = J(1, `nslot', 0)
 		matrix M_bjs_se  = J(1, `nslot', 0)
 		matrix M_sa_b    = J(1, `nslot', 0)
@@ -245,7 +245,13 @@ foreach sample in pa na {
 			matrix M_ols_se[1, `slot'] = _se[ev_lag`k']
 		}
 
-		/* (2) dCDH */
+		/* (2) dCDH.
+		   did_multiplegt_dyn normalises at the reference bin (-1) and returns
+		   NO coefficient there; it stores its dynamic effects as e(Effect_k)
+		   (bins 0..nbin-1) and e(Placebo_k) (bins -2..-nbin).  We place these
+		   in the matrix at their event-time slots and then insert an explicit
+		   0 at the reference slot, so dCDH shows a zero marker at bin -1 in the
+		   plot, just like the other estimators. */
 		di as result "--- dCDH: `y' [`sample' w`T'] ---"
 		capture noisily did_multiplegt_dyn `y' country_id bin_idx D, ///
 			effects(`nbin') placebo(`=`nbin'-1') cluster(country_id) graph_off
@@ -262,6 +268,8 @@ foreach sample in pa na {
 				capture matrix M_dcdh_b[1, `slot']  = e(Effect_`k')
 				capture matrix M_dcdh_se[1, `slot'] = e(se_effect_`k')
 			}
+			matrix M_dcdh_b[1, `nbin']  = 0
+			matrix M_dcdh_se[1, `nbin'] = 0
 		}
 		else {
 			scalar b_dcdh_`oc' = .
@@ -381,11 +389,11 @@ foreach sample in pa na {
 		file open _tbl using "${tabout}/did_modern_main_`sample'.tex", write replace
 		file write _tbl "{" _n
 		file write _tbl "\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}" _n
-		file write _tbl "\begin{tabular}{l*{6}{c}}" _n
+		file write _tbl "\begin{tabular}{l*{8}{c}}" _n
 		file write _tbl "\toprule" _n
-		file write _tbl " & \multicolumn{3}{c}{Violent Protests} & \multicolumn{3}{c}{Non-violent Protests} \\" _n
-		file write _tbl "\cmidrule(lr){2-4}\cmidrule(lr){5-7}" _n
-		file write _tbl " & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} \\" _n
+		file write _tbl " & \multicolumn{4}{c}{Violent Protests} & \multicolumn{4}{c}{Non-violent Protests} \\" _n
+		file write _tbl "\cmidrule(lr){2-5}\cmidrule(lr){6-9}" _n
+		file write _tbl " & \ensuremath{\pm 30} & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} & \ensuremath{\pm 30} & \ensuremath{\pm 60} & \ensuremath{\pm 90} & \ensuremath{\pm 120} \\" _n
 		file write _tbl "\midrule" _n
 		foreach er in ols dcdh bjs sa {
 			if "`er'" == "ols"  local rowlab "OLS (TWFE)"
@@ -395,7 +403,7 @@ foreach sample in pa na {
 			local brow "`rowlab'"
 			local srow "            "
 			foreach oc of numlist 1/2 {
-			foreach TT of numlist 60 90 120 {
+			foreach TT of numlist 30 60 90 120 {
 				local b = B_`er'_w`TT'_`oc'
 				local s = S_`er'_w`TT'_`oc'
 				if missing(`b') | missing(`s') | `s' <= 0 {
@@ -422,7 +430,7 @@ foreach sample in pa na {
 		file write _tbl "\midrule" _n
 		local nrow "Observations"
 		foreach oc of numlist 1/2 {
-		foreach TT of numlist 60 90 120 {
+		foreach TT of numlist 30 60 90 120 {
 			local ncell = trim(string(N_w`TT'_`oc', "%12.0fc"))
 			local nrow "`nrow' & `ncell'"
 		}

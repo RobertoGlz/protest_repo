@@ -61,9 +61,11 @@ local ci_level = 95
 local zcrit = invnormal(1 - (100-`ci_level')/200)
 
 /* The IDs the team agreed are SC Justices inside the lumped
-   `sc_judge_congressman` code.  NEW23 (Mexico) added on 2026-06-27
-   when its row was added to scandals_classified.csv. */
-local sc_judge_ids `""202" "NEW26" "NEW30" "332" "NEW23""'
+   `sc_judge_congressman` code.  NEW23 (Mexico) was removed on 2026-07-29:
+   the raw source (Appended_News, sheet 6.MiddleScandals) shows it is a
+   San Luis Potosi corruption case involving diputados (congressmen), not a
+   Supreme Court justice, so it belongs in Non-Apex. */
+local sc_judge_ids `""202" "NEW26" "NEW30" "332""'
 
 /* ============================================================
    READ AND PREPARE
@@ -155,9 +157,9 @@ gen byte apex_cat = .
 replace apex_cat = 1 if position == "president"
 replace apex_cat = 2 if position == "governor"
 replace apex_cat = 2 if position == "sc_judge_congressman" & ///
-	inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+	inlist(id, "202", "NEW26", "NEW30", "332")
 replace apex_cat = 3 if position == "sc_judge_congressman" & ///
-	!inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+	!inlist(id, "202", "NEW26", "NEW30", "332")
 replace apex_cat = 3 if position == "other_judiciary"
 replace apex_cat = 3 if position == "others"
 

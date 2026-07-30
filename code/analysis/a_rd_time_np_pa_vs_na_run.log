@@ -1,0 +1,1360 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\rob98\Dropbox\Corrupcion\protest_repo\code\analysis\a_rd_
+> time_np_pa_vs_na_run.log
+  log type:  text
+ opened on:  29 Jul 2026, 11:33:45
+
+. 
+. set more off
+
+. clear all
+
+. 
+. capture which rdrobust
+
+. if _rc ssc install rdrobust, replace
+
+. 
+. if "`c(username)'" == "lalov" {
+.         gl identity "C:\Users\lalov\ITAM Seira Research Dropbox\Eduardo River
+> a"
+. }
+
+. if "`c(username)'" == "Rob_9" {
+.         global identity "C:/Users/Rob_9/Dropbox"
+. }
+
+. if "`c(username)'" == "rob98" {
+.         global identity "~/Dropbox"
+. }
+
+. 
+. global path    "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
+
+. global datfin  "${path}/Data/final"
+
+. global tabout  "${identity}/Corrupcion/protest_repo/paper/tables"
+
+. global figout  "${identity}/Corrupcion/protest_repo/paper/figures"
+
+. global progdir "${identity}/Corrupcion/protest_repo/code/programs"
+
+. 
+. do "${progdir}/rdd_lpoly.do"
+
+. /* --------------------------------------------------------------------------
+> --
+>    Apex corruption protests paper
+> 
+>    RD-in-time helper: non-parametric (local-polynomial) RD estimate + plot.
+>    Adapted from ~/research-repos/electoral_bbj_repo/code/programs/rdd_lpoly.d
+> o
+>    (author: Roberto Gonzalez) for this project:
+>      - running variable is event-time in DAYS (integer x-axis labels);
+>      - the outcome passed in is ALREADY residualised on the fixed effects
+>        (so no covariate partialling here); pass covs() only if you want extra
+>        linear controls;
+>      - graphs export to PDF;
+>      - the estimate (tau, se, p) is returned in r().
+> 
+>    Uses rdrobust for the estimate/bandwidth and lpolyci for the fit.
+> ---------------------------------------------------------------------------- 
+> */
+. 
+. capture program drop rdd_lpoly
+
+. program define rdd_lpoly, rclass
+  1. 
+.         syntax [if], outcome(varname) runvar(varname) rangemin(real) rangemax
+> (real) ///
+>                 cluster(varname) kernel(string) bwscale(real) bwselect(string
+> )   ///
+>                 outputfolder(string) [covs(varlist)] [ytitle(string)]        
+>     ///
+>                 [graphname(string)] [cilevel(integer 90)] [polycolor(string)]
+>     ///
+>                 [xstep(real 15)] [ylo(real 0)] [yhi(real 0)] [ystep(real 0.02
+> )]  ///
+>                 [nbins(integer 12)]
+  2. 
+.         marksample touse, novarlist
+  3.         markout `touse' `outcome' `runvar'
+  4.         quietly replace `touse' = 0 if `runvar' < `rangemin' | `runvar' > 
+> `rangemax'
+  5. 
+.         local cov_opt ""
+  6.         if "`covs'" != "" local cov_opt "covs(`covs')"
+  7. 
+.         /* ---- data-driven bandwidth, then re-estimate at scaled bandwidth -
+> --- */
+.         rdrobust `outcome' `runvar' if `touse', c(0) kernel(`kernel') ///
+>                 bwselect(`bwselect') vce(cluster `cluster') `cov_opt' all
+  8.         local h_opt    = e(h_l)
+  9.         local h_scaled = `h_opt' * `bwscale'
+ 10. 
+.         rdrobust `outcome' `runvar' if `touse', c(0) kernel(`kernel') ///
+>                 h(`h_scaled') vce(cluster `cluster') `cov_opt' all
+ 11.         local coef = e(tau_cl)
+ 12.         local se   = e(se_tau_cl)
+ 13. 
+.         /* ---- residualise on extra covariates for plotting (usually none) -
+> --- */
+.         tempvar yplot
+ 14.         if "`covs'" != "" {
+ 15.                 quietly regress `outcome' `covs' if `touse'
+ 16.                 quietly predict `yplot' if `touse', residuals
+ 17.         }
+ 18.         else {
+ 19.                 quietly generate double `yplot' = `outcome' if `touse'
+ 20.         }
+ 21. 
+.         if "`ytitle'" == ""    local ytitle "`outcome'"
+ 22.         if "`polycolor'" == "" local polycolor "0 71 133"
+ 23. 
+.         local tau_p = 2*normal(-abs(`coef'/`se'))
+ 24.         if `tau_p' < 0.01 {
+ 25.                 local TAU = "{&tau} = " + string(`coef', "%6.3fc") + " (p 
+> < 0.01)"
+ 26.         }
+ 27.         else {
+ 28.                 local TAU = "{&tau} = " + string(`coef', "%6.3fc") + " (p 
+> = " + string(`tau_p', "%4.3fc") + ")"
+ 29.         }
+ 30. 
+.         /* ---- equal-width binned means either side of the cutoff ---- */
+.         /* fixed number of equal-width bins per side (nbins), independent of 
+> the
+>            estimation bandwidth, so the scatter shows enough points */
+.         local totbins_l = `nbins'
+ 31.         local totbins_r = `nbins'
+ 32.         local bw_l = abs(`rangemin') / `totbins_l'
+ 33.         local bw_r = `rangemax' / `totbins_r'
+ 34.         capture drop _rdbin _rvb _ycb
+ 35.         quietly generate _rdbin = min(floor((`runvar' - `rangemin') / `bw_
+> l') + 1, `totbins_l') if `touse' & `runvar' < 0
+ 36.         quietly replace  _rdbin = min(floor(`runvar' / `bw_r') + 1, `totbi
+> ns_r')                if `touse' & `runvar' >= 0
+ 37.         quietly generate _rvb = `rangemin' + (_rdbin - 0.5) * `bw_l' if `t
+> ouse' & `runvar' < 0
+ 38.         quietly replace  _rvb = (_rdbin - 0.5) * `bw_r'             if `to
+> use' & `runvar' >= 0
+ 39.         quietly generate _ycb = .
+ 40.         quietly bysort _rdbin : egen _tm = mean(`yplot') if `touse' & `run
+> var' < 0
+ 41.         quietly replace _ycb = _tm if `touse' & `runvar' < 0
+ 42.         drop _tm
+ 43.         quietly bysort _rdbin : egen _tm = mean(`yplot') if `touse' & `run
+> var' >= 0
+ 44.         quietly replace _ycb = _tm if `touse' & `runvar' >= 0
+ 45.         drop _tm
+ 46. 
+.         local kp "`kernel'"
+ 47.         if "`kernel'" == "triangular" local kp "triangle"
+ 48. 
+.         if `ylo' != `yhi' {
+ 49.                 local yopts "yscale(range(`ylo' `yhi')) ylabel(`ylo'(`yste
+> p')`yhi', labsize(medium) format(%4.3fc) angle(horizontal))"
+ 50.         }
+ 51.         else {
+ 52.                 local yopts "ylabel(, labsize(medium) format(%4.3fc) angle
+> (horizontal))"
+ 53.         }
+ 54. 
+.         twoway ///
+>                 (lpolyci `yplot' `runvar' if `touse' & `runvar' < 0 & inrange
+> (`runvar', `rangemin', `rangemax'), ///
+>                         kernel(`kp') bwidth(`h_scaled') degree(1) level(`cile
+> vel') ///
+>                         acolor("`polycolor'%20") alwidth(none) lcolor("`polyc
+> olor'") lpattern(solid)) ///
+>                 (lpolyci `yplot' `runvar' if `touse' & `runvar' >= 0 & inrang
+> e(`runvar', `rangemin', `rangemax'), ///
+>                         kernel(`kp') bwidth(`h_scaled') degree(1) level(`cile
+> vel') ///
+>                         acolor("`polycolor'%20") alwidth(none) lcolor("`polyc
+> olor'") lpattern(solid)) ///
+>                 (scatter _ycb _rvb if `touse' & inrange(_rvb, `rangemin', `ra
+> ngemax'), ///
+>                         msize(medsmall) msymbol(O) color("`polycolor'")), ///
+>                 xline(0, lcolor(black%25) lwidth(medthick)) ///
+>                 legend(order(1 "`cilevel'% CI" 2 "Local linear fit" 3 "Binned
+>  means" - "`TAU'") ///
+>                         row(2) pos(6) region(lcolor(gs10))) ///
+>                 xlabel(`rangemin'(`xstep')`rangemax', labsize(medium) nogrid)
+>  ///
+>                 `yopts' ///
+>                 ytitle("`ytitle'", size(medium)) ///
+>                 xtitle("Days since scandal", size(medium)) ///
+>                 graphregion(color(white) fcolor(white)) scheme(s2color) ///
+>                 note("Bandwidth h = `=round(`h_scaled', 1)' days (scale `bwsc
+> ale' of MSE-optimal); kernel `kernel'.", size(vsmall))
+ 55. 
+.         if "`graphname'" == "" local graphname "rdd_`outcome'"
+ 56.         capture mkdir "`outputfolder'"
+ 57.         graph export "`outputfolder'/`graphname'.pdf", replace
+ 58.         capture drop _rdbin _rvb _ycb
+ 59. 
+.         return scalar tau  = `coef'
+ 60.         return scalar se   = `se'
+ 61.         return scalar pval = `tau_p'
+ 62.         return scalar h    = `h_scaled'
+ 63. end
+
+. 
+end of do-file
+
+. 
+. local firstyear = 2008
+
+. local BW = 60                        /* window for the plots / residualisatio
+> n */
+
+. 
+. /* --------------- Load + attach classification --------------- */
+. import delimited using "${datfin}/scandals_classified.csv", ///
+>         clear varnames(1) bindquotes(strict)
+(encoding automatically selected: UTF-8)
+(7 vars, 190 obs)
+
+. keep id country position
+
+. tempfile cls
+
+. save `cls'
+file C:\Users\rob98\AppData\Local\Temp\ST_5f84_000001.tmp saved as .dta
+    format
+
+. 
+. use "${datfin}/protests_scandals_30days_v3", clear
+
+. drop if country == "Venezuela"
+(3,374 observations deleted)
+
+. merge m:1 id country using `cls', keep(1 3) generate(_mclass)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                            42,657  (_mclass==3)
+    -----------------------------------------
+
+. 
+. gen byte in_pa = 0
+
+. replace in_pa = 1 if position == "president"
+(10,845 real changes made)
+
+. replace in_pa = 1 if position == "governor"
+(3,615 real changes made)
+
+. replace in_pa = 1 if position == "sc_judge_congressman" & ///
+>         inlist(id, "202", "NEW26", "NEW30", "332")
+(964 real changes made)
+
+. 
+. gen byte in_na = 0
+
+. replace in_na = 1 if position == "sc_judge_congressman" & ///
+>         !inlist(id, "202", "NEW26", "NEW30", "332")
+(3,374 real changes made)
+
+. replace in_na = 1 if position == "other_judiciary"
+(3,856 real changes made)
+
+. replace in_na = 1 if position == "others"
+(20,003 real changes made)
+
+. 
+. egen grupo_dias    = group(s_lag30 s_lag60 s_lag90 s_lag120 ///
+>                            s_lead30 s_lead60 s_lead90 s_lead120)
+
+. egen group_cluster = group(country_id year grupo_dias)
+
+. egen auxvar        = group(country year)
+
+. 
+. gen double rv = window
+
+. 
+. tempfile base
+
+. save `base'
+file C:\Users\rob98\AppData\Local\Temp\ST_5f84_000002.tmp saved as .dta
+    format
+
+. 
+. /* --- common y-range across all bandwidth x sample x outcome (same rule as
+>    the parametric figures, so every RD figure shares one vertical scale) --- 
+> */
+. local gmax = 0
+
+. foreach BW in 30 60 90 {
+  2. foreach sample in pa na {
+  3. foreach oc in num_violent_MM num_peaceful_MM {
+  4.         use `base', clear
+  5.         keep if year >= `firstyear' & abs(rv) <= `BW' & in_`sample' == 1
+  6.         quietly reghdfe `oc', absorb(month day auxvar) residuals(_ry0)
+  7.         gen int _wb0 = 5 * floor(rv / 5) + 2
+  8.         quietly collapse (mean) _ry0, by(_wb0)
+  9.         quietly summarize _ry0
+ 10.         local gmax = max(`gmax', abs(r(min)), abs(r(max)))
+ 11. }
+ 12. }
+ 13. }
+(38,814 observations deleted)
+(38,814 observations deleted)
+(35,764 observations deleted)
+(35,764 observations deleted)
+(35,034 observations deleted)
+(35,034 observations deleted)
+(28,984 observations deleted)
+(28,984 observations deleted)
+(31,254 observations deleted)
+(31,254 observations deleted)
+(22,204 observations deleted)
+(22,204 observations deleted)
+
+. local yr  = ceil((`gmax' * 1.6) / 0.02) * 0.02
+
+. local ylo = -`yr'
+
+. local yhi =  `yr'
+
+. di as result "Common RD y-range: [`ylo', `yhi']"
+Common RD y-range: [-.08, .08]
+
+. 
+. /* ============================================================
+>    NON-PARAMETRIC (rdrobust/lpoly), per bandwidth x sample x outcome.
+>    The estimation window is +-30/60/90; within each window rdrobust selects
+>    its own MSE-optimal bandwidth for the local-linear fit.
+>    Output: rd_time_np_<outcome>_<sample>_h<BW>.pdf
+>    ============================================================ */
+. tempname R
+
+. tempfile rdnp
+
+. postfile `R' str4 sample str16 outcome int bw ///
+>         double tau double se double pval double h using "`rdnp'", replace
+(file C:\Users\rob98\AppData\Local\Temp\ST_5f84_000003.tmp not found)
+
+. 
+. foreach BW in 30 60 90 {
+  2.         local xs = 15
+  3.         if `BW' == 90 local xs = 30
+  4. 
+. foreach sample in pa na {
+  5. foreach oc in num_violent_MM num_peaceful_MM {
+  6. 
+.         use `base', clear
+  7.         keep if year >= `firstyear' & abs(rv) <= `BW' & in_`sample' == 1
+  8. 
+.         /* residualise on the fixed effects */
+.         quietly reghdfe `oc', absorb(month day auxvar) residuals(ry)
+  9. 
+.         /* non-parametric local-polynomial RD via rdd_lpoly */
+.         capture noisily rdd_lpoly, outcome(ry) runvar(rv) ///
+>                 rangemin(-`BW') rangemax(`BW') cluster(group_cluster) ///
+>                 kernel(triangular) bwscale(1) bwselect(mserd) ///
+>                 outputfolder("${figout}") graphname("rd_time_np_`oc'_`sample'
+> _h`BW'") ///
+>                 ytitle("Protest count (residualised)") cilevel(90) xstep(`xs'
+> ) ///
+>                 ylo(`ylo') yhi(`yhi') ystep(0.02)
+ 10.         if _rc == 0 {
+ 11.                 post `R' ("`sample'") ("`oc'") (`BW') (r(tau)) (r(se)) (r(
+> pval)) (r(h))
+ 12.         }
+ 13.         else {
+ 14.                 display in red "rdd_lpoly failed for `oc' [`sample'] h`BW'
+> "
+ 15.                 post `R' ("`sample'") ("`oc'") (`BW') (.) (.) (.) (.)
+ 16.         }
+ 17.         drop ry
+ 18. }
+ 19. }
+ 20. }
+(38,814 observations deleted)
+Mass points detected in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =       384
+> 3
+-------------------+----------------------            BW type       =      mser
+> d
+     Number of obs |      1890        1953            Kernel        = Triangula
+> r
+Eff. Number of obs |       819         882            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    13.294      13.294
+       BW bias (b) |    16.800      16.800
+         rho (h/b) |     0.791       0.791
+        Unique obs |        30          31
+Number of clusters |        39          39
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional |  .02896     .03057   0.9473   0.343   -.030956      .08887
+> 4
+    Bias-corrected |  .01935     .03057   0.6330   0.527   -.040564      .07926
+> 6
+            Robust |  .01935     .03324   0.5821   0.560   -.045803      .08450
+> 5
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+Estimates adjusted for mass points in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =       384
+> 3
+-------------------+----------------------            BW type       =     Manua
+> l
+     Number of obs |      1890        1953            Kernel        = Triangula
+> r
+Eff. Number of obs |       819         882            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    13.294      13.294
+       BW bias (b) |    13.294      13.294
+         rho (h/b) |     1.000       1.000
+Number of clusters |        39          39
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional |  .02896     .03057   0.9472   0.344   -.030963       .0888
+> 8
+    Bias-corrected |   .0169     .03057   0.5529   0.580   -.043019      .07682
+> 4
+            Robust |   .0169     .03126   0.5407   0.589   -.044372      .07817
+> 6
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_np_n
+    > um_violent_MM_pa_h30.pdf saved as PDF format
+(38,814 observations deleted)
+Mass points detected in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =       384
+> 3
+-------------------+----------------------            BW type       =      mser
+> d
+     Number of obs |      1890        1953            Kernel        = Triangula
+> r
+Eff. Number of obs |       630         693            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    10.505      10.505
+       BW bias (b) |    12.142      12.142
+         rho (h/b) |     0.865       0.865
+        Unique obs |        30          31
+Number of clusters |        39          39
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional | -.00198     .02065   -0.0957  0.924   -.042452      .03850
+> 1
+    Bias-corrected |  .00013     .02065   0.0064   0.995   -.040345      .04060
+> 8
+            Robust |  .00013     .02436   0.0054   0.996   -.047611      .04787
+> 5
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+Estimates adjusted for mass points in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =       384
+> 3
+-------------------+----------------------            BW type       =     Manua
+> l
+     Number of obs |      1890        1953            Kernel        = Triangula
+> r
+Eff. Number of obs |       630         693            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    10.505      10.505
+       BW bias (b) |    10.505      10.505
+         rho (h/b) |     1.000       1.000
+Number of clusters |        39          39
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional | -.00198     .02065   -0.0957  0.924   -.042457      .03850
+> 6
+    Bias-corrected |  .00562     .02065   0.2719   0.786   -.034866      .04609
+> 7
+            Robust |  .00562     .02552   0.2201   0.826   -.044399       .0556
+> 3
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_np_n
+    > um_peaceful_MM_pa_h30.pdf saved as PDF format
+(35,764 observations deleted)
+Mass points detected in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =       689
+> 3
+-------------------+----------------------            BW type       =      mser
+> d
+     Number of obs |      3390        3503            Kernel        = Triangula
+> r
+Eff. Number of obs |      1695        1808            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    15.616      15.616
+       BW bias (b) |    17.432      17.432
+         rho (h/b) |     0.896       0.896
+        Unique obs |        30          31
+Number of clusters |        67          65
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional |  .01168     .01593   0.7327   0.464   -.019554      .04290
+> 4
+    Bias-corrected |  .01402     .01593   0.8800   0.379   -.017208       .0452
+> 5
+            Robust |  .01402     .01496   0.9374   0.349   -.015294      .04333
+> 5
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+Estimates adjusted for mass points in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =       689
+> 3
+-------------------+----------------------            BW type       =     Manua
+> l
+     Number of obs |      3390        3503            Kernel        = Triangula
+> r
+Eff. Number of obs |      1695        1808            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    15.616      15.616
+       BW bias (b) |    15.616      15.616
+         rho (h/b) |     1.000       1.000
+Number of clusters |        67          65
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional |  .01168     .01593   0.7327   0.464   -.019555      .04290
+> 5
+    Bias-corrected |  .01744     .01593   1.0945   0.274   -.013791      .04866
+> 9
+            Robust |  .01744     .01561   1.1171   0.264   -.013158      .04803
+> 6
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_np_n
+    > um_violent_MM_na_h30.pdf saved as PDF format
+(35,764 observations deleted)
+Mass points detected in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =       689
+> 3
+-------------------+----------------------            BW type       =      mser
+> d
+     Number of obs |      3390        3503            Kernel        = Triangula
+> r
+Eff. Number of obs |      1695        1808            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    15.246      15.246
+       BW bias (b) |    14.398      14.398
+         rho (h/b) |     1.059       1.059
+        Unique obs |        30          31
+Number of clusters |        67          65
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional | -.00987     .02269   -0.4347  0.664   -.054345      .03461
+> 4
+    Bias-corrected | -.00609     .02269   -0.2685  0.788   -.050574      .03838
+> 6
+            Robust | -.00609     .02416   -0.2522  0.801   -.053447      .04125
+> 9
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+Estimates adjusted for mass points in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =       689
+> 3
+-------------------+----------------------            BW type       =     Manua
+> l
+     Number of obs |      3390        3503            Kernel        = Triangula
+> r
+Eff. Number of obs |      1695        1808            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    15.246      15.246
+       BW bias (b) |    15.246      15.246
+         rho (h/b) |     1.000       1.000
+Number of clusters |        67          65
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional | -.00987     .02269   -0.4347  0.664   -.054345      .03461
+> 4
+    Bias-corrected | -.00705     .02269   -0.3108  0.756   -.051534      .03742
+> 6
+            Robust | -.00705     .02385   -0.2958  0.767   -.053797      .03968
+> 9
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_np_n
+    > um_peaceful_MM_na_h30.pdf saved as PDF format
+(35,034 observations deleted)
+Mass points detected in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =       762
+> 3
+-------------------+----------------------            BW type       =      mser
+> d
+     Number of obs |      3780        3843            Kernel        = Triangula
+> r
+Eff. Number of obs |      1449        1512            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    23.546      23.546
+       BW bias (b) |    30.276      30.276
+         rho (h/b) |     0.778       0.778
+        Unique obs |        60          61
+Number of clusters |        41          39
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional |  .03129     .02907   1.0765   0.282   -.025685      .08827
+> 5
+    Bias-corrected |  .02968     .02907   1.0210   0.307   -.027297      .08666
+> 4
+            Robust |  .02968     .03434   0.8644   0.387   -.037618      .09698
+> 5
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+Estimates adjusted for mass points in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =       762
+> 3
+-------------------+----------------------            BW type       =     Manua
+> l
+     Number of obs |      3780        3843            Kernel        = Triangula
+> r
+Eff. Number of obs |      1449        1512            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    23.546      23.546
+       BW bias (b) |    23.546      23.546
+         rho (h/b) |     1.000       1.000
+Number of clusters |        39          39
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional |  .03129     .02908   1.0762   0.282     -.0257       .0882
+> 9
+    Bias-corrected |  .02603     .02908   0.8950   0.371   -.030967      .08302
+> 3
+            Robust |  .02603     .03553   0.7326   0.464   -.043602      .09565
+> 7
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_np_n
+    > um_violent_MM_pa_h60.pdf saved as PDF format
+(35,034 observations deleted)
+Mass points detected in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =       762
+> 3
+-------------------+----------------------            BW type       =      mser
+> d
+     Number of obs |      3780        3843            Kernel        = Triangula
+> r
+Eff. Number of obs |      1197        1260            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    19.728      19.728
+       BW bias (b) |    24.487      24.487
+         rho (h/b) |     0.806       0.806
+        Unique obs |        60          61
+Number of clusters |        40          39
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional |  .00432     .02103   0.2052   0.837   -.036903      .04553
+> 4
+    Bias-corrected |  .00123     .02103   0.0584   0.953    -.03999      .04244
+> 7
+            Robust |  .00123     .02323   0.0529   0.958   -.044292       .0467
+> 5
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+Estimates adjusted for mass points in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =       762
+> 3
+-------------------+----------------------            BW type       =     Manua
+> l
+     Number of obs |      3780        3843            Kernel        = Triangula
+> r
+Eff. Number of obs |      1197        1260            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    19.728      19.728
+       BW bias (b) |    19.728      19.728
+         rho (h/b) |     1.000       1.000
+Number of clusters |        39          39
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional |  .00432     .02103   0.2052   0.837   -.036911      .04554
+> 2
+    Bias-corrected |  -.0039     .02103   -0.1855  0.853   -.045129      .03732
+> 5
+            Robust |  -.0039     .02244   -0.1739  0.862   -.047889      .04008
+> 4
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_np_n
+    > um_peaceful_MM_pa_h60.pdf saved as PDF format
+(28,984 observations deleted)
+Mass points detected in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =      1367
+> 3
+-------------------+----------------------            BW type       =      mser
+> d
+     Number of obs |      6780        6893            Kernel        = Triangula
+> r
+Eff. Number of obs |      3164        3277            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    28.664      28.664
+       BW bias (b) |    32.671      32.671
+         rho (h/b) |     0.877       0.877
+        Unique obs |        60          61
+Number of clusters |       135         132
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional |  .00784     .01724   0.4549   0.649   -.025949      .04163
+> 6
+    Bias-corrected |  .01273     .01724   0.7384   0.460   -.021061      .04652
+> 4
+            Robust |  .01273     .01999   0.6369   0.524   -.026448       .0519
+> 1
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+Estimates adjusted for mass points in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =      1367
+> 3
+-------------------+----------------------            BW type       =     Manua
+> l
+     Number of obs |      6780        6893            Kernel        = Triangula
+> r
+Eff. Number of obs |      3164        3277            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    28.664      28.664
+       BW bias (b) |    28.664      28.664
+         rho (h/b) |     1.000       1.000
+Number of clusters |        69          66
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional |  .00784     .01731   0.4532   0.650   -.026075      .04176
+> 2
+    Bias-corrected |   .0138     .01731   0.7974   0.425    -.02012      .04771
+> 7
+            Robust |   .0138     .01914   0.7209   0.471   -.023718      .05131
+> 5
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_np_n
+    > um_violent_MM_na_h60.pdf saved as PDF format
+(28,984 observations deleted)
+Mass points detected in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =      1367
+> 3
+-------------------+----------------------            BW type       =      mser
+> d
+     Number of obs |      6780        6893            Kernel        = Triangula
+> r
+Eff. Number of obs |      3503        3616            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    32.000      32.000
+       BW bias (b) |    27.994      27.994
+         rho (h/b) |     1.143       1.143
+        Unique obs |        60          61
+Number of clusters |       135         132
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional | -.01339     .03021   -0.4431  0.658   -.072602      .04582
+> 6
+    Bias-corrected | -.00942     .03021   -0.3117  0.755   -.068631      .04979
+> 7
+            Robust | -.00942     .03092   -0.3046  0.761    -.07001      .05117
+> 6
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+Estimates adjusted for mass points in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =      1367
+> 3
+-------------------+----------------------            BW type       =     Manua
+> l
+     Number of obs |      6780        6893            Kernel        = Triangula
+> r
+Eff. Number of obs |      3503        3616            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    32.000      32.000
+       BW bias (b) |    32.000      32.000
+         rho (h/b) |     1.000       1.000
+Number of clusters |       135         132
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional | -.01339     .03021   -0.4431  0.658   -.072602      .04582
+> 6
+    Bias-corrected | -.01118     .03021   -0.3701  0.711   -.070395      .04803
+> 3
+            Robust | -.01118     .03144   -0.3556  0.722   -.072801       .0504
+> 4
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_np_n
+    > um_peaceful_MM_na_h60.pdf saved as PDF format
+(31,254 observations deleted)
+Mass points detected in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =      1140
+> 3
+-------------------+----------------------            BW type       =      mser
+> d
+     Number of obs |      5670        5733            Kernel        = Triangula
+> r
+Eff. Number of obs |      1764        1827            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    28.259      28.259
+       BW bias (b) |    41.708      41.708
+         rho (h/b) |     0.678       0.678
+        Unique obs |        90          91
+Number of clusters |        81          79
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional |   .0304     .02903   1.0473   0.295   -.026492      .08729
+> 3
+    Bias-corrected |   .0276     .02903   0.9507   0.342   -.029296      .08448
+> 9
+            Robust |   .0276      .0351   0.7862   0.432   -.041197      .09639
+> 1
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+Estimates adjusted for mass points in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =      1140
+> 3
+-------------------+----------------------            BW type       =     Manua
+> l
+     Number of obs |      5670        5733            Kernel        = Triangula
+> r
+Eff. Number of obs |      1764        1827            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    28.259      28.259
+       BW bias (b) |    28.259      28.259
+         rho (h/b) |     1.000       1.000
+Number of clusters |        41          39
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional |   .0304     .02922   1.0405   0.298   -.026866      .08766
+> 8
+    Bias-corrected |  .02867     .02922   0.9813   0.326   -.028596      .08593
+> 8
+            Robust |  .02867     .03714   0.7719   0.440    -.04413      .10147
+> 1
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_np_n
+    > um_violent_MM_pa_h90.pdf saved as PDF format
+(31,254 observations deleted)
+Mass points detected in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =      1140
+> 3
+-------------------+----------------------            BW type       =      mser
+> d
+     Number of obs |      5670        5733            Kernel        = Triangula
+> r
+Eff. Number of obs |      2268        2331            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    36.258      36.258
+       BW bias (b) |    45.135      45.135
+         rho (h/b) |     0.803       0.803
+        Unique obs |        90          91
+Number of clusters |        82          80
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional |  .00609     .02093   0.2910   0.771   -.034938      .04712
+> 3
+    Bias-corrected |  .00758     .02093   0.3620   0.717   -.033452      .04860
+> 9
+            Robust |  .00758     .02333   0.3248   0.745   -.038152      .05330
+> 8
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+Estimates adjusted for mass points in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =      1140
+> 3
+-------------------+----------------------            BW type       =     Manua
+> l
+     Number of obs |      5670        5733            Kernel        = Triangula
+> r
+Eff. Number of obs |      2268        2331            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    36.258      36.258
+       BW bias (b) |    36.258      36.258
+         rho (h/b) |     1.000       1.000
+Number of clusters |        81          79
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional |  .00609     .02094   0.2910   0.771   -.034943      .04712
+> 8
+    Bias-corrected |  .00799     .02094   0.3816   0.703   -.033046      .04902
+> 6
+            Robust |  .00799     .02456   0.3253   0.745   -.040147      .05612
+> 7
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_np_n
+    > um_peaceful_MM_pa_h90.pdf saved as PDF format
+(22,204 observations deleted)
+Mass points detected in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =      2045
+> 3
+-------------------+----------------------            BW type       =      mser
+> d
+     Number of obs |     10170       10283            Kernel        = Triangula
+> r
+Eff. Number of obs |      3277        3390            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    29.766      29.766
+       BW bias (b) |    38.210      38.210
+         rho (h/b) |     0.779       0.779
+        Unique obs |        90          91
+Number of clusters |       137         132
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional |  .00705     .01792   0.3934   0.694   -.028069      .04216
+> 7
+    Bias-corrected |  .01086     .01792   0.6062   0.544   -.024256       .0459
+> 8
+            Robust |  .01086     .02135   0.5088   0.611   -.030984      .05270
+> 9
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+Estimates adjusted for mass points in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =      2045
+> 3
+-------------------+----------------------            BW type       =     Manua
+> l
+     Number of obs |     10170       10283            Kernel        = Triangula
+> r
+Eff. Number of obs |      3277        3390            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    29.766      29.766
+       BW bias (b) |    29.766      29.766
+         rho (h/b) |     1.000       1.000
+Number of clusters |        69          66
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional |  .00705     .01799   0.3920   0.695   -.028201        .042
+> 3
+    Bias-corrected |  .01264     .01799   0.7029   0.482   -.022609      .04789
+> 1
+            Robust |  .01264     .02014   0.6275   0.530    -.02684      .05212
+> 2
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_np_n
+    > um_violent_MM_na_h90.pdf saved as PDF format
+(22,204 observations deleted)
+Mass points detected in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =      2045
+> 3
+-------------------+----------------------            BW type       =      mser
+> d
+     Number of obs |     10170       10283            Kernel        = Triangula
+> r
+Eff. Number of obs |      4181        4294            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    37.721      37.721
+       BW bias (b) |    39.809      39.809
+         rho (h/b) |     0.948       0.948
+        Unique obs |        90          91
+Number of clusters |       137         132
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional | -.01181     .03311   -0.3567  0.721   -.076717      .05309
+> 1
+    Bias-corrected | -.01836     .03311   -0.5545  0.579   -.083267      .04654
+> 1
+            Robust | -.01836     .03763   -0.4880  0.626   -.092108      .05538
+> 2
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+Estimates adjusted for mass points in the running variable.
+
+Sharp RD estimates using local polynomial regression.
+
+      Cutoff c = 0 | Left of c  Right of c            Number of obs =      2045
+> 3
+-------------------+----------------------            BW type       =     Manua
+> l
+     Number of obs |     10170       10283            Kernel        = Triangula
+> r
+Eff. Number of obs |      4181        4294            VCE method    =    Cluste
+> r
+    Order est. (p) |         1           1
+    Order bias (q) |         2           2
+       BW est. (h) |    37.721      37.721
+       BW bias (b) |    37.721      37.721
+         rho (h/b) |     1.000       1.000
+Number of clusters |       137         132
+
+Outcome: ry. Running variable: rv.
+-------------------------------------------------------------------------------
+> -
+            Method |   Coef.    Std. Err.    z     P>|z|    [95% Conf. Interval
+> ]
+-------------------+-----------------------------------------------------------
+> -
+      Conventional | -.01181     .03312   -0.3567  0.721   -.076718      .05309
+> 1
+    Bias-corrected | -.01621     .03312   -0.4896  0.624   -.081118      .04869
+> 1
+            Robust | -.01621     .03693   -0.4390  0.661   -.088596      .05616
+> 9
+-------------------------------------------------------------------------------
+> -
+Std. Err. adjusted for clusters in group_cluster
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/rd_time_np_n
+    > um_peaceful_MM_na_h90.pdf saved as PDF format
+
+. postclose `R'
+
+. 
+. /* ============================================================
+>    TABLE: non-parametric (rdrobust) RD estimates, windows h in {30,60,90}
+>    ============================================================ */
+. use "`rdnp'", clear
+
+. capture file close _tbl
+
+. file open _tbl using "${tabout}/sup_rd_time_np.tex", write replace
+
+. file write _tbl "{" _n
+
+. file write _tbl "\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}" _n
+
+. file write _tbl "\begin{tabular}{l*{6}{c}}" _n
+
+. file write _tbl "\toprule" _n
+
+. file write _tbl " & \multicolumn{3}{c}{Violent Protests} & \multicolumn{3}{c}
+> {Peaceful Protests} \\" _n
+
+. file write _tbl "\cmidrule(lr){2-4}\cmidrule(lr){5-7}" _n
+
+. file write _tbl " & \ensuremath{h=30} & \ensuremath{h=60} & \ensuremath{h=90}
+>  & \ensuremath{h=30} & \ensuremath{h=60} & \ensuremath{h=90} \\" _n
+
+. file write _tbl "\midrule" _n
+
+. foreach s in pa na {
+  2.         if "`s'" == "pa" local slab "Apex"
+  3.         else             local slab "Non-Apex"
+  4.         local brow "`slab'"
+  5.         local srow " "
+  6.         foreach oc in num_violent_MM num_peaceful_MM {
+  7.         foreach BW in 30 60 90 {
+  8.                 quietly summarize tau if sample=="`s'" & outcome=="`oc'" &
+>  bw==`BW', meanonly
+  9.                 local b = r(mean)
+ 10.                 quietly summarize se if sample=="`s'" & outcome=="`oc'" & 
+> bw==`BW', meanonly
+ 11.                 local se = r(mean)
+ 12.                 if missing(`b') | missing(`se') | `se' <= 0 {
+ 13.                         local brow "`brow' & --"
+ 14.                         local srow "`srow' & "
+ 15.                 }
+ 16.                 else {
+ 17.                         local pv = 2*normal(-abs(`b'/`se'))
+ 18.                         local st = ""
+ 19.                         if `pv' < 0.10 local st = "*"
+ 20.                         if `pv' < 0.05 local st = "**"
+ 21.                         if `pv' < 0.01 local st = "***"
+ 22.                         if "`st'" != "" local bcell = string(`b',"%5.3f") 
+> + "\sym{`st'}"
+ 23.                         else            local bcell = string(`b',"%5.3f")
+ 24.                         local scell = "(" + string(`se',"%5.3f") + ")"
+ 25.                         local brow "`brow' & `bcell'"
+ 26.                         local srow "`srow' & `scell'"
+ 27.                 }
+ 28.         }
+ 29.         }
+ 30.         file write _tbl "`brow' \\" _n
+ 31.         file write _tbl "`srow' \\" _n
+ 32. }
+
+. file write _tbl "\bottomrule" _n
+
+. file write _tbl "\end{tabular}" _n
+
+. file write _tbl "}" _n
+
+. file close _tbl
+
+. display in green "sup_rd_time_np.tex written"
+sup_rd_time_np.tex written
+
+. 
+. display in green "a_rd_time_np_pa_vs_na.do finished OK"
+a_rd_time_np_pa_vs_na.do finished OK
+
+. capture log close _all

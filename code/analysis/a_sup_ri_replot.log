@@ -1,0 +1,360 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      StataNow 19.5
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2025 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-782-8272        https://www.stata.com
+                                   979-696-4600        service@stata.com
+
+Stata license: Unlimited-user 16-core network, expiring  2 Jul 2027
+Serial number: 501909320077
+  Licensed to: Roberto Gonzalez Tellez
+               Stanford University GSB
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do a_sup_ri_replot.do 
+
+. /* --------------------------------------------------------------------------
+> --
+>    Project: Apex Corruption protests paper
+> 
+>    Objective:
+>      Re-draw ALL randomization-inference histograms from the saved placebo
+>      distributions (no re-estimation).  Reads the per-cell beta datasets
+>      written by a_randomization_inference_pa_vs_na.do (pa/na) and
+>      a_randomization_inference.do (full sample) and re-exports each PDF with
+>      the updated legend:
+> 
+>         - the maroon vertical line stays at the observed beta;
+>         - the observed-beta VALUE moves OFF the plot area into the legend as
+>           its own row (the old floating vertical text label was clipped when
+>           the observed line sat near the top of the axis);
+>         - a second legend row keeps the two-sided RI p-value.
+> 
+>    Inputs (under ${resout}):
+>      - randomization_inference_beta_<outcome>_w<T>_<sample>.dta   (pa, na)
+>      - randomization_inference_beta_<outcome>_w<T>.dta            (full)
+> 
+>    Outputs (paper/figures/): same filenames as the estimation do-files, so th
+> e
+>    \includegraphics paths in the paper are unchanged.
+> ---------------------------------------------------------------------------- 
+> */
+. 
+. set more off
+
+. clear all
+
+. 
+. if "`c(username)'" == "Diego" {
+.         gl identity "D:/Documents/Dropbox"
+. }
+
+. if "`c(username)'" == "dtocre" {
+.         gl identity "C:/Users/dtocre/Dropbox"
+. }
+
+. if "`c(username)'" == "lalov" {
+.         gl identity "C:/Users/lalov/ITAM Seira Research Dropbox/Eduardo River
+> a"
+. }
+
+. if "`c(username)'" == "Rob_9" {
+.         global identity "C:/Users/Rob_9/Dropbox"
+. }
+
+. if "`c(username)'" == "rob98" {
+.         global identity "~/Dropbox"
+. }
+
+. 
+. global work    "${identity}/Corrupcion/Protest_Work"
+
+. global resout  "${work}/results"
+
+. global figout  "${identity}/Corrupcion/protest_repo/paper/figures"
+
+. 
+. /* ============================================================
+>    Loop over every (sample, outcome, window) cell and re-draw
+>    ============================================================ */
+. foreach sample in pa na full {
+  2. foreach outcome in num_violent_MM num_peaceful_MM {
+  3. foreach T in 30 60 90 120 {
+  4. 
+.         /* per-cell dataset name: pa/na carry the suffix, full does not */
+.         if "`sample'" == "full" local dta "${resout}/randomization_inference_
+> beta_`outcome'_w`T'.dta"
+  5.         else                    local dta "${resout}/randomization_inferen
+> ce_beta_`outcome'_w`T'_`sample'.dta"
+  6. 
+.         capture confirm file "`dta'"
+  7.         if _rc {
+  8.                 display in red "MISSING (skipped): `dta'"
+  9.                 continue
+ 10.         }
+ 11. 
+.         use "`dta'", clear
+ 12. 
+.         /* observed beta is stored as a constant column in the dataset */
+.         quietly summarize observed_beta, meanonly
+ 13.         local observed_beta_T = r(mean)
+ 14. 
+.         /* two-sided RI p-value = share of placebo draws at least as extreme 
+> */
+.         quietly count if !missing(beta_placebo)
+ 15.         local n_valid = r(N)
+ 16.         quietly count if !missing(beta_placebo) & abs(beta_placebo) >= abs
+> (`observed_beta_T')
+ 17.         local ri_p_two = r(N) / `n_valid'
+ 18. 
+.         local obs_str = string(`observed_beta_T', "%5.3f")
+ 19.         local p2_str  = string(`ri_p_two',        "%5.3f")
+ 20. 
+.         if "`outcome'" == "num_violent_MM"  local outlbl "violent protests"
+ 21.         if "`outcome'" == "num_peaceful_MM" local outlbl "peaceful protest
+> s"
+ 22. 
+.         /* invisible dummy series that seed the two legend rows:
+>            _leg_beta -> a maroon line key (matches the observed-beta line)
+>            _leg_p    -> a blank key (p-value row, text only)                 
+> */
+.         gen double _leg_beta = .
+ 23.         gen double _leg_p    = .
+ 24. 
+.         /* x-axis wide enough to show BOTH the placebo mass and the observed 
+> line */
+.         quietly summarize beta_placebo
+ 25.         local xlo = min(r(min), `observed_beta_T', 0)
+ 26.         local xhi = max(r(max), `observed_beta_T', 0)
+ 27.         local xrng = `xhi' - `xlo'
+ 28.         if `xrng' <= 0 local xrng = 0.01
+ 29.         local xlo = `xlo' - 0.10 * `xrng'
+ 30.         local xhi = `xhi' + 0.10 * `xrng'
+ 31.         local xraw = (`xhi' - `xlo') / 5
+ 32.         local xmag = 10 ^ floor(log10(`xraw'))
+ 33.         local xmul = `xraw' / `xmag'
+ 34.         if `xmul' < 1.5      local xstep = 1  * `xmag'
+ 35.         else if `xmul' < 3.5 local xstep = 2  * `xmag'
+ 36.         else if `xmul' < 7.5 local xstep = 5  * `xmag'
+ 37.         else                 local xstep = 10 * `xmag'
+ 38.         local xlo_t = floor(`xlo' / `xstep') * `xstep'
+ 39.         local xhi_t = ceil( `xhi' / `xstep') * `xstep'
+ 40. 
+.         twoway (histogram beta_placebo, percent bin(50) ///
+>                     color(gs13) lcolor(gs10)) ///
+>                (line _leg_beta beta_placebo, lcolor("128 0 0") lwidth(medthic
+> k)) ///
+>                (line _leg_p    beta_placebo, lcolor(none)), ///
+>                 xline(`observed_beta_T', lcolor("128 0 0") lwidth(medthick) /
+> //
+>                      lpattern(solid)) ///
+>                 xline(0, lcolor(black) lwidth(vthin) lpattern(dot)) ///
+>                 xtitle("Effect on `outlbl'", size(medium)) ///
+>                 ytitle("Percent", size(medium)) ///
+>                 xscale(range(`xlo_t' `xhi_t')) ///
+>                 xlabel(`xlo_t'(`xstep')`xhi_t', format(%5.3f) labsize(small))
+>  ///
+>                 ylabel(, angle(0) format(%3.0f)) ///
+>                 legend(order(2 3) ///
+>                        label(2 "Observed {&beta} = `obs_str'") ///
+>                        label(3 "RI p = `p2_str'") ///
+>                        cols(1) pos(2) ring(0) ///
+>                        region(lcolor(black) fcolor(white)) size(medsmall)) //
+> /
+>                 scheme(s2color) graphregion(color(white))
+ 41. 
+.         if "`sample'" == "full" local fig "${figout}/randomization_inference_
+> hist_`outcome'_w`T'.pdf"
+ 42.         else                    local fig "${figout}/randomization_inferen
+> ce_hist_`outcome'_w`T'_`sample'.pdf"
+ 43.         graph export "`fig'", replace
+ 44.         display in green "re-drew: `fig'"
+ 45. }
+ 46. }
+ 47. }
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_violent_MM_w30_pa.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_violent_MM_w30_pa.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_violent_MM_w60_pa.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_violent_MM_w60_pa.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_violent_MM_w90_pa.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_violent_MM_w90_pa.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_violent_MM_w120_pa.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_violent_MM_w120_pa.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_peaceful_MM_w30_pa.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_peaceful_MM_w30_pa.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_peaceful_MM_w60_pa.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_peaceful_MM_w60_pa.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_peaceful_MM_w90_pa.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_peaceful_MM_w90_pa.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_peaceful_MM_w120_pa.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_peaceful_MM_w120_pa.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_violent_MM_w30_na.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_violent_MM_w30_na.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_violent_MM_w60_na.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_violent_MM_w60_na.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_violent_MM_w90_na.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_violent_MM_w90_na.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_violent_MM_w120_na.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_violent_MM_w120_na.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_peaceful_MM_w30_na.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_peaceful_MM_w30_na.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_peaceful_MM_w60_na.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_peaceful_MM_w60_na.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_peaceful_MM_w90_na.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_peaceful_MM_w90_na.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_peaceful_MM_w120_na.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_peaceful_MM_w120_na.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_violent_MM_w30.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_violent_MM_w30.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_violent_MM_w60.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_violent_MM_w60.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_violent_MM_w90.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_violent_MM_w90.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_violent_MM_w120.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_violent_MM_w120.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_peaceful_MM_w30.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_peaceful_MM_w30.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_peaceful_MM_w60.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_peaceful_MM_w60.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_peaceful_MM_w90.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_peaceful_MM_w90.pdf
+(1,000 missing values generated)
+(1,000 missing values generated)
+file
+    C:\Users\rob98/Dropbox/Corrupcion/protest_repo/paper/figures/randomizatio
+    > n_inference_hist_num_peaceful_MM_w120.pdf saved as PDF format
+re-drew: ~/Dropbox/Corrupcion/protest_repo/paper/figures/randomization_inferenc
+> e_hist_num_peaceful_MM_w120.pdf
+
+. 
+. display in green "a_sup_ri_replot.do finished OK"
+a_sup_ri_replot.do finished OK
+
+. 
+end of do-file

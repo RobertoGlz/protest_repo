@@ -153,9 +153,9 @@ gen byte apex_cat = .
 replace apex_cat = 1 if position == "president"
 replace apex_cat = 2 if position == "governor"
 replace apex_cat = 2 if position == "sc_judge_congressman" & ///
-	inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+	inlist(id, "202", "NEW26", "NEW30", "332")
 replace apex_cat = 3 if position == "sc_judge_congressman" & ///
-	!inlist(id, "202", "NEW26", "NEW30", "332", "NEW23")
+	!inlist(id, "202", "NEW26", "NEW30", "332")
 replace apex_cat = 3 if position == "other_judiciary"
 replace apex_cat = 3 if position == "others"
 
