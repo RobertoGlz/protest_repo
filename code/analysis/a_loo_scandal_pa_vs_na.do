@@ -89,8 +89,25 @@ egen grupo_dias = group(s_lag30 s_lag60 s_lag90 s_lag120 ///
                         s_lead30 s_lead60 s_lead90 s_lead120)
 
 gen int _sy = year if window == 0
+gen double _sd = date if window == 0
 bysort country id: egen scanyear = max(_sy)
-drop _sy
+bysort country id: egen double scandate = max(_sd)
+drop _sy _sd
+
+/* ORDER OF OCCURRENCE: chronological rank (1..N) over ALL scandals, by
+   disclosure date, ties broken by country then id.  This global integer
+   replaces the internal scandal ID as the label in the LOO figures and is the
+   SAME numbering as the appendix classification table
+   (a_scandal_classification_table.do). */
+preserve
+	keep country id scandate
+	duplicates drop
+	gsort scandate country id
+	gen int order = _n
+	tempfile ord
+	save `ord'
+restore
+merge m:1 country id using `ord', nogenerate
 
 /* --- democracy terciles (V-Dem 2008), as in a_sup_democracy_terciles.do --- */
 tempfile scdata
@@ -244,18 +261,15 @@ foreach grp in apex nonapex pres oa ona high med low {
 
 	use `base', clear
 	keep if `IF' & ${g_mem}
-	keep country id scanyear
+	keep country id scanyear order
 	duplicates drop
-	/* flag country-year combinations that appear more than once WITHIN this
-	   group, so we can disambiguate them by scandal id in the label */
-	bysort country scanyear: gen byte _ndup = _N
 	sort country id
 	local NS = _N
 	forvalues i = 1/`NS' {
 		local ctry`i' = country[`i']
 		local idv`i'  = id[`i']
 		local yr`i'   = scanyear[`i']
-		local dup`i'  = _ndup[`i']
+		local ordv`i' = order[`i']
 	}
 	di as result "Group `grp' [${g_split}]: `NS' scandals..."
 
@@ -267,8 +281,8 @@ foreach grp in apex nonapex pres oa ona high med low {
 			if `IF' & !(country == "`c'" & id == "`s'"), ///
 			absorb(i.country_id#i.year) vce(cluster i.country_id#i.year#i.grupo_dias)
 		if _rc continue
-		if `dup`i'' > 1 local lab "`ctry`i'' - `yr`i'' (`idv`i'')"
-		else            local lab "`ctry`i'' - `yr`i''"
+		/* label by order of occurrence (matches the classification table's #) */
+		local lab "`ctry`i'' - `yr`i'' (#`ordv`i'')"
 		post `A' ("`grp'") ("${g_split}") (`i') (_b[${g_coef}]) (_se[${g_coef}]) ("`lab'")
 	}
 }

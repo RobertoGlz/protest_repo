@@ -6,8 +6,10 @@
 
     Objective:
         Build the scandal-classification appendix table (sup_scandal_list.tex):
-        one row per scandal in the event-window panel with its ID, country,
-        year, a short description, and its Apex / Non-Apex class.
+        one row per scandal in the event-window panel with its order-of-
+        occurrence number (chronological, by disclosure date -- this replaces
+        the internal scandal ID as the public label), country, year, the role of
+        the implicated official, a description, and its Apex / Non-Apex class.
 
     Two things this file does that deserve a note:
 
@@ -58,12 +60,16 @@ global path   "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
 global datfin "${path}/Data/final"
 global tables "${identity}/Corrupcion/protest_repo/paper/tables"
 
-/* ---- authoritative scandal year from the panel (window == 0) ------------- */
+/* ---- authoritative scandal year AND date from the panel (window == 0) -----
+   The disclosure date (window == 0) also fixes the scandal's ORDER OF
+   OCCURRENCE, which replaces the internal scandal ID as the public label. */
 use "${datfin}/protests_scandals_30days_v3", clear
 drop if country == "Venezuela"
 gen int _sy = year if window == 0
+gen double _sd = date if window == 0
 bysort country id: egen scanyear = max(_sy)
-keep id country scanyear
+bysort country id: egen double scandate = max(_sd)
+keep id country scanyear scandate
 duplicates drop
 tempfile years
 save `years'
@@ -90,7 +96,17 @@ replace apex = 1 if position == "president"
 replace apex = 1 if position == "governor"
 replace apex = 1 if position == "sc_judge_congressman" & inlist(id, "202", "NEW26", "NEW30", "332")
 
-/* attach the panel year, keep the panel scandals */
+/* (2b) Human-readable ROLE of the implicated official, so the reader can see
+   the exact basis for the Apex / Non-Apex call (President and Governor and the
+   four flagged Supreme Court justices are Apex; everyone else is Non-Apex). */
+gen str24 role = "Other official"
+replace role = "President"             if position == "president"
+replace role = "Governor"              if position == "governor"
+replace role = "Supreme Court justice" if position == "sc_judge_congressman" & inlist(id, "202", "NEW26", "NEW30", "332")
+replace role = "Congress member"       if position == "sc_judge_congressman" & !inlist(id, "202", "NEW26", "NEW30", "332")
+replace role = "Judiciary (lower)"     if position == "other_judiciary"
+
+/* attach the panel year/date, keep the panel scandals */
 merge m:1 id country using `years', keep(3) nogenerate
 
 count
@@ -115,7 +131,13 @@ replace summary = subinstr(summary, "&amp;", " and ", .)
 replace summary = ustrregexra(summary, " +", " ")
 replace summary = strtrim(summary)
 
-gsort country scanyear id
+/* ---- ORDER OF OCCURRENCE: chronological rank by disclosure date ----------
+   This integer (1..N) replaces the internal scandal ID everywhere the paper
+   refers to a scandal (this table and the leave-one-out figures).  Ties on the
+   exact date are broken by country then id, deterministically, so the SAME rank
+   is reproduced by a_loo_scandal_pa_vs_na.do. */
+gsort scandate country id
+gen int order = _n
 local N = _N
 
 /* ---- write the longtable -------------------------------------------------- */
@@ -124,27 +146,28 @@ file open _t using "${tables}/sup_scandal_list.tex", write replace
 file write _t "\begingroup" _n
 file write _t "\setstretch{1.0}\footnotesize" _n
 file write _t "\setlength{\LTcapwidth}{\textwidth}" _n
-file write _t "\begin{longtable}{@{}l l c p{9.2cm} l@{}}" _n
-file write _t "\caption{Classification of the 176 scandals in the event-window panel.}\label{tab:sup_scandal_list}\\" _n
+file write _t "\begin{longtable}{@{}c p{2.1cm} c p{2.3cm} p{6.4cm} l@{}}" _n
+file write _t "\caption{Classification of the 176 scandals in the event-window panel. Scandals are numbered by their order of occurrence (chronological, by disclosure date); the same number labels each scandal in the leave-one-out figures. \textit{Role} is the position of the implicated official and gives the basis for the Apex / Non-Apex classification (President, Governor, and Supreme Court justices are Apex; all other officials are Non-Apex).}\label{tab:sup_scandal_list}\\" _n
 file write _t "\toprule" _n
-file write _t "\textbf{ID} & \textbf{Country} & \textbf{Year} & \textbf{Mini description} & \textbf{Class} \\" _n
+file write _t "\textbf{\#} & \textbf{Country} & \textbf{Year} & \textbf{Role} & \textbf{Description} & \textbf{Class} \\" _n
 file write _t "\midrule" _n
 file write _t "\endfirsthead" _n
-file write _t "\multicolumn{5}{@{}l}{\emph{\tablename~\thetable\ (continued)}}\\" _n
+file write _t "\multicolumn{6}{@{}l}{\emph{\tablename~\thetable\ (continued)}}\\" _n
 file write _t "\toprule" _n
-file write _t "\textbf{ID} & \textbf{Country} & \textbf{Year} & \textbf{Mini description} & \textbf{Class} \\" _n
+file write _t "\textbf{\#} & \textbf{Country} & \textbf{Year} & \textbf{Role} & \textbf{Description} & \textbf{Class} \\" _n
 file write _t "\midrule" _n
 file write _t "\endhead" _n
 file write _t "\midrule" _n
-file write _t "\multicolumn{5}{r@{}}{\emph{Continued on next page}}\\" _n
+file write _t "\multicolumn{6}{r@{}}{\emph{Continued on next page}}\\" _n
 file write _t "\endfoot" _n
 file write _t "\bottomrule" _n
 file write _t "\endlastfoot" _n
 
 forvalues i = 1/`N' {
-	local sid = id[`i']
+	local ord = order[`i']
 	local ctry = country[`i']
 	local yr  = scanyear[`i']
+	local rol = role[`i']
 	local cls = cond(apex[`i'] == 1, "Apex", "Non-Apex")
 
 	local d = summary[`i']
@@ -163,9 +186,10 @@ forvalues i = 1/`N' {
 	local d = ustrregexra("`d'", " +", " ")
 	local d = strtrim("`d'")
 	if "`d'" == "" local d = "(no summary available)"
-	/* truncate to ~100 chars at a word boundary, add an ellipsis */
-	if ustrlen("`d'") > 100 {
-		local d = usubstr("`d'", 1, 100)
+	/* truncate to ~220 chars at a word boundary, add an ellipsis (kept longer
+	   than before for more transparency about who was implicated and why) */
+	if ustrlen("`d'") > 220 {
+		local d = usubstr("`d'", 1, 220)
 		local sp = ustrrpos("`d'", " ")
 		if `sp' > 1 local d = usubstr("`d'", 1, `sp' - 1)
 		local d = "`d'" + "..."
@@ -179,7 +203,7 @@ forvalues i = 1/`N' {
 	local d = subinstr("`d'", "^", "\textasciicircum{}", .)
 	local d = subinstr("`d'", "~", "\textasciitilde{}", .)
 
-	file write _t `"`sid' & `ctry' & `yr' & `d' & `cls' \\"' _n
+	file write _t `"`ord' & `ctry' & `yr' & `rol' & `d' & `cls' \\"' _n
 }
 file write _t "\end{longtable}" _n
 file write _t "\endgroup" _n
