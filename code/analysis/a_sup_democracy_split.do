@@ -131,8 +131,8 @@ local firstyear = 2008
 tempfile base
 save `base'
 
-local outcomes  "num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM"
-local windows   "30 30 60 60 90 90 120 120"
+local outcomes  "num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM"
+local windows   "30 30 60 60 90 90"
 local nspecs : word count `outcomes'
 
 local poi_out   "`outcomes'"
@@ -170,12 +170,10 @@ esttab _all using "${tables}/sup_democracy_split_ols.tex", ///
 	        "\shortstack{Violent\\Protests}" ///
 	        "\shortstack{Peaceful\\Protests}" ///
 	        "\shortstack{Violent\\Protests}" ///
-	        "\shortstack{Peaceful\\Protests}" ///
-	        "\shortstack{Violent\\Protests}" ///
 	        "\shortstack{Peaceful\\Protests}") ///
 	mgroups("$\pm 30$-Day Window" "$\pm 60$-Day Window" ///
-	        "$\pm 90$-Day Window" "$\pm 120$-Day Window", ///
-	        pattern(1 0 1 0 1 0 1 0) ///
+	        "$\pm 90$-Day Window", ///
+	        pattern(1 0 1 0 1 0) ///
 	        prefix(\multicolumn{2}{c}{) suffix(}) span ///
 	        erepeat(\cmidrule(lr){@span})) ///
 	stats(p_hl baseline N num_scandals r2, ///
@@ -229,12 +227,10 @@ esttab _all using "${tables}/sup_democracy_split_poi.tex", ///
 	        "\shortstack{Violent\\Protests}" ///
 	        "\shortstack{Peaceful\\Protests}" ///
 	        "\shortstack{Violent\\Protests}" ///
-	        "\shortstack{Peaceful\\Protests}" ///
-	        "\shortstack{Violent\\Protests}" ///
 	        "\shortstack{Peaceful\\Protests}") ///
 	mgroups("$\pm 30$-Day Window" "$\pm 60$-Day Window" ///
-	        "$\pm 90$-Day Window" "$\pm 120$-Day Window", ///
-	        pattern(1 0 1 0 1 0 1 0) ///
+	        "$\pm 90$-Day Window", ///
+	        pattern(1 0 1 0 1 0) ///
 	        prefix(\multicolumn{2}{c}{) suffix(}) span ///
 	        erepeat(\cmidrule(lr){@span})) ///
 	stats(p_hl baseline N num_scandals r2_p, ///

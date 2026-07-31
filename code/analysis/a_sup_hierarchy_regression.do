@@ -114,8 +114,8 @@ global fe1      "i.country_id#i.year"
 global CLUSTER2 "cluster i.country_id#i.year#i.grupo_dias"
 
 local firstyear = 2008
-local outcomes "num_violent_MM num_peaceful_MM num_violent_MM num_peaceful_MM share_violent share_peaceful share_violent share_peaceful"
-local windows  "30 30 120 120 30 30 120 120"
+local outcomes "num_violent_MM num_peaceful_MM share_violent share_peaceful"
+local windows  "30 30 30 30"
 local nspecs : word count `outcomes'
 
 eststo clear
@@ -156,14 +156,10 @@ esttab _all using "${tables}/sup_hierarchy_regression.tex", ///
 	star(* 0.10 ** 0.05 *** 0.01) ///
 	mtitles("\shortstack{Violent\\Protests}" ///
 	        "\shortstack{Peaceful\\Protests}" ///
-	        "\shortstack{Violent\\Protests}" ///
-	        "\shortstack{Peaceful\\Protests}" ///
-	        "\shortstack{Share\\Violent}" ///
-	        "\shortstack{Share\\Peaceful}" ///
 	        "\shortstack{Share\\Violent}" ///
 	        "\shortstack{Share\\Peaceful}") ///
-	mgroups("$\pm 30$-Day Window" "$\pm 120$-Day Window" "Shares ($\pm 30$-Day)" "Shares ($\pm 120$-Day)", ///
-	        pattern(1 0 1 0 1 0 1 0) ///
+	mgroups("$\pm 30$-Day Window" "Shares ($\pm 30$-Day)", ///
+	        pattern(1 0 1 0) ///
 	        prefix(\multicolumn{2}{c}{) suffix(}) span ///
 	        erepeat(\cmidrule(lr){@span})) ///
 	stats(p_pres_ona p_oa_ona p_pres_oa baseline N num_scandals r2, ///

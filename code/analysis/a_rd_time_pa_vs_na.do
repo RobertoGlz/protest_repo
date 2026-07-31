@@ -37,6 +37,9 @@ log using "a_rd_time_pa_vs_na_run.log", replace text
 set more off
 clear all
 
+capture which rdrobust
+if _rc ssc install rdrobust, replace
+
 if "`c(username)'" == "lalov" {
 	gl identity "C:\Users\lalov\ITAM Seira Research Dropbox\Eduardo Rivera"
 }
@@ -116,6 +119,20 @@ foreach BW in 30 60 90 {
 		absorb(month day auxvar) cluster(group_cluster)
 	post `R' ("`sample'") ("`oc'") (`BW') (2) ///
 		(_b[1.Post]) (_se[1.Post]) (e(N))
+
+	/* nonparametric: rdrobust (MSE-optimal data-driven bandwidth, triangular
+	   kernel) on the FE-residualised outcome, restricted to the +-BW window */
+	use `base', clear
+	keep if year >= `firstyear' & abs(rv) <= `BW' & in_`sample' == 1
+	quietly reghdfe `oc', absorb(month day auxvar) residuals(_ryr)
+	capture rdrobust _ryr rv, c(0) kernel(triangular) bwselect(mserd) ///
+		vce(cluster group_cluster)
+	if _rc == 0 {
+		post `R' ("`sample'") ("`oc'") (`BW') (3) (e(tau_cl)) (e(se_tau_cl)) (e(N))
+	}
+	else {
+		post `R' ("`sample'") ("`oc'") (`BW') (3) (.) (.) (.)
+	}
 }
 }
 }
@@ -140,9 +157,10 @@ foreach s in pa na {
 	if "`s'" == "pa" local slab "Apex"
 	else             local slab "Non-Apex"
 	file write _tbl "\multicolumn{8}{l}{\textit{`slab'}}\\" _n
-	foreach p in 1 2 {
+	foreach p in 1 2 3 {
 		if `p' == 1 local plab "Local linear"
-		else        local plab "Local quadratic"
+		else if `p' == 2 local plab "Local quadratic"
+			else             local plab "Nonparametric"
 		local brow "`plab' &"
 		local srow " &"
 		foreach oc in num_violent_MM num_peaceful_MM {

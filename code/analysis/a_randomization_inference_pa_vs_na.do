@@ -196,7 +196,7 @@ foreach sample of local sample_list {
 	if "`sample'" == "na" local sample_desc "Other Non-Apex"
 
 foreach outcome of local outcome_list {
-foreach T in 30 60 90 120 {
+foreach T in 30 60 90 {
 
 	local win_size = 2*`T' + 1
 
@@ -374,14 +374,30 @@ foreach T in 30 60 90 120 {
 	local xlo_t = floor(`xlo' / `xstep') * `xstep'
 	local xhi_t = ceil( `xhi' / `xstep') * `xstep'
 
+	/* height of the tallest histogram bar (percent) so the observed-beta line
+	   can be drawn as a TOP layer spanning the full plot, rather than as an
+	   xline() that renders BEHIND the bars and gets hidden. */
+	quietly summarize beta_placebo
+	local _bmin = r(min)
+	local _bw   = (r(max) - r(min)) / 50
+	if `_bw' <= 0 local _bw = 1
+	capture drop _rbin _rbc
+	gen double _rbin = min(floor((beta_placebo - `_bmin') / `_bw'), 49)
+	quietly count
+	local _N = r(N)
+	bysort _rbin: gen long _rbc = _N
+	quietly summarize _rbc
+	local _ymax = 100 * r(max) / `_N' * 1.04
+
 	/* The observed-beta VALUE lives in the legend (a maroon-keyed row), not
-	   as a floating text label that gets clipped when the line sits high. */
+	   as a floating text label that gets clipped when the line sits high.
+	   The observed line is the LAST twoway layer (pci) so it sits on top. */
 	twoway (histogram beta_placebo, percent bin(50) ///
 	            color(gs13) lcolor(gs10)) ///
 	       (line _leg_beta beta_placebo, lcolor("128 0 0") lwidth(medthick)) ///
-	       (line _leg_p    beta_placebo, lcolor(none)), ///
-		xline(`observed_beta_T', lcolor("128 0 0") lwidth(medthick) ///
-		     lpattern(solid)) ///
+	       (line _leg_p    beta_placebo, lcolor(none)) ///
+	       (pci 0 `observed_beta_T' `_ymax' `observed_beta_T', ///
+	            lcolor("128 0 0") lwidth(medthick) lpattern(solid)), ///
 		xline(0, lcolor(black) lwidth(vthin) lpattern(dot)) ///
 		xtitle("Effect on `outlbl'", size(medium)) ///
 		ytitle("Percent", size(medium)) ///

@@ -3,12 +3,17 @@
        log:  C:\Users\rob98\Dropbox\Corrupcion\protest_repo\code\analysis\a_rd_
 > time_pa_vs_na_run.log
   log type:  text
- opened on:  29 Jul 2026, 11:33:45
+ opened on:  31 Jul 2026, 15:22:17
 
 . 
 . set more off
 
 . clear all
+
+. 
+. capture which rdrobust
+
+. if _rc ssc install rdrobust, replace
 
 . 
 . if "`c(username)'" == "lalov" {
@@ -48,7 +53,7 @@
 . tempfile cls
 
 . save `cls'
-file C:\Users\rob98\AppData\Local\Temp\ST_93f0_000001.tmp saved as .dta
+file C:\Users\rob98\AppData\Local\Temp\ST_4740_000001.tmp saved as .dta
     format
 
 . 
@@ -109,7 +114,7 @@ file C:\Users\rob98\AppData\Local\Temp\ST_93f0_000001.tmp saved as .dta
 . tempfile base
 
 . save `base'
-file C:\Users\rob98\AppData\Local\Temp\ST_93f0_000002.tmp saved as .dta
+file C:\Users\rob98\AppData\Local\Temp\ST_4740_000002.tmp saved as .dta
     format
 
 . 
@@ -122,7 +127,7 @@ file C:\Users\rob98\AppData\Local\Temp\ST_93f0_000002.tmp saved as .dta
 
 . postfile `R' str4 sample str16 outcome int bw int poly ///
 >         double tau double se double n using "`rdres'", replace
-(file C:\Users\rob98\AppData\Local\Temp\ST_93f0_000003.tmp not found)
+(file C:\Users\rob98\AppData\Local\Temp\ST_4740_000003.tmp not found)
 
 . 
 . foreach sample in pa na {
@@ -146,9 +151,39 @@ file C:\Users\rob98\AppData\Local\Temp\ST_93f0_000002.tmp saved as .dta
 >                 absorb(month day auxvar) cluster(group_cluster)
   9.         post `R' ("`sample'") ("`oc'") (`BW') (2) ///
 >                 (_b[1.Post]) (_se[1.Post]) (e(N))
- 10. }
- 11. }
- 12. }
+ 10. 
+.         /* nonparametric: rdrobust (MSE-optimal data-driven bandwidth, triang
+> ular
+>            kernel) on the FE-residualised outcome, restricted to the +-BW win
+> dow */
+.         use `base', clear
+ 11.         keep if year >= `firstyear' & abs(rv) <= `BW' & in_`sample' == 1
+ 12.         quietly reghdfe `oc', absorb(month day auxvar) residuals(_ryr)
+ 13.         capture rdrobust _ryr rv, c(0) kernel(triangular) bwselect(mserd) 
+> ///
+>                 vce(cluster group_cluster)
+ 14.         if _rc == 0 {
+ 15.                 post `R' ("`sample'") ("`oc'") (`BW') (3) (e(tau_cl)) (e(s
+> e_tau_cl)) (e(N))
+ 16.         }
+ 17.         else {
+ 18.                 post `R' ("`sample'") ("`oc'") (`BW') (3) (.) (.) (.)
+ 19.         }
+ 20. }
+ 21. }
+ 22. }
+(38,814 observations deleted)
+(35,034 observations deleted)
+(31,254 observations deleted)
+(38,814 observations deleted)
+(35,034 observations deleted)
+(31,254 observations deleted)
+(35,764 observations deleted)
+(28,984 observations deleted)
+(22,204 observations deleted)
+(35,764 observations deleted)
+(28,984 observations deleted)
+(22,204 observations deleted)
 
 . postclose `R'
 
@@ -185,45 +220,46 @@ file C:\Users\rob98\AppData\Local\Temp\ST_93f0_000002.tmp saved as .dta
   2.         if "`s'" == "pa" local slab "Apex"
   3.         else             local slab "Non-Apex"
   4.         file write _tbl "\multicolumn{8}{l}{\textit{`slab'}}\\" _n
-  5.         foreach p in 1 2 {
+  5.         foreach p in 1 2 3 {
   6.                 if `p' == 1 local plab "Local linear"
-  7.                 else        local plab "Local quadratic"
-  8.                 local brow "`plab' &"
-  9.                 local srow " &"
- 10.                 foreach oc in num_violent_MM num_peaceful_MM {
- 11.                 foreach BW in 30 60 90 {
- 12.                         quietly summarize tau if sample=="`s'" & outcome==
+  7.                 else if `p' == 2 local plab "Local quadratic"
+  8.                         else             local plab "Nonparametric"
+  9.                 local brow "`plab' &"
+ 10.                 local srow " &"
+ 11.                 foreach oc in num_violent_MM num_peaceful_MM {
+ 12.                 foreach BW in 30 60 90 {
+ 13.                         quietly summarize tau if sample=="`s'" & outcome==
 > "`oc'" & bw==`BW' & poly==`p', meanonly
- 13.                         local b = r(mean)
- 14.                         quietly summarize se if sample=="`s'" & outcome=="
+ 14.                         local b = r(mean)
+ 15.                         quietly summarize se if sample=="`s'" & outcome=="
 > `oc'" & bw==`BW' & poly==`p', meanonly
- 15.                         local se = r(mean)
- 16.                         if missing(`b') | missing(`se') | `se' <= 0 {
- 17.                                 local brow "`brow' & --"
- 18.                                 local srow "`srow' & "
- 19.                         }
- 20.                         else {
- 21.                                 local pv = 2*normal(-abs(`b'/`se'))
- 22.                                 local st = ""
- 23.                                 if `pv' < 0.10 local st = "*"
- 24.                                 if `pv' < 0.05 local st = "**"
- 25.                                 if `pv' < 0.01 local st = "***"
- 26.                                 if "`st'" != "" local bcell = string(`b',"
+ 16.                         local se = r(mean)
+ 17.                         if missing(`b') | missing(`se') | `se' <= 0 {
+ 18.                                 local brow "`brow' & --"
+ 19.                                 local srow "`srow' & "
+ 20.                         }
+ 21.                         else {
+ 22.                                 local pv = 2*normal(-abs(`b'/`se'))
+ 23.                                 local st = ""
+ 24.                                 if `pv' < 0.10 local st = "*"
+ 25.                                 if `pv' < 0.05 local st = "**"
+ 26.                                 if `pv' < 0.01 local st = "***"
+ 27.                                 if "`st'" != "" local bcell = string(`b',"
 > %5.3f") + "\sym{`st'}"
- 27.                                 else            local bcell = string(`b',"
+ 28.                                 else            local bcell = string(`b',"
 > %5.3f")
- 28.                                 local scell = "(" + string(`se',"%5.3f") +
+ 29.                                 local scell = "(" + string(`se',"%5.3f") +
 >  ")"
- 29.                                 local brow "`brow' & `bcell'"
- 30.                                 local srow "`srow' & `scell'"
- 31.                         }
- 32.                 }
+ 30.                                 local brow "`brow' & `bcell'"
+ 31.                                 local srow "`srow' & `scell'"
+ 32.                         }
  33.                 }
- 34.                 file write _tbl "`brow' \\" _n
- 35.                 file write _tbl "`srow' \\" _n
- 36.         }
- 37.         if "`s'" == "pa" file write _tbl "\midrule" _n
- 38. }
+ 34.                 }
+ 35.                 file write _tbl "`brow' \\" _n
+ 36.                 file write _tbl "`srow' \\" _n
+ 37.         }
+ 38.         if "`s'" == "pa" file write _tbl "\midrule" _n
+ 39. }
 
 . file write _tbl "\bottomrule" _n
 
