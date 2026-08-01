@@ -94,16 +94,17 @@ bysort country id: egen scanyear = max(_sy)
 bysort country id: egen double scandate = max(_sd)
 drop _sy _sd
 
-/* ORDER OF OCCURRENCE: chronological rank (1..N) over ALL scandals, by
-   disclosure date, ties broken by country then id.  This global integer
-   replaces the internal scandal ID as the label in the LOO figures and is the
-   SAME numbering as the appendix classification table
-   (a_scandal_classification_table.do). */
+/* WITHIN COUNTRY-YEAR ORDINAL: rank each scandal by disclosure date within its
+   (country, year), so a figure label like "Peru - 2017 - 3" reads as the third
+   Peru-2017 scandal (by date) -- easy to find in the date-sorted classification
+   table, unlike a global running number.  cycount is how many scandals share
+   that country-year, so singletons can drop the ordinal. */
 preserve
-	keep country id scandate
+	keep country id scandate scanyear
 	duplicates drop
-	gsort scandate country id
-	gen int order = _n
+	bysort country scanyear (scandate id): gen int cyrank = _n
+	bysort country scanyear: gen int cycount = _N
+	keep country id cyrank cycount
 	tempfile ord
 	save `ord'
 restore
@@ -261,7 +262,7 @@ foreach grp in apex nonapex pres oa ona high med low {
 
 	use `base', clear
 	keep if `IF' & ${g_mem}
-	keep country id scanyear order
+	keep country id scanyear cyrank cycount
 	duplicates drop
 	sort country id
 	local NS = _N
@@ -269,7 +270,8 @@ foreach grp in apex nonapex pres oa ona high med low {
 		local ctry`i' = country[`i']
 		local idv`i'  = id[`i']
 		local yr`i'   = scanyear[`i']
-		local ordv`i' = order[`i']
+		local cyr`i'  = cyrank[`i']
+		local cyc`i'  = cycount[`i']
 	}
 	di as result "Group `grp' [${g_split}]: `NS' scandals..."
 
@@ -281,8 +283,10 @@ foreach grp in apex nonapex pres oa ona high med low {
 			if `IF' & !(country == "`c'" & id == "`s'"), ///
 			absorb(i.country_id#i.year) vce(cluster i.country_id#i.year#i.grupo_dias)
 		if _rc continue
-		/* label by order of occurrence (matches the classification table's #) */
-		local lab "`ctry`i'' - `yr`i'' (#`ordv`i'')"
+		/* Country - Year, plus a within-country-year ordinal (by date) when
+		   that country-year has more than one scandal, e.g. "Peru - 2017 - 3" */
+		if `cyc`i'' > 1 local lab "`ctry`i'' - `yr`i'' - `cyr`i''"
+		else            local lab "`ctry`i'' - `yr`i''"
 		post `A' ("`grp'") ("${g_split}") (`i') (_b[${g_coef}]) (_se[${g_coef}]) ("`lab'")
 	}
 }
