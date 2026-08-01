@@ -116,8 +116,8 @@ replace fhstat = "Free"        if e_fh_status == 1
 replace fhstat = "Partly Free" if e_fh_status == 2
 replace fhstat = "Not Free"    if e_fh_status == 3
 
-/* sort by the Liberal Democracy Index, the headline measure in the main text */
-gsort -v2x_libdem country
+/* sort by the Electoral Democracy Index, the headline measure in the main text */
+gsort -v2x_polyarchy country
 tempfile ranks
 save `ranks'
 

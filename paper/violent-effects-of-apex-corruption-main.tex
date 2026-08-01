@@ -158,15 +158,15 @@ Is the violent-protest response a general reaction to salient national news, or 
 
 A natural question is whether these patterns of mobilization are driven by the country's democratic environment. There are at least two related, yet opposite, hypotheses about how democratic level of a country interacts with mobilization patterns. On the one hand, citizens in countries with higher levels of democracy may not mobilize, since strong democratic institutions in their countries can punish corrupt officials and remove them from office once proven guilty. On the other hand, precisely because citizens in highly democratic countries have higher standards for accountability, they may choose to mobilize in order to call democratic institutions into action. Our evidence suggests this second behavior is more likely the explanation. 
 
-\autoref{tab:sup_democracy_lmh} groups the panel of countries into terciles of their 2008 level of democracy---measured by V-Dem's Liberal Democracy Index~\citep{vdem2024}---and interacts the post-scandal indicator with a pooled top-two-tercile (``Medium+High'') versus bottom-tercile (``Low'') classification. The violent-protest effect is larger in the Medium+High group at every window and the one-sided ordering $\beta_{\text{Medium+High}}>\beta_{\text{Low}}$ strengthens at the wider windows---so, to the extent the heterogeneity is real, it is the \emph{higher}-democracy countries that drive the effect. We cannot always statistically distinguish the two groups, however, so this heterogeneity is suggestive rather than conclusive.
+\autoref{tab:sup_democracy_lmh} groups the panel of countries into terciles of their 2008 level of democracy---measured by V-Dem's Electoral Democracy Index~\citep{vdem2024}---and interacts the post-scandal indicator with a pooled top-two-tercile (``Medium+High'') versus bottom-tercile (``Low'') classification. The violent-protest effect is larger in the Medium+High group at every window and the one-sided ordering $\beta_{\text{Medium+High}}>\beta_{\text{Low}}$ strengthens at the wider windows---so, to the extent the heterogeneity is real, it is the \emph{higher}-democracy countries that drive the effect. We cannot always statistically distinguish the two groups, however, so this heterogeneity is suggestive rather than conclusive.
 
 \begin{table}[htb!]
-    \caption{Effect by 2008 level of democracy (Liberal index): Low vs.\ Medium+High.}
+    \caption{Effect by 2008 level of democracy (Electoral index): Low vs.\ Medium+High.}
     \label{tab:sup_democracy_lmh}
     \begin{center}
-        \scriptsize{\input{sup_democracy_terciles_libdem_lmh_ols}}
+        \scriptsize{\input{sup_democracy_low_vs_medhigh_ols}}
     \end{center}
-    \footnotesize{OLS estimates of $\beta_{\text{Medium+High}}$ and $\beta_{\text{Low}}$, the post-scandal indicator interacted with a top-two-tercile (``Medium+High'') and a bottom-tercile (``Low'') flag from terciles of V-Dem's 2008 Liberal Democracy Index (\texttt{v2x\_libdem}). Columns are violent and peaceful protest counts at the $\pm$30/60/90-day windows. ``$p$-value: Medium+High $=$ Low'' reports the two-sided $p$-value for $H_0:\beta_{\text{Medium+High}}=\beta_{\text{Low}}$; ``$p$-value: Medium+High $>$ Low (one-sided)'' reports the one-sided $p$-value. Same fixed effects, clustering, and sample as Table~\ref{tab:main}. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+    \footnotesize{OLS estimates of $\beta_{\text{Medium+High}}$ and $\beta_{\text{Low}}$, the post-scandal indicator interacted with a top-two-tercile (``Medium+High'') and a bottom-tercile (``Low'') flag from terciles of V-Dem's 2008 Electoral Democracy Index (\texttt{v2x\_polyarchy}). Columns are violent and peaceful protest counts at the $\pm$30/60/90-day windows. ``$p$-value: Medium+High $=$ Low'' reports the two-sided $p$-value for $H_0:\beta_{\text{Medium+High}}=\beta_{\text{Low}}$; ``$p$-value: Medium+High $>$ Low (one-sided)'' reports the one-sided $p$-value. Same fixed effects, clustering, and sample as Table~\ref{tab:main}. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
 \end{table}
 
 % =====================================================================
@@ -556,7 +556,7 @@ Pooling the top two terciles into a single ``Medium+High'' group sharpens the co
 \clearpage
 \section{Democracy: alternative indices and country classification}\label{sup:democracy_alt}
 
-\autoref{tab:sup_democracy_index_ranks} lists the sample countries (sorted by their 2008 V-Dem Liberal Democracy Index, the index used in \autoref{tab:sup_democracy_lmh} in the main text) and shows how each is classified under four different 2008 democracy measures, so the tercile grouping is not an artefact of a single index. \autoref{tab:sup_democracy_fh} then repeats the main-text by-level split using Freedom House's 2008 status (Free vs.\ Partly Free) in place of a continuous index. The ordering of the effects---larger where democracy is stronger---is preserved.
+\autoref{tab:sup_democracy_index_ranks} lists the sample countries (sorted by their 2008 V-Dem Electoral Democracy Index, the index used in \autoref{tab:sup_democracy_lmh} in the main text) and shows how each is classified under four different 2008 democracy measures, so the tercile grouping is not an artefact of a single index. \autoref{tab:sup_democracy_terciles_libdem_lmh} then re-estimates the main-text Low vs.\ Medium+High split with V-Dem's Liberal Democracy Index, and \autoref{tab:sup_democracy_fh} with Freedom House's 2008 status (Free vs.\ Partly Free) in place of a continuous index. The ordering of the effects---larger where democracy is stronger---is preserved throughout.
 
 \begin{table}[htb!]
     \caption{Country democracy classification across four indices.}
@@ -564,12 +564,12 @@ Pooling the top two terciles into a single ``Medium+High'' group sharpens the co
     \begin{center}
         \small{\input{sup_democracy_index_ranks}}
     \end{center}
-    \footnotesize{Each country's classification under four 2008 democracy measures. For the three continuous indices---V-Dem Electoral Democracy (\texttt{v2x\_polyarchy}), V-Dem Liberal Democracy (\texttt{v2x\_libdem}), and Polity2 (\texttt{e\_polity2})---the entry is the country's tercile (High / Medium / Low). Freedom House status (\texttt{e\_fh\_status}) is shown in its native categories (Free / Partly Free / Not Free). Polity2 discriminates poorly among these consolidated democracies (its scores cluster near the top), so its tercile split is noisier than the V-Dem indices. Countries are sorted by the V-Dem Liberal index.}
+    \footnotesize{Each country's classification under four 2008 democracy measures. For the three continuous indices---V-Dem Electoral Democracy (\texttt{v2x\_polyarchy}), V-Dem Liberal Democracy (\texttt{v2x\_libdem}), and Polity2 (\texttt{e\_polity2})---the entry is the country's tercile (High / Medium / Low). Freedom House status (\texttt{e\_fh\_status}) is shown in its native categories (Free / Partly Free / Not Free). Polity2 discriminates poorly among these consolidated democracies (its scores cluster near the top), so its tercile split is noisier than the V-Dem indices. Countries are sorted by the V-Dem Electoral index.}
 \end{table}
 
-% Liberal-index tercile (3-way) split and the liberal Low-vs-Medium+High table:
-% only the pooled Medium+High-vs-Low cut is shown, and it now sits in the main
-% body (Table~\ref{tab:sup_democracy_lmh}).  Both kept here, commented out.
+% Liberal-index robustness (the main-text split uses the Electoral index).  The
+% 3-way tercile version is commented out; only the pooled Low-vs-Medium+High cut
+% is shown, as the appendix table immediately after this comment block.
 \begin{comment}
 \begin{table}[htb!]
     \caption{Effect by 2008 level of democracy, tercile split: V-Dem Liberal Democracy Index.}
@@ -579,6 +579,7 @@ Pooling the top two terciles into a single ``Medium+High'' group sharpens the co
     \end{center}
     \footnotesize{The electoral-index tercile split, but with terciles formed from V-Dem's 2008 \emph{Liberal} Democracy Index (\texttt{v2x\_libdem}) rather than the Electoral index. OLS estimates of $\beta_{\text{High}}$, $\beta_{\text{Medium}}$, and $\beta_{\text{Low}}$ (the post-scandal indicator interacted with top-, middle-, and bottom-tercile flags), on violent and peaceful protest counts at the $\pm$30/60/90-day windows. The rows report the one-sided $p$-values for the orderings High $>$ Medium, Medium $>$ Low, and High $>$ Low. All specifications include country-by-year, month-of-year, and day-of-week fixed effects; standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
 \end{table}
+\end{comment}
 
 \begin{table}[htb!]
     \caption{Effect by 2008 level of democracy (Liberal index): Low vs.\ Medium+High.}
@@ -586,9 +587,8 @@ Pooling the top two terciles into a single ``Medium+High'' group sharpens the co
     \begin{center}
         \scriptsize{\input{sup_democracy_terciles_libdem_lmh_ols}}
     \end{center}
-    \footnotesize{As \autoref{tab:sup_democracy_lmh}, but the terciles are formed from V-Dem's 2008 \emph{Liberal} Democracy Index (\texttt{v2x\_libdem}) rather than the Electoral index, and the top two terciles are pooled. OLS estimates of $\beta_{\text{Medium+High}}$ and $\beta_{\text{Low}}$ (the post-scandal indicator interacted with a top-two-tercile and a bottom-tercile flag), on violent and peaceful protest counts at the $\pm$30/60/90/120-day windows. ``$p$-value: Medium+High $=$ Low'' reports the two-sided $p$-value for $H_0:\beta_{\text{Medium+High}}=\beta_{\text{Low}}$; ``$p$-value: Medium+High $>$ Low (one-sided)'' reports the one-sided $p$-value for $H_1:\beta_{\text{Medium+High}}>\beta_{\text{Low}}$. All specifications include country-by-year, month-of-year, and day-of-week fixed effects; standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+    \footnotesize{As \autoref{tab:sup_democracy_lmh}, but the terciles are formed from V-Dem's 2008 \emph{Liberal} Democracy Index (\texttt{v2x\_libdem}) rather than the Electoral index, and the top two terciles are pooled. OLS estimates of $\beta_{\text{Medium+High}}$ and $\beta_{\text{Low}}$ (the post-scandal indicator interacted with a top-two-tercile and a bottom-tercile flag), on violent and peaceful protest counts at the $\pm$30/60/90-day windows. ``$p$-value: Medium+High $=$ Low'' reports the two-sided $p$-value for $H_0:\beta_{\text{Medium+High}}=\beta_{\text{Low}}$; ``$p$-value: Medium+High $>$ Low (one-sided)'' reports the one-sided $p$-value for $H_1:\beta_{\text{Medium+High}}>\beta_{\text{Low}}$. All specifications include country-by-year, month-of-year, and day-of-week fixed effects; standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
 \end{table}
-\end{comment}
 
 \begin{table}[htb!]
     \caption{Effect by 2008 level of democracy: Freedom House status.}
