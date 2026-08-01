@@ -98,19 +98,27 @@ save `base'
 tempname R
 tempfile rdres
 postfile `R' str4 sample str16 outcome int bw int poly ///
-	double tau double se double n using "`rdres'", replace
+	double tau double se double n double nsc double mn double hbw double neff ///
+	using "`rdres'", replace
 
 foreach sample in pa na {
 foreach oc in num_violent_MM num_peaceful_MM {
 foreach BW in 30 60 90 {
 
-	/* local linear: Post + rv + Post#rv */
+	/* local linear: Post + rv + Post#rv.  This regression also fixes the
+	   column's sample size (N), number of scandals, and pre-scandal control
+	   mean, all reported at the foot of the table for comparability. */
 	use `base', clear
 	quietly reghdfe `oc' i.Post##c.rv ///
 		if year >= `firstyear' & abs(rv) <= `BW' & in_`sample' == 1, ///
 		absorb(month day auxvar) cluster(group_cluster)
+	local Nlin = e(N)
+	quietly levelsof id if e(sample), local(_ids)
+	local nsc : word count `_ids'
+	quietly summarize `oc' if e(sample) & rv >= -`BW' & rv <= -1
+	local mn = r(mean)
 	post `R' ("`sample'") ("`oc'") (`BW') (1) ///
-		(_b[1.Post]) (_se[1.Post]) (e(N))
+		(_b[1.Post]) (_se[1.Post]) (`Nlin') (`nsc') (`mn') (.) (.)
 
 	/* local quadratic: Post + rv + rv^2, each interacted with Post */
 	use `base', clear
@@ -118,20 +126,25 @@ foreach BW in 30 60 90 {
 		if year >= `firstyear' & abs(rv) <= `BW' & in_`sample' == 1, ///
 		absorb(month day auxvar) cluster(group_cluster)
 	post `R' ("`sample'") ("`oc'") (`BW') (2) ///
-		(_b[1.Post]) (_se[1.Post]) (e(N))
+		(_b[1.Post]) (_se[1.Post]) (e(N)) (.) (.) (.) (.)
 
 	/* nonparametric: rdrobust (MSE-optimal data-driven bandwidth, triangular
-	   kernel) on the FE-residualised outcome, restricted to the +-BW window */
+	   kernel) on the FE-residualised outcome, restricted to the +-BW window.
+	   We also keep the selected bandwidth and the effective (in-bandwidth)
+	   observations -- the standard reported quantities for an RD estimate. */
 	use `base', clear
 	keep if year >= `firstyear' & abs(rv) <= `BW' & in_`sample' == 1
 	quietly reghdfe `oc', absorb(month day auxvar) residuals(_ryr)
 	capture rdrobust _ryr rv, c(0) kernel(triangular) bwselect(mserd) ///
 		vce(cluster group_cluster)
 	if _rc == 0 {
-		post `R' ("`sample'") ("`oc'") (`BW') (3) (e(tau_cl)) (e(se_tau_cl)) (e(N))
+		local heff = e(h_l)
+		local neff = e(N_h_l) + e(N_h_r)
+		post `R' ("`sample'") ("`oc'") (`BW') (3) ///
+			(e(tau_cl)) (e(se_tau_cl)) (e(N)) (.) (.) (`heff') (`neff')
 	}
 	else {
-		post `R' ("`sample'") ("`oc'") (`BW') (3) (.) (.) (.)
+		post `R' ("`sample'") ("`oc'") (`BW') (3) (.) (.) (.) (.) (.) (.) (.)
 	}
 }
 }
@@ -190,6 +203,32 @@ foreach s in pa na {
 		file write _tbl "`brow' \\" _n
 		file write _tbl "`srow' \\" _n
 	}
+	/* --- foot statistics: standard RD quantities (bandwidth, effective
+	   observations) plus the sample size, number of scandals, and pre-scandal
+	   control mean reported by the paper's other tables --- */
+	file write _tbl "\addlinespace" _n
+	foreach st in hbw neff n nsc mn {
+		if "`st'" == "hbw"  local stlab "MSE-optimal bandwidth (days)"
+		if "`st'" == "neff" local stlab "Effective observations"
+		if "`st'" == "n"    local stlab "Observations"
+		if "`st'" == "nsc"  local stlab "Number of scandals"
+		if "`st'" == "mn"   local stlab "Mean (pre-scandal)"
+		if "`st'" == "hbw" | "`st'" == "neff" local psel 3
+		else                                  local psel 1
+		local row "\multicolumn{2}{l}{`stlab'}"
+		foreach oc in num_violent_MM num_peaceful_MM {
+		foreach BW in 30 60 90 {
+			quietly summarize `st' if sample=="`s'" & outcome=="`oc'" & bw==`BW' & poly==`psel', meanonly
+			local v = r(mean)
+			if missing(`v') local cell "--"
+			else if "`st'" == "mn"  local cell = string(`v', "%5.3f")
+			else if "`st'" == "hbw" local cell = string(`v', "%4.1f")
+			else                    local cell = string(`v', "%9.0fc")
+			local row "`row' & `cell'"
+		}
+		}
+		file write _tbl "`row' \\" _n
+	}
 	if "`s'" == "pa" file write _tbl "\midrule" _n
 }
 file write _tbl "\bottomrule" _n
@@ -247,7 +286,6 @@ foreach oc in num_violent_MM num_peaceful_MM {
 		twoway (scatter ry wbin, mcolor(navy%70) msymbol(O) msize(small)) ///
 		       (lfit ry wbin if wbin < 0,  lcolor(navy)      lwidth(medthick)) ///
 		       (lfit ry wbin if wbin >= 0, lcolor(cranberry) lwidth(medthick)), ///
-			xline(0, lcolor(black%25) lwidth(medthick) lpattern(solid)) ///
 			ytitle("Protest count (residualised)", size(medium)) ///
 			xtitle("Days since scandal", size(medium)) ///
 			xlabel(-`BW'(`xs')`BW') ///
@@ -260,7 +298,6 @@ foreach oc in num_violent_MM num_peaceful_MM {
 		twoway (scatter ry wbin, mcolor(navy%70) msymbol(O) msize(small)) ///
 		       (qfit ry wbin if wbin < 0,  lcolor(navy)      lwidth(medthick)) ///
 		       (qfit ry wbin if wbin >= 0, lcolor(cranberry) lwidth(medthick)), ///
-			xline(0, lcolor(black%25) lwidth(medthick) lpattern(solid)) ///
 			ytitle("Protest count (residualised)", size(medium)) ///
 			xtitle("Days since scandal", size(medium)) ///
 			xlabel(-`BW'(`xs')`BW') ///

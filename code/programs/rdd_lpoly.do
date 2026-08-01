@@ -102,8 +102,7 @@ program define rdd_lpoly, rclass
 			acolor("`polycolor'%20") alwidth(none) lcolor("`polycolor'") lpattern(solid)) ///
 		(scatter _ycb _rvb if `touse' & inrange(_rvb, `rangemin', `rangemax'), ///
 			msize(medsmall) msymbol(O) color("`polycolor'")), ///
-		xline(0, lcolor(black%25) lwidth(medthick)) ///
-		legend(order(1 "`cilevel'% CI" 2 "Local linear fit" 3 "Binned means" - "`TAU'") ///
+		legend(order(1 "`cilevel'% CI" 2 "Local linear fit" 5 "Binned means" - "`TAU'") ///
 			row(2) pos(6) region(lcolor(gs10))) ///
 		xlabel(`rangemin'(`xstep')`rangemax', labsize(medium) nogrid) ///
 		`yopts' ///

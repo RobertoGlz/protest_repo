@@ -6,10 +6,11 @@
 
     Objective:
         Build the scandal-classification appendix table (sup_scandal_list.tex):
-        one row per scandal in the event-window panel with its order-of-
-        occurrence number (chronological, by disclosure date -- this replaces
-        the internal scandal ID as the public label), country, year, the role of
-        the implicated official, a description, and its Apex / Non-Apex class.
+        a LANDSCAPE longtable, one row per scandal in the event-window panel:
+        country, year, a description, and its Apex / Non-Apex class.  Rows are
+        ordered by disclosure date (order of occurrence) -- the same ordering
+        used to number the scandals in the leave-one-out figures -- but the
+        number itself is not printed as a column.
 
     Two things this file does that deserve a note:
 
@@ -96,16 +97,6 @@ replace apex = 1 if position == "president"
 replace apex = 1 if position == "governor"
 replace apex = 1 if position == "sc_judge_congressman" & inlist(id, "202", "NEW26", "NEW30", "332")
 
-/* (2b) Human-readable ROLE of the implicated official, so the reader can see
-   the exact basis for the Apex / Non-Apex call (President and Governor and the
-   four flagged Supreme Court justices are Apex; everyone else is Non-Apex). */
-gen str24 role = "Other official"
-replace role = "President"             if position == "president"
-replace role = "Governor"              if position == "governor"
-replace role = "Supreme Court justice" if position == "sc_judge_congressman" & inlist(id, "202", "NEW26", "NEW30", "332")
-replace role = "Congress member"       if position == "sc_judge_congressman" & !inlist(id, "202", "NEW26", "NEW30", "332")
-replace role = "Judiciary (lower)"     if position == "other_judiciary"
-
 /* attach the panel year/date, keep the panel scandals */
 merge m:1 id country using `years', keep(3) nogenerate
 
@@ -128,84 +119,88 @@ replace summary = subinstr(summary, "}", ")", .)
 replace summary = subinstr(summary, "&gt;", ">", .)
 replace summary = subinstr(summary, "&lt;", "<", .)
 replace summary = subinstr(summary, "&amp;", " and ", .)
+/* strip tweet artifacts that do not wrap and overflow the description column:
+   URLs (http/https, incl. t.co short links and archive.org) and @-mentions.
+   Also drop a dangling "via" left after removing a trailing "via @handle". */
+replace summary = ustrregexra(summary, "https?://[^ ]+", "")
+replace summary = ustrregexra(summary, "@[A-Za-z0-9_]+", "")
+replace summary = ustrregexra(summary, " [Vv][ií]a *$", "")
+replace summary = ustrregexra(summary, " *\.\.+ *", " ")
 replace summary = ustrregexra(summary, " +", " ")
 replace summary = strtrim(summary)
+replace summary = "(no summary available)" if summary == ""
 
-/* ---- ORDER OF OCCURRENCE: chronological rank by disclosure date ----------
-   This integer (1..N) replaces the internal scandal ID everywhere the paper
-   refers to a scandal (this table and the leave-one-out figures).  Ties on the
-   exact date are broken by country then id, deterministically, so the SAME rank
-   is reproduced by a_loo_scandal_pa_vs_na.do. */
+/* ---- truncate to ~300 chars at a word boundary (vectorised) -------------- */
+gen byte _long = ustrlen(summary) > 300
+replace summary = usubstr(summary, 1, 300)                            if _long
+replace summary = usubstr(summary, 1, ustrrpos(summary, " ") - 1)    if _long & ustrrpos(summary, " ") > 1
+replace summary = summary + "..."                                    if _long
+drop _long
+
+/* ---- escape LaTeX specials ON THE VARIABLE ------------------------------
+   Crucial for "$": doing this on a local via subinstr("`d'", ...) fails
+   because Stata expands "$" as a global-macro reference when the local is
+   dereferenced, so dollar amounts (e.g. "$4 million") reached LaTeX unescaped
+   and opened math mode (italic, spaces dropped) that ran off the page.  On the
+   variable there is no macro expansion.  Braces were already turned into
+   parentheses above, so the braces introduced by \textasciicircum{} etc. are
+   safe. */
+/* "$": we want a literal "\$" in the .tex.  file write applies one round of
+   Stata escape processing, which turns "\$" back into "$", so we store "\\$"
+   (two backslashes + dollar, built from char codes to dodge Stata's own string
+   escapes); file write then emits exactly "\$". */
+replace summary = subinstr(summary, char(36), char(92) + char(92) + char(36), .)
+replace summary = subinstr(summary, "&", "\&", .)
+replace summary = subinstr(summary, "%", "\%", .)
+replace summary = subinstr(summary, "#", "\#", .)
+replace summary = subinstr(summary, "_", "\_", .)
+replace summary = subinstr(summary, "^", "\textasciicircum{}", .)
+replace summary = subinstr(summary, "~", "\textasciitilde{}", .)
+
+/* ---- order rows by disclosure date (ORDER OF OCCURRENCE) -----------------
+   The number itself is not printed, but the row order matches the 1..N
+   numbering that a_loo_scandal_pa_vs_na.do uses to label the leave-one-out
+   figures (same deterministic tie-break: date, then country, then id). */
 gsort scandate country id
-gen int order = _n
 local N = _N
 
 /* ---- write the longtable -------------------------------------------------- */
 capture file close _t
 file open _t using "${tables}/sup_scandal_list.tex", write replace
+file write _t "\begin{landscape}" _n
 file write _t "\begingroup" _n
 file write _t "\setstretch{1.0}\footnotesize" _n
-file write _t "\setlength{\LTcapwidth}{\textwidth}" _n
-file write _t "\begin{longtable}{@{}c p{2.1cm} c p{2.3cm} p{6.4cm} l@{}}" _n
-file write _t "\caption{Classification of the 176 scandals in the event-window panel. Scandals are numbered by their order of occurrence (chronological, by disclosure date); the same number labels each scandal in the leave-one-out figures. \textit{Role} is the position of the implicated official and gives the basis for the Apex / Non-Apex classification (President, Governor, and Supreme Court justices are Apex; all other officials are Non-Apex).}\label{tab:sup_scandal_list}\\" _n
+file write _t "\setlength{\LTcapwidth}{\linewidth}" _n
+file write _t "\begin{longtable}{@{}l c p{15.5cm} l@{}}" _n
+file write _t "\caption{Classification of the 176 scandals in the event-window panel. Rows are in order of occurrence (by disclosure date); this is the same position the leave-one-out figures use to label each scandal. A scandal is \textit{Apex} when the implicated official is a president, governor, or Supreme Court justice, and \textit{Non-Apex} otherwise.}\label{tab:sup_scandal_list}\\" _n
 file write _t "\toprule" _n
-file write _t "\textbf{\#} & \textbf{Country} & \textbf{Year} & \textbf{Role} & \textbf{Description} & \textbf{Class} \\" _n
+file write _t "\textbf{Country} & \textbf{Year} & \textbf{Description} & \textbf{Class} \\" _n
 file write _t "\midrule" _n
 file write _t "\endfirsthead" _n
-file write _t "\multicolumn{6}{@{}l}{\emph{\tablename~\thetable\ (continued)}}\\" _n
+file write _t "\multicolumn{4}{@{}l}{\emph{\tablename~\thetable\ (continued)}}\\" _n
 file write _t "\toprule" _n
-file write _t "\textbf{\#} & \textbf{Country} & \textbf{Year} & \textbf{Role} & \textbf{Description} & \textbf{Class} \\" _n
+file write _t "\textbf{Country} & \textbf{Year} & \textbf{Description} & \textbf{Class} \\" _n
 file write _t "\midrule" _n
 file write _t "\endhead" _n
 file write _t "\midrule" _n
-file write _t "\multicolumn{6}{r@{}}{\emph{Continued on next page}}\\" _n
+file write _t "\multicolumn{4}{r@{}}{\emph{Continued on next page}}\\" _n
 file write _t "\endfoot" _n
 file write _t "\bottomrule" _n
 file write _t "\endlastfoot" _n
 
 forvalues i = 1/`N' {
-	local ord = order[`i']
 	local ctry = country[`i']
 	local yr  = scanyear[`i']
-	local rol = role[`i']
 	local cls = cond(apex[`i'] == 1, "Apex", "Non-Apex")
 
 	local d = summary[`i']
-	/* keep only ASCII-printable + Latin letters (drops emoji, bullets, etc.) */
-	local d = ustrregexra("`d'", "[^\u0020-\u007E\u00C0-\u024F]", " ")
-	/* remove characters that break Stata parsing / need escaping */
-	local d = subinstr("`d'", "\", " ", .)
-	local d = subinstr("`d'", "{", "(", .)
-	local d = subinstr("`d'", "}", ")", .)
-	local d = subinstr("`d'", char(96), "'", .)   /* backtick -> apostrophe */
-	/* common HTML entities that appear in the tweet-sourced rows */
-	local d = subinstr("`d'", "&gt;", ">", .)
-	local d = subinstr("`d'", "&lt;", "<", .)
-	local d = subinstr("`d'", "&amp;", " and ", .)
-	/* collapse whitespace */
-	local d = ustrregexra("`d'", " +", " ")
-	local d = strtrim("`d'")
-	if "`d'" == "" local d = "(no summary available)"
-	/* truncate to ~220 chars at a word boundary, add an ellipsis (kept longer
-	   than before for more transparency about who was implicated and why) */
-	if ustrlen("`d'") > 220 {
-		local d = usubstr("`d'", 1, 220)
-		local sp = ustrrpos("`d'", " ")
-		if `sp' > 1 local d = usubstr("`d'", 1, `sp' - 1)
-		local d = "`d'" + "..."
-	}
-	/* escape the remaining LaTeX specials */
-	local d = subinstr("`d'", "&", "\&", .)
-	local d = subinstr("`d'", "%", "\%", .)
-	local d = subinstr("`d'", "$", "\$", .)
-	local d = subinstr("`d'", "#", "\#", .)
-	local d = subinstr("`d'", "_", "\_", .)
-	local d = subinstr("`d'", "^", "\textasciicircum{}", .)
-	local d = subinstr("`d'", "~", "\textasciitilde{}", .)
-
-	file write _t `"`ord' & `ctry' & `yr' & `rol' & `d' & `cls' \\"' _n
+	/* description already cleaned, truncated and LaTeX-escaped on the
+	   variable above (escaping "$" there, not on this macro, avoids
+	   Stata reading it as a global-macro reference) -- just emit it */
+	file write _t `"`ctry' & `yr' & `d' & `cls' \\"' _n
 }
 file write _t "\end{longtable}" _n
 file write _t "\endgroup" _n
+file write _t "\end{landscape}" _n
 file close _t
 display in green "sup_scandal_list.tex written (`N' scandals)"

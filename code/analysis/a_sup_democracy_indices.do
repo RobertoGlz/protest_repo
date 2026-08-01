@@ -109,7 +109,15 @@ foreach m in poly lib pol fh {
 	replace hml_`m' = "High"   if terc_`m' == 3
 }
 
-gsort -v2x_polyarchy country
+/* Freedom House shown in its NATIVE status categories (not H/M/L) in the
+   country-classification table. */
+gen str12 fhstat = "--"
+replace fhstat = "Free"        if e_fh_status == 1
+replace fhstat = "Partly Free" if e_fh_status == 2
+replace fhstat = "Not Free"    if e_fh_status == 3
+
+/* sort by the Liberal Democracy Index, the headline measure in the main text */
+gsort -v2x_libdem country
 tempfile ranks
 save `ranks'
 
@@ -150,7 +158,7 @@ forvalues i = 1/`=_N' {
 	local a = hml_poly[`i']
 	local b = hml_lib[`i']
 	local d = hml_pol[`i']
-	local e = hml_fh[`i']
+	local e = fhstat[`i']
 	file write _t "`c' & `a' & `b' & `d' & `e' \\" _n
 }
 file write _t "\bottomrule" _n

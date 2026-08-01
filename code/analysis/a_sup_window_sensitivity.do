@@ -22,9 +22,11 @@
      readers can compare them side-by-side and see the null line
      aligned across panels.
 
-     Highlights: T = 30 and T = 120 markers and CI bars in RGB
-     (220, 0, 0); a thick, very faint horizontal line marks the
-     null (beta = 0 for OLS, IRR = 1 for Poisson).
+     Highlights: the main-body table windows T = 30, 60, 90 markers
+     and CI bars in RGB (220, 0, 0); T = 120 is drawn like every other
+     non-highlighted window (its estimates are no longer reported in the
+     main body); a thick, very faint horizontal line marks the null
+     (beta = 0 for OLS, IRR = 1 for Poisson).
 
    Inputs:
      - ${datfin}/protests_scandals_30days_v3.dta
@@ -209,7 +211,10 @@ foreach est in OLS Poisson {
 	}
 }
 
-/* --- Plot.  Highlight ALL four table windows (30/60/90/120) in red. --- */
+/* --- Plot.  Highlight the three main-body table windows (30/60/90) in red;
+       120 is NOT highlighted -- it is drawn exactly like the other windows that
+       are not reported in the main body (gray CI cap, black marker), because
+       120-day estimates are no longer shown there. --- */
 foreach sample in full pa na {
 
 	if "`sample'" == "full" local suf ""
@@ -251,13 +256,13 @@ foreach sample in full pa na {
 				keep if sample == "`sample'" & estimator == "`est'" & outcome == "`outcome'"
 				sort T
 
-				twoway (rcap `ylo' `yhi' T if !inlist(T, 30, 60, 90, 120), ///
+				twoway (rcap `ylo' `yhi' T if !inlist(T, 30, 60, 90), ///
 				            lcolor(gs6) lwidth(thin)) ///
-				       (rcap `ylo' `yhi' T if  inlist(T, 30, 60, 90, 120), ///
+				       (rcap `ylo' `yhi' T if  inlist(T, 30, 60, 90), ///
 				            lcolor("220 0 0") lwidth(medthick)) ///
 				       (line `yvar' T, lcolor(black) lwidth(medium)) ///
 				       (scatter `yvar' T, msymbol(O) msize(medium) mcolor(black)) ///
-				       (scatter `yvar' T if inlist(T, 30, 60, 90, 120), ///
+				       (scatter `yvar' T if inlist(T, 30, 60, 90), ///
 				            msymbol(O) msize(medlarge) mcolor("220 0 0")), ///
 					yline(`nullref', lcolor(black%10) lwidth(vvthick) lpattern(solid)) ///
 					xlabel(15(15)150) ///

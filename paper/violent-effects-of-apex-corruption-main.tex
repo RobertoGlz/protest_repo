@@ -158,15 +158,15 @@ Is the violent-protest response a general reaction to salient national news, or 
 
 A natural question is whether these patterns of mobilization are driven by the country's democratic environment. There are at least two related, yet opposite, hypotheses about how democratic level of a country interacts with mobilization patterns. On the one hand, citizens in countries with higher levels of democracy may not mobilize, since strong democratic institutions in their countries can punish corrupt officials and remove them from office once proven guilty. On the other hand, precisely because citizens in highly democratic countries have higher standards for accountability, they may choose to mobilize in order to call democratic institutions into action. Our evidence suggests this second behavior is more likely the explanation. 
 
-\autoref{tab:sup_democracy_lmh} groups the panel of countries into terciles of their 2008 level of democracy---measured by V-Dem's Electoral Democracy Index~\citep{vdem2024}---and interacts the post-scandal indicator with a pooled top-two-tercile (``Medium+High'') versus bottom-tercile (``Low'') classification. The violent-protest effect is larger in the Medium+High group at every window and the one-sided ordering $\beta_{\text{Medium+High}}>\beta_{\text{Low}}$ strengthens at the wider windows---so, to the extent the heterogeneity is real, it is the \emph{higher}-democracy countries that drive the effect. We cannot always statistically distinguish the two groups, however, so this heterogeneity is suggestive rather than conclusive.
+\autoref{tab:sup_democracy_lmh} groups the panel of countries into terciles of their 2008 level of democracy---measured by V-Dem's Liberal Democracy Index~\citep{vdem2024}---and interacts the post-scandal indicator with a pooled top-two-tercile (``Medium+High'') versus bottom-tercile (``Low'') classification. The violent-protest effect is larger in the Medium+High group at every window and the one-sided ordering $\beta_{\text{Medium+High}}>\beta_{\text{Low}}$ strengthens at the wider windows---so, to the extent the heterogeneity is real, it is the \emph{higher}-democracy countries that drive the effect. We cannot always statistically distinguish the two groups, however, so this heterogeneity is suggestive rather than conclusive.
 
 \begin{table}[htb!]
-    \caption{Effect by 2008 level of democracy: Low vs.\ Medium+High.}
+    \caption{Effect by 2008 level of democracy (Liberal index): Low vs.\ Medium+High.}
     \label{tab:sup_democracy_lmh}
     \begin{center}
-        \scriptsize{\input{sup_democracy_low_vs_medhigh_ols}}
+        \scriptsize{\input{sup_democracy_terciles_libdem_lmh_ols}}
     \end{center}
-    \footnotesize{OLS estimates of $\beta_{\text{Medium+High}}$ and $\beta_{\text{Low}}$, the post-scandal indicator interacted with a top-two-tercile (``Medium+High'') and a bottom-tercile (``Low'') flag from terciles of V-Dem's 2008 Electoral Democracy Index (\texttt{v2x\_polyarchy}). Columns are violent and peaceful protest counts at the $\pm$30/60/90-day windows. ``$p$-value: Medium+High $=$ Low'' reports the two-sided $p$-value for $H_0:\beta_{\text{Medium+High}}=\beta_{\text{Low}}$; ``$p$-value: Medium+High $>$ Low (one-sided)'' reports the one-sided $p$-value. Same fixed effects, clustering, and sample as Table~\ref{tab:main}. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+    \footnotesize{OLS estimates of $\beta_{\text{Medium+High}}$ and $\beta_{\text{Low}}$, the post-scandal indicator interacted with a top-two-tercile (``Medium+High'') and a bottom-tercile (``Low'') flag from terciles of V-Dem's 2008 Liberal Democracy Index (\texttt{v2x\_libdem}). Columns are violent and peaceful protest counts at the $\pm$30/60/90-day windows. ``$p$-value: Medium+High $=$ Low'' reports the two-sided $p$-value for $H_0:\beta_{\text{Medium+High}}=\beta_{\text{Low}}$; ``$p$-value: Medium+High $>$ Low (one-sided)'' reports the one-sided $p$-value. Same fixed effects, clustering, and sample as Table~\ref{tab:main}. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
 \end{table}
 
 % =====================================================================
@@ -213,7 +213,7 @@ Each of the 176 scandals in our event-window panel is manually classified by the
 
 \autoref{tab:sup_scandal_list} lists every scandal in the panel, numbered by its order of occurrence (chronological, by disclosure date), together with its country, year, the role of the implicated official, a description, and its Apex/Non-Apex classification. This order-of-occurrence number---rather than any internal case identifier---is what labels each scandal in the leave-one-out figures of \autoref{sup:loo}, so a marker there can be traced back to its row in the table. One borderline case, a 2017 Mexican scandal, was originally re-tagged as a Supreme Court justice, but its source describes a San Luis Potos\'i case implicating \emph{diputados} (members of Congress); we therefore classify it as Non-Apex. Four scandals had blank descriptions in the classification file; we recovered them from the underlying news source and report them in the table.
 
-{\input{sup_scandal_list}}
+\input{sup_scandal_list}
 
 % ---------------------------------------------------------------------
 \clearpage
@@ -499,6 +499,8 @@ Tables~\ref{tab:sup_pres_only} and \ref{tab:sup_pres_apex} re-estimate \autoref{
 
 % ---------------------------------------------------------------------
 \clearpage
+% Regression-based hierarchy analysis removed per author request.
+\begin{comment}
 \section{Regression-based hierarchy analysis}\label{sup:hierarchy}
 
 Table~\ref{tab:sup_hierarchy} reports the pooled-regression analogue of the apex partition, splitting the interaction into all three bins. For each outcome and window we estimate
@@ -518,6 +520,7 @@ where $\mathrm{Pres}_s$, $\mathrm{OA}_s$, $\mathrm{ONA}_s$ are scandal-level ind
     \end{center}
     \footnotesize{OLS estimates of $\beta_{\text{Pres}}$, $\beta_{\text{OA}}$, $\beta_{\text{ONA}}$ (Post $\times$ President, Other Apex, Non-Apex) on the four count outcomes (cols.\ 1--4) and four share outcomes (cols.\ 5--8). Standard errors (in parentheses) clustered at the country $\times$ year $\times$ day-bin level. Fixed effects, sample period, and clustering identical to Table~\ref{tab:main}. Rows labeled ``$p$-value'' report pairwise equality tests across the three category coefficients.}
 \end{table}
+\end{comment}
 
 % ---------------------------------------------------------------------
 \clearpage
@@ -553,7 +556,7 @@ Pooling the top two terciles into a single ``Medium+High'' group sharpens the co
 \clearpage
 \section{Democracy: alternative indices and country classification}\label{sup:democracy_alt}
 
-\autoref{tab:sup_democracy_index_ranks} lists the sample countries (sorted by their 2008 V-Dem Electoral Democracy Index) and shows how each is classified---High, Medium, or Low---under four different 2008 democracy measures, so the tercile grouping used throughout is not an artefact of a single index. \autoref{tab:sup_democracy_terciles_libdem} then re-estimates the electoral-democracy split (\autoref{tab:sup_democracy_lmh} in the main text) using an alternative continuous index, V-Dem's Liberal Democracy Index, in place of the Electoral index, and \autoref{tab:sup_democracy_terciles_libdem_lmh} reports the corresponding Low vs.\ Medium+High pooled split---the liberal-index analogue of \autoref{tab:sup_democracy_lmh}. Finally, \autoref{tab:sup_democracy_fh} repeats the by-level split using Freedom House's 2008 status (Free vs.\ Partly Free). The ordering of the effects is preserved throughout.
+\autoref{tab:sup_democracy_index_ranks} lists the sample countries (sorted by their 2008 V-Dem Liberal Democracy Index, the index used in \autoref{tab:sup_democracy_lmh} in the main text) and shows how each is classified under four different 2008 democracy measures, so the tercile grouping is not an artefact of a single index. \autoref{tab:sup_democracy_fh} then repeats the main-text by-level split using Freedom House's 2008 status (Free vs.\ Partly Free) in place of a continuous index. The ordering of the effects---larger where democracy is stronger---is preserved.
 
 \begin{table}[htb!]
     \caption{Country democracy classification across four indices.}
@@ -561,9 +564,13 @@ Pooling the top two terciles into a single ``Medium+High'' group sharpens the co
     \begin{center}
         \small{\input{sup_democracy_index_ranks}}
     \end{center}
-    \footnotesize{Each country's High / Medium / Low classification under four 2008 democracy measures: V-Dem Electoral Democracy (\texttt{v2x\_polyarchy}), V-Dem Liberal Democracy (\texttt{v2x\_libdem}), Polity2 (\texttt{e\_polity2}), and Freedom House status (\texttt{e\_fh\_status}; Free / Partly Free / Not Free mapped to High / Medium / Low). For the three continuous indices the classification is the country's tercile; Polity2 discriminates poorly among these consolidated democracies (its scores cluster near the top), so its tercile split is noisier than the V-Dem indices. Countries are sorted by the V-Dem Electoral index.}
+    \footnotesize{Each country's classification under four 2008 democracy measures. For the three continuous indices---V-Dem Electoral Democracy (\texttt{v2x\_polyarchy}), V-Dem Liberal Democracy (\texttt{v2x\_libdem}), and Polity2 (\texttt{e\_polity2})---the entry is the country's tercile (High / Medium / Low). Freedom House status (\texttt{e\_fh\_status}) is shown in its native categories (Free / Partly Free / Not Free). Polity2 discriminates poorly among these consolidated democracies (its scores cluster near the top), so its tercile split is noisier than the V-Dem indices. Countries are sorted by the V-Dem Liberal index.}
 \end{table}
 
+% Liberal-index tercile (3-way) split and the liberal Low-vs-Medium+High table:
+% only the pooled Medium+High-vs-Low cut is shown, and it now sits in the main
+% body (Table~\ref{tab:sup_democracy_lmh}).  Both kept here, commented out.
+\begin{comment}
 \begin{table}[htb!]
     \caption{Effect by 2008 level of democracy, tercile split: V-Dem Liberal Democracy Index.}
     \label{tab:sup_democracy_terciles_libdem}
@@ -581,6 +588,7 @@ Pooling the top two terciles into a single ``Medium+High'' group sharpens the co
     \end{center}
     \footnotesize{As \autoref{tab:sup_democracy_lmh}, but the terciles are formed from V-Dem's 2008 \emph{Liberal} Democracy Index (\texttt{v2x\_libdem}) rather than the Electoral index, and the top two terciles are pooled. OLS estimates of $\beta_{\text{Medium+High}}$ and $\beta_{\text{Low}}$ (the post-scandal indicator interacted with a top-two-tercile and a bottom-tercile flag), on violent and peaceful protest counts at the $\pm$30/60/90/120-day windows. ``$p$-value: Medium+High $=$ Low'' reports the two-sided $p$-value for $H_0:\beta_{\text{Medium+High}}=\beta_{\text{Low}}$; ``$p$-value: Medium+High $>$ Low (one-sided)'' reports the one-sided $p$-value for $H_1:\beta_{\text{Medium+High}}>\beta_{\text{Low}}$. All specifications include country-by-year, month-of-year, and day-of-week fixed effects; standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
 \end{table}
+\end{comment}
 
 \begin{table}[htb!]
     \caption{Effect by 2008 level of democracy: Freedom House status.}
@@ -588,7 +596,7 @@ Pooling the top two terciles into a single ``Medium+High'' group sharpens the co
     \begin{center}
         \scriptsize{\input{sup_democracy_fh_ols}}
     \end{center}
-    \footnotesize{The by-democracy-level split using Freedom House's 2008 status (\texttt{e\_fh\_status}) instead of a V-Dem index. Freedom House classifies each country as Free, Partly Free, or Not Free; among the 16 sample countries none is Not Free, so this is a Free (9 countries) vs.\ Partly Free (7 countries) comparison. OLS estimates of $\beta_{\text{Free}}$ and $\beta_{\text{Partly Free}}$ (the post-scandal indicator interacted with a Free and a Partly-Free flag), on violent and peaceful protest counts at the $\pm$30/60/90/120-day windows. ``$p$-value: Free $=$ Partly Free'' reports the two-sided $p$-value for $H_0:\beta_{\text{Free}}=\beta_{\text{Partly Free}}$; ``$p$-value: Free $>$ Partly Free (one-sided)'' reports the one-sided $p$-value for $H_1:\beta_{\text{Free}}>\beta_{\text{Partly Free}}$. All specifications include country-by-year, month-of-year, and day-of-week fixed effects; standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+    \footnotesize{The by-democracy-level split using Freedom House's 2008 status (\texttt{e\_fh\_status}) instead of a V-Dem index. Freedom House classifies each country as Free, Partly Free, or Not Free; among the 16 sample countries none is Not Free, so this is a Free (9 countries) vs.\ Partly Free (7 countries) comparison. OLS estimates of $\beta_{\text{Free}}$ and $\beta_{\text{Partly Free}}$ (the post-scandal indicator interacted with a Free and a Partly-Free flag), on violent and peaceful protest counts at the $\pm$30/60/90-day windows. ``$p$-value: Free $=$ Partly Free'' reports the two-sided $p$-value for $H_0:\beta_{\text{Free}}=\beta_{\text{Partly Free}}$; ``$p$-value: Free $>$ Partly Free (one-sided)'' reports the one-sided $p$-value for $H_1:\beta_{\text{Free}}>\beta_{\text{Partly Free}}$. All specifications include country-by-year, month-of-year, and day-of-week fixed effects; standard errors (in parentheses) are clustered at the country $\times$ year $\times$ day-bin level. Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
 \end{table}
 
 % ---------------------------------------------------------------------
@@ -803,7 +811,7 @@ An alternative to the event-study and difference-in-differences designs treats t
     \begin{center}
         \scriptsize{\input{sup_rd_time}}
     \end{center}
-    \footnotesize{Estimated discontinuity ($\tau$, standard error in parentheses) in the daily protest count at the disclosure cutoff ($w_{s,t}=0$), from $Y_{c(s)t} = \tau\,\text{Post}_{st} + f(w_{s,t}) + \text{Post}_{st}\cdot g(w_{s,t}) + \alpha_d + \lambda_m + \theta_{cy} + \varepsilon_{c(s)t}$, where the polynomials $f,g$ are local-linear or local-quadratic in the running variable and, the running variable being centred at $0$, the coefficient on $\text{Post}$ is exactly the jump at the cutoff. The ``Nonparametric'' rows instead report a local-polynomial estimate (\texttt{rdrobust}: MSE-optimal data-driven bandwidth, triangular kernel) computed within the $\pm h$ window on the fixed-effect-residualised outcome. Estimated separately on the apex and non-apex subsamples, on violent and peaceful protest counts, at bandwidths/windows $h\in\{30,60,90\}$ days. All specifications include country-by-year, month-of-year, and day-of-week fixed effects; standard errors clustered at the country $\times$ year $\times$ day-bin level. Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+    \footnotesize{Estimated discontinuity ($\tau$, standard error in parentheses) in the daily protest count at the disclosure cutoff ($w_{s,t}=0$), from $Y_{c(s)t} = \tau\,\text{Post}_{st} + f(w_{s,t}) + \text{Post}_{st}\cdot g(w_{s,t}) + \alpha_d + \lambda_m + \theta_{cy} + \varepsilon_{c(s)t}$, where the polynomials $f,g$ are local-linear or local-quadratic in the running variable and, the running variable being centred at $0$, the coefficient on $\text{Post}$ is exactly the jump at the cutoff. The ``Nonparametric'' rows instead report a local-polynomial estimate (\texttt{rdrobust}: MSE-optimal data-driven bandwidth, triangular kernel) computed within the $\pm h$ window on the fixed-effect-residualised outcome. Estimated separately on the apex and non-apex subsamples, on violent and peaceful protest counts, at bandwidths/windows $h\in\{30,60,90\}$ days. The foot of each panel reports the MSE-optimal bandwidth and the effective (in-bandwidth) observations for the nonparametric estimate, the number of observations and distinct scandals entering each column, and the mean of the outcome in the pre-scandal days ($w_{s,t}<0$). All specifications include country-by-year, month-of-year, and day-of-week fixed effects; standard errors clustered at the country $\times$ year $\times$ day-bin level. Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
 \end{table}
 
 \begin{figure}[htb!]
@@ -904,7 +912,7 @@ We re-estimate the two interaction coefficients on violent protests in the $\pm$
         \includegraphics[width=\textwidth]{loo_scandal_beta_nonapex_violent_w30.pdf}
     \end{subfigure}
     \end{center}
-    \footnotesize{Leave-one-out estimates of the two-group interaction coefficients (\autoref{eq:interaction}) on violent protests, $\pm 30$-day window. Each point re-estimates the panel's coefficient---Post $\times$ Apex in (a), Post $\times$ Non-Apex in (b)---dropping the labelled scandal's event window; panel (a) leaves out each of the 63 apex scandals, panel (b) each of the 113 non-apex scandals. Vertical bars are 90\% confidence intervals; scandals (x-axis, labelled Country -- Year (\#order of occurrence), keyed to \autoref{tab:sup_scandal_list}) are sorted by the estimate. The red line is the coefficient on all scandals and the faint line marks zero; the two panels share a common vertical scale. Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
+    \footnotesize{Leave-one-out estimates of the two-group interaction coefficients (\autoref{tab:interaction}) on violent protests, $\pm 30$-day window. Each point re-estimates the panel's coefficient---Post $\times$ Apex in (a), Post $\times$ Non-Apex in (b)---dropping the labelled scandal's event window; panel (a) leaves out each of the 63 apex scandals, panel (b) each of the 113 non-apex scandals. Vertical bars are 90\% confidence intervals; scandals (x-axis, labelled Country -- Year (\#order of occurrence), keyed to \autoref{tab:sup_scandal_list}) are sorted by the estimate. The red line is the coefficient on all scandals and the faint line marks zero; the two panels share a common vertical scale. Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
 \end{figure}
 
 \begin{comment}
