@@ -7,8 +7,9 @@
     Objective:
         Diagnostic figures for the stacked synthetic difference-in-differences
         of a_sdid_stacked_pa_vs_na.do, for the headline case (apex scandals,
-        violent protests), at the +-30/60/90-day windows and at three temporal
-        resolutions (daily, and pooled into 5- and 10-day bins, to smooth):
+        violent protests), at the +-30/60/90-day windows and at several temporal
+        resolutions (daily, and pooled into 5-, 10- and 15-day bins, to smooth;
+        15-day bins match the binning of the main-text event studies):
 
           (A) sdid_trends_apex_violent_w<K>_b<B>.pdf
               Observed treated trajectory, the synthetic control as estimated,
@@ -171,7 +172,7 @@ foreach K of numlist 30 60 90 {
    ============================================================ */
 foreach K of numlist 30 60 90 {
 	local xs = `K'/3
-foreach B of numlist 1 5 10 {
+foreach B of numlist 1 5 10 15 {
 
 	/* ---- FIGURE A: observed vs synthetic (+ shifted) ---- */
 	use "${datfin}/sdid_fig_series_w`K'.dta", clear
