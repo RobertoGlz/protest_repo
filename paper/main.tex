@@ -1206,4 +1206,50 @@ As a further robustness check we re-estimate the effect with synthetic differenc
     \footnotesize{Permutation (in-space placebo) test. For every apex scandal we additionally treat each donor country as a placebo-treated unit, rebuilding its synthetic control from the remaining donors. Each gray line is one donor country's average placebo gap---treated minus synthetic, demeaned by its own pre-scandal average and pooled into 15-day bins---across the scandals in which it serves as a donor; the red line is the true apex gap and the black horizontal line marks a zero gap. The apex gap rises to the upper edge of the placebo distribution just after disclosure and returns toward the cloud thereafter, consistent with a sharp, transitory response. Sample period 2008--2018; Venezuela excluded.}
 \end{figure}
 
+% ---------------------------------------------------------------------
+\clearpage
+\subsection{Government violent response as the outcome}\label{sup:gvr}
+
+As a final check we re-estimate the specifications behind the main paper's Table~1 (Apex vs.\ Non-Apex interaction), Figure~1 (subsample event study), Table~2 (main effect and benchmarks), Table~3 (democracy split, Electoral index), and Table~S3 (democracy split, Liberal index) on a \emph{different} outcome: the daily count of \emph{government violent responses} to protests from the Mass Mobilization project, merged into the event-window panel by country and date. Everything else---sample, fixed effects, clustering, and windows---is unchanged. In sharp contrast to violent protests, the government's violent response does \emph{not} increase after apex corruption scandals: across every specification and window the estimates are essentially zero and, where significant, slightly \emph{negative}, and the event study (\autoref{fig:gvr_es}) shows no post-disclosure dynamics. The apex effect, though tiny, is consistently \emph{less} negative than the non-apex effect (\autoref{tab:gvr_interaction}), and the (negative) response is concentrated in the lower-democracy countries (Tables~\ref{tab:gvr_democracy_elec}--\ref{tab:gvr_democracy_lib}).
+
+\begin{table}[htb!]
+    \caption{Government violent response, Apex vs.\ Non-Apex interaction (specification of main-paper Table~1).}
+    \label{tab:gvr_interaction}
+    \begin{center}\scriptsize{\input{gvr_interaction}}\end{center}
+    \footnotesize{OLS estimates of the pooled two-group interaction (Post $\times$ Apex and Post $\times$ Non-Apex) on the daily government-violent-response count, at the $\pm$30/60/90-day windows. Same sample, fixed effects (country-by-year, month-of-year, day-of-week) and clustering (country $\times$ year $\times$ day-bin) as the main paper's Table~1; only the outcome differs. Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+\end{table}
+
+\begin{table}[htb!]
+    \caption{Government violent response, main effect and benchmarks (specification of main-paper Table~2).}
+    \label{tab:gvr_main}
+    \begin{center}\scriptsize{\input{gvr_main}}\end{center}
+    \footnotesize{Effect of a post-event indicator on the government-violent-response count, estimated on four samples (apex scandals, non-apex scandals, football-match losses, currency depreciations), at the $\pm$30/60/90-day windows. Construction as in the main paper's Table~2, with the outcome changed. Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+\end{table}
+
+\begin{table}[htb!]
+    \caption{Government violent response by 2008 level of democracy, Electoral index (specification of main-paper Table~3).}
+    \label{tab:gvr_democracy_elec}
+    \begin{center}\scriptsize{\input{gvr_democracy_elec}}\end{center}
+    \footnotesize{OLS estimates of Post $\times$ Medium+High and Post $\times$ Low---the post-scandal indicator interacted with the top-two-tercile and bottom-tercile flags of the 2008 V-Dem Electoral Democracy Index---on the government-violent-response count. Construction as in the main paper's Table~3; only the outcome differs. Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+\end{table}
+
+\begin{table}[htb!]
+    \caption{Government violent response by 2008 level of democracy, Liberal index (specification of main-paper Table~S3).}
+    \label{tab:gvr_democracy_lib}
+    \begin{center}\scriptsize{\input{gvr_democracy_lib}}\end{center}
+    \footnotesize{As \autoref{tab:gvr_democracy_elec}, but the terciles are formed from the 2008 V-Dem \emph{Liberal} Democracy Index. Sample period 2008--2018; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+\end{table}
+
+\begin{figure}[htb!]
+    \caption{Government violent response: subsample event study (specification of main-paper Figure~1; $\pm 60$-day window, 15-day bins).}
+    \label{fig:gvr_es}
+    \begin{center}
+    \begin{subfigure}{0.49\textwidth}\caption{Apex.}
+        \includegraphics[width=\textwidth]{gvr_es_pa.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.49\textwidth}\caption{Non-Apex.}
+        \includegraphics[width=\textwidth]{gvr_es_na.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{Event-time coefficients (points) with 90\% confidence intervals (spikes) from the subsample event study of the main paper's Figure~1, estimated on the daily government-violent-response count; the bin immediately before disclosure ($[-15,-1]$ days) is the omitted reference. Same fixed effects and clustering as Figure~1. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
 \end{document}

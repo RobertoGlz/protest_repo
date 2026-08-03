@@ -1,0 +1,20 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{3}{c}}
+\toprule
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
+            &\multicolumn{1}{c}{\shortstack{GVR\$\pm$30}}&\multicolumn{1}{c}{\shortstack{GVR\$\pm$60}}&\multicolumn{1}{c}{\shortstack{GVR\$\pm$90}}\\
+\midrule
+Post $\times$ Medium+High&       0.001         &       0.001         &       0.001         \\
+            &     (0.001)         &     (0.001)         &     (0.001)         \\
+Post $\times$ Low&      -0.022         &      -0.030\sym{*}  &      -0.024\sym{**} \\
+            &     (0.016)         &     (0.015)         &     (0.012)         \\
+\midrule
+p-value: Medium+High $=$ Low&       0.152         &       0.053         &       0.051         \\
+p-value: Medium+High $>$ Low (one-sided)&       0.076         &       0.027         &       0.025         \\
+Mean (Pre-Scandal)&       0.011         &       0.012         &       0.009         \\
+Observations&       10736         &       21296         &       31856         \\
+R-squared   &       0.703         &       0.602         &       0.456         \\
+\bottomrule
+\end{tabular}
+}
