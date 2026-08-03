@@ -1160,7 +1160,7 @@ If the effect really begins at the public-disclosure date and there is no antici
 
 As a further robustness check we re-estimate the effect with synthetic difference-in-differences~\citep{arkhangelsky2021synthetic}, which reweights control units and pre-treatment periods to match the treated unit's pre-scandal trajectory before differencing. Because a country experiences many scandals over the sample---so a single absorbing ``treated'' status is ill-defined---we estimate the effect \emph{scandal by scandal} and average. For each scandal the treated unit is its country, ``adopting'' treatment at the disclosure date $t_0$; the donor pool is every other country (Venezuela excluded) with \emph{no} scandal of its own in the pre-scandal window $[t_0-K,\,t_0-1]$ that is fully observed over $[t_0-K,\,t_0+K]$ (17--19 donors qualify on average). We run this separately for the apex and non-apex partitions and for violent and peaceful protests, at windows $K\in\{30,60,90\}$ days, and report the mean of the per-scandal estimates with standard errors clustered by country.
 
-\autoref{tab:sup_sdid} shows the results. At the $\pm 30$-day window the apex effect on violent protests is $0.039$ ($p<0.10$), close to the OLS estimate in Table~\ref{tab:main}, whereas the peaceful margin and the entire non-apex partition are null at every window. The apex violent effect attenuates at wider windows, consistent with a sharp, front-loaded mobilization. Because the synthetic control draws its counterfactual from contemporaneous protest dynamics in scandal-free countries---rather than from the treated country's own other days---this design corroborates the immediate apex$\,\rightarrow\,$violent response through a different identifying comparison. \autoref{fig:sdid_trends} plots the observed and synthetic-control trajectories, and \autoref{fig:sdid_placebo} reports an in-space placebo (permutation) test.
+\autoref{tab:sup_sdid} shows the results. At the $\pm 30$-day window the apex effect on violent protests is $0.039$ ($p<0.10$), close to the OLS estimate in Table~\ref{tab:main}, whereas the peaceful margin and the entire non-apex partition are null at every window. The apex violent effect attenuates at wider windows, consistent with a sharp, front-loaded mobilization. Because the synthetic control draws its counterfactual from contemporaneous protest dynamics in scandal-free countries---rather than from the treated country's own other days---this design corroborates the immediate apex$\,\rightarrow\,$violent response through a different identifying comparison. Figures~\ref{fig:sdid_trends30}--\ref{fig:sdid_trends90} plot the observed and synthetic-control trajectories at the $\pm$30/60/90-day windows (daily counts pooled into 5-day bins to smooth), and Figures~\ref{fig:sdid_placebo30}--\ref{fig:sdid_placebo90} report the in-space placebo (permutation) test.
 
 \begin{table}[htb!]
     \caption{Synthetic difference-in-differences: per-scandal stacked estimates.}
@@ -1171,22 +1171,46 @@ As a further robustness check we re-estimate the effect with synthetic differenc
     \footnotesize{Synthetic difference-in-differences estimates~\citep{arkhangelsky2021synthetic} of the effect of a scandal disclosure on the daily count of protests (Mass Mobilization), computed per scandal and averaged. For each scandal the treated unit is its country, ``adopting'' treatment at the disclosure date; the donor pool comprises the countries with no scandal of their own in the pre-scandal window $[t_0-K,\,t_0-1]$ that are fully observed over the $\pm K$ window (Venezuela excluded). Cells report the mean across scandals of the per-scandal $\widehat{\text{ATT}}$ (the average post-disclosure gap between the treated country and its synthetic control); standard errors, in parentheses, are clustered by country so that a country's repeated scandals are not treated as independent. ``Number of scandals'' counts the treated scandals in each panel; ``Avg.\ donor countries'' is the mean donor-pool size. Sample period 2008--2018. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
 \end{table}
 
+% --- SDID diagnostics: observed vs. synthetic (trends) and the in-space
+%     placebo permutation, at the +-30/60/90-day windows (daily counts pooled
+%     into 5-day bins to smooth; the daily and 10-day-bin versions are also
+%     produced by a_sdid_figures_pa_vs_na.do). ---
 \begin{figure}[htb!]
-    \caption{Synthetic difference-in-differences: observed vs.\ synthetic-control trajectory (apex scandals, violent protests, $\pm 90$-day window).}
-    \label{fig:sdid_trends}
-    \begin{center}
-        \includegraphics[width=0.82\textwidth]{sdid_trends_apex_violent.pdf}
-    \end{center}
-    \footnotesize{Average across the 63 apex scandals of the daily violent-protest count in the treated country (observed) and in its synthetic control, in event time. Synthetic difference-in-differences identifies off the \emph{change} in the treated-minus-synthetic gap, so the synthetic need not match the treated's pre-scandal level---apex countries protest more at baseline, so the synthetic control as estimated (dashed) sits below. The dotted line shifts that synthetic up by its pre-scandal offset (the difference-in-differences intercept), aligning it to the observed series before disclosure so that the post-disclosure divergence is the estimated effect. Vertical line marks the disclosure date. Sample period 2008--2018; Venezuela excluded.}
+    \caption{Synthetic difference-in-differences, observed vs.\ synthetic-control trajectory (apex scandals, violent protests; 5-day bins): $\pm 30$-day window.}
+    \label{fig:sdid_trends30}
+    \begin{center}\includegraphics[width=0.72\textwidth]{sdid_trends_apex_violent_w30_b5.pdf}\end{center}
+    \footnotesize{Average across the 63 apex scandals of the daily violent-protest count (pooled into 5-day bins) in the treated country (observed) and in its synthetic control, in event time. Synthetic difference-in-differences identifies off the \emph{change} in the treated-minus-synthetic gap, so the synthetic need not match the treated's pre-scandal level---apex countries protest more at baseline, so the synthetic as estimated (dashed) sits below; the dotted line shifts it up by its pre-scandal offset (the difference-in-differences intercept) to align the pre-period, so the post-disclosure divergence is the estimated effect. Vertical line marks the disclosure date. Sample period 2008--2018; Venezuela excluded.}
 \end{figure}
 
 \begin{figure}[htb!]
-    \caption{Synthetic difference-in-differences: in-space placebo test (apex scandals, violent protests, $\pm 90$-day window).}
-    \label{fig:sdid_placebo}
-    \begin{center}
-        \includegraphics[width=0.82\textwidth]{sdid_placebo_apex_violent.pdf}
-    \end{center}
-    \footnotesize{Permutation (in-space placebo) test. For every apex scandal we additionally treat each donor country as a placebo-treated unit, rebuilding its synthetic control from the remaining donors. Each gray line is one donor country's average placebo gap---treated minus synthetic, demeaned by its own pre-scandal average---across the scandals in which it serves as a donor; the red line is the true apex gap. The apex gap rises to the upper edge of the placebo distribution in the days immediately after disclosure and returns toward the placebo cloud thereafter, consistent with a sharp, transitory response. Sample period 2008--2018; Venezuela excluded.}
+    \caption{Observed vs.\ synthetic-control trajectory (apex, violent; 5-day bins): $\pm 60$-day window. Construction as in \autoref{fig:sdid_trends30}.}
+    \label{fig:sdid_trends60}
+    \begin{center}\includegraphics[width=0.72\textwidth]{sdid_trends_apex_violent_w60_b5.pdf}\end{center}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Observed vs.\ synthetic-control trajectory (apex, violent; 5-day bins): $\pm 90$-day window. Construction as in \autoref{fig:sdid_trends30}.}
+    \label{fig:sdid_trends90}
+    \begin{center}\includegraphics[width=0.72\textwidth]{sdid_trends_apex_violent_w90_b5.pdf}\end{center}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Synthetic difference-in-differences, in-space placebo test (apex scandals, violent protests; 5-day bins): $\pm 30$-day window.}
+    \label{fig:sdid_placebo30}
+    \begin{center}\includegraphics[width=0.72\textwidth]{sdid_placebo_apex_violent_w30_b5.pdf}\end{center}
+    \footnotesize{Permutation (in-space placebo) test. For every apex scandal we additionally treat each donor country as a placebo-treated unit, rebuilding its synthetic control from the remaining donors. Each gray line is one donor country's average placebo gap---treated minus synthetic, demeaned by its own pre-scandal average and pooled into 5-day bins---across the scandals in which it serves as a donor; the red line is the true apex gap and the black horizontal line marks a zero gap. The apex gap rises to the upper edge of the placebo distribution just after disclosure and returns toward the cloud thereafter, consistent with a sharp, transitory response. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{In-space placebo test (apex, violent; 5-day bins): $\pm 60$-day window. Construction as in \autoref{fig:sdid_placebo30}.}
+    \label{fig:sdid_placebo60}
+    \begin{center}\includegraphics[width=0.72\textwidth]{sdid_placebo_apex_violent_w60_b5.pdf}\end{center}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{In-space placebo test (apex, violent; 5-day bins): $\pm 90$-day window. Construction as in \autoref{fig:sdid_placebo30}.}
+    \label{fig:sdid_placebo90}
+    \begin{center}\includegraphics[width=0.72\textwidth]{sdid_placebo_apex_violent_w90_b5.pdf}\end{center}
 \end{figure}
 
 \end{document}
