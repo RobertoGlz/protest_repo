@@ -180,14 +180,10 @@ foreach B of numlist 1 5 10 15 {
 	bysort sid: egen double _off = mean(_d)
 	gen double synsh = syn + _off
 	drop _d _off
-	if `B' == 1 {
-		gen double tbin = tvar
-	}
-	else {
-		gen double tbin = .
-		replace tbin =  (floor(tvar/`B')*`B' + `B'/2)      if tvar >= 0
-		replace tbin = -(floor((-tvar-1)/`B')*`B' + `B'/2) if tvar <  0
-	}
+	/* bin centres at exact multiples of B (0, +-B, +-2B, ...), so the points
+	   align to multiples of the bin width and the extreme bins sit on the
+	   window edges (-K and +K); B=1 leaves the daily series unchanged */
+	gen double tbin = round(tvar/`B')*`B'
 	collapse (mean) obs syn synsh, by(tbin)
 	twoway (line obs   tbin, lcolor(cranberry) lwidth(medthick)) ///
 	       (line syn   tbin, lcolor(navy) lwidth(medthick) lpattern(dash)) ///
@@ -210,14 +206,10 @@ foreach B of numlist 1 5 10 15 {
 	replace g = g - pregap
 	drop _preg pregap
 	collapse (mean) g, by(who tvar)
-	if `B' == 1 {
-		gen double tbin = tvar
-	}
-	else {
-		gen double tbin = .
-		replace tbin =  (floor(tvar/`B')*`B' + `B'/2)      if tvar >= 0
-		replace tbin = -(floor((-tvar-1)/`B')*`B' + `B'/2) if tvar <  0
-	}
+	/* bin centres at exact multiples of B (0, +-B, +-2B, ...), so the points
+	   align to multiples of the bin width and the extreme bins sit on the
+	   window edges (-K and +K); B=1 leaves the daily series unchanged */
+	gen double tbin = round(tvar/`B')*`B'
 	collapse (mean) g, by(who tbin)
 	gen byte istreat = who=="TREATED"
 	levelsof who if istreat==0, local(dons)
