@@ -5,10 +5,10 @@
     Date: 2026-08-03
 
     Objective:
-        Re-run, on the GOVERNMENT VIOLENT RESPONSE outcome (mm_gvr from the
-        country-day panel, merged into the event-window panel by country-date
-        as num_gvr_MM), the exact specifications behind five pieces of the main
-        "violent effects" paper -- without touching those pieces:
+        Re-run, on the GOVERNMENT VIOLENT RESPONSE outcome
+        (government_response_violent, already in the event-window panel), the
+        exact specifications behind five pieces of the main "violent effects"
+        paper -- without touching those pieces:
 
           Table 1 (interaction, Apex vs Non-Apex)  -> gvr_interaction.tex
           Figure 1 (subsample event study, w60 b15)-> gvr_es_{pa,na}.pdf
@@ -18,7 +18,7 @@
 
         Each keeps the original sample, fixed effects (country x year, month,
         day-of-week), clustering (country x year x day-bin), 2008-2018, Venezuela
-        dropped; only the outcome changes to num_gvr_MM.
+        dropped; only the outcome changes to government_response_violent.
 
     Requires: reghdfe, esttab, define_panelcombine.do
     Outputs: paper/tables/gvr_*.tex, paper/figures/gvr_es_{pa,na}.pdf
@@ -50,14 +50,6 @@ global CLUSTER2 "cluster i.country_id#i.year#i.grupo_dias"
 local firstyear = 2008
 local zcrit = invnormal(0.95)
 
-/* ---- government-violent-response lookup (country x date) ---- */
-use "${datfin}/panel_country_day", clear
-keep country date mm_gvr
-rename mm_gvr num_gvr_MM
-duplicates drop country date, force
-tempfile gvrlk
-save `gvrlk'
-
 /* ---- scandal position lookup ---- */
 import delimited using "${datfin}/scandals_classified.csv", ///
 	clear varnames(1) bindquotes(strict)
@@ -74,7 +66,6 @@ local win_list "30 60 90"
 use "${datfin}/protests_scandals_30days_v3", clear
 drop if country == "Venezuela"
 merge m:1 id country using `cls', keep(1 3) nogenerate
-merge m:1 country date using `gvrlk', keep(1 3) nogenerate
 gen byte in_pa = 0
 replace in_pa = 1 if position == "president"
 replace in_pa = 1 if position == "governor"
@@ -94,10 +85,10 @@ local k = 0
 foreach W of local win_list {
 	local ++k
 	use `baseint', clear
-	eststo m`k': reghdfe num_gvr_MM post_pa post_na i.month i.day ///
+	eststo m`k': reghdfe government_response_violent post_pa post_na i.month i.day ///
 		if year >= `firstyear' & abs(window) <= `W' & (in_pa==1 | in_na==1), ///
 		absorb($fe1) vce($CLUSTER2)
-	quietly summarize num_gvr_MM if e(sample) & window >= -`W' & window <= -1
+	quietly summarize government_response_violent if e(sample) & window >= -`W' & window <= -1
 	estadd scalar baseline = r(mean)
 	quietly levelsof id if e(sample)==1
 	estadd scalar num_scandals = r(r)
@@ -150,7 +141,6 @@ foreach p in corrpa corrna football deprec {
 		gen byte keepall = 1
 		local flag "keepall"
 	}
-	merge m:1 country date using `gvrlk', keep(1 3) nogenerate
 	egen grupo_dias = group(s_lag30 s_lag60 s_lag90 s_lag120 s_lead30 s_lead60 s_lead90 s_lead120)
 	tempfile pdata
 	save `pdata'
@@ -160,10 +150,10 @@ foreach p in corrpa corrna football deprec {
 	foreach W of local win_list {
 		local ++k
 		use `pdata', clear
-		eststo m`k': reghdfe num_gvr_MM post i.month i.day ///
+		eststo m`k': reghdfe government_response_violent post i.month i.day ///
 			if year >= `firstyear' & abs(window) <= `W' & `flag'==1, ///
 			absorb($fe1) vce($CLUSTER2)
-		quietly summarize num_gvr_MM if e(sample) & window >= -`W' & window <= -1
+		quietly summarize government_response_violent if e(sample) & window >= -`W' & window <= -1
 		estadd scalar baseline = r(mean)
 		capture quietly levelsof id if e(sample)==1
 		if _rc==0 estadd scalar num_events = r(r)
@@ -206,7 +196,6 @@ foreach idx in polyarchy libdem {
 	use "${datfin}/protests_scandals_30days_v3", clear
 	drop if country == "Venezuela"
 	merge m:1 country using `vd', keep(1 3) nogenerate
-	merge m:1 country date using `gvrlk', keep(1 3) nogenerate
 	preserve
 		keep if !missing(demo_index)
 		bysort country: keep if _n == 1
@@ -229,10 +218,10 @@ foreach idx in polyarchy libdem {
 	foreach W of local win_list {
 		local ++k
 		use `based', clear
-		eststo m`k': reghdfe num_gvr_MM post_medhigh post_low i.month i.day ///
+		eststo m`k': reghdfe government_response_violent post_medhigh post_low i.month i.day ///
 			if year >= `firstyear' & abs(window) <= `W' & !missing(terc3), ///
 			absorb($fe1) vce($CLUSTER2)
-		quietly summarize num_gvr_MM if e(sample) & window >= -`W' & window <= -1
+		quietly summarize government_response_violent if e(sample) & window >= -`W' & window <= -1
 		estadd scalar baseline = r(mean)
 		test post_medhigh = post_low
 		local p2 = r(p)
@@ -259,7 +248,6 @@ foreach idx in polyarchy libdem {
 use "${datfin}/protests_scandals_30days_v3", clear
 drop if country == "Venezuela"
 merge m:1 id country using `cls', keep(1 3) nogenerate
-merge m:1 country date using `gvrlk', keep(1 3) nogenerate
 gen byte in_pa = 0
 replace in_pa = 1 if position == "president"
 replace in_pa = 1 if position == "governor"
@@ -298,7 +286,7 @@ foreach sample in pa na {
 	forvalues j = 1/`nb' {
 		gen byte ebin_p`j' = (ebin ==  `j')
 	}
-	quietly reghdfe num_gvr_MM `esvars' ///
+	quietly reghdfe government_response_violent `esvars' ///
 		if year >= `firstyear' & abs(window) <= `T' & in_`sample'==1, ///
 		absorb(month day auxvar) cluster(group_cluster)
 	foreach v of local esvars {
@@ -335,7 +323,7 @@ foreach sample in pa na {
 	forvalues j = 1/`nb' {
 		gen byte ebin_p`j' = (ebin ==  `j')
 	}
-	quietly reghdfe num_gvr_MM `esvars' ///
+	quietly reghdfe government_response_violent `esvars' ///
 		if year >= `firstyear' & abs(window) <= `T' & in_`sample'==1, ///
 		absorb(month day auxvar) cluster(group_cluster)
 	local nrows = 2*`nb'
