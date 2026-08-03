@@ -6,29 +6,27 @@
 
     Objective:
         Diagnostic figures for the stacked synthetic difference-in-differences
-        of a_sdid_stacked_pa_vs_na.do, for the headline case (apex scandals,
-        violent protests), at the +-30/60/90-day windows and at several temporal
-        resolutions (daily, and pooled into 5-, 10- and 15-day bins, to smooth;
-        15-day bins match the binning of the main-text event studies):
+        (a_sdid_stacked_pa_vs_na.do), now for BOTH partitions (apex / non-apex)
+        and BOTH outcomes (violent / peaceful protests), at the +-30/60/90-day
+        windows and at several temporal resolutions (daily and pooled into 5-,
+        10- and 15-day bins; 15-day bins match the main-text event studies):
 
-          (A) sdid_trends_apex_violent_w<K>_b<B>.pdf
+          (A) sdid_trends_<samp>_<out>_w<K>_b<B>.pdf
               Observed treated trajectory, the synthetic control as estimated,
-              and the synthetic shifted up by its pre-scandal DiD intercept
-              (aligned to the observed pre-period), averaged across apex scandals.
+              and the synthetic shifted up by its pre-scandal DiD intercept.
 
-          (B) sdid_placebo_apex_violent_w<K>_b<B>.pdf
+          (B) sdid_placebo_<samp>_<out>_w<K>_b<B>.pdf
               In-space placebo / permutation: each donor country is re-treated
-              as a placebo (synthetic rebuilt from the remaining donors); gray
-              lines are donor-country average placebo gaps, red is the true apex
-              gap.  A black medthick line marks the zero gap.
+              as a placebo; gray lines are donor-country average placebo gaps,
+              red is the true treated gap, a black line marks the zero gap.
+
+        <samp> in {apex, nonapex}; <out> in {violent, peaceful}.  Bin centres are
+        exact multiples of B (points on 0, +-B, ... reaching the window edges).
 
     Requires: sdid  (ssc install sdid)
-
-    Inputs:
-        - ${datfin}/scandals_classified.csv
-        - ${datfin}/protests_scandals_30days_v3.dta
-        - ${datfin}/panel_country_day.dta
-    Outputs (paper/figures/): sdid_{trends,placebo}_apex_violent_w{30,60,90}_b{1,5,10}.pdf
+    Inputs:  scandals_classified.csv, protests_scandals_30days_v3.dta,
+             panel_country_day.dta
+    Outputs: paper/figures/sdid_{trends,placebo}_{apex,nonapex}_{violent,peaceful}_w{30,60,90}_b{1,5,10,15}.pdf
 ---------------------------------------------------------------------------- */
 
 set more off
@@ -51,10 +49,9 @@ global path    "${identity}/Corrupcion/WORKING FOLDER/Event Study - Scandals"
 global datfin  "${path}/Data/final"
 global figout  "${identity}/Corrupcion/protest_repo/paper/figures"
 
-local OC   = "mm_violent"
 local KMAX = 90
 
-/* ---- apex scandal list with dates ---- */
+/* ---- scandal list with dates + apex/non-apex membership ---- */
 import delimited using "${datfin}/scandals_classified.csv", ///
 	clear varnames(1) bindquotes(strict)
 keep id country position
@@ -65,54 +62,67 @@ drop if country == "Venezuela"
 merge m:1 id country using `cls', keep(3) nogenerate
 gen byte in_pa = inlist(position,"president","governor") | ///
 	(position=="sc_judge_congressman" & inlist(id,"202","NEW26","NEW30","332"))
+gen byte in_na = (position=="sc_judge_congressman" & !inlist(id,"202","NEW26","NEW30","332")) | ///
+	inlist(position,"other_judiciary","others")
 gen double _sd = date if window==0
 bysort country id: egen double scandate = max(_sd)
-keep if in_pa
-keep country id scandate
+keep country id scandate in_pa in_na
 duplicates drop
 drop if missing(scandate)
 gsort scandate country id
-local NS = _N
 quietly summarize scandate
 local dlo = r(min) - `KMAX' - 10
 local dhi = r(max) + `KMAX' + 10
-forvalues i = 1/`NS' {
-	local sc_c`i' = country[`i']
-	local sc_t`i' = scandate[`i']
+/* stash scandal attributes by membership */
+foreach s in pa na {
+	preserve
+		keep if in_`s' == 1
+		local NS_`s' = _N
+		forvalues i = 1/`=_N' {
+			local c_`s'`i' = country[`i']
+			local t_`s'`i' = scandate[`i']
+		}
+	restore
 }
 
 /* ---- daily panel ---- */
 use "${datfin}/panel_country_day", clear
 drop if country == "Venezuela"
 keep if inrange(date, `dlo', `dhi')
-keep country date `OC' scandal_today
+keep country date mm_violent mm_nonviolent scandal_today
 tempfile daily
 save `daily'
 
 /* ============================================================
-   STEP 1 - collect observed/synthetic trajectories and placebo gaps,
-   per window K, saved so the figures can be rebuilt without re-fitting.
-   Set REFIT=1 to force the ~3600 SDID fits; otherwise, if the saved draws
-   already exist, skip STEP 1 and only rebuild the figures (STEP 2).
+   STEP 1 - fits per (sample x outcome x window), saved so the figures can be
+   rebuilt without re-fitting.  Set REFIT=1 to force the fits.
    ============================================================ */
 local REFIT = 0
 local dofit = `REFIT'
+foreach samp in pa na {
+foreach out in violent peaceful {
 foreach K of numlist 30 60 90 {
-	capture confirm file "${datfin}/sdid_fig_series_w`K'.dta"
+	capture confirm file "${datfin}/sdid_fig_series_`samp'_`out'_w`K'.dta"
 	if _rc local dofit = 1
-	capture confirm file "${datfin}/sdid_fig_gaps_w`K'.dta"
+	capture confirm file "${datfin}/sdid_fig_gaps_`samp'_`out'_w`K'.dta"
 	if _rc local dofit = 1
 }
+}
+}
+
 if `dofit' {
+foreach samp in pa na {
+foreach out in violent peaceful {
+	local OC = cond("`out'"=="violent","mm_violent","mm_nonviolent")
 foreach K of numlist 30 60 90 {
 	tempname SER GAP
 	tempfile ser gap
 	postfile `SER' int sid int tvar double obs double syn using "`ser'", replace
 	postfile `GAP' int sid str24 who int tvar double g using "`gap'", replace
 
-	forvalues i = 1/`NS' {
-		local ct "`sc_c`i''"
-		local t0 = `sc_t`i''
+	forvalues i = 1/`NS_`samp'' {
+		local ct "`c_`samp'`i''"
+		local t0 = `t_`samp'`i''
 
 		use `daily', clear
 		keep if inrange(date, `t0'-`K', `t0'+`K')
@@ -139,7 +149,6 @@ foreach K of numlist 30 60 90 {
 			post `SER' (`i') (`=Sr[`r',1]') (`=Sr[`r',3]') (`=Sr[`r',2]')
 			post `GAP' (`i') ("TREATED") (`=Dr[`r',1]') (`=Dr[`r',2]')
 		}
-
 		drop treat uid
 		drop if country=="`ct'"
 		quietly levelsof country, local(dons)
@@ -160,55 +169,52 @@ foreach K of numlist 30 60 90 {
 	postclose `SER'
 	postclose `GAP'
 	use "`ser'", clear
-	save "${datfin}/sdid_fig_series_w`K'.dta", replace
+	save "${datfin}/sdid_fig_series_`samp'_`out'_w`K'.dta", replace
 	use "`gap'", clear
-	save "${datfin}/sdid_fig_gaps_w`K'.dta", replace
-	di as result "window `K' fits done"
+	save "${datfin}/sdid_fig_gaps_`samp'_`out'_w`K'.dta", replace
+	di as result "fits done: `samp' `out' w`K'"
+}
+}
 }
 }
 
 /* ============================================================
-   STEP 2 - figures, per window K x bin width B (1 = daily, 5, 10)
+   STEP 2 - figures per (sample x outcome x window x bin)
    ============================================================ */
+foreach samp in pa na {
+	local slab = cond("`samp'"=="pa","apex","nonapex")
+foreach out in violent peaceful {
+	local ylab = cond("`out'"=="violent","Violent protests (daily count)","Peaceful protests (daily count)")
 foreach K of numlist 30 60 90 {
 	local xs = `K'/3
 foreach B of numlist 1 5 10 15 {
 
 	/* ---- FIGURE A: observed vs synthetic (+ shifted) ---- */
-	use "${datfin}/sdid_fig_series_w`K'.dta", clear
+	use "${datfin}/sdid_fig_series_`samp'_`out'_w`K'.dta", clear
 	gen double _d = obs - syn if tvar < 0
 	bysort sid: egen double _off = mean(_d)
 	gen double synsh = syn + _off
 	drop _d _off
-	/* bin centres at exact multiples of B (0, +-B, +-2B, ...), so the points
-	   align to multiples of the bin width and the extreme bins sit on the
-	   window edges (-K and +K); B=1 leaves the daily series unchanged */
 	gen double tbin = round(tvar/`B')*`B'
 	collapse (mean) obs syn synsh, by(tbin)
 	twoway (line obs   tbin, lcolor(cranberry) lwidth(medthick)) ///
 	       (line syn   tbin, lcolor(navy) lwidth(medthick) lpattern(dash)) ///
 	       (line synsh tbin, lcolor(forest_green) lwidth(medthick) lpattern(shortdash)), ///
 		xline(0, lcolor(black%30) lwidth(medthick)) ///
-		ytitle("Violent protests (daily count)", size(medium)) ///
+		ytitle("`ylab'", size(medium)) ///
 		xtitle("Days since scandal", size(medium)) ///
 		xlabel(-`K'(`xs')`K') ///
-		legend(order(1 "Apex countries (observed)" ///
-		             2 "Synthetic control (as estimated)" ///
-		             3 "Synthetic control (shifted to pre-period)") ///
-			pos(6) cols(1) region(lstyle(none)) size(small)) ///
+		legend(off) ///
 		graphregion(color(white) fcolor(white)) scheme(s2color)
-	graph export "${figout}/sdid_trends_apex_violent_w`K'_b`B'.pdf", replace
+	graph export "${figout}/sdid_trends_`slab'_`out'_w`K'_b`B'.pdf", replace
 
 	/* ---- FIGURE B: in-space placebo permutation (gap, demeaned) ---- */
-	use "${datfin}/sdid_fig_gaps_w`K'.dta", clear
+	use "${datfin}/sdid_fig_gaps_`samp'_`out'_w`K'.dta", clear
 	gen double _preg = g if tvar<0
 	bysort sid who: egen double pregap = mean(_preg)
 	replace g = g - pregap
 	drop _preg pregap
 	collapse (mean) g, by(who tvar)
-	/* bin centres at exact multiples of B (0, +-B, +-2B, ...), so the points
-	   align to multiples of the bin width and the extreme bins sit on the
-	   window edges (-K and +K); B=1 leaves the daily series unchanged */
 	gen double tbin = round(tvar/`B')*`B'
 	collapse (mean) g, by(who tbin)
 	gen byte istreat = who=="TREATED"
@@ -227,12 +233,13 @@ foreach B of numlist 1 5 10 15 {
 		ytitle("Gap: treated {&minus} synthetic (demeaned)", size(medium)) ///
 		xtitle("Days since scandal", size(medium)) ///
 		xlabel(-`K'(`xs')`K') ///
-		legend(order(1 "Placebo (each donor country treated)" `redlayer' "Apex (observed)") ///
-			pos(6) cols(1) region(lstyle(none)) size(small)) ///
+		legend(off) ///
 		graphregion(color(white) fcolor(white)) scheme(s2color)
-	graph export "${figout}/sdid_placebo_apex_violent_w`K'_b`B'.pdf", replace
+	graph export "${figout}/sdid_placebo_`slab'_`out'_w`K'_b`B'.pdf", replace
 }
-	di as result "window `K' figures done"
+}
+}
+	di as result "figures done: `slab'"
 }
 
 display in green "a_sdid_figures_pa_vs_na.do finished OK"
