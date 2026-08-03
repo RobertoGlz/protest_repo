@@ -1154,4 +1154,21 @@ If the effect really begins at the public-disclosure date and there is no antici
 %     \footnotesize{For each subsample $\times$ outcome $\times$ window, ``Percentile'' is $100\times$ the share of the 1{,}000 placebo estimates at or below the observed $\hat\beta$ from Table~\ref{tab:main}; ``RI $p$'' is the two-sided randomization-inference $p$-value. Both are computed from the same placebo draws underlying Figures~\ref{fig:sup_ri_pa}--\ref{fig:sup_ri_full}. Sample period 2008--2018; Venezuela excluded.}
 % \end{table}
 
+% ---------------------------------------------------------------------
+\clearpage
+\section{Synthetic difference-in-differences}\label{sup:sdid}
+
+As a further robustness check we re-estimate the effect with synthetic difference-in-differences~\citep{arkhangelsky2021synthetic}, which reweights control units and pre-treatment periods to match the treated unit's pre-scandal trajectory before differencing. Because a country experiences many scandals over the sample---so a single absorbing ``treated'' status is ill-defined---we estimate the effect \emph{scandal by scandal} and average. For each scandal the treated unit is its country, ``adopting'' treatment at the disclosure date $t_0$; the donor pool is every other country (Venezuela excluded) with \emph{no} scandal of its own in the pre-scandal window $[t_0-K,\,t_0-1]$ that is fully observed over $[t_0-K,\,t_0+K]$ (17--19 donors qualify on average). We run this separately for the apex and non-apex partitions and for violent and peaceful protests, at windows $K\in\{30,60,90\}$ days, and report the mean of the per-scandal estimates with standard errors clustered by country.
+
+\autoref{tab:sup_sdid} shows the results. At the $\pm 30$-day window the apex effect on violent protests is $0.039$ ($p<0.10$), close to the OLS estimate in Table~\ref{tab:main}, whereas the peaceful margin and the entire non-apex partition are null at every window. The apex violent effect attenuates at wider windows, consistent with a sharp, front-loaded mobilization. Because the synthetic control draws its counterfactual from contemporaneous protest dynamics in scandal-free countries---rather than from the treated country's own other days---this design corroborates the immediate apex$\,\rightarrow\,$violent response through a different identifying comparison.
+
+\begin{table}[htb!]
+    \caption{Synthetic difference-in-differences: per-scandal stacked estimates.}
+    \label{tab:sup_sdid}
+    \begin{center}
+        \scriptsize{\input{sup_sdid_stacked}}
+    \end{center}
+    \footnotesize{Synthetic difference-in-differences estimates~\citep{arkhangelsky2021synthetic} of the effect of a scandal disclosure on the daily count of protests (Mass Mobilization), computed per scandal and averaged. For each scandal the treated unit is its country, ``adopting'' treatment at the disclosure date; the donor pool comprises the countries with no scandal of their own in the pre-scandal window $[t_0-K,\,t_0-1]$ that are fully observed over the $\pm K$ window (Venezuela excluded). Cells report the mean across scandals of the per-scandal $\widehat{\text{ATT}}$ (the average post-disclosure gap between the treated country and its synthetic control); standard errors, in parentheses, are clustered by country so that a country's repeated scandals are not treated as independent. ``Number of scandals'' counts the treated scandals in each panel; ``Avg.\ donor countries'' is the mean donor-pool size. Sample period 2008--2018. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+\end{table}
+
 \end{document}

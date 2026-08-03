@@ -1,0 +1,20 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{6}{c}}
+\toprule
+ & \multicolumn{3}{c}{Violent Protests} & \multicolumn{3}{c}{Peaceful Protests} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+ & \ensuremath{K=30} & \ensuremath{K=60} & \ensuremath{K=90} & \ensuremath{K=30} & \ensuremath{K=60} & \ensuremath{K=90} \\
+\midrule
+Apex & 0.039\sym{*} & 0.002 & -0.017 & -0.006 & -0.010 & -0.003 \\
+  & (0.021) & (0.009) & (0.024) & (0.017) & (0.016) & (0.006) \\
+\quad Number of scandals & 63 & 63 & 63 & 63 & 63 & 63 \\
+\quad Avg.\ donor countries & 19.1 & 18.0 & 17.0 & 19.1 & 18.0 & 17.0 \\
+\midrule
+Non-Apex & -0.003 & 0.008 & -0.003 & -0.021 & -0.033 & -0.042 \\
+  & (0.006) & (0.008) & (0.014) & (0.026) & (0.033) & (0.042) \\
+\quad Number of scandals & 113 & 113 & 113 & 113 & 113 & 113 \\
+\quad Avg.\ donor countries & 18.8 & 17.7 & 16.8 & 18.8 & 17.7 & 16.8 \\
+\bottomrule
+\end{tabular}
+}
