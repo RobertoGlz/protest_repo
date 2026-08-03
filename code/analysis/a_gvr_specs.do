@@ -101,7 +101,7 @@ foreach W of local win_list {
 }
 esttab _all using "${tables}/gvr_interaction.tex", replace booktabs nonotes nogaps b(3) se(3) ///
 	star(* 0.10 ** 0.05 *** 0.01) ///
-	mtitles("\shortstack{GVR\\$\pm$30}" "\shortstack{GVR\\$\pm$60}" "\shortstack{GVR\\$\pm$90}") ///
+	mtitles("$\pm 30$" "$\pm 60$" "$\pm 90$") ///
 	stats(p_pa_na p_pa_gt_na baseline N num_scandals r2, ///
 	      label("p-value: Apex $$=$$ Non-Apex" "p-value: Apex $$>$$ Non-Apex (one-sided)" ///
 	            "Mean (Pre-Scandal)" "Observations" "Number of Scandals" "R-squared") ///
@@ -160,7 +160,7 @@ foreach p in corrpa corrna football deprec {
 	}
 	esttab m1 m2 m3 using "${tables}/gvr_bench_`p'_temp.tex", replace booktabs nonotes nogaps b(3) se(3) ///
 		star(* 0.10 ** 0.05 *** 0.01) ///
-		mtitles("\shortstack{GVR\\$\pm$30}" "\shortstack{GVR\\$\pm$60}" "\shortstack{GVR\\$\pm$90}") ///
+		mtitles("$\pm 30$" "$\pm 60$" "$\pm 90$") ///
 		stats(baseline N num_events r2, label("Mean (Pre-Event)" "Observations" "Number of Events" "R-squared") fmt(3 0 0 3)) ///
 		keep(post) coeflabels(post "Post Event")
 }
@@ -232,7 +232,7 @@ foreach idx in polyarchy libdem {
 	}
 	esttab _all using "${tables}/`out'", replace booktabs nonotes nogaps b(3) se(3) ///
 		star(* 0.10 ** 0.05 *** 0.01) ///
-		mtitles("\shortstack{GVR\\$\pm$30}" "\shortstack{GVR\\$\pm$60}" "\shortstack{GVR\\$\pm$90}") ///
+		mtitles("$\pm 30$" "$\pm 60$" "$\pm 90$") ///
 		stats(p_mh_l p_mh_gt_l baseline N r2, ///
 		      label("p-value: Medium+High $$=$$ Low" "p-value: Medium+High $$>$$ Low (one-sided)" ///
 		            "Mean (Pre-Scandal)" "Observations" "R-squared") fmt(3 3 3 0 3)) ///
@@ -270,6 +270,16 @@ forvalues j = `nb'(-1)2 {
 }
 forvalues j = 1/`nb' {
 	local esvars "`esvars' ebin_p`j'"
+}
+
+/* x-axis tick labels matching the main-text event study (Figure 1): a label
+   every 15 days (pre bins at their left edge, post bins at their right edge),
+   the reference day 0 left unlabelled */
+local xlabs ""
+forvalues bi = -`nb'/`=`nb'-1' {
+	if `bi' < 0 local d = `bi'*`B'
+	else        local d = (`bi'+1)*`B'
+	if mod(`d', 15) == 0 local xlabs "`xlabs' `d'"
 }
 
 /* PASS 1: common y-range across the two panels */
@@ -363,6 +373,7 @@ foreach sample in pa na {
 			ylabel(`ylo_t'(`step')`yhi_t', format(%5.3fc) angle(0)) ///
 			xtitle("Days since scandal", size(medium)) ///
 			xscale(range(`xlo_ax' `xhi_ax')) ///
+			xlabel(`xlabs', labsize(medium)) ///
 			graphregion(color(white) fcolor(white)) scheme(s2color) legend(off)
 		graph export "${figout}/gvr_es_`sample'.pdf", replace
 	restore
