@@ -179,18 +179,16 @@ foreach K of numlist 30 60 90 {
 }
 
 /* ============================================================
-   STEP 2a - common y-scale per (outcome x bin), pooled across the apex/non-apex
-   partitions AND the +-30/60/90 windows, so every panel that appears together in
-   a figure (and the apex vs non-apex figures side by side) shares one axis.
+   STEP 2a - common y-scale per bin resolution B, pooled across the apex/non-apex
+   partitions, the +-30/60/90 windows, AND both outcomes (violent + peaceful), so
+   every SDID panel at a given bin width shares one identical axis.
    Trends: anchored at 0 (daily counts).  Placebo: symmetric about 0 (demeaned
    gap).  A separate scale per bin resolution B, since coarser bins are smoother.
    ============================================================ */
-foreach out in violent peaceful {
 foreach B of numlist 1 5 10 15 {
-	local TRlo_`out'_`B' =  1e9
-	local TRhi_`out'_`B' = -1e9
-	local PLm_`out'_`B'  =  0
-}
+	local TRlo_`B' =  1e9
+	local TRhi_`B' = -1e9
+	local PLm_`B'  =  0
 }
 foreach samp in pa na {
 foreach out in violent peaceful {
@@ -205,8 +203,8 @@ foreach B of numlist 1 5 10 15 {
 	collapse (mean) obs syn synsh, by(tbin)
 	foreach v in obs syn synsh {
 		quietly summarize `v'
-		if r(min) < `TRlo_`out'_`B'' local TRlo_`out'_`B' = r(min)
-		if r(max) > `TRhi_`out'_`B'' local TRhi_`out'_`B' = r(max)
+		if r(min) < `TRlo_`B'' local TRlo_`B' = r(min)
+		if r(max) > `TRhi_`B'' local TRhi_`B' = r(max)
 	}
 	/* placebo span: all donor + treated demeaned gaps */
 	use "${datfin}/sdid_fig_gaps_`samp'_`out'_w`K'.dta", clear
@@ -217,17 +215,16 @@ foreach B of numlist 1 5 10 15 {
 	collapse (mean) g, by(who tbin)
 	quietly summarize g
 	local amax = max(abs(r(min)), abs(r(max)))
-	if `amax' > `PLm_`out'_`B'' local PLm_`out'_`B' = `amax'
+	if `amax' > `PLm_`B'' local PLm_`B' = `amax'
 }
 }
 }
 }
 /* turn the raw spans into nice, identical tick sets (<= ~6 intervals) */
-foreach out in violent peaceful {
 foreach B of numlist 1 5 10 15 {
 	/* trends: floor at 0, round out to nice bounds */
-	local lo = min(0, `TRlo_`out'_`B'')
-	local hi = `TRhi_`out'_`B''
+	local lo = min(0, `TRlo_`B'')
+	local hi = `TRhi_`B''
 	local span = `hi' - `lo'
 	local step = 10
 	foreach cand of numlist .02 .05 .1 .2 .25 .5 1 2 2.5 5 10 {
@@ -236,10 +233,10 @@ foreach B of numlist 1 5 10 15 {
 	}
 	local ylo = floor(`lo'/`step')*`step'
 	local yhi =  ceil(`hi'/`step')*`step'
-	local TRlab_`out'_`B' "`ylo'(`step')`yhi'"
-	local TRr_`out'_`B'   "`ylo' `yhi'"
+	local TRlab_`B' "`ylo'(`step')`yhi'"
+	local TRr_`B'   "`ylo' `yhi'"
 	/* placebo: symmetric about 0 */
-	local M = `PLm_`out'_`B''
+	local M = `PLm_`B''
 	local span = 2*`M'
 	local step = 10
 	foreach cand of numlist .02 .05 .1 .2 .25 .5 1 2 2.5 5 10 {
@@ -247,9 +244,8 @@ foreach B of numlist 1 5 10 15 {
 		if `span'/`cand' <= 6 continue, break
 	}
 	local yhi = ceil(`M'/`step')*`step'
-	local PLlab_`out'_`B' "-`yhi'(`step')`yhi'"
-	local PLr_`out'_`B'   "-`yhi' `yhi'"
-}
+	local PLlab_`B' "-`yhi'(`step')`yhi'"
+	local PLr_`B'   "-`yhi' `yhi'"
 }
 
 /* ============================================================
@@ -278,8 +274,8 @@ foreach B of numlist 1 5 10 15 {
 		ytitle("`ylab'", size(medium)) ///
 		xtitle("Days since scandal", size(medium)) ///
 		xlabel(-`K'(`xs')`K') ///
-		ylabel(`TRlab_`out'_`B'', angle(0) labsize(medsmall)) ///
-		yscale(range(`TRr_`out'_`B'')) ///
+		ylabel(`TRlab_`B'', angle(0) labsize(medsmall)) ///
+		yscale(range(`TRr_`B'')) ///
 		legend(off) ///
 		graphregion(color(white) fcolor(white)) scheme(s2color)
 	graph export "${figout}/sdid_trends_`slab'_`out'_w`K'_b`B'.pdf", replace
@@ -309,8 +305,8 @@ foreach B of numlist 1 5 10 15 {
 		ytitle("Gap: treated {&minus} synthetic (demeaned)", size(medium)) ///
 		xtitle("Days since scandal", size(medium)) ///
 		xlabel(-`K'(`xs')`K') ///
-		ylabel(`PLlab_`out'_`B'', angle(0) labsize(medsmall)) ///
-		yscale(range(`PLr_`out'_`B'')) ///
+		ylabel(`PLlab_`B'', angle(0) labsize(medsmall)) ///
+		yscale(range(`PLr_`B'')) ///
 		legend(off) ///
 		graphregion(color(white) fcolor(white)) scheme(s2color)
 	graph export "${figout}/sdid_placebo_`slab'_`out'_w`K'_b`B'.pdf", replace
