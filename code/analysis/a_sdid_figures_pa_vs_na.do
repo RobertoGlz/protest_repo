@@ -181,14 +181,19 @@ foreach K of numlist 30 60 90 {
 /* ============================================================
    STEP 2a - common y-scale per bin resolution B, pooled across the apex/non-apex
    partitions, the +-30/60/90 windows, AND both outcomes (violent + peaceful), so
-   every SDID panel at a given bin width shares one identical axis.
-   Trends: anchored at 0 (daily counts).  Placebo: symmetric about 0 (demeaned
-   gap).  A separate scale per bin resolution B, since coarser bins are smoother.
+   every trends panel at a given bin width shares one identical axis (anchored at
+   0).  The placebo panels use a FIXED symmetric cap of +-PLcap: the treated line
+   and the donor bulk sit well inside it, so a data-driven range would only be
+   stretched by a couple of extreme donor tails.  Those tails are winsorized to
+   the cap so it binds (Stata's yscale(range()) only ever extends an axis).
    ============================================================ */
+local PLcap  = 0.1
+local PLstep = 0.05
+local PLlab  "-`PLcap'(`PLstep')`PLcap'"
+local PLr    "-`PLcap' `PLcap'"
 foreach B of numlist 1 5 10 15 {
 	local TRlo_`B' =  1e9
 	local TRhi_`B' = -1e9
-	local PLm_`B'  =  0
 }
 foreach samp in pa na {
 foreach out in violent peaceful {
@@ -206,16 +211,6 @@ foreach B of numlist 1 5 10 15 {
 		if r(min) < `TRlo_`B'' local TRlo_`B' = r(min)
 		if r(max) > `TRhi_`B'' local TRhi_`B' = r(max)
 	}
-	/* placebo span: all donor + treated demeaned gaps */
-	use "${datfin}/sdid_fig_gaps_`samp'_`out'_w`K'.dta", clear
-	gen double _preg = g if tvar<0
-	bysort sid who: egen double pregap = mean(_preg)
-	replace g = g - pregap
-	gen double tbin = round(tvar/`B')*`B'
-	collapse (mean) g, by(who tbin)
-	quietly summarize g
-	local amax = max(abs(r(min)), abs(r(max)))
-	if `amax' > `PLm_`B'' local PLm_`B' = `amax'
 }
 }
 }
@@ -235,17 +230,6 @@ foreach B of numlist 1 5 10 15 {
 	local yhi =  ceil(`hi'/`step')*`step'
 	local TRlab_`B' "`ylo'(`step')`yhi'"
 	local TRr_`B'   "`ylo' `yhi'"
-	/* placebo: symmetric about 0 */
-	local M = `PLm_`B''
-	local span = 2*`M'
-	local step = 10
-	foreach cand of numlist .02 .05 .1 .2 .25 .5 1 2 2.5 5 10 {
-		local step = `cand'
-		if `span'/`cand' <= 6 continue, break
-	}
-	local yhi = ceil(`M'/`step')*`step'
-	local PLlab_`B' "-`yhi'(`step')`yhi'"
-	local PLr_`B'   "-`yhi' `yhi'"
 }
 
 /* ============================================================
@@ -289,6 +273,9 @@ foreach B of numlist 1 5 10 15 {
 	collapse (mean) g, by(who tvar)
 	gen double tbin = round(tvar/`B')*`B'
 	collapse (mean) g, by(who tbin)
+	/* clip extreme donor tails to the fixed cap so the +-PLcap axis binds */
+	replace g =  `PLcap' if g >  `PLcap' & !missing(g)
+	replace g = -`PLcap' if g < -`PLcap'
 	gen byte istreat = who=="TREATED"
 	levelsof who if istreat==0, local(dons)
 	local ndon : word count `dons'
@@ -305,8 +292,8 @@ foreach B of numlist 1 5 10 15 {
 		ytitle("Gap: treated {&minus} synthetic (demeaned)", size(medium)) ///
 		xtitle("Days since scandal", size(medium)) ///
 		xlabel(-`K'(`xs')`K') ///
-		ylabel(`PLlab_`B'', angle(0) labsize(medsmall)) ///
-		yscale(range(`PLr_`B'')) ///
+		ylabel(`PLlab', angle(0) labsize(medsmall)) ///
+		yscale(range(`PLr')) ///
 		legend(off) ///
 		graphregion(color(white) fcolor(white)) scheme(s2color)
 	graph export "${figout}/sdid_placebo_`slab'_`out'_w`K'_b`B'.pdf", replace
