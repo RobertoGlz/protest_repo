@@ -1,0 +1,22 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{6}{c}}
+\toprule
+            &\multicolumn{2}{c}{$\pm 30$-Day Window}    &\multicolumn{2}{c}{$\pm 60$-Day Window}    &\multicolumn{2}{c}{$\pm 90$-Day Window}    \\\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
+            &\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}\\
+\midrule
+Post $\times$ Apex&       0.043\sym{**} &      -0.008         &       0.033\sym{**} &      -0.007         &       0.017\sym{*}  &      -0.002         \\
+            &     (0.018)         &     (0.013)         &     (0.013)         &     (0.008)         &     (0.010)         &     (0.009)         \\
+Post $\times$ Non-Apex&      -0.005         &       0.018         &       0.002         &       0.006         &       0.003         &      -0.001         \\
+            &     (0.007)         &     (0.012)         &     (0.006)         &     (0.012)         &     (0.006)         &     (0.009)         \\
+\midrule
+p-value: Apex $=$ Non-Apex&       0.036         &       0.217         &       0.064         &       0.399         &       0.242         &       0.883         \\
+p-value: Apex $>$ Non-Apex (one-sided)&       0.018         &       0.892         &       0.032         &       0.801         &       0.121         &       0.559         \\
+Mean (Pre-Scandal)&       0.022         &       0.052         &       0.023         &       0.054         &       0.026         &       0.054         \\
+Observations&       11590         &       11590         &       22990         &       22990         &       34390         &       34390         \\
+Number of Scandals&         190         &         190         &         190         &         190         &         190         &         190         \\
+R-squared   &       0.158         &       0.457         &       0.146         &       0.385         &       0.120         &       0.336         \\
+\bottomrule
+\end{tabular}
+}

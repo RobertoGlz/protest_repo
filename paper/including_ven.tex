@@ -1,0 +1,84 @@
+\documentclass[11pt]{article}
+
+\input{preamble}
+
+% Find the tables/figures produced by the Stata pipeline (same search order as
+% the main paper): local paper/{figures,tables}/ first.
+\graphicspath{{./figures/}{../../Protest_Work/results/figures/}}
+\makeatletter
+\providecommand*{\input@path}{}
+\edef\input@path{{./tables/}{../../Protest_Work/results/tables/}\input@path}
+\makeatother
+\pdfminorversion=7
+\DeclareGraphicsExtensions{.pdf,.png}
+
+\title{Violent Effects of Apex Corruption:\\[2pt] Robustness to Including Venezuela}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+The main analysis (\texttt{violent-effects-of-apex-corruption-main.tex}) excludes Venezuela's scandals throughout. This note re-estimates the paper's core evidence \emph{keeping} Venezuela, changing nothing else: the outcomes (daily violent and peaceful protest counts), the fixed effects (country-by-year, month-of-year, day-of-week), the clustering (country $\times$ year $\times$ day-bin), the sample period (2008--2018), and the event-window widths are all as in the paper. For the democracy splits the terciles are recomputed over the set of countries with a 2008 V-Dem score \emph{including} Venezuela. The headline pattern is unchanged: apex corruption scandals raise violent protests while the peaceful margin and the non-apex partition remain flat.
+
+\section{Apex vs.\ Non-Apex interaction (main-text Table~1)}
+
+\autoref{tab:ven_interaction} re-runs the pooled two-group interaction, which tests whether the post-scandal effect differs between apex and non-apex scandals.
+
+\begin{table}[htb!]
+    \caption{Apex vs.\ Non-Apex interaction, Venezuela included.}
+    \label{tab:ven_interaction}
+    \begin{center}\scriptsize{\input{interaction_ven}}\end{center}
+    \footnotesize{OLS estimates of $\beta_{\text{Apex}}$ and $\beta_{\text{Non-Apex}}$ (the post-scandal indicator interacted with Apex and Non-Apex flags), on violent and peaceful protest counts at the $\pm$30/60/90-day windows, on the full scandal panel \emph{including Venezuela}. ``$p$-value: Apex $=$ Non-Apex'' is the two-sided test of equality; the one-sided row tests Apex $>$ Non-Apex. Country-by-year, month-of-year and day-of-week fixed effects; standard errors clustered at the country $\times$ year $\times$ day-bin level. Sample period 2008--2018. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+\end{table}
+
+\section{Protest dynamics (main-text Figure~1)}
+
+\autoref{fig:ven_dynamics} re-estimates the subsample event studies ($\pm 60$-day window, 15-day bins), keeping Venezuela.
+
+\begin{figure}[htb!]
+    \caption{Protest dynamics, Venezuela included ($\pm 60$-day window, 15-day bins).}
+    \label{fig:ven_dynamics}
+    \begin{center}
+    \begin{subfigure}{0.48\textwidth}\caption{Violent, Apex.}
+        \includegraphics[width=\textwidth]{es_ven_violent_pa.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}\caption{Peaceful, Apex.}
+        \includegraphics[width=\textwidth]{es_ven_peaceful_pa.pdf}\end{subfigure} \\[4pt]
+    \begin{subfigure}{0.48\textwidth}\caption{Violent, Non-Apex.}
+        \includegraphics[width=\textwidth]{es_ven_violent_na.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}\caption{Peaceful, Non-Apex.}
+        \includegraphics[width=\textwidth]{es_ven_peaceful_na.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{Event-time coefficients (points) with 90\% confidence intervals (spikes); the bin immediately before disclosure ($[-15,-1]$ days) is the omitted reference. Estimated on the apex (top) and non-apex (bottom) subsamples, for violent (left) and peaceful (right) protests, \emph{including Venezuela}. Same fixed effects and clustering as \autoref{tab:ven_interaction}. Sample period 2008--2018.}
+\end{figure}
+
+\section{Main effect and benchmarks (main-text Table~2)}
+
+\autoref{tab:ven_main} re-estimates the headline effect on the apex and non-apex subsamples, alongside the football-loss and currency-depreciation benchmarks, keeping Venezuela in every panel.
+
+\begin{table}[htb!]
+    \caption{Main effect and benchmarks, Venezuela included.}
+    \label{tab:ven_main}
+    \begin{center}\scriptsize{\input{main_ven}}\end{center}
+    \footnotesize{Effect of a post-event indicator on violent and peaceful protest counts at the $\pm$30/60/90-day windows, on four samples (apex scandals, non-apex scandals, football-match losses, currency depreciations), \emph{including Venezuela}. Construction as in the main paper's Table~2. Sample period 2008--2018. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+\end{table}
+
+\section{Heterogeneity by democracy (main-text Tables~3 and~S3)}
+
+Tables~\ref{tab:ven_dem_elec} and~\ref{tab:ven_dem_lib} re-estimate the Low vs.\ Medium+High democracy split, with terciles formed---including Venezuela---from the 2008 V-Dem Electoral and Liberal Democracy Indices, respectively.
+
+\begin{table}[htb!]
+    \caption{Effect by 2008 level of democracy (Electoral index), Venezuela included.}
+    \label{tab:ven_dem_elec}
+    \begin{center}\scriptsize{\input{democracy_elec_ven}}\end{center}
+    \footnotesize{OLS estimates of $\beta_{\text{Medium+High}}$ and $\beta_{\text{Low}}$ (the post-scandal indicator interacted with the top-two-tercile and bottom-tercile flags of the 2008 V-Dem Electoral Democracy Index), on violent and peaceful protest counts at the $\pm$30/60/90-day windows, \emph{including Venezuela}. Same fixed effects and clustering as above. Sample period 2008--2018. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+\end{table}
+
+\begin{table}[htb!]
+    \caption{Effect by 2008 level of democracy (Liberal index), Venezuela included.}
+    \label{tab:ven_dem_lib}
+    \begin{center}\scriptsize{\input{democracy_lib_ven}}\end{center}
+    \footnotesize{As \autoref{tab:ven_dem_elec}, but terciles are formed from the 2008 V-Dem Liberal Democracy Index. Sample period 2008--2018.}
+\end{table}
+
+\end{document}
