@@ -149,8 +149,8 @@ foreach spec in polyarchy libdem {
 		       (line vdem_top   year if country=="`c'", lcolor(navy) lpattern(shortdash) lwidth(thin)) ///
 		    , `xlopt' ///
 		      title("`c'", size(medlarge)) ytitle("") xtitle("") ///
-		      ylabel(`ylb', format(%3.1f) labsize(medsmall)) ///
-		      xlabel(`ylo'(4)`yhi', labsize(medsmall)) ///
+		      ylabel(0.2 0.5 0.8, format(%3.1f) labsize(medsmall)) ///
+		      xlabel(2010 2014 2018, labsize(medsmall)) ///
 		      legend(off) scheme(s2color) graphregion(color(white)) nodraw name(gg`i', replace)
 		local graphs "`graphs' gg`i'"
 	}
