@@ -117,27 +117,58 @@ merge 1:1 country year using `apex', keep(1 3) nogenerate
 replace n_apex = 0 if missing(n_apex)
 bysort country (year): gen int cum_apex = sum(n_apex)
 
-/* aggregate to tercile x year */
-collapse (mean) cum_apex (mean) vdem = v2x_polyarchy (count) ncty = n_apex, by(terc3 year)
+/* keep bottom (1) and top (3) terciles; middle omitted */
+keep if inlist(terc3, 1, 3)
+
+/* tercile-mean democracy index by year (for the two dashed lines) */
+bysort terc3 year: egen double vdem_terc = mean(v2x_polyarchy)
+
+/* country lists + a representative country per tercile (to draw the single
+   tercile-mean dashed line as one clean series) */
+levelsof country if terc3==1, local(bot)
+levelsof country if terc3==3, local(top)
+local nbot : word count `bot'
+local ntop : word count `top'
+local rep1 : word 1 of `bot'
+local rep3 : word 1 of `top'
+
+gen str32 clab = country if year==`yhi'    /* end-of-line country labels */
+sort country year
 
 /* ============================================================
-   STEP 4 - dual-axis figure (bottom = cranberry, top = navy;
-             scandals = solid on left axis, democracy = dashed on right axis)
+   STEP 4 - two-y-axis figure: one SOLID line per country for cumulative apex
+   scandals (left axis, colored by tercile, labelled), plus the two tercile-mean
+   SHORT-DASHED democracy-index lines (right axis).
    ============================================================ */
-twoway ///
-    (line cum_apex year if terc3==1, yaxis(1) lcolor(cranberry) lwidth(thick)) ///
-    (line cum_apex year if terc3==3, yaxis(1) lcolor(navy)      lwidth(thick)) ///
-    (line vdem     year if terc3==1, yaxis(2) lcolor(cranberry) lwidth(medthick) lpattern(dash)) ///
-    (line vdem     year if terc3==3, yaxis(2) lcolor(navy)      lwidth(medthick) lpattern(dash)) ///
-    , ///
-    ytitle("Cumulative apex scandals per country", axis(1) size(medium)) ///
+local pc ""
+foreach c of local bot {
+	local pc `"`pc' (line cum_apex year if country=="`c'", yaxis(1) lcolor(cranberry%65) lwidth(medthin))"'
+}
+foreach c of local top {
+	local pc `"`pc' (line cum_apex year if country=="`c'", yaxis(1) lcolor(navy%65) lwidth(medthin))"'
+}
+local pc `"`pc' (line vdem_terc year if country=="`rep1'", yaxis(2) lcolor(cranberry) lpattern(shortdash) lwidth(thick))"'
+local pc `"`pc' (line vdem_terc year if country=="`rep3'", yaxis(2) lcolor(navy) lpattern(shortdash) lwidth(thick))"'
+local pc `"`pc' (scatter cum_apex year if year==`yhi' & terc3==1, yaxis(1) msymbol(none) mlabel(clab) mlabsize(vsmall) mlabcolor(cranberry) mlabpos(3) mlabgap(1))"'
+local pc `"`pc' (scatter cum_apex year if year==`yhi' & terc3==3, yaxis(1) msymbol(none) mlabel(clab) mlabsize(vsmall) mlabcolor(navy) mlabpos(3) mlabgap(1))"'
+
+/* legend anchors: 1st bottom solid, 1st top solid, then the two dashed lines */
+local L1 = 1
+local L2 = `nbot' + 1
+local D1 = `nbot' + `ntop' + 1
+local D2 = `nbot' + `ntop' + 2
+
+twoway `pc', ///
+    ytitle("Cumulative apex scandals", axis(1) size(medium)) ///
     ytitle("V-Dem Electoral Democracy Index", axis(2) size(medium)) ///
     xtitle("Year", size(medium)) ///
     xlabel(`ylo'(2)`yhi', angle(0)) ///
-    legend(order(1 "Bottom tercile: cumulative scandals (left)" ///
-                 2 "Top tercile: cumulative scandals (left)" ///
-                 3 "Bottom tercile: democracy index (right)" ///
-                 4 "Top tercile: democracy index (right)") ///
+    xscale(range(`ylo' `=`yhi'+2')) ///
+    ylabel(0.5(0.1)0.9, axis(2) format(%3.1f)) ///
+    legend(order(`L1' "Individual bottom-tercile country: scandals (left)" ///
+                 `L2' "Individual top-tercile country: scandals (left)" ///
+                 `D1' "Bottom-tercile mean: democracy index (right)" ///
+                 `D2' "Top-tercile mean: democracy index (right)") ///
            rows(4) position(6) size(small) region(lstyle(none))) ///
     graphregion(color(white) fcolor(white)) scheme(s2color)
 graph export "${figout}/democracy_scandals_timeseries.pdf", replace
