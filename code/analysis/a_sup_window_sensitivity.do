@@ -22,7 +22,7 @@
      readers can compare them side-by-side and see the null line
      aligned across panels.
 
-     Highlights: the main-body table windows T = 30, 60, 90 use large red X markers (distinct shape, legible in black & white)
+     Highlights: the main-body table windows T = 30, 60, 90 use large red diamond markers (distinct shape, legible in black & white)
      and CI bars in RGB (220, 0, 0); T = 120 is drawn like every other
      non-highlighted window (its estimates are no longer reported in the
      main body); a thick, very faint horizontal line marks the null
@@ -211,7 +211,7 @@ foreach est in OLS Poisson {
 	}
 }
 
-/* --- Plot.  Highlight the three main-body table windows (30/60/90) with large red X markers (distinct shape, legible in black & white);
+/* --- Plot.  Highlight the three main-body table windows (30/60/90) with large red diamond markers (distinct shape, legible in black & white);
        120 is NOT highlighted -- it is drawn exactly like the other windows that
        are not reported in the main body (gray CI cap, black marker), because
        120-day estimates are no longer shown there. --- */
@@ -264,7 +264,7 @@ foreach sample in full pa na {
 				       (scatter `yvar' T if !inlist(T, 30, 60, 90), ///
 			            msymbol(O) msize(medium) mcolor(black)) ///
 				       (scatter `yvar' T if inlist(T, 30, 60, 90), ///
-				            msymbol(X) msize(large) mcolor("220 0 0")), ///
+				            msymbol(D) msize(medlarge) mcolor("220 0 0")), ///
 					yline(`nullref', lcolor(black%10) lwidth(vvthick) lpattern(solid)) ///
 					xlabel(15(15)150) ///
 					xtitle("Event-window width (days)", size(medium)) ///
