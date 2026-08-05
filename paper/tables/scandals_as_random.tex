@@ -1,0 +1,17 @@
+\begin{tabular}{lcccc}
+\toprule
+ & (1) & (2) & (3) & (4) \\
+\midrule
+Day of week & Yes & Yes & Yes & Yes \\
+Month of year & No & Yes & Yes & Yes \\
+Day of month & No & No & Yes & Yes \\
+Election proximity & No & No & No & Yes \\
+Country $\times$ year FE & Yes & Yes & Yes & Yes \\
+\midrule
+Country-days &    28,852 &    28,852 &    28,852 &    28,852 \\
+Scandal country-years &   79 &   79 &   79 &   79 \\
+Joint test $p$-value & 0.008 & 0.002 & 0.086 & 0.119 \\
+Within-year AUC (in-sample) & 0.593 & 0.644 & 0.681 & 0.684 \\
+Within-year AUC (out-of-sample) & 0.565 & 0.586 & 0.557 & 0.543 \\
+\bottomrule
+\end{tabular}
