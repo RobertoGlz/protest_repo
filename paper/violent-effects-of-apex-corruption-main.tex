@@ -913,6 +913,23 @@ We re-estimate the two interaction coefficients on violent protests in the $\pm$
     \footnotesize{Leave-one-out estimates of the two-group interaction coefficients (\autoref{tab:interaction}) on violent protests, $\pm 30$-day window. Each point re-estimates the panel's coefficient---Post $\times$ Apex in (a), Post $\times$ Non-Apex in (b)---dropping the labelled scandal's event window; panel (a) leaves out each of the 63 apex scandals, panel (b) each of the 113 non-apex scandals. Vertical bars are 90\% confidence intervals; scandals (x-axis, labelled Country -- Year, with a trailing ordinal ordering scandals by date within a country-year when there is more than one, e.g.\ ``Peru -- 2017 -- 3'') are sorted by the estimate. The red line is the coefficient on all scandals and the faint line marks zero; the two panels share a common vertical scale. Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
 \end{figure}
 
+% ---------------------------------------------------------------------
+\clearpage
+\section{The timing of scandal disclosures is unpredictable}\label{sup:random}
+
+Our identification rests on the exact calendar date of a scandal's disclosure being unpredictable \emph{within} a country-year: a citizen may know that a given country-year is scandal-prone, but not the specific day a scoop will break. \autoref{tab:scandal_random} tests this directly. On a country-by-day panel of the sample countries, we ask whether the day a scandal is disclosed can be told apart from the other days of the \emph{same} country-year using calendar structure and the electoral cycle---the day of the week, the month, the day of the month, and proximity to a national election (0--30/31--60/61--90/91--120 days before). We estimate a conditional (country-by-year fixed-effects) logit and measure discrimination with the within-country-year AUC: the probability the model ranks the true scandal-day above a random non-scandal-day of the same country-year, where $0.5$ is a coin flip.
+
+Out of sample---training on a random half of the days and ranking the held-out half---the within-country-year AUC never exceeds $0.59$, and falls to $0.54$ once all four predictor sets are included (\autoref{tab:scandal_random}, column~4): essentially a coin flip. Tellingly, adding predictors \emph{raises} the in-sample AUC (from $0.59$ to $0.68$) while \emph{lowering} the out-of-sample AUC---the signature of fitting noise rather than signal. Calendar structure and the electoral cycle carry no usable information about which day a scandal breaks.
+
+\begin{table}[htb!]
+    \caption{Predicting the exact disclosure date within a country-year.}
+    \label{tab:scandal_random}
+    \begin{center}\input{scandals_as_random}\end{center}
+    \footnotesize{Each column is a conditional (country-by-year fixed-effects) logit of a scandal-disclosure indicator on the listed predictors, estimated on a country-by-day panel of the sample countries (2008--2019, the span of our scandal dates; Venezuela excluded). Conditioning on country-by-year means only the 79 country-years that contain a scandal (28{,}852 country-days) enter the comparison; our 176 scandals fall on 171 distinct country-days. ``Election proximity'' is a set of indicators for a day falling 0--30, 31--60, 61--90, or 91--120 days before a national election. ``Joint test $p$-value'' is the Wald test that the added predictors jointly matter. ``Within-year AUC'' is Harrell's $c$ restricted to within-country-year comparisons (the probability the true scandal-day outranks a random non-scandal-day of the same country-year); $0.5$ is a coin flip. The out-of-sample row trains on a random half of the country-days and evaluates on the held-out half.}
+\end{table}
+
+% ---------------------------------------------------------------------
+\clearpage
 \begin{comment}
 \begin{figure}[htb!]
     \caption{Leave-one-out by rank hierarchy (as in Table~\ref{tab:sup_hierarchy}).}
@@ -953,21 +970,6 @@ We re-estimate the two interaction coefficients on violent protests in the $\pm$
     \end{center}
     \footnotesize{Leave-one-out estimates of the three democracy-tercile coefficients (Post $\times$ High, Medium, and Low 2008-democracy tercile, terciles of V-Dem's 2008 Electoral Democracy Index) on violent protests, $\pm 30$-day window, each re-estimated dropping the labelled scandal from that tercile. Vertical bars are 90\% confidence intervals; the red line is the coefficient on all scandals and the faint line marks zero. The three panels share a common vertical scale (on which the middle tercile shows the largest effect). Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
 \end{figure}
-
-% ---------------------------------------------------------------------
-\clearpage
-\section{The timing of scandal disclosures is unpredictable}\label{sup:random}
-
-Our identification rests on the exact calendar date of a scandal's disclosure being unpredictable \emph{within} a country-year: a citizen may know that a given country-year is scandal-prone, but not the specific day a scoop will break. \autoref{tab:scandal_random} tests this directly. On a country-by-day panel of the sample countries, we ask whether the day a scandal is disclosed can be told apart from the other days of the \emph{same} country-year using calendar structure and the electoral cycle---the day of the week, the month, the day of the month, and proximity to a national election (0--30/31--60/61--90/91--120 days before). We estimate a conditional (country-by-year fixed-effects) logit and measure discrimination with the within-country-year AUC: the probability the model ranks the true scandal-day above a random non-scandal-day of the same country-year, where $0.5$ is a coin flip.
-
-Out of sample---training on a random half of the days and ranking the held-out half---the within-country-year AUC never exceeds $0.59$, and falls to $0.54$ once all four predictor sets are included (\autoref{tab:scandal_random}, column~4): essentially a coin flip. Tellingly, adding predictors \emph{raises} the in-sample AUC (from $0.59$ to $0.68$) while \emph{lowering} the out-of-sample AUC---the signature of fitting noise rather than signal. Calendar structure and the electoral cycle carry no usable information about which day a scandal breaks.
-
-\begin{table}[htb!]
-    \caption{Predicting the exact disclosure date within a country-year.}
-    \label{tab:scandal_random}
-    \begin{center}\input{scandals_as_random}\end{center}
-    \footnotesize{Each column is a conditional (country-by-year fixed-effects) logit of a scandal-disclosure indicator on the listed predictors, estimated on a country-by-day panel of the sample countries (2008--2019, the span of our scandal dates; Venezuela excluded). Conditioning on country-by-year means only the 79 country-years that contain a scandal (28{,}852 country-days) enter the comparison; our 176 scandals fall on 171 distinct country-days. ``Election proximity'' is a set of indicators for a day falling 0--30, 31--60, 61--90, or 91--120 days before a national election. ``Joint test $p$-value'' is the Wald test that the added predictors jointly matter. ``Within-year AUC'' is Harrell's $c$ restricted to within-country-year comparisons (the probability the true scandal-day outranks a random non-scandal-day of the same country-year); $0.5$ is a coin flip. The out-of-sample row trains on a random half of the country-days and evaluates on the held-out half.}
-\end{table}
 
 % ---------------------------------------------------------------------
 \clearpage
