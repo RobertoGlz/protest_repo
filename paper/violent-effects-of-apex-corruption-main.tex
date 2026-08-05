@@ -1151,15 +1151,30 @@ If the effect really begins at the public-disclosure date and there is no antici
 \clearpage
 \section{Apex scandals and democracy over time}\label{sup:dem_scandals}
 
-As a descriptive complement to the cross-sectional democracy split, \autoref{fig:sup_dem_scandals} tracks apex-scandal accumulation and the level of democracy over time. The countries in which our scandals occur are split into the bottom and top tercile of the 2008 V-Dem Electoral Democracy Index (the same 2008 tercile classification used in the paper's democracy tables). Each solid line (left axis) is one country's running count of apex scandals since 2008; the two short-dashed lines (right axis) are the bottom- and top-tercile mean Electoral Democracy Index. Individual countries accumulate apex scandals steeply after 2014 (most dramatically Peru, then Brazil and Guatemala), while both tercile-mean democracy indices stay flat until about 2016 and then decline---so scandal accumulation \emph{precedes} the democracy dip. This is descriptive, not a causal estimate.
+As a descriptive complement to the cross-sectional democracy split, \autoref{fig:sup_dem_scandals} shows, for each of the 16 scandal countries, its V-Dem Electoral Democracy Index over 2008--2019 (solid black), with a gray vertical line at the year-month of every apex scandal in that country. For reference, each panel also draws the mean index of the bottom and top 2008-democracy terciles (short-dashed). The picture is heterogeneous: in some countries the index turns down as apex scandals cluster---Brazil falls sharply after its 2015--18 scandals and Honduras drifts lower---while in others it barely moves, most strikingly Peru, the most scandal-prone country, whose index holds near $0.8$ throughout. Notably, two of the sharpest declines (Bolivia and Nicaragua) occur in countries with \emph{no} apex scandals at all, so this is a descriptive exhibit rather than a causal estimate.
 
 \begin{figure}[htb!]
-    \caption{Apex scandals and the Electoral Democracy Index over time, by 2008 democracy tercile.}
+    \caption{Electoral Democracy Index and apex-scandal timing, by country.}
     \label{fig:sup_dem_scandals}
     \begin{center}
-    \includegraphics[width=0.9\textwidth]{democracy_scandals_timeseries.pdf}
+    \includegraphics[width=\textwidth]{democracy_scandals_timeseries.pdf}
     \end{center}
-    \footnotesize{The scandal countries are split into the bottom (6 countries) and top (5 countries) tercile of the 2008 V-Dem Electoral Democracy Index (\texttt{v2x\_polyarchy}), by \texttt{xtile}, \texttt{nq(3)}---the same classification used in the paper's democracy heterogeneity tables; the middle tercile is omitted. Each solid line (left axis) is one country's cumulative count of apex-corruption scandals since 2008, labelled at its 2019 endpoint (bottom-tercile countries in cranberry, top-tercile in navy). The two short-dashed lines (right axis) are the bottom- and top-tercile mean Electoral Democracy Index. Individual countries accumulate scandals steeply after 2014 (Peru most, then Brazil and Guatemala), while both tercile-mean indices are flat until about 2016 and then fall (top tercile from about 0.85 to 0.81, bottom tercile from about 0.55 to 0.50), so scandal accumulation precedes the democracy decline. Descriptive only. Sample period 2008--2019; Venezuela excluded.}
+    \footnotesize{One panel per scandal country (the 16 countries in the paper's democracy tables). Solid black line: the country's V-Dem Electoral Democracy Index (\texttt{v2x\_polyarchy}) by year. Gray vertical lines: the year-month of each apex-corruption scandal in that country (Bolivia, Chile, Costa Rica and Nicaragua have no apex scandals, hence no vertical lines). Short-dashed lines: the mean index of the bottom (cranberry) and top (navy) tercile of the 2008 Electoral Democracy Index (\texttt{xtile}, \texttt{nq(3)})---the same tercile classification used in the paper's democracy tables---drawn in every panel for reference. Common vertical scale. Sample period 2008--2019; Venezuela excluded.}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\clearpage
+\section{Apex scandals and the Liberal Democracy Index over time}\label{sup:dem_scandals_lib}
+
+\autoref{fig:sup_dem_scandals_lib} repeats \autoref{fig:sup_dem_scandals} using V-Dem's Liberal Democracy Index (\texttt{v2x\_libdem}) in place of the Electoral index, with the terciles re-formed from the 2008 Liberal index. The levels are lower---the liberal index is the stricter measure---but the patterns are the same: Brazil and Honduras decline as their apex scandals accumulate, Peru stays flat despite having the most scandals, and the largest falls (Bolivia, Nicaragua) again occur in countries with no apex scandals.
+
+\begin{figure}[htb!]
+    \caption{Liberal Democracy Index and apex-scandal timing, by country.}
+    \label{fig:sup_dem_scandals_lib}
+    \begin{center}
+    \includegraphics[width=\textwidth]{democracy_scandals_liberal.pdf}
+    \end{center}
+    \footnotesize{As \autoref{fig:sup_dem_scandals}, but the solid line and the two tercile-mean reference lines use V-Dem's Liberal Democracy Index (\texttt{v2x\_libdem}), with terciles formed from its 2008 value. Gray vertical lines mark apex-scandal year-months. Common vertical scale. Sample period 2008--2019; Venezuela excluded.}
 \end{figure}
 
 \end{document}
