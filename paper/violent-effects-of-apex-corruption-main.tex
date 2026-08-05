@@ -215,6 +215,21 @@ We classify each of the 176 scandals in our panel by the position of the implica
 
 % ---------------------------------------------------------------------
 \clearpage
+\section{The timing of scandal disclosures is unpredictable}\label{sup:random}
+
+
+
+Our identification rests on the exact calendar date of a scandal's disclosure being as-good-as-randomly distributed \emph{within} a country-year. We ask whether the day a scandal is disclosed can be told apart from the other days of the \emph{same} country-year using calendar structure and the electoral cycle. We estimate a conditional---on country-by-year fixed-effects---logit and measure discrimination with the within-country-year AUC. That is, the probability the model ranks the true scandal-day above a random non-scandal-day of the same country-year.
+
+\begin{table}[htb!]
+    \caption{Predicting the exact disclosure date within a country-year.}
+    \label{tab:scandal_random}
+    \begin{center}\input{scandals_as_random}\end{center}
+    \footnotesize{This table shows how well the exact disclosure date of a corruption scandal can be predicted \emph{within} a country-year, using progressively richer sets of predictors. Each column is a conditional (country-by-year fixed-effects) logit of an indicator for a scandal being disclosed on a given country-day, on the day of the week, the month of the year, the day of the month, and proximity to a national election (indicators for a day falling 0--30, 31--60, 61--90, or 91--120 days before an election), with each column adding one predictor set to the previous. An observation is a country-day; conditioning on country-by-year restricts the comparison to the 79 country-years that contain a scandal (28{,}852 country-days), and our 176 scandals fall on 171 distinct country-days. ``Joint test $p$-value'' is the Wald test that the predictors added in that column jointly matter. ``Within-year AUC'' is Harrell's $c$ restricted to within-country-year comparisons---the probability the model ranks the true scandal-day above a random non-scandal-day of the same country-year, where $0.5$ is a coin flip---and the out-of-sample row trains on a random half of the country-days and evaluates on the held-out half. Sample period 2008--2019; Venezuela excluded.}
+\end{table}
+
+% ---------------------------------------------------------------------
+\clearpage
 \section{Sensitivity to the event-window width}\label{sup:window}
 
 We re-estimate the OLS specification at every event-window width $T \in \{15, 30, 45, \dots, 150\}$ days and plot the point estimate against $T$ with a 90\% confidence interval. \autoref{fig:sup_window} places the Apex and Non-Apex subsamples \emph{side by side}---violent protests in the top row, peaceful in the bottom---on a \emph{common y-axis across all four panels}. The $T=30, 60, 90$ window-widths reported in Table~\ref{tab:uniquetocorruption} are shown with diamond markers.
@@ -915,21 +930,6 @@ We re-estimate the two interaction coefficients on violent protests in the $\pm$
 
 % ---------------------------------------------------------------------
 \clearpage
-\section{The timing of scandal disclosures is unpredictable}\label{sup:random}
-
-Our identification rests on the exact calendar date of a scandal's disclosure being unpredictable \emph{within} a country-year: a citizen may know that a given country-year is scandal-prone, but not the specific day a scoop will break. \autoref{tab:scandal_random} tests this directly. On a country-by-day panel of the sample countries, we ask whether the day a scandal is disclosed can be told apart from the other days of the \emph{same} country-year using calendar structure and the electoral cycle---the day of the week, the month, the day of the month, and proximity to a national election (0--30/31--60/61--90/91--120 days before). We estimate a conditional (country-by-year fixed-effects) logit and measure discrimination with the within-country-year AUC: the probability the model ranks the true scandal-day above a random non-scandal-day of the same country-year, where $0.5$ is a coin flip.
-
-Out of sample---training on a random half of the days and ranking the held-out half---the within-country-year AUC never exceeds $0.59$, and falls to $0.54$ once all four predictor sets are included (\autoref{tab:scandal_random}, column~4): essentially a coin flip. Tellingly, adding predictors \emph{raises} the in-sample AUC (from $0.59$ to $0.68$) while \emph{lowering} the out-of-sample AUC---the signature of fitting noise rather than signal. Calendar structure and the electoral cycle carry no usable information about which day a scandal breaks.
-
-\begin{table}[htb!]
-    \caption{Predicting the exact disclosure date within a country-year.}
-    \label{tab:scandal_random}
-    \begin{center}\input{scandals_as_random}\end{center}
-    \footnotesize{Each column is a conditional (country-by-year fixed-effects) logit of a scandal-disclosure indicator on the listed predictors, estimated on a country-by-day panel of the sample countries (2008--2019, the span of our scandal dates; Venezuela excluded). Conditioning on country-by-year means only the 79 country-years that contain a scandal (28{,}852 country-days) enter the comparison; our 176 scandals fall on 171 distinct country-days. ``Election proximity'' is a set of indicators for a day falling 0--30, 31--60, 61--90, or 91--120 days before a national election. ``Joint test $p$-value'' is the Wald test that the added predictors jointly matter. ``Within-year AUC'' is Harrell's $c$ restricted to within-country-year comparisons (the probability the true scandal-day outranks a random non-scandal-day of the same country-year); $0.5$ is a coin flip. The out-of-sample row trains on a random half of the country-days and evaluates on the held-out half.}
-\end{table}
-
-% ---------------------------------------------------------------------
-\clearpage
 \begin{comment}
 \begin{figure}[htb!]
     \caption{Leave-one-out by rank hierarchy (as in Table~\ref{tab:sup_hierarchy}).}
@@ -1159,7 +1159,7 @@ As a descriptive complement to the cross-sectional democracy split, \autoref{fig
     \begin{center}
     \includegraphics[width=\textwidth]{democracy_scandals_timeseries.pdf}
     \end{center}
-    \footnotesize{One panel per scandal country (the 16 countries in the paper's democracy tables). Solid black line: the country's V-Dem Electoral Democracy Index (\texttt{v2x\_polyarchy}) by year. Gray vertical lines: the year-month of each apex-corruption scandal in that country (Bolivia, Chile, Costa Rica and Nicaragua have no apex scandals, hence no vertical lines). Short-dashed lines: the mean index of the bottom (cranberry) and top (navy) tercile of the 2008 Electoral Democracy Index (\texttt{xtile}, \texttt{nq(3)})---the same tercile classification used in the paper's democracy tables---drawn in every panel for reference. Common vertical scale. Sample period 2008--2019; Venezuela excluded.}
+    \footnotesize{This figure shows, in one panel per scandal country (the 16 countries in the paper's democracy tables), the evolution of democracy alongside the timing of apex scandals. The solid black line is the country's V-Dem Electoral Democracy Index (\texttt{v2x\_polyarchy}) by year, and the gray vertical lines mark the year-month of each apex-corruption scandal in that country (Bolivia, Chile, Costa Rica, and Nicaragua have no apex scandals, and hence no vertical lines). For reference, each panel also plots the mean index of the bottom (cranberry) and top (navy) tercile of the 2008 Electoral Democracy Index---the same tercile classification used in the paper's democracy tables. All panels share a common vertical scale. Sample period 2008--2019; Venezuela excluded.}
 \end{figure}
 
 % ---------------------------------------------------------------------
@@ -1174,7 +1174,7 @@ As a descriptive complement to the cross-sectional democracy split, \autoref{fig
     \begin{center}
     \includegraphics[width=\textwidth]{democracy_scandals_liberal.pdf}
     \end{center}
-    \footnotesize{As \autoref{fig:sup_dem_scandals}, but the solid line and the two tercile-mean reference lines use V-Dem's Liberal Democracy Index (\texttt{v2x\_libdem}), with terciles formed from its 2008 value. Gray vertical lines mark apex-scandal year-months. Common vertical scale. Sample period 2008--2019; Venezuela excluded.}
+    \footnotesize{This figure reproduces \autoref{fig:sup_dem_scandals} using V-Dem's Liberal Democracy Index (\texttt{v2x\_libdem}) in place of the Electoral Democracy Index. The solid black line is the country's Liberal Democracy Index by year, and the two short-dashed reference lines are the bottom- (cranberry) and top-tercile (navy) means formed from its 2008 value; the gray vertical lines again mark the year-month of each apex-corruption scandal. All panels share a common vertical scale. Sample period 2008--2019; Venezuela excluded.}
 \end{figure}
 
 \end{document}
