@@ -91,6 +91,18 @@ replace summary = "A former manager of Petroecuador (Alex Bravo) was detained on
 replace summary = "Alleged corruption network involving diputados (congressmen) in San Luis Potosi, Mexico; trended nationally on 21 June 2017 after a Denise Maerker report." ///
 	if id == "NEW23" & country == "Mexico" & summary == ""
 
+/* (1b) enriched descriptions -- rewritten to a uniform who/what/when/outcome
+   template from verifiable sources; full detail and citations for each are in
+   paper/scandal_descriptions_sources.md.  (Sample batch; more to follow.) ----- */
+replace summary = "President Enrique Pena Nieto was implicated in the Casa Blanca conflict-of-interest scandal, revealed on 9 November 2014 by journalist Carmen Aristegui: the president's family occupied an 86-million-peso (about 7-million-dollar) Mexico City mansion built and financed by Grupo Higa, a state contractor favoured by his administration. An official inquiry cleared him in 2015; the affair became emblematic of his presidency." ///
+	if id == "64" & country == "Mexico"
+replace summary = "President Michel Temer was implicated on 17 May 2017 when a covert recording released through the JBS (Batista brothers) plea bargain appeared to capture him endorsing hush-money payments to jailed former House speaker Eduardo Cunha. Prosecutors charged him with passive corruption and obstruction; the Chamber of Deputies twice voted to block his trial, and he was briefly arrested in March 2019 in a separate Lava Jato operation." ///
+	if id == "104" & country == "Brazil"
+replace summary = "Cesar Alvarez, regional president (governor) of Ancash from 2007 to 2014, was arrested in May 2014 as the alleged head of the La Centralita criminal network, which rigged public-works contracts for bribes and ordered killings of political opponents. He was later sentenced to 19.5 years for criminal association and money laundering, and separately to 35 years as the mastermind of the murder of former councillor Ezequiel Nolasco." ///
+	if id == "58" & country == "Peru"
+replace summary = "Senator Antonio Jose Correa was the first legislator named in Colombia's mermelada toxica (toxic pork-barrel) scandal: on 5 July 2018 the Prosecutor's Office referred him for allegedly taking a roughly 12-percent kickback on a 3.49-billion-peso Coldeportes sports-infrastructure contract. In 2023 the Supreme Court charged him with aggravated conspiracy, concussion, influence peddling and improper interest in contracting." ///
+	if id == "TWNEWLATINO13" & country == "Colombia"
+
 /* (2) Apex / Non-Apex classification (NEW23 no longer in the SC-Justice set) */
 gen byte apex = 0
 replace apex = 1 if position == "president"
