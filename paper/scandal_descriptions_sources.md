@@ -14,8 +14,7 @@ Each scandal is keyed by its panel `id` (the same id used in
 = president / governor / Supreme-Court justice; **Non-Apex** = congressman /
 lower judiciary / other officials.
 
-> **Status:** sample batch (4 of 176). The remaining scandals are being added in
-> the same format.
+> **Status:** complete — all 176 scandals documented in this format.
 
 ---
 
@@ -123,3 +122,2219 @@ remained under investigation.
 - El Tiempo, "Senador Antonio Correa, primer salpicado por escándalo de la mermelada" (Jul 2018): https://www.eltiempo.com/justicia/investigacion/compulsas-al-senador-antonio-correa-por-escandalo-de-la-mermelada-239278
 - El Heraldo, "Fiscalía compulsa copias contra senador Antonio Correa por 'mermelada'" (5 Jul 2018): https://www.elheraldo.co/colombia/2018/07/05/fiscalia-compulsa-copias-contra-senador-cartagenero-antonio-correa-por-mermelada-514782/
 - Infobae, "Corte Suprema ordenó nuevas pruebas en investigación contra el senador Antonio Correa" (21 Jul 2024): https://www.infobae.com/colombia/2024/07/21/corte-suprema-ordeno-nuevas-pruebas-en-investigacion-contra-el-senador-antonio-correa-por-cupos-indicativos/
+
+---
+
+## id 100 — Brazil, 2015 — Other official (Non-Apex)
+
+**Table description.** Joao Vaccari Neto, national treasurer of Brazil's ruling Workers Party (PT), was arrested by federal police on April 15, 2015 in the Lava Jato (Car Wash) investigation for allegedly channeling bribes from the Petrobras kickback scheme to the party disguised as legitimate campaign donations, amounting to more than USD 1.2 million between 2008 and 2010. He resigned his party post to focus on his defense. He was later convicted and sentenced to more than 15 years in prison for corruption and money laundering.
+
+**Detail.** Joao Vaccari Neto served as treasurer of the Partido dos Trabalhadores (PT) and was a central figure in the Operation Lava Jato probe of Petrobras. Prosecutors alleged that construction firms overcharged Petrobras and funneled a share of the proceeds to political parties; Vaccari was accused of receiving these funds for the PT while masking them as ordinary donations. He was arrested on April 15, 2015 (the original tweet/headline text misdates this to 2016) and stepped down as PT treasurer shortly afterward. In September 2015 judge Sergio Moro convicted him, and he received a sentence of over 15 years across the Lava Jato cases. The scandal reached deep into the PT and contributed to the political crisis around President Dilma Rousseff.
+
+**Sources.**
+- https://feeds.bbci.co.uk/news/world-latin-america-34318633
+- https://www.wsws.org/en/articles/2015/04/17/braz-a17.html
+- https://gulfnews.com/world/americas/brazil-ruling-party-treasurer-arrested-in-petrobras-probe-1.1493188
+
+---
+
+## id 101 — Peru, 2016 — Other official (Non-Apex)
+
+**Table description.** Joaquin Ramirez Gamarra, congressman and secretary general of Keiko Fujimori's Fuerza Popular party, was reported on May 15, 2016 to be under investigation by the U.S. Drug Enforcement Administration (DEA). An informant pilot alleged, on an undercover recording, that Ramirez had laundered about USD 15 million on behalf of Fujimori around her 2011 presidential campaign. Ramirez denied the accusations and stepped aside from his party duties; the DEA publicly stated it was not investigating Fujimori herself, and no conviction resulted from these specific allegations at the time.
+
+**Detail.** The report aired on May 15, 2016 by the Peruvian program Cuarto Poder in cooperation with Univision, weeks before the second round of Peru's 2016 election. It cited a DEA informant, a pilot, who claimed Ramirez admitted on tape to laundering roughly USD 15 million for Keiko Fujimori tied to her 2011 run. Ramirez, then secretary general of Fuerza Popular and a sitting congressman, denied wrongdoing and temporarily distanced himself from the campaign. The DEA issued a statement denying that Fujimori was under investigation while not addressing Ramirez directly. The claims triggered preliminary money-laundering inquiries in Peru but did not, in this episode, produce a proven conviction; verification here confirms the reporting and investigation but the underlying money-laundering allegation remained unproven.
+
+**Sources.**
+- https://insightcrime.org/news/brief/dea-investigating-keiko-fujimori-money-laundering-case/
+- https://perureports.com/peru-fujimoris-party-leader-linked-drug-trafficking/3972/
+- https://globalvoices.org/2016/06/04/drug-trafficking-politics-and-journalism-who-serves-whom-in-the-peruvian-electoral-campaign/
+
+---
+
+## id 102 — Guatemala, 2016 — President (Apex)
+
+**Table description.** The 'La Cooperacha' case, made public in June 2016 by Guatemala's Public Ministry and the CICIG, alleged that President Otto Perez Molina and Vice President Roxana Baldetti, together with a group of cabinet ministers, pooled state and official money to buy luxury gifts for the presidential pair, including a boat, a beach house, a helicopter, and property. Collections were allegedly organized around the leaders' birthdays and routed through Baldetti's private secretary Juan Carlos Monzon. Several former ministers were charged; Perez Molina and Baldetti, already jailed in the larger La Linea customs-fraud case, faced additional corruption charges.
+
+**Detail.** La Cooperacha (roughly, 'the whip-round') was disclosed in June 2016 as a follow-on to the La Linea scandal that had already forced Otto Perez Molina and Roxana Baldetti from office in 2015. Investigators from the Ministerio Publico and the UN-backed International Commission against Impunity in Guatemala (CICIG) alleged that ministers contributed funds, in part misappropriated, to buy high-value gifts for the president and vice president, structured through shell companies and coordinated by Baldetti's aide Juan Carlos Monzon. Named officials included former defense ministers Ulises Anzueto and Manuel Lopez Ambrosio, former interior minister Mauricio Lopez Bonilla, former communications minister Alejandro Sinibaldi, and former energy minister Erick Archila. The case added to the extensive corruption prosecutions against Perez Molina and Baldetti, both of whom remained in pretrial detention on other charges.
+
+**Sources.**
+- https://www.cicig.org/casos/caso-la-cooperacha/
+- https://feeds.bbci.co.uk/news/world-latin-america-36556259
+- https://www.mp.gob.gt/noticia/caso-la-cooperacha-exfuncionarios-obsequiaron-con-lujo-excesivo-a-expareja-presidencial/
+
+---
+
+## id 103 — Argentina, 2016 — Other official (Non-Apex)
+
+**Table description.** Jose Lopez, former Secretary of Public Works under the Kirchner governments, was caught in the early hours of June 14, 2016 throwing bags containing about USD 9 million in cash, plus foreign currency, jewelry, and a firearm, over the wall of a convent in General Rodriguez, west of Buenos Aires. Nuns and neighbors alerted police, who arrested him at the scene. He could not explain the origin of the money and was convicted in 2018 of illicit enrichment, receiving a six-year prison sentence.
+
+**Detail.** Jose Lopez had been Secretary of Public Works (Obras Publicas) during the presidencies of Nestor Kirchner and Cristina Fernandez de Kirchner. On June 14, 2016 he arrived at a convent in General Rodriguez around 3 a.m. and was seen tossing plastic bags over the wall; police recovered roughly USD 9 million in cash along with about 153,000 euros, pesos, luxury watches and jewelry, and a military-style weapon. The nuns were briefly investigated for possibly helping him. Lopez became one of the most emblematic images of Kirchner-era corruption. He was convicted of illicit enrichment in 2018; his sentence was set at six years, and he later provided cooperation in related graft cases.
+
+**Sources.**
+- https://en.mercopress.com/2016/06/15/an-argentine-ex-kirchnerite-official-caught-red-handed-trying-to-hide-bags-of-cash-in-a-monastery
+- https://feeds.bbci.co.uk/news/world-latin-america-36535048
+- https://en.wikipedia.org/wiki/Jos%C3%A9_L%C3%B3pez_scandal
+
+---
+
+## id 105 — Brazil, 2016 — Governor (Apex)
+
+**Table description.** Sergio Cabral, former governor of Rio de Janeiro state (2007 to 2014), was accused in June 2016 of running a kickback scheme in which he charged roughly 5 percent on state construction contracts, including Odebrecht projects such as the refurbishment of the Maracana stadium. Federal police arrested him in Rio on November 17, 2016 as part of the Lava Jato investigation. He was convicted in multiple cases, with an initial sentence of 14 years for corruption and money laundering that grew to well over a hundred years across later rulings.
+
+**Detail.** Sergio Cabral of the PMDB governed Rio de Janeiro during the run-up to the 2014 World Cup and 2016 Olympics. Prosecutors alleged he received monthly payments and a percentage, reported as about 5 percent, on public works contracts awarded to firms including Odebrecht, covering projects such as the Maracana stadium renovation and rail works. Arrested on November 17, 2016 in Operation Calicute, part of the wider Lava Jato probe, he was accused of embezzling large sums of federal and state funds. He received an initial 14-year sentence in 2017 and was subsequently convicted in numerous additional cases, with cumulative sentences reaching well over 100 years; he later gave plea-bargain testimony implicating other officials.
+
+**Sources.**
+- https://feeds.bbci.co.uk/news/world-latin-america-38011388
+- https://www.foxnews.com/world/ex-rio-gov-is-latest-top-politician-arrested-in-graft-probe
+- https://newsinfo.inquirer.net/905306/brazilian-governor-sentenced-to-14-years-in-prison/amp
+
+---
+
+## id 108 — Ecuador, 2016 — Other official (Non-Apex)
+
+**Table description.** Alex Bravo, former manager (gerente) of Ecuador's state oil company Petroecuador, was arrested at his home near Quito on May 16, 2016 and prosecuted for illicit enrichment. Investigators alleged that the firm Oil Services and Solutions (OSS) and related companies paid commissions to Petroecuador officials, and that Bravo steered contracts to relatives' companies. Audits found an unexplained increase of more than USD 364,000 in his accounts. He was convicted of illicit enrichment in May 2017 and sentenced to prison.
+
+**Detail.** Alex Bravo held senior posts at Petroecuador, including gerente (general manager), before the Petroecuador corruption case broke in 2016. He was detained on May 16, 2016 in Tumbaco, outside Quito, by order of the Fiscalia General. Prosecutors alleged influence peddling, bribery, and money laundering tied to contracts, with intermediary firms such as Oil Services and Solutions (OSS) paying kickbacks to officials. A review of his sworn asset statements from 2010 to 2016 identified more than USD 364,000 of unjustified enrichment. On May 5, 2017 he was sentenced for illicit enrichment, and he faced further prosecution as part of the broader organized-crime case around Petroecuador that also implicated former minister Carlos Pareja Yannuzzelli.
+
+**Sources.**
+- https://www.eluniverso.com/noticias/2016/05/16/nota/5584275/fiscalia-anuncia-detencion-alex-b-exgerente-petroecuador/
+- https://www.elcomercio.com/actualidad/exgerente-petroecuador-detencion-tumbaco-investigacion/
+- https://www.elcomercio.com/actualidad/seguridad/alexbravo-personaje-petroecuador-carcel-panamapapers/
+
+---
+
+## id 11 — Argentina, 2010 — Other official (Non-Apex)
+
+**Table description.** Ricardo Jaime, Secretary of Transportation under presidents Nestor Kirchner and Cristina Fernandez de Kirchner until 2009, faced multiple corruption accusations. In 2009 prosecutor Manuel Garrido accused him of taking bribes and of illicit enrichment, and media revealed he had acquired a jet worth about USD 4 million along with a yacht and vehicles while in office. In March 2010 a federal judge ordered searches and investigations of his properties. He was later convicted in several cases, including sentences for accepting bribes and for the purchase of scrapped railcars.
+
+**Detail.** Ricardo Raul Jaime was Argentina's Secretary of Transportation from 2003 until his 2009 resignation. In 2009, former Prosecutor of Administrative Investigations Manuel Garrido accused him of profiting from overpriced rail equipment and of accepting private-jet travel from subsidized firms; reporting also highlighted his purchase of a roughly USD 4 million Learjet 31A, a yacht, and multiple vehicles, inconsistent with his official salary. On March 26, 2010, federal judge Norberto Oyarbide ordered simultaneous searches of his properties in Buenos Aires and Cordoba. Over the following years Jaime was convicted in several cases, including an 18-month sentence for bribes from the rail operator Trenes de Buenos Aires and an eight-year sentence related to the purchase of scrapped trains for Belgrano Cargas.
+
+**Sources.**
+- https://en.wikipedia.org/wiki/Ricardo_Jaime
+- https://www.occrp.org/en/news/argentina-sentences-former-officials-over-purchase-of-scrapped-trains
+- https://argentinareports.com/jaime-pleads-guilty-corruption/1919/
+
+---
+
+## id 111 — Brazil, 2016 — Other official (Non-Apex)
+
+**Table description.** Antonio Palocci, former Finance Minister and presidential chief of staff under Luiz Inacio Lula da Silva and Dilma Rousseff, was arrested by Brazil's Federal Police on September 26, 2016 in the 35th phase of Operation Lava Jato, named Omerta, on a warrant authorized by federal judge Sergio Moro. He was accused of acting as an intermediary between the Workers Party and construction giant Odebrecht in the Petrobras bribes-for-contracts scheme. In June 2017 Moro sentenced him to 12 years for corruption and money laundering; he later signed a plea-bargain agreement.
+
+**Detail.** Antonio Palocci was one of the most powerful economic officials of the PT era, serving as Finance Minister under Lula and later as chief of staff (Casa Civil) under Dilma Rousseff. Investigated since mid-2015, he was arrested on September 26, 2016 in the Lava Jato phase called Omerta, authorized by judge Sergio Moro, on allegations that he brokered bribes from Odebrecht to the Workers Party in exchange for political and contractual favors linked to Petrobras. In June 2017 he was sentenced to 12 years for passive corruption and money laundering. He subsequently reached a plea-bargain (delacao premiada) with the Federal Police, providing testimony about the scheme. Years later, Supreme Court justice Dias Toffoli annulled Lava Jato acts against him.
+
+**Sources.**
+- https://feeds.bbci.co.uk/news/world-latin-america-37470532
+- https://www.wsws.org/en/articles/2016/09/27/lula-s27.html
+- https://www.euronews.com/2016/09/26/brazil-former-finance-minister-arrested-in-petrobras-probe
+
+---
+
+## id 113 — Ecuador, 2016 — Other official (Non-Apex)
+
+**Table description.** Carlos Pareja Yannuzzelli, a former Minister of Hydrocarbons and former Petroecuador manager who held strategic energy posts under Rafael Correa's government, was linked to the Petroecuador corruption network and fled the country before being formally charged in 2016. He was later prosecuted for illicit association and bribery and sentenced to prison terms. A relative, Carlos Pareja Cordero, was captured in Lima, Peru on May 8, 2017 in connection with the same case, which the original headline text appears to conflate with the ex-minister.
+
+**Detail.** Carlos Pareja Yannuzzelli served as Ecuador's Minister of Hydrocarbons and in senior Petroecuador roles during the Correa administration. As the Petroecuador case widened in 2016 he was identified as a principal figure and left Ecuador, becoming a fugitive with an international arrest warrant, reportedly based in Miami; he later returned/surrendered and was tried, receiving sentences including six years for illicit association and additional time for bribery. The person actually captured in Lima on May 8, 2017 was Carlos 'Charlie' Pareja Cordero, a cousin, arrested with his son; the source tweet/headline text blends the two Parejas. This entry is verified for Pareja Yannuzzelli as the ex-minister at the center of the case, with the May 8, 2017 Peru arrest belonging to his relative.
+
+**Sources.**
+- https://cnnespanol.cnn.com/2017/05/08/capturan-en-peru-a-exministro-ecuatoriano-por-corrupcion-en-caso-petroecuador/
+- https://www.elcomercio.com/actualidad/seguridad/carlosparejayannuzzelli-condena-petroecuador-justicia-corrupcion/
+- https://www.larepublica.ec/blog/2017/05/08/capturan-carlos-pareja-cordero-lima/
+
+---
+
+## id 127 — Mexico, 2017 — Governor (Apex)
+
+**Table description.** Luis Carlos Castillo Cervantes, a Mexican-American businessman known as 'El Rey de los Dragones' (King of the Dragons) for his road-paving equipment, pleaded guilty in the U.S. Southern District of Texas to a money-laundering scheme through which several former Mexican state governors allegedly received bribes. Castillo received inflated payments for paving contracts from Mexican state governments, moved the funds through his U.S. company Rodmax, and paid kickbacks to officials. The former governors implicated included Humberto Moreira and Jorge Juan Torres Lopez of Coahuila, Luis Armando Reynoso Femat of Aguascalientes, and Eugenio Hernandez Flores of Tamaulipas.
+
+**Detail.** The case, publicized in 2017, was built by U.S. federal prosecutors in the Southern District of Texas. Luis Carlos Castillo Cervantes held Mexico's exclusive license for a brand of asphalt-recycling machines, whose smoke-belching operation earned the nickname 'the Dragon.' Prosecutors said Mexican state governments overpaid his companies for paving work; the inflated sums were laundered into U.S. accounts via his firm Rodmax, and bribes were then paid to Mexican officials on U.S. soil. Castillo pleaded guilty to money laundering. The former governors named in connection with the scheme were Humberto Moreira and Jorge Juan Torres Lopez (Coahuila), Luis Armando Reynoso Femat (Aguascalientes), and Eugenio Hernandez Flores (Tamaulipas). The case exposed how funds stolen from Mexican taxpayers moved through a south Texas bank.
+
+**Sources.**
+- https://mexiconewsdaily.com/news/ex-governors-linked-to-road-contract-bribes/
+- https://www.texasobserver.org/follow-the-money/
+- https://www.proceso.com.mx/reportajes/2017/4/30/al-desnudo-la-red-de-corrupcion-del-rey-de-los-dragones-183333.html
+
+---
+
+## id 129 — Colombia, 2017 — Other official (Non-Apex)
+
+**Table description.** Gabriel Garcia Morales, former Deputy Minister of Transportation in Alvaro Uribe's government and director in charge of the concessions agency INCO, was revealed in January 2017 to be the first Colombian implicated in the Odebrecht bribery case. He admitted receiving USD 6.5 million from Odebrecht to steer the award of the Ruta del Sol Section 2 highway concession to the Brazilian firm. He was captured and pleaded guilty to bribery and illicit interest in contracting, and in 2017 was sentenced to about five years and two months in prison.
+
+**Detail.** Gabriel Garcia Morales was Vice-Minister of Transportation and acting head of INCO when the Ruta del Sol Section 2 concession was awarded to an Odebrecht-led consortium. Evidence disclosed by the U.S. Department of Justice on December 21, 2016 and reported in Colombia in mid-January 2017 showed he received USD 6.5 million in bribes, routed between March and September 2010 through Odebrecht's Klienfeld Services account at Banca Privada d'Andorra to the shell company Lurion Trading. He confessed to advising Odebrecht on structuring its winning bid. As the first person captured in Colombia in the Odebrecht scandal, he pleaded guilty to bribery (cohecho) and illicit interest in contracts, receiving a sentence of roughly five years and two months in 2017; he was released on conditional liberty in December 2020.
+
+**Sources.**
+- https://es.wikipedia.org/wiki/Caso_Odebrecht_en_Colombia
+- https://www.semana.com/economia/articulo/caso-de-sobornos-de-odebrecht-en-colombia/512077/
+- https://www.elespectador.com/judicial/el-exviceministro-gabriel-garcia-morales-quedo-en-libertad-article/
+
+---
+
+## id 130 — Colombia, 2016 — Governor (Apex)
+
+**Table description.** Alejandro Lyons, former governor of the department of Cordoba, was reported in 2017 to have fled to the United States to avoid prosecution for embezzlement of about 10,000 million Colombian pesos (roughly USD 3.3 million) in public funds during his administration. The Attorney General's Office (Fiscalia) formally charged him in October 2017, and he was later sentenced to about five years for embezzlement. In the United States he became a cooperating informant, helping expose the 'cartel de la toga' judicial bribery network involving anti-corruption chief Luis Gustavo Moreno.
+
+**Detail.** Alejandro Lyons Muskus governed Cordoba and was accused of embezzling roughly 10,000 million pesos (about USD 3.3 million) from the department. Facing investigation, he traveled to the United States in 2017 and began cooperating with U.S. authorities as an informant. His cooperation helped uncover the 'cartel de la toga' scheme, in which an intermediary from the office of national anti-corruption prosecutor Luis Gustavo Moreno offered to sell confidential case information; U.S. agents recorded Lyons handing over cash to the intermediary at a Miami mall, evidence that led to Moreno's downfall. Colombia's Fiscalia brought embezzlement charges against Lyons in October 2017, and he was sentenced to about five years. The tweet references the May 2017 disclosure of his flight to avoid conviction.
+
+**Sources.**
+- https://en.wikipedia.org/wiki/Alejandro_Lyons
+- https://www.fiscalia.gov.co/colombia/en/2017/10/03/charges-were-brought-by-the-office-of-the-attorney-general-against-former-governor-of-cordoba-alejandro-lyons/
+- https://insightcrime.org/news/cartel-toga-reveals-high-level-corruption-colombia/
+
+---
+
+## id 131 — Guatemala, 2017 — Other official (Non-Apex)
+
+**Table description.** In January 2017, Sammy Morales, a brother of Guatemalan President Jimmy Morales, and Jose Manuel Morales, one of the president's sons, were detained on fraud charges tied to a state property-registry contract. Prosecutors and the CICIG alleged the use of false invoices to bill a government registry for goods and services never delivered, including a claim for 564 breakfasts that were never provided, in a scheme worth a small sum of a few thousand U.S. dollars. Both were tried and ultimately acquitted of fraud in August 2019.
+
+**Detail.** The arrests on January 18, 2017 were an embarrassment for Jimmy Morales, a former television comedian elected in 2015 on an anti-corruption platform. The case, brought by the Ministerio Publico and the UN-backed CICIG, centered on invoices submitted to the Registro de la Propiedad (property registry). According to prosecutors, the mother of Jose Manuel Morales's then-girlfriend agreed to supply Christmas hampers to registry officials but instead billed for 564 breakfasts that were never delivered, using false documentation. The amounts involved were modest. Sammy Morales, one of the president's brothers, and Jose Manuel Morales, the president's son, faced fraud and related charges. After trial, a Guatemalan court acquitted both men in August 2019.
+
+**Sources.**
+- https://www.occrp.org/en/news/guatemala-presidents-brother-and-son-detained-suspected-of-fraud
+- https://feeds.bbci.co.uk/news/world-latin-america-38678078
+- https://www.aljazeera.com/news/2019/8/19/son-brother-of-outgoing-guatemalan-president-cleared-of-fraud
+
+---
+
+## id 132 — Peru, 2017 — Other official (Non-Apex)
+
+**Table description.** Edwin Luyo Barrientos, former head of the bidding committee for Line 1 of the Lima Metro, was the first Peruvian official arrested in the Odebrecht case, detained on January 20, 2017. Prosecutors allege he received roughly USD 500,000 in bribes from the Brazilian firm Odebrecht, routed through offshore companies, to favor it in the metro tender. A court ordered 18 months of preventive detention on charges of passive bribery and money laundering.
+
+**Detail.** Edwin Luyo Barrientos presided over the special bidding committee that awarded the concession for Line 1 of the Lima Metro. On January 20, 2017 he became the first person detained in Peru in connection with the Odebrecht (Lava Jato) scandal, in an operation prosecutors named Palingenesia. According to the Public Ministry, Odebrecht channeled payments to Luyo through offshore vehicles such as Oblong International, with deposits reported around USD 196,000 (July 2013) and roughly USD 300,000 (April 2014), tied to bribes to rig the tender in Odebrecht's favor. The Third Preparatory Investigation Court granted the prosecution's request for 18 months of preventive detention, imputing passive bribery (cohecho) and money laundering, and Luyo was transferred to the Ancon 1 prison.
+
+**Sources.**
+- https://amp.rpp.pe/politica/judiciales/detienen-al-primer-funcionario-peruano-acusado-de-recibir-sobornos-de-odebrecht-noticia-1025311
+- https://justiciatv.pj.gob.pe/poder-judicial-dicta-18-meses-de-prision-preventiva-contra-edwin-luyo-barrientos/
+- https://idehpucp.pucp.edu.pe/observatorio-anticorrupcion/casos/metro-de-lima/
+
+---
+
+## id 133 — Panama, 2017 — President (Apex)
+
+**Table description.** On January 24, 2017, Panamanian prosecutors ordered the capture of the first seventeen people sought in the Panama branch of the Odebrecht bribery case, among them the two sons of former president Ricardo Martinelli (2009-2014), Luis Enrique and Ricardo Alberto Martinelli Linares. Swiss authorities had frozen accounts holding about USD 22 million linked to the scheme. Odebrecht admitted paying roughly USD 59 million in bribes in Panama; the Martinelli sons were later arrested abroad and pleaded guilty in the United States to laundering about USD 28 million in Odebrecht bribes.
+
+**Detail.** As the Odebrecht plea agreements spread across Latin America, Panamanian justice on January 24, 2017 began seeking the first seventeen people implicated locally, including Luis Enrique and Ricardo Alberto Martinelli Linares, sons of former president Ricardo Martinelli. Odebrecht acknowledged paying approximately USD 59 million in bribes in Panama between roughly 2009 and 2014. The Martinelli Linares brothers opened Swiss bank accounts to receive and move bribe money from Odebrecht to a Panamanian government official; Swiss authorities froze accounts containing about USD 22 million. The brothers were arrested in Guatemala in 2020, extradited to the United States, and pleaded guilty in 2021-2022 to conspiracy to launder roughly USD 28 million in Odebrecht bribes, receiving prison terms. Ricardo Martinelli himself was later charged in Panama in the Odebrecht case (New Business and related matters).
+
+**Sources.**
+- https://www.occrp.org/en/news/two-former-panamanian-presidents-to-stand-trial-for-odebrecht-bribery
+- https://blog.volkovlaw.com/2020/07/doj-charges-two-sons-of-former-panama-president-martinelli-with-participation-in-odebrecht-bribery-scheme-in-panama/
+- https://www.occrp.org/en/news/guatemala-arrests-sons-of-former-panamanian-president
+
+---
+
+## id 134 — Peru, 2017 — President (Apex)
+
+**Table description.** Former Peruvian president Alejandro Toledo (2001-2006) was accused in early February 2017 of receiving about USD 20 million in bribes from Odebrecht in exchange for contracts to build the Interoceanic Highway linking Peru and Brazil. On February 9, 2017 a Peruvian judge ordered his preventive arrest and issued national and international warrants; Toledo fled and was detained in the United States in 2019. He was extradited and in October 2024 was sentenced to more than 20 years in prison for collusion and money laundering.
+
+**Detail.** Based on plea-bargain testimony from senior Odebrecht executives, prosecutors alleged that Alejandro Toledo received roughly USD 20 million in bribes, funneled through offshore accounts between about 2005 and 2008, to secure contracts for sections of the Interoceanic Highway (Ruta Interoceanica) connecting the Peruvian Pacific coast with Brazil. On February 9-10, 2017 a Peruvian judge ordered 18 months of preventive detention and issued national and international (Interpol) arrest warrants. Toledo, then abroad, remained a fugitive in the United States until his July 2019 detention; he was extradited to Peru in 2023. On October 21, 2024 Peru's national criminal court sentenced him to 20 years and six months for collusion and money laundering in the Odebrecht case.
+
+**Sources.**
+- https://www.aljazeera.com/news/2017/2/10/court-orders-arrest-of-ex-president-alejandro-toledo
+- https://perusupportgroup.org.uk/2017/02/toledo-accused-of-receiving-us20-million-in-bribes/
+- https://www.icij.org/investigations/bribery-division/perus-former-president-sentenced-to-more-than-20-years-in-prison-in-corruption-case-linked-to-odebrecht-scandal/
+
+---
+
+## id 135 — Colombia, 2017 — President (Apex)
+
+**Table description.** In early February 2017, Colombian authorities investigated whether the 2014 reelection campaign of President Juan Manuel Santos received about USD 1 million from Odebrecht, allegedly channeled via former senator Otto Bula. Around the same time the National Electoral Council opened a probe into the 2014 campaign of rival candidate Oscar Ivan Zuluaga over Odebrecht payments of roughly USD 1.6 million to a Brazilian campaign strategist. Both men denied wrongdoing, and their campaigns denied taking Odebrecht money.
+
+**Detail.** Colombian Attorney General Nestor Humberto Martinez reported that at least USD 1 million of a bribe received by former senator Otto Bula from Odebrecht may have reached President Juan Manuel Santos' 2014 reelection campaign, reportedly via a Panamanian-registered firm linked to an advertising agency the campaign used. On February 8, 2017 Santos asked electoral authorities to investigate. Separately, on February 7, 2017 the National Electoral Council opened a formal probe into the 2014 campaign of Democratic Center candidate Oscar Ivan Zuluaga, after reports that Odebrecht paid about USD 1.6 million to Brazilian strategist Jose Eduardo Cavalcanti de Mendonca (Duda Mendonca associate) for services to the campaign. Santos, Zuluaga and their campaign managers denied receiving Odebrecht money.
+
+**Sources.**
+- https://thecitypaperbogota.com/news/odebrecht-santos-calls-for-probe-into-2014-reelection-bribery-allegations/
+- https://www.voanews.com/a/colombia-santos-odebrecht/3714901.html
+- https://mascolombia.com/en/odebrecht-zuluaga-and-santos/
+
+---
+
+## id 138 — Panama, 2017 — President (Apex)
+
+**Table description.** Panamanian president Juan Carlos Varela was accused in February 2017 by Ramon Fonseca Mora, a former close adviser and co-founder of the Mossack Fonseca law firm, of having taken donations from Odebrecht. Fonseca said Varela had told him he accepted Odebrecht money because he could not fight everyone. Varela acknowledged receiving campaign donations linked to Odebrecht during his vice-presidential run but denied they were bribes. He was not convicted, though the United States later barred him from entry over corruption allegations.
+
+**Detail.** During a February 2017 prosecutorial raid tied to the Odebrecht investigation, Ramon Fonseca Mora, co-founder of Mossack Fonseca and a former minister-adviser to President Juan Carlos Varela (dismissed after the 2016 Panama Papers leak), publicly claimed that Varela had admitted accepting donations from Odebrecht. Varela responded that he had received campaign donations during his 2009 vice-presidential campaign, some later linked to Odebrecht-connected entities, but insisted they were legal contributions and not bribes. Several of the donations came from anonymous corporate donors whose funding sources could not be readily traced. Varela was not convicted in the matter, but in July 2023 the United States publicly barred him from entering the country, citing involvement in significant corruption.
+
+**Sources.**
+- http://www.nationmultimedia.com/news/breakingnews/30306079
+- https://www.telesurenglish.net/news/Panamas-President-Accused-of-Accepting-Odebrecht-Money-20170210-0002.html
+- https://www.aljazeera.com/news/2023/7/13/us-bars-former-panamanian-president-varela-from-entering-country
+
+---
+
+## id 140 — Mexico, 2017 — Other official (Non-Apex)
+
+**Table description.** Rosario Robles Berlanga, who headed Mexico's Ministry of Social Development (Sedesol) and later the Ministry of Agrarian, Territorial and Urban Development (Sedatu), was implicated in a scheme in which federal audits found that Sedesol diverted large sums (reported at about 1,787 million pesos for 2015) through simulated contracts with public universities and shell companies. The scandal formed part of the wider Estafa Maestra investigation surfaced in 2017. Robles was jailed pending trial in 2019 for improper exercise of public office and spent about three years in pretrial detention before release in 2022.
+
+**Detail.** The Estafa Maestra (Master Fraud) was documented by Animal Politico and Mexicanos Contra la Corrupcion y la Impunidad, with the main investigation published in September 2017; federal audits by the Auditoria Superior de la Federacion identified billions of pesos routed by federal agencies, including Sedesol, through agreements with public universities that subcontracted shell companies for services never rendered. Media reporting cited diversions on the order of 1,787 million pesos attributed to Sedesol for 2015, the year Rosario Robles led the agency (she then moved to head Sedatu). Robles denied wrongdoing. In August 2019 she was jailed in pretrial (preventive) detention on a charge of improper exercise of public service (ejercicio indebido del servicio publico) for failing to prevent the diversions; she remained in preventive detention for roughly three years and was released in 2022, with proceedings continuing. Note: the exact 1,787 million peso figure for February 2017 could not be independently confirmed to the day, though the underlying Sedesol diversion and Robles' prosecution are well documented.
+
+**Sources.**
+- https://www.animalpolitico.com/2018/02/auditoria-sedesol-desvio-rosario-robles
+- https://www.infobae.com/america/mexico/2019/08/23/por-que-sedesol-y-rosario-robles-solo-son-la-punta-del-iceberg-en-la-estafa-maestra/
+- https://www.infobae.com/mexico/2023/05/29/estafa-maestra-rosario-robles-libro-ordenes-de-aprehension-por-delincuencia-organizada-y-lavado-de-dinero/
+
+---
+
+## id 144 — Peru, 2017 — Other official (Non-Apex)
+
+**Table description.** Felix Moreno Caballero, regional governor of Callao (Peru), was investigated in April 2017 for his role in the Odebrecht case; his home was raided on April 3, 2017 and a court ordered preventive detention on April 9, 2017. Prosecutors allege he benefited from about USD 2.4 million of a larger Odebrecht bribe tied to the Costa Verde del Callao roadworks concession, charging money laundering and influence peddling. His detention was revoked in June 2017 and he continued to face prosecution.
+
+**Detail.** Felix Moreno Caballero, regional governor (gobernador regional) of Callao, was drawn into the Peruvian Odebrecht investigation in April 2017. Prosecutors raided his residence on April 3, 2017, and on April 9, 2017 Judge Ricardo Manrique Laura ordered 18 months of preventive detention. The prosecution accused Moreno of money laundering and influence peddling for benefiting from a bribe of about USD 2.4 million from Odebrecht, part of a larger roughly USD 4 million payment tied to the Costa Verde del Callao coastal roadway concession, a project questioned for cost overruns of around USD 168 million. On June 7, 2017 an appeals court revoked the preventive detention and released him under restricted appearance; in 2019 former Odebrecht representatives confirmed in testimony in Brazil the bribe payments for the Callao work.
+
+**Sources.**
+- https://rpp.pe/politica/judiciales/las-claves-del-caso-felix-moreno-y-las-presuntas-coimas-de-odebrecht-noticia-1041591
+- https://elcomercio.pe/politica/justicia/nexos-felix-moreno-caso-odebrecht-claves-421098-noticia/
+- https://es.wikipedia.org/wiki/F%C3%A9lix_Moreno_(pol%C3%ADtico_peruano)
+
+---
+
+## id 145 — Brazil, 2017 — President (Apex)
+
+**Table description.** On April 11, 2017, in plea-bargain testimony to federal judge Sergio Moro, Odebrecht chief executive Marcelo Odebrecht confirmed that former Brazilian president Luiz Inacio Lula da Silva appeared in the company's secret payment ledgers under the codename amigo and that the firm paid him more than USD 4 million (about 13 million reais) in cash between 2012 and 2013, in addition to payments toward the Instituto Lula headquarters. Lula denied wrongdoing. He was convicted in other Lava Jato cases and imprisoned in 2018, though those convictions were later annulled by the Supreme Federal Tribunal in 2021.
+
+**Detail.** In sworn plea-bargain (delacao premiada) testimony given around April 11, 2017 before judge Sergio Moro, Marcelo Odebrecht stated that former president Luiz Inacio Lula da Silva was recorded in Odebrecht's controlled-payments spreadsheets under the codename amigo (friend) and that the company paid roughly 13 million reais (about USD 4 million) in cash to the former president between 2012 and 2013, delivered via Branislav Kontic, an aide to former finance minister Antonio Palocci (codename italiano). Odebrecht also described payments toward land for the Instituto Lula headquarters and separate sums allocated to Dilma Rousseff's campaign. Lula denied the allegations. He was separately convicted in the Guaruja triplex and Atibaia cases and imprisoned in April 2018; in 2021 the Supreme Federal Tribunal annulled those convictions on jurisdictional and judicial-impartiality grounds, restoring his political rights.
+
+**Sources.**
+- https://www.infobae.com/america/america-latina/2017/04/10/marcelo-odebrecht-confirmo-que-lula-da-silvia-figuraba-como-amigo-en-las-planillas-que-registraban-los-sobornos-de-la-empresa/
+- https://www.forbes.com.mx/odebrecht-dice-entrego-sobornos-4-mdd-lula-da-silva/
+- https://www.tvperu.gob.pe/noticias/internacionales/marcelo-odebrecht-revela-que-pago-us-4-millones-en-sobornos-a-lula-da-silva
+
+---
+
+## id 153 — Ecuador, 2017 — Other official (Non-Apex)
+
+**Table description.** The source record for this entry (Ecuador, 2017, a non-apex official) contained no descriptive text, so the specific scandal could not be identified with confidence. Ecuador in 2017 saw several corruption cases involving non-apex officials, most prominently the Odebrecht bribery investigations. Among the earliest arrests, in April 2017, was former Electricity Minister Alecksey Mosquera, accused of receiving Odebrecht bribes, but it cannot be confirmed that this entry refers to him rather than another Ecuadorian official.
+
+**Detail.** This scandal object had an empty hint field, leaving only country (Ecuador), year (2017), and position category (others, meaning a non-apex official such as a minister, agency head, or mayor). Ecuador in 2017 was dominated by the Odebrecht (Lava Jato) fallout: former Electricity and Renewable Energy Minister Alecksey Mosquera was among the first arrested in April 2017 for allegedly receiving about USD 1 million from Odebrecht; other implicated figures that year included former Comptroller Carlos Polit, former Petroecuador officials, and Ricardo Rivera (uncle of Vice President Jorge Glas). Because no hint text is available to disambiguate which official and scheme this record was meant to capture, the entry is left unverified. Any of the above cases is plausible, but assigning one would be speculation.
+
+**Sources.**
+- https://cuencahighlife.com/odebrecht-scandal-rearranges-the-political-landscape-in-ecuador-and-latin-america/
+- https://www.icij.org/investigations/bribery-division/bribery-division-what-is-odebrecht-who-is-involved/
+
+**Note.** Not fully verified from available sources; description is conservative.
+
+---
+
+## id 155 — Argentina, 2017 — Other official (Non-Apex)
+
+**Table description.** In June 2017 it emerged, through a cooperating witness in Brazil's Lava Jato investigation, that the inner circle of former Argentine Federal Planning Minister Julio De Vido had agreed to bribes of about USD 25 million, plus other irregular practices, in exchange for smoothing Odebrecht's access to a multimillion-dollar trunk gas-pipeline expansion project. Odebrecht's structured-operations unit allegedly paid roughly USD 25 million to Argentine officials for the gas works between 2007 and 2014. De Vido faced multiple corruption prosecutions and was convicted in related cases.
+
+**Detail.** Julio De Vido served as Minister of Federal Planning, Public Investment and Services under Nestor and Cristina Fernandez de Kirchner. In June 2017, reporting drawn from Lava Jato cooperation testimony (arrepentidos) revealed that people close to De Vido had arranged bribes of about USD 25 million, together with other non-conventional practices, to unblock Odebrecht's participation in the lucrative expansion of Argentina's trunk gas pipelines (gasoductos troncales). Odebrecht's Division of Structured Operations allegedly paid roughly USD 25 million to Argentine officials for the pipeline projects between 2007 and 2014. De Vido was prosecuted in multiple corruption cases (including Rio Turbio and the Once tragedy) and was ultimately convicted; the gas-pipeline Odebrecht bribery case continued through the Argentine courts in later years, including a 2026 condemnation to three years of conditional prison in the gas-pipeline expansion matter.
+
+**Sources.**
+- https://www.connectas.org/odebrecht-revelan-que-exministro-de-vido-acordo-coimas-por-us-25-millones/
+- https://www.lanacion.com.ar/politica/odebrecht-revelan-que-de-vido-acordo-coimas-por-us-25-millones-nid2034712/
+- https://www.infobae.com/judiciales/2024/12/17/odebrecht-anularon-el-sobreseimiento-de-julio-de-vido-en-la-causa-que-investiga-coimas-en-la-ampliacion-de-gasoductos/
+
+---
+
+## id 156 — Colombia, 2017 — Lower judiciary (Non-Apex)
+
+**Table description.** Luis Gustavo Moreno Rivera, director of Colombia's national anti-corruption prosecution unit, was arrested on June 27, 2017 on charges tied to soliciting money from former Cordoba governor Alejandro Lyons in exchange for privileged information and obstructing investigations. On March 7, 2018 Colombia's Supreme Court sentenced him (about 58 months) for concusion and misuse of privileged information; he was also extradited to the United States, where he pleaded guilty to money laundering linked to bribery and received a four-year sentence. The affair became part of the Cartel de la Toga scandal.
+
+**Detail.** Luis Gustavo Moreno Rivera had been appointed director of the anti-corruption unit of Colombia's Attorney General's Office (Fiscalia) less than a year before his arrest. On June 27, 2017 he was captured, partly on an Interpol red notice, after allegedly soliciting money from former Cordoba governor Alejandro Lyons Muskus in exchange for privileged information and for obstructing investigations against him. On March 7, 2018 Colombia's Supreme Court sentenced Moreno to about 58 months and 15 days for concusion (extortion by a public official) and improper use of privileged information. Requested by United States justice, he was extradited on May 17, 2018 and pleaded guilty there to laundering money to promote foreign bribery, receiving a four-year sentence. The case is central to the Cartel de la Toga (Robe Cartel) scandal implicating Supreme Court magistrates and legislators.
+
+**Sources.**
+- https://www.france24.com/es/20180310-colombia-exfiscal-gustavo-moreno-condenado
+- https://www.infobae.com/america/eeuu/2018/08/14/el-ex-fiscal-anticorrupcion-de-colombia-se-declaro-culpable-de-lavado-de-activos-en-eeuu/
+- https://es.wikipedia.org/wiki/Luis_Gustavo_Moreno
+
+---
+
+## id 157 — Costa Rica, 2017 — Other official (Non-Apex)
+
+**Table description.** The Cementazo scandal broke in Costa Rica in mid-2017 over a roughly USD 31.5 million loan granted in November 2015 by the state Banco de Costa Rica to businessman Juan Carlos Bolanos and his company Sinocem Costa Rica, under irregular conditions, to import Chinese cement. Investigators found that much of the money cycled back to Bolanos's own accounts rather than financing cement imports, and the case implicated bank officials, legislators, judicial figures and other officials. Prosecutors later brought multiple charges against several defendants.
+
+**Detail.** The Cementazo (Chinese cement case) became public around June 28, 2017, when CRHoy.com and other outlets exposed a roughly USD 31.5 million loan that the state Banco de Costa Rica (BCR) granted in November 2015 to businessman Juan Carlos Bolanos and his firm Sinocem Costa Rica, on irregular terms, ostensibly to import Chinese cement. Investigations found that of the money sent to Hong Kong, only about a third (around USD 12.7 million) bought cement while a similar share returned to Bolanos's Costa Rican accounts; across the state banking system Bolanos obtained roughly USD 45.5 million in total credit. The scandal drew in bank executives, legislators, a magistrate and other officials, and prompted a legislative investigative commission. In 2022 prosecutors formally accused nine people of dozens of crimes tied to the case, which continued through the courts.
+
+**Sources.**
+- https://es.wikipedia.org/wiki/Cementazo
+- https://delfino.cr/2022/07/cementazo-bcr-fiscalia-acusa-a-nueve-personas-de-97-delitos
+- https://semanariouniversidad.com/pais/bcr-enfrenta-secuelas-del-cementazo-despues-de-perder-el-dinero-prestado-a-bolanos/
+
+---
+
+## id 158 — Peru, 2018 — Other official (Non-Apex)
+
+**Table description.** The Club de la Construccion refers to an alleged cartel of Peruvian and foreign construction firms that colluded to divide public works awarded by Peru's Ministry of Transport and Communications (MTC), paying bribes to officials at the roadworks agency Provias Nacional to win rigged tenders. The scheme was first revealed publicly in July 2017 through press reporting and plea testimony by Odebrecht executive Jorge Barata, and prosecutors formalized a criminal investigation into dozens of companies. The case continued under investigation, with the antitrust regulator Indecopi also pursuing sanctions against the firms.
+
+**Detail.** The Club de la Construccion (Construction Club) is the name given to an alleged illicit concertation among construction companies in Peru, national and foreign, to share out works tendered by the Ministry of Transport and Communications (MTC), especially large road projects administered by Provias Nacional. Public revelation came in July 2017 via investigative reporting (El Comercio, IDL-Reporteros) and testimony from former Odebrecht executive Jorge Barata, who described a group of at least around 18 firms that colluded and paid bribes to MTC/Provias officials to obtain rigged awards. The anticorruption prosecution formalized an investigation implicating dozens of companies (including Odebrecht, OAS, Grana y Montero, Cosapi, Obrainsa and others) and officials, while the competition authority Indecopi opened a separate antitrust proceeding against the firms. The case remained in investigation in subsequent years. The record dates this entry 2018, though the first public revelation was July 2017.
+
+**Sources.**
+- https://es.wikipedia.org/wiki/Club_de_la_construcci%C3%B3n
+- https://elcomercio.pe/politica/formalizan-investigacion-club-construccion-noticia-491337-noticia/
+- https://www.idl-reporteros.pe/sobrecostos-lava-jato/
+
+---
+
+## id 159 — Peru, 2017 — President (Apex)
+
+**Table description.** Ollanta Humala, President of Peru from 2011 to 2016, and his wife Nadine Heredia were placed in 18 months of preventive detention on July 13, 2017, ordered by judge Richard Concepcion Carhuancho in the Odebrecht money-laundering case. Prosecutors alleged the couple received about USD 3 million in illicit funds for Humala's 2011 campaign from Odebrecht and additional undeclared money from Venezuela for the 2006 campaign. On May 7, 2019 the Prosecutor's Office requested 20 years imprisonment for Humala and 26 years for Heredia. In April 2025 Peru's judiciary convicted the couple, sentencing Humala to 15 years for money laundering.
+
+**Detail.** Ollanta Humala (president 2011-2016) and his wife Nadine Heredia were ordered into 18 months of preventive prison on July 13, 2017 by judge Richard Concepcion Carhuancho, based on testimony from former Odebrecht Peru chief Jorge Barata that the company illegally contributed roughly USD 3 million to Humala's 2011 presidential campaign, with about USD 2 million channeled through Heredia. The case also covered undeclared funds allegedly received from Hugo Chavez's Venezuela for the 2006 campaign. The couple was released from preventive detention in 2018 after a constitutional tribunal ruling. On May 7, 2019 the prosecution asked for 20 years for Humala and 26 for Heredia. In April 2025 a Peruvian court found them guilty of money laundering, sentencing Humala to 15 years in prison.
+
+**Sources.**
+- https://www.aljazeera.com/news/2017/7/14/ollanta-humala-and-wife-detained-in-corruption-probe
+- https://newsinfo.inquirer.net/913904/peru-judge-orders-ex-president-wife-jailed-in-corruption-case
+- https://www.icij.org/news/2025/04/perus-former-president-and-wife-sentenced-to-15-years-in-prison-for-odebrecht-linked-money-laundering-scheme/
+
+---
+
+## id 160 — Colombia, 2017 — Congressman (Non-Apex)
+
+**Table description.** Bernardo Miguel Elias Vidal, known as El Nono Elias, a Colombian senator for the Party of the U from Cordoba, was arrested by the Supreme Court on charges of receiving Odebrecht bribes in exchange for helping the Brazilian firm secure the Ruta del Sol II highway contract. Investigators found that bribe money was channeled in part through his cousin Basima Patricia Elias Nader. He was arrested in 2017 and later convicted; the Supreme Court sentenced him in 2018 to 6 years and 8 months for bribery and influence peddling, and again in 2021 to 8 years and 4 months for conspiracy and money laundering.
+
+**Detail.** Bernardo Miguel Elias Vidal (El Nono), senator of the Party of the U from Cordoba, was captured by Colombia's Supreme Court in 2017 in the Odebrecht bribery case. According to testimony, Odebrecht paid a share described as roughly 2 percent to Elias and allies on budget commissions he managed, in exchange for pushing through the Ruta del Sol II contract. Part of the bribe money was routed through his cousin Basima Patricia Elias Nader, a socialite connected to presidents and congressmen. The Supreme Court handed down two sentences: about 6 years and 8 months in 2018 for bribery and influence peddling, and about 8 years and 4 months in 2021 for aggravated conspiracy and money laundering.
+
+**Sources.**
+- https://www.semana.com/nacion/articulo/odebrecht-corte-suprema-captura-al-senador-bernardo-elias-vidal/535828/
+- https://noticias.caracoltv.com/colombia/capturan-al-senador-bernardo-nono-elias-por-el-escandalo-de-odebrecht
+- https://www.elespectador.com/judicial/odebrecht-bernardo-nono-elias-quedara-libre-por-cumplimiento-de-pena/
+
+---
+
+## id 161 — Ecuador, 2017 — President (Apex)
+
+**Table description.** Jorge Glas, Vice President of Ecuador, was stripped of his official duties by President Lenin Moreno on August 3, 2017 over his involvement in the Odebrecht bribery scheme. Prosecutors alleged Glas was part of a bribery network that received more than USD 13.5 million from Odebrecht in exchange for public contracts. On December 13, 2017 the National Court of Justice convicted him of illicit association and sentenced him to six years in prison, making him the first sitting vice president convicted in the regional Odebrecht scandal.
+
+**Detail.** Jorge Glas served as Vice President of Ecuador under Rafael Correa and then Lenin Moreno. On August 3, 2017 Moreno withdrew Glas's functions amid the Odebrecht case, and Glas was arrested in October 2017; the Comptroller formally removed him on October 27, 2017. On December 13, 2017 the National Court of Justice found him guilty of illicit association (asociacion ilicita) and sentenced him to six years in prison, tied to more than USD 13.5 million in bribes prosecutors said flowed through a network involving his uncle Ricardo Rivera. He was the first vice president convicted in the Odebrecht scandal, in which the U.S. Justice Department documented about USD 33.5 million in bribes paid to Ecuadorian officials between 2007 and 2016.
+
+**Sources.**
+- https://cnnespanol.cnn.com/2017/12/13/jorge-glas-odebrecht-ecuador-sentencian-a-6-anos-de-prision
+- https://www.occrp.org/en/news/odebrecht-case-ecuador-vp-sentenced-to-six-years-in-prison
+- https://en.wikipedia.org/wiki/Jorge_Glas
+
+---
+
+## id 163 — Ecuador, 2017 — Other official (Non-Apex)
+
+**Table description.** Ramiro Gonzalez Jaramillo, former Ecuadorian Minister of Industries and former director of the Ecuadorian Social Security Institute (IESS) and a leader of the Avanza movement, became the target of an arrest operation on August 18, 2017 for alleged tax fraud (defraudacion tributaria) and unjustified private enrichment. Police raided his home and the Avanza party headquarters; Gonzalez had already fled, though his wife was detained for unjustified enrichment. He was captured in Peru on April 9, 2019 and Ecuador requested his extradition.
+
+**Detail.** Ramiro Gonzalez Jaramillo held strategic posts including Minister of Industries and Productivity and president of the IESS, and led the Avanza political movement. On the morning of August 18, 2017 the Prosecutor's Office launched an operation to capture him for alleged tax fraud during his tenure at the Ministry of Industries and for possible unjustified private enrichment. Raids hit his properties and Avanza's headquarters, but Gonzalez had already left the country, allegedly tipped off by an information leak the Prosecutor's Office then investigated. His wife Carmen was detained on enrichment allegations. Investigators cited that between 2012 and 2016 Gonzalez received credits of about USD 2.2 million while declaring far less. He was arrested in Peru on April 9, 2019.
+
+**Sources.**
+- https://cnnespanol.cnn.com/2017/08/18/exministro-ecuador-gonzalez-ramiro-industrias-fiscalia-allanamiento-presidente-lenin-moreno
+- https://www.telesurtv.net/news/Investigan-a-exministro-de-Ecuador-por-defraudacion-tributaria-20170818-0061.html
+- https://es.wikipedia.org/wiki/Ramiro_Gonz%C3%A1lez_Jaramillo
+
+---
+
+## id 165 — Colombia, 2017 — Congressman (Non-Apex)
+
+**Table description.** Musa Besaile, a Colombian senator for the Party of the U from Cordoba, admitted on August 29, 2017 that he paid about 2,000 million pesos to former anti-corruption prosecutor Luis Gustavo Moreno and Supreme Court figures to halt an arrest warrant against him in a parapolitics case. The episode exposed the Cartel de la Toga, a corruption network inside Colombia's high courts. Besaile was jailed at La Picota and later convicted of bribery, embezzlement, aggravated conspiracy, and influence peddling.
+
+**Detail.** Senator Musa Besaile (Party of the U, Cordoba) became a central figure in the Cartel de la Toga scandal, a bribery network linking high-court magistrates and politicians. On August 29, 2017 he acknowledged paying roughly 2,000 million Colombian pesos to former national anti-corruption prosecutor Luis Gustavo Moreno as part of an extortion scheme meant to stall an arrest warrant in his parapolitics investigation. According to Moreno's account, the money was distributed among lawyer Leonardo Pinilla, former Supreme Court president Francisco Ricaurte, and magistrate Gustavo Malo. Besaile was imprisoned at La Picota in Bogota and convicted of bribery, misappropriation, aggravated criminal conspiracy, and influence peddling; he obtained conditional release in November 2024 after serving much of his sentence.
+
+**Sources.**
+- https://www.elpais.com.co/colombia/senador-musa-besaile-paso-su-primera-noche-en-la-picota.html
+- https://es.wikipedia.org/wiki/Cartel_de_la_toga
+- https://www.infobae.com/colombia/2024/11/23/musa-besaile-obtuvo-libertad-condicional-luego-cumplir-gran-parte-de-su-condena-por-corrupcion-y-por-estar-involucrado-en-el-cartel-de-la-toga/
+
+---
+
+## id 166 — Mexico, 2017 — Other official (Non-Apex)
+
+**Table description.** La Estafa Maestra (The Master Scam) was a journalistic investigation by Animal Politico and Mexicanos Contra la Corrupcion y la Impunidad published on September 5, 2017. It documented how, during the Enrique Pena Nieto administration, 11 federal ministries diverted about 7.76 billion pesos (over USD 400 million) to 128 mostly shell companies using public universities as intermediaries in 2013 and 2014. The Ministry of Social Development (Sedesol), headed at times by Rosario Robles, was among the agencies implicated. The scheme, exposed via federal audit reports, became a signature corruption case of the sexenio.
+
+**Detail.** La Estafa Maestra was uncovered by the news portal Animal Politico together with the civil society group Mexicanos Contra la Corrupcion y la Impunidad, published September 5, 2017 and built on Superior Audit Office (ASF) reports on the 2013 and 2014 federal accounts. It revealed that 11 federal ministries routed roughly 7.76 billion pesos (more than USD 400 million) through eight public universities to some 128 companies, most of them nonexistent ghost firms, illegally diverting public funds. Among implicated agencies was Sedesol, the Ministry of Social Development, which under Rosario Robles signed agreements worth about 2.22 billion pesos with autonomous universities of Morelos and the State of Mexico. The case became the emblematic corruption scandal of the Pena Nieto term, though it long went without individual criminal convictions.
+
+**Sources.**
+- https://es.wikipedia.org/wiki/La_estafa_maestra_(M%C3%A9xico)
+- https://www.eluniversal.com.mx/nacion/politica/de-que-trata-la-investigacion-de-la-estafa-maestra/
+- https://contralacorrupcion.mx/de-la-estafa-maestra-a-odebrecht-una-decada-de-impunidad/
+
+---
+
+## id 167 — Brazil, 2017 — Other official (Non-Apex)
+
+**Table description.** Geddel Vieira Lima, a former minister under Michel Temer (head of the Government Secretariat) and earlier Minister of National Integration under Lula, had suitcases and boxes stuffed with cash discovered by Brazil's Federal Police in September 2017 in an apartment in Salvador, Bahia. In Operation Tesouro Perdido (Lost Treasure), police seized about 42.6 million reais and 2.7 million USD. In October 2019 the Supreme Federal Court convicted him of money laundering and criminal association, sentencing him to about 14 years and 10 months in prison.
+
+**Detail.** Geddel Vieira Lima was a close ally of President Michel Temer, serving as head of the Secretariat of Government before resigning in 2016, and had earlier been Minister of National Integration under Lula. In September 2017, in Operation Tesouro Perdido (Lost Treasure), the Federal Police found roughly 20 suitcases and boxes of cash in a Salvador apartment linked to him, seizing about 42.6 million reais and 2.7 million USD (initially reported near 51 million reais combined). Prosecutors charged Geddel, his brother Lucio, his mother Marluce, and an aide with money laundering and concealment. In October 2019 the Supreme Federal Court sentenced him to about 14 years and 10 months for money laundering and criminal association.
+
+**Sources.**
+- https://en.wikipedia.org/wiki/Geddel_Vieira_Lima
+- https://www.diariodoaco.com.br/noticia/0052962-malas-com-milhares-de-reais-sao-encontradas-em-imovel-do-exministro-geddel-vieira-lima
+- https://www.em.com.br/app/noticia/internacional/factcheck/2021/03/03/interna_internacional,1242789/geddel-nao-foi-absolvido-no-caso-dos-51-milhoes-em-mala-e-cumpre-pena.shtml
+
+---
+
+## id 168 — Panama, 2017 — Other official (Non-Apex)
+
+**Table description.** Jorge Espino, a Panamanian businessman, became the first person condemned in Panama's Odebrecht case around November 20, 2017, after confessing he acted as an intermediary so that former Public Works minister Jaime Ford could receive about USD 1.8 million in Odebrecht bribes. Espino reached a collaboration agreement with the Public Ministry acknowledging the facts described by Odebrecht informants. On November 9, 2017 a Panamanian court had validated collaboration deals with Odebrecht informants who identified more than USD 86 million in bribes paid in Panama.
+
+**Detail.** In Panama's branch of the Odebrecht scandal, businessman Jorge Espino confessed to serving as an intermediary channeling about USD 1.8 million in bribes to former Public Works minister Jaime Ford, funds reportedly moved through the company Westfall Holding and accounts abroad. Espino's collaboration agreement, recognizing the account given by Odebrecht informants, made him the first individual condemned in the Panamanian case around November 20, 2017. Earlier, on November 9, 2017, a Panamanian criminal court validated collaboration agreements with Odebrecht informants Andre Luiz Rabello, Olivio Rodriguez Junior and Luiz da Rocha Soares, who identified more than USD 86 million in bribes paid in Panama. Ford denied the accusations through his lawyers.
+
+**Sources.**
+- https://www.laestrella.com.pa/panama/nacional/paris-julian-sacude-espino-EULE74402
+- https://www.prensa.com/impresa/panorama/coimas-Odebrecht-suman-millones_0_4891760777.html
+- https://www.laestrella.com.pa/panama/nacional/juan-alexis-enreda-confesion-rodriguez-COLE36576
+
+---
+
+## id 170 — Peru, 2017 — Other official (Non-Apex)
+
+**Table description.** Susana Villaran, former Mayor of Lima (2011-2014), was implicated in November 2017 when Brazilian businessman Valdemir Garreta told Peruvian prosecutors that Odebrecht and OAS provided about USD 3 million to finance the campaign against her 2013 recall referendum. Garreta said her municipal manager Jose Miguel Castro requested the funds for the No campaign. Villaran later admitted the Brazilian firms financed the anti-recall campaign and was charged with passive bribery, criminal association, and money laundering.
+
+**Detail.** Susana Villaran governed Lima from 2011 to 2014 and in March 2013 survived a recall referendum. In November 2017 Brazilian advertising businessman Valdemir Garreta stated to Peruvian prosecutors that construction firms Odebrecht and OAS contributed about USD 3 million for advertising and consulting in the campaign against her recall, with her municipal manager Jose Miguel Castro requesting the money for the No campaign. In May 2019 Villaran herself admitted Odebrecht and OAS financed the anti-recall effort. She was charged with passive bribery, criminal association, and money laundering, and Peru's judiciary later ordered her to stand trial over the alleged Odebrecht contributions.
+
+**Sources.**
+- https://larepublica.pe/politica/1466976-susana-villaran-oas-odebrecht-financiaron-campana-revocatoria
+- https://www.france24.com/es/20190512-peru-exalcaldesa-lima-odebrecht-corrupcion
+- https://andina.pe/agencia/noticia-susana-villaran-odebrecht-y-oas-financiaron-campana-contra-revocatoria-751206.aspx
+
+---
+
+## id 171 — Peru, 2017 — President (Apex)
+
+**Table description.** In December 2017 Odebrecht disclosed that it had paid consultancies of close to USD 5 million to companies linked to Pedro Pablo Kuczynski, then President of Peru. About USD 782,000 went to Westfield Capital, owned by Kuczynski, and roughly USD 4 million to First Capital, a firm of his associate Gerardo Sepulveda, for advisory work on the Olmos and IIRSA Norte projects. The revelation triggered a presidential vacancy motion; on December 15, 2017 Congress opened debate on his removal, but he survived the December 21 vote. He resigned in March 2018 amid a renewed vacancy push.
+
+**Detail.** On December 13, 2017 it became public that Odebrecht had paid consultancies of nearly USD 5 million to two companies tied to sitting President Pedro Pablo Kuczynski. Odebrecht records showed about USD 782,000 to Westfield Capital, owned by Kuczynski, and around USD 4 million to First Capital, controlled by his associate Gerardo Sepulveda, for advisory work on the Olmos irrigation and IIRSA Norte road projects during 2004-2007. Kuczynski said he had no relationship with First Capital and was not managing Westfield while a minister, and Odebrecht stated the payments were handled by Sepulveda. On December 15, 2017 Congress approved debate on a vacancy motion for permanent moral incapacity; Kuczynski survived the December 21 vote when the opposition fell short of 87 votes. He resigned on March 21, 2018 amid a second vacancy attempt and the Kenjivideos scandal.
+
+**Sources.**
+- https://lavajato.ojo-publico.com/articulo/kuczynski-recibio-3-millones-de-odebrecht-a-traves-de-first-capital-y-westfield/
+- https://feeds.bbci.co.uk/news/world-latin-america-42362305
+- https://rpp.pe/politica/estado/de-presidente-de-la-republica-a-detenido-por-el-caso-odebrecht-asi-fue-la-caida-de-ppk-noticia-1191430
+
+---
+
+## id 175 — Guatemala, 2017 — Other official (Non-Apex)
+
+**Table description.** Williams Mansilla, former Minister of Defense of Guatemala, was arrested (in January 2018, after the scandal surfaced in September 2017) on charges of abuse of authority, embezzlement, and illicit enrichment for authorizing an illegal extraordinary bonus paid to President Jimmy Morales and senior army commanders. Mansilla approved a monthly responsibility bonus of Q50,000 for President Morales, totaling about Q450,000 over nine months. Morales returned the money after public pressure; Mansilla was captured and bound over to trial.
+
+**Detail.** Williams Mansilla, retired general and Guatemala's Minister of Defense, was implicated in the Bono Militar (military bonus) case, which broke publicly in September 2017. He authorized an illegal extra monthly responsibility bonus of Q50,000 to President Jimmy Morales, paid over roughly nine months for a total of about Q450,000, and similar payments to high-ranking army officers. Guatemalan authorities arrested Mansilla on January 26, 2018 on charges of abuse of authority, embezzlement by subtraction, and illicit enrichment. Morales, who received the money, returned it after pressure from civil society, and the Public Ministry sought to lift his immunity. Mansilla was bound over to trial though released to house arrest during proceedings.
+
+**Sources.**
+- https://www.eleconomista.es/legislacion/noticias/8895305/01/18/Arrestan-al-exministro-de-Defensa-de-Guatemala-por-el-polemico-bono-militar.html
+- https://en.wikipedia.org/wiki/Williams_Mansilla
+- https://www.prensalibre.com/guatemala/justicia/williams-mansilla-capturado-corrupcion-enriquecimiento-ilicito-bono-responsabilidad-ejercito/
+
+---
+
+## id 177 — Peru, 2018 — President (Apex)
+
+**Table description.** On February 28, 2018 former Odebrecht Peru chief Jorge Barata told Peruvian prosecutors in Sao Paulo that Odebrecht funded the electoral campaigns of President Pedro Pablo Kuczynski and presidential candidate Keiko Fujimori, among others. Barata said Odebrecht delivered about USD 1.2 million to Fujimori's 2011 campaign (routed via Fuerza Popular figures Jaime Yoshiyama and Augusto Bedoya) and roughly USD 300,000 to Kuczynski's 2011 campaign through intermediary Susana de la Puente. The disclosures deepened Peru's corruption crisis; Keiko Fujimori was placed in preventive detention on October 10, 2018.
+
+**Detail.** Testifying to Peruvian prosecutors in Sao Paulo, Brazil, on February 28, 2018, former Odebrecht Peru superintendent Jorge Barata detailed illicit contributions to multiple Peruvian campaigns. He said Odebrecht gave about USD 1.2 million to Keiko Fujimori's 2011 presidential campaign, delivered in tranches (about USD 500,000 plus USD 200,000 in the runoff) through Fuerza Popular's Jaime Yoshiyama and former minister Augusto Bedoya Camere. He also stated that roughly USD 300,000 reached Kuczynski's 2011 campaign via intermediary Susana de la Puente, and reiterated contributions to Humala, Toledo, and Alan Garcia. The testimony intensified the Peruvian Odebrecht crisis; Keiko Fujimori was arrested and placed in preventive detention on October 10, 2018 on money-laundering charges.
+
+**Sources.**
+- https://elcomercio.pe/politica/odebrecht-jorge-barata-y-sus-declaraciones-claves-sobre-keiko-fujimori-y-fuerza-popular-noticia/
+- https://rpp.pe/politica/judiciales/idl-jorge-barata-entrego-documentacion-que-corrobora-entrega-de-us-500000-para-campana-de-keiko-fujimori-noticia-1213105
+- https://diariocorreo.pe/politica/jorge-barata-revela-que-se-aporto-dinero-para-las-campanas-presidenciales-de-ppk-fujimori-humala-garcia-y-toledo-883171/
+
+---
+
+## id 178 — Honduras, 2018 — President (Apex)
+
+**Table description.** Rosa Elena Bonilla, former First Lady of Honduras and wife of former President Porfirio Lobo (2010-2014), was arrested in February 2018 on charges of abuse of power, misappropriation, and illicit enrichment. Investigators from the MACCIH-OAS and the Public Ministry's UFECIC unit alleged she diverted about 16 million lempiras of state social-program funds, including depositing 12 million lempiras (about USD 500,000) into a personal account in January 2014. Known as the Caja Chica de la Dama case, it led to a 2019 conviction of 58 years, later annulled; a retrial resulted in a 14-year prison sentence.
+
+**Detail.** Rosa Elena Bonilla de Lobo was First Lady of Honduras from 2010 to 2014 during the presidency of Porfirio Lobo, running a program to provide footwear to schoolchildren. In the Caja Chica de la Dama case, the MACCIH-OAS anti-corruption mission and the Public Ministry's UFECIC unit accused her of seizing about 16 million lempiras of public funds and laundering state money meant for social works; on January 22, 2014 a personal Banco Ficohsa account in her name received a 12 million lempira check (about USD 500,000) from an official account. She was arrested in February 2018 on abuse of power, misappropriation, and illicit enrichment charges, following an accusation filed February 27, 2018. She was first convicted in 2019 and sentenced to 58 years, but the sentence was annulled and a retrial ordered; the retrial court convicted her on embezzlement/fraud counts and sentenced her to 14 years in prison.
+
+**Sources.**
+- https://www.laprensa.hn/honduras/1311655-410/culpable-rosa-elena-lobo-exprimera-dama-honduras-caja-chica-dama-
+- https://en.wikipedia.org/wiki/Rosa_Elena_Bonilla
+- https://criterio.hn/por-desvio-de-fondos-condenan-a-14-anos-de-prision-a-exprimera-dama-de-honduras/
+
+---
+
+## id 179 — Peru, 2018 — President (Apex)
+
+**Table description.** The Kenjivideos (also called Mamanivideos) scandal broke on March 20, 2018, when videos secretly recorded by congressman Moises Mamani were released in Peru. They showed congressman Kenji Fujimori, son of former president Alberto Fujimori, together with allies Bienvenido Ramirez and Guillermo Bocangel, offering public works and infrastructure funding to opposition lawmakers in exchange for not voting to impeach President Pedro Pablo Kuczynski. Kuczynski resigned the following day, and Kenji Fujimori was suspended from Congress and later prosecuted, with prosecutors seeking a 12-year prison term for attempted vote-buying.
+
+**Detail.** On March 20-21, 2018, Peru was rocked by videos secretly filmed by Congressman Moises Mamani in which Kenji Fujimori (son of jailed ex-president Alberto Fujimori) and fellow Fuerza Popular-aligned lawmakers Bienvenido Ramirez and Guillermo Bocangel were seen dangling regional infrastructure projects and access to the presidency in return for Mamani abstaining from a second impeachment vote against President Pedro Pablo Kuczynski. Prosecutors alleged Kenji had struck a deal to keep Kuczynski in power in exchange for a pardon of his father. Facing the imminent impeachment vote and the scandal, Kuczynski resigned on March 21, 2018, and was succeeded by Vice President Martin Vizcarra. Congress suspended Kenji Fujimori and two other congressmen for influence peddling and bribery; prosecutors later sought a 12-year sentence against Kenji for attempting to buy votes.
+
+**Sources.**
+- https://en.wikipedia.org/wiki/Mamanivideos_scandal
+- https://en.mercopress.com/2020/01/06/kenji-fujimori-faces-12-year-prison-for-attempting-to-buy-votes-in-peruvian-congress
+- https://en.wikipedia.org/wiki/Kenji_Fujimori
+
+---
+
+## id 182 — El Salvador, 2018 — President (Apex)
+
+**Table description.** On June 8, 2018, El Salvador's Attorney General ordered the arrest of former president Mauricio Funes (2009-2014) and around 30 members of his inner circle, including family members and his private secretary, for allegedly siphoning about 351 million USD from state coffers. Prosecutors alleged that cash was withdrawn from a state bank, stuffed into black trash bags, and delivered to the presidential residence for the personal use of Funes and associates. Funes, in exile in Nicaragua since 2016, evaded capture, and he was later convicted in related corruption cases.
+
+**Detail.** On Friday June 8, 2018, El Salvador's Attorney General's Office issued 31 arrest orders against former president Mauricio Funes (FMLN, 2009-2014) and members of his circle, accusing them of embezzling roughly 351 million USD in public funds. Prosecutors described a scheme run with Funes' former private secretary Jorge Herrera and financial operator Miguel Menendez (alias Mecafe) in which an operative would fill large black trash bags with cash at a state bank and drive them to the presidential residence, with the money used for travel, properties, luxury goods and services. Among those named in the arrest orders were Funes' partner Ada Mitchelle Guzman, his ex-wife Vanda Pignato and two of his sons. Funes had fled to Nicaragua in 2016 and been granted citizenship there, shielding him from extradition; he denied wrongdoing on social media. He was subsequently convicted in absentia in other cases, including a 2023 sentence.
+
+**Sources.**
+- https://www.seattletimes.com/nation-world/el-salvador-prosecutors-order-arrest-of-ex-president-funes/
+- https://www.elsalvadorperspectives.com/2018/06/ex-president-mauricio-funes-faces-351.html
+- https://insightcrime.org/news/el-salvador-ex-president-funes-trash-bags-money/
+
+---
+
+## id 183 — Peru, 2018 — Lower judiciary (Non-Apex)
+
+**Table description.** On July 7, 2018, the investigative outlet IDL-Reporteros in Peru began releasing audio recordings that exposed the Cuellos Blancos (CNM Audios) scandal, a network of judges and members of the National Council of the Magistracy trading judicial favors. Supreme Court justice Cesar Hinostroza and Callao superior court president Walter Rios were heard negotiating sentence reductions, appointments, and favors, in one instance discussing the sentence in a case involving the rape of a minor. The revelations led to the suspension of judges, the dissolution of the National Council of the Magistracy, and impeachment proceedings against Hinostroza, who fled to Spain.
+
+**Detail.** Starting July 7, 2018, IDL-Reporteros and the program Panorama aired the first of what would become tens of thousands of intercepted audio recordings revealing the Cuellos Blancos del Puerto (CNM Audios) corruption network centered in the port region of Callao. The recordings caught supreme court justice Cesar Hinostroza, Callao Superior Court president Walter Rios, and several members of the Consejo Nacional de la Magistratura (CNM) - including Ivan Noguera, Guido Aguila, Julio Gutierrez - bargaining over reduced sentences, judicial appointments and other favors. Hinostroza was recorded appearing to negotiate a sentence in the rape of a 10-year-old girl. The scandal led Congress to dissolve the CNM and replace it with the Junta Nacional de Justicia, the suspension and prosecution of numerous judges, and impeachment/extradition proceedings against Hinostroza, who fled to Spain.
+
+**Sources.**
+- https://en.wikipedia.org/wiki/Cuellos_Blancos_scandal
+- https://gijn.org/2018/07/20/perus-idl-reporteros-stands-up-to-prosecutors/
+- https://perureports.com/five-peru-judges-suspended-amid-corruption-scandal-involving-audio-tapes/8056/
+
+---
+
+## id 185 — Argentina, 2018 — Other official (Non-Apex)
+
+**Table description.** On August 1, 2018, Argentine prosecutor Carlos Stornelli and judge Claudio Bonadio launched the Cuadernos (Notebooks) case, based on handwritten notebooks kept by ministry chauffeur Oscar Centeno that documented years of cash bribes tied to public works contracts during the governments of Nestor and Cristina Fernandez de Kirchner. The notebooks described bags of US dollars carried to public buildings and to Cristina Kirchner's residence. The case triggered around a dozen arrests of former officials and businessmen, including Roberto Baratta and Jose Lopez, and named Cristina Fernandez de Kirchner as alleged head of an illicit association.
+
+**Detail.** The Cuadernos de las coimas (Notebook) scandal, considered Argentina's largest corruption case, became public on August 1, 2018. Oscar Centeno, a driver for officials in the Ministry of Federal Planning, had recorded in handwritten notebooks how he ferried bags of US dollars in bribe payments over roughly a decade to public buildings and private homes, including the residence of Cristina Fernandez de Kirchner. The notebooks reached La Nacion journalist Diego Cabot, who worked with prosecutor Carlos Stornelli and federal judge Claudio Bonadio. The judicial process implicated hundreds of businesspeople and officials in a bribery ring around public works during the Nestor and Cristina Kirchner governments (2003-2015). Roughly a dozen former officials and businessmen were arrested, including Roberto Baratta, Jose Lopez and others, and Cristina Fernandez de Kirchner was charged as the alleged leader of an illicit association. The case reached oral trial in 2025.
+
+**Sources.**
+- https://en.wikipedia.org/wiki/Notebook_scandal
+- https://insightcrime.org/news/argentina-bribe-books-case-take-down-ex-president/
+- https://batimes.com.ar/news/argentina/cuadernos-argentinas-biggest-ever-corruption-case-reaches-trial.phtml
+
+---
+
+## id 189 — Peru, 2018 — Congressman (Non-Apex)
+
+**Table description.** On October 10, 2018, Peruvian opposition leader Keiko Fujimori, head of the Fuerza Popular party and a former congresswoman, was arrested for alleged money laundering tied to roughly 1 million USD in undeclared contributions from Brazilian construction firm Odebrecht to her 2011 presidential campaign. Prosecutors identified her as the leader of a criminal organization operating within her party and placed her in preliminary detention. The arrest followed the Supreme Court's annulment of the pardon that had freed her father, former president Alberto Fujimori.
+
+**Detail.** Keiko Fujimori, leader of the Fuerza Popular party, a former congresswoman (2006-2011) and two-time presidential runner-up, was arrested on October 10, 2018, on money laundering charges after giving testimony to prosecutors investigating Odebrecht funding of her 2011 campaign. Prosecutor Jose Domingo Perez alleged that Fujimori led a criminal organization inside her party that laundered around 1 million USD in illicit Odebrecht contributions channeled through fake donors. She was detained along with about 19 party members and placed in preliminary detention (initially 10 days, later extended to lengthy preventive detention). The arrest came days after Peru's Supreme Court annulled the humanitarian pardon of her father, ex-president Alberto Fujimori, ordering him back to prison. Keiko Fujimori faced years of on-and-off pretrial detention in the case.
+
+**Sources.**
+- https://www.france24.com/en/20181011-peru-arrests-daughter-keiko-fujimori-ex-president-alberto-fujimori-odebrecht-corruption-pro
+- https://feeds.bbci.co.uk/news/world-latin-america-45819020
+- https://www.rappler.com/world/regions/latin-america/214032-peru-keiko-fujimori-arrest-october-2018
+
+---
+
+## id 19 — Colombia, 2009 — Other official (Non-Apex)
+
+**Table description.** In October 2009, Colombia's Cambio magazine revealed that the Agro Ingreso Seguro (AIS) subsidy program, run by the Ministry of Agriculture under President Alvaro Uribe, had funneled large agricultural subsidies to wealthy landowners and families rather than to the small farmers it was meant to protect, with some funds reaching people linked to drug trafficking, and awarded without the required public bidding. The program had been championed by Agriculture Minister Andres Felipe Arias. In 2014 the Supreme Court convicted Arias to about 17 years in prison for embezzlement and improper contracting. He fled to the United States and was later extradited back to Colombia.
+
+**Detail.** The Agro Ingreso Seguro (AIS) scandal broke on October 8, 2009, when the magazine Cambio reported that the program - created under President Alvaro Uribe and run by the Ministry of Agriculture to support farmers facing the free trade agreement with the United States - had granted multimillion-peso subsidies to wealthy families and large landowners, including some connected to drug trafficking, in departments such as Magdalena and Valle del Cauca. The program had been designed and promoted by Agriculture Minister Andres Felipe Arias Leiva, who had delegated the awarding of subsidies to a third party (IICA) without holding the public tenders required by law. In July 2014 the Supreme Court of Justice convicted Arias to about 17 years in prison for embezzlement in favor of third parties and contracting without legal requirements. Arias had fled to the United States seeking asylum; he was eventually extradited to Colombia in 2019 and later received conditional release.
+
+**Sources.**
+- https://en.wikipedia.org/wiki/Andr%C3%A9s_Felipe_Arias_Leiva
+- https://www.semana.com/nacion/articulo/andres-felipe-arias-es-culpable-por-agro-ingreso-seguro/394150-3/
+- https://www.elcolombiano.com/colombia/agro-ingreso-seguro-asi-fue-el-escandalo-que-llevo-a-la-carcel-a-andres-felipe-arias-IJ11180932
+
+---
+
+## id 190 — El Salvador, 2018 — Lower judiciary (Non-Apex)
+
+**Table description.** Former Salvadoran Attorney General Luis Martinez (2012-2015) was accused, in charges detailed around October 18, 2018, of accepting a bribe disguised as a 200,000 USD personal loan from businessman Parducci in exchange for prosecutorial favors. In return he signed an inflated lease worth about 711,900 USD for the Attorney General's Office to rent a property owned by a company in which Parducci was a shareholder and legal representative. Martinez, first arrested in August 2016, faced several corruption cases and was sentenced in December 2018 to five years in prison in a related matter for unlawfully disclosing wiretap recordings.
+
+**Detail.** Luis Martinez, Attorney General of El Salvador from 2012 to 2015, was accused of turning the prosecutor's office into a pay-to-play operation. In charges reported around October 18, 2018, prosecutors alleged that a lease contract was simulated to disguise money given as a gift to obtain benefits from the prosecutor's office: Martinez received 200,000 USD from businessman Parducci framed as a personal loan, and in return signed a lease worth roughly 711,900 USD (2013-2016) for the Attorney General's Office to store its general archive in a property in San Juan Opico owned by a company where Parducci was a shareholder and legal representative. Martinez had been arrested in August 2016 alongside businessman Enrique Rais on charges of conspiring to defraud the justice system. In December 2018 he was sentenced to five years in prison and ordered to pay restitution for unlawfully disclosing wiretap recordings, and he faced additional corruption cases (including the Corruptela case) for taking bribes, vehicles and bonuses in exchange for favors.
+
+**Sources.**
+- https://www.laprensagrafica.com/elsalvador/El-contrato-con-el-que-el-ex-fiscal-general-logro-la-prosperidad-20181018-0138.html
+- https://elfaro.net/es/casos/fiscalia_luis_martinez
+- https://insightcrime.org/news/brief/el-salvador-businessman-ex-ag-organized-crime/
+
+---
+
+## id 191 — Peru, 2018 — President (Apex)
+
+**Table description.** In November 2018, Peruvian prosecutor Jose Domingo Perez asked a judge to bar former president Alan Garcia from leaving the country while investigators examined alleged illicit payments from Brazilian construction firm Odebrecht, including about 100,000 USD paid for a lecture in Brazil that prosecutors believed came from an Odebrecht bribe fund, connected to the Lima electric train project. A judge imposed an 18-month travel ban. Garcia then entered the Uruguayan embassy in Lima and requested asylum, which Uruguay rejected in December 2018.
+
+**Detail.** Prosecutor Jose Domingo Perez, leading Peru's Odebrecht (Lava Jato) investigations, requested in November 2018 that former president Alan Garcia (1985-1990 and 2006-2011) be prohibited from leaving the country while under investigation for illicit payments from Odebrecht. Prosecutors focused on about 100,000 USD Garcia received for a lecture at a conference in Brazil, which they believed originated from Odebrecht's bribe division, in connection with the Lima Metro electric train awarded during his second term. A judge imposed an 18-month travel ban. Hours later, Garcia entered the Uruguayan embassy in Lima and formally requested political asylum, claiming persecution; Uruguay's government rejected the asylum request in early December 2018. Garcia remained under investigation until his suicide in April 2019.
+
+**Sources.**
+- https://feeds.bbci.co.uk/news/world-latin-america-46256694
+- https://www.aljazeera.com/amp/news/2018/11/18/ex-peru-president-seeks-uruguay-asylum-following-travel-ban
+- https://www.nbcnews.com/news/world/peru-says-ex-president-has-sought-asylum-uruguay-n937731
+
+---
+
+## id 196 — Peru, 2019 — Lower judiciary (Non-Apex)
+
+**Table description.** On December 31, 2018, Peru's Attorney General (Fiscal de la Nacion) Pedro Chavarry abruptly removed Rafael Vela and Jose Domingo Perez, the lead prosecutors of the special team investigating the Odebrecht (Lava Jato) case, only days before a cooperation agreement with Odebrecht was to be signed. The move, announced hours before the New Year, was widely seen as an attempt to obstruct the investigation and triggered mass public protests. Chavarry reversed the decision in early January 2019 and later resigned; in 2021 he was sentenced to four years of suspended prison for cover-up and obstruction of justice.
+
+**Detail.** On December 31, 2018, just hours before the New Year, Peru's Attorney General Pedro Gonzalo Chavarry announced he was removing prosecutors Rafael Vela and Jose Domingo Perez from the Equipo Especial investigating the Odebrecht/Lava Jato cases, replacing them with Frank Almanza and Marcial Paucar. The two prosecutors had been leading investigations against Keiko Fujimori, Pedro Pablo Kuczynski, Alejandro Toledo and Alan Garcia, and were days away from formalizing a plea/cooperation agreement with Odebrecht. Days earlier, Perez had denounced Chavarry for obstructing that agreement. The removal provoked large street protests and political backlash, and President Vizcarra convened emergency measures. Under pressure, Chavarry reinstated the prosecutors on January 3, 2019, and later resigned as Attorney General. In September 2021 he was sentenced to four years of suspended imprisonment for real cover-up and obstruction of justice.
+
+**Sources.**
+- https://www.infobae.com/america/america-latina/2021/09/07/condenaron-a-cuatro-anos-de-prision-suspendida-al-ex-fiscal-general-de-peru-que-intento-boicotear-el-caso-odebrecht/
+- https://diariocorreo.pe/politica/pedro-chavarry-sorpresiva-conferencia-de-prensa-el-ultimo-dia-del-2018-862110/
+- https://rpp.pe/politica/judiciales/pedro-chavarry-remueve-a-fiscales-rafafel-vela-y-jose-domingo-perez-en-el-caso-lava-jato-noticia-1172602
+
+---
+
+## id 198 — El Salvador, 2019 — President (Apex)
+
+**Table description.** In February 2019, El Salvador's Attorney General opened a new investigation against former president Mauricio Funes after Revista Factum published audio recordings in which Funes allegedly discussed using presidential funds to buy the votes and party defections of legislators. Investigators said operatives including Herbert Saca delivered cash, with offers of about 200,000 USD to individual deputies, to secure legislative support for the government. Funes, by then living in exile in Nicaragua, denied wrongdoing, and the case added to several corruption prosecutions against him.
+
+**Detail.** On February 12, 2019, El Salvador's Attorney General's Office announced a new investigation into former president Mauricio Funes (2009-2014) over the alleged purchase of legislators, following the publication by Revista Factum (December 2018 and February 2019) of audio recordings in which Funes was heard discussing buying the will of deputies, manipulating the prosecutor's office and attacking rivals. Investigators alleged that Casa Presidencial funds were used to pay deputies to support government initiatives and to induce party defections (transfuguismo), with Miguel Menendez (Mecafe) as financier and Herbert Saca as the operator carrying a black briefcase of cash; two deputies said they were offered around 200,000 USD. The episode was one of several corruption cases against Funes, who by then was in exile in Nicaragua and denied the accusations.
+
+**Sources.**
+- https://cnnespanol.cnn.com/2019/02/12/nueva-investigacion-contra-el-expresidente-salvadoreno-funes-por-supuestas-compras-de-voluntades-a-diputados/
+- https://www.revistafactum.com/funes-maletin-negro-audios/
+- https://www.laprensagrafica.com/amp/Los-siete-casos-que-pesan-contra-Mauricio-Funes-t201903270001.html
+
+---
+
+## id 199 — Peru, 2019 — President (Apex)
+
+**Table description.** On April 17, 2019, former Peruvian president Alan Garcia, who governed 1985-1990 and 2006-2011, fatally shot himself in the head as police arrived at his Lima home to arrest him in connection with the Odebrecht corruption case. Prosecutors were investigating alleged bribes from the Brazilian firm tied to construction of the Lima metro during his second term. Garcia asked to call his lawyer, locked himself in a room, and shot himself; he died hours later in hospital at age 69.
+
+**Detail.** Alan Garcia Perez, twice president of Peru (1985-1990 and 2006-2011) and leader of the APRA party, died on April 17, 2019, after shooting himself in the head when police and prosecutors arrived at his home in Lima to serve a preliminary detention order in the Odebrecht investigation. Garcia was under investigation for allegedly receiving bribes from Odebrecht, including money linked to the Lima Metro electric train project built during his second administration, and had previously been placed under a travel ban and denied asylum by Uruguay in late 2018. He asked to phone his lawyer, entered a room and fired; he was rushed to Casimiro Ulloa hospital where he underwent emergency surgery but died hours later at age 69. His death was one of the most dramatic episodes of the Odebrecht scandal in Peru.
+
+**Sources.**
+- https://www.washingtonpost.com/world/the_americas/former-peruvian-president-alan-garcia-reportedly-shoots-self-before-arrest/2019/04/17/d1cf1d9a-610f-11e9-bf24-db4b9fb62aa2_story.html
+- https://www.opendemocracy.net/en/alan-garcias-suicide-in-peru-and-the-odebrecht-scandal/
+- https://www.foxnews.com/world/alan-garcia-ex-peruvian-president-dies-at-69.amp
+
+---
+
+## id 201 — Honduras, 2019 — President (Apex)
+
+**Table description.** On May 30, 2019, US court documents were unsealed revealing that Honduran President Juan Orlando Hernandez had himself been the subject of a US drug trafficking and money laundering investigation dating to around 2015, alongside his sister Hilda Hernandez and others. The disclosure came amid the New York prosecution of his brother, former congressman Tony Hernandez. Hernandez denied the allegations, but he was later named a co-conspirator, indicted in 2022 after leaving office, extradited to the United States, and convicted of drug trafficking.
+
+**Detail.** On May 30, 2019, US federal prosecutors in the Southern District of New York unsealed documents (some dating to a 2015 probe) showing that Honduran President Juan Orlando Hernandez had been investigated for drug trafficking and money laundering, along with his sister Hilda Hernandez (a former minister who died in 2017) and others. The filings emerged in the run-up to the trial of his brother, former congressman Juan Antonio Tony Hernandez, who was convicted in October 2019 of importing cocaine into the United States and sentenced to life in prison. Prosecutors repeatedly named the president as a co-conspirator in a state-sponsored drug trafficking scheme, alleging drug proceeds helped fund his political rise. Hernandez denied the accusations while in office. After his term ended, he was indicted in the United States in 2022, extradited, tried, and in 2024 convicted of drug trafficking and weapons charges, receiving a lengthy federal prison sentence.
+
+**Sources.**
+- https://insightcrime.org/honduras-organized-crime-news/juan-orlando-hernandez/
+- https://www.justice.gov/usao-sdny/pr/former-honduran-congressman-tony-hern-ndez-sentenced-life-prison-and-ordered-forfeit
+- https://abcnews.go.com/US/former-honduran-president-juan-orlando-hernandez-found-guilty/story?id=107933151
+
+---
+
+## id 202 — Mexico, 2019 — SC Justice (Apex)
+
+**Table description.** In 2019, Mexican Supreme Court justice (SCJN minister) Eduardo Medina Mora was investigated by the Financial Intelligence Unit (UIF) of the Finance Ministry over irregular international bank transfers to the United Kingdom and the United States, reportedly 32 transfers exceeding 100 million pesos, that did not match his asset declarations. President Andres Manuel Lopez Obrador said US authorities had alerted Mexico's UIF to the movements. Medina Mora resigned from the Supreme Court on October 3, 2019, the first such resignation under the modern Court, and the Senate accepted it on October 8, 2019.
+
+**Detail.** Eduardo Medina Mora Icaza, a minister (justice) of Mexico's Supreme Court of Justice of the Nation (SCJN) and former attorney general and ambassador, resigned abruptly on October 3, 2019, amid a corruption and money laundering investigation. The Financial Intelligence Unit (UIF), headed by Santiago Nieto, was probing him over roughly 32 international bank transfers - to the United Kingdom and the United States - totaling well over 100 million pesos that did not correspond to his declared assets. President Andres Manuel Lopez Obrador stated that the United States government had notified the UIF of irregular movements in the minister's foreign bank accounts. His was the first resignation of a sitting minister since the Court's 1994 reform. The Senate approved his resignation on October 8, 2019.
+
+**Sources.**
+- https://sinembargo.mx/03-10-2019/3655879
+- https://www.infobae.com/america/mexico/2019/10/08/senado-aprobo-la-renuncia-del-ministro-eduardo-medina-mora/
+- https://www.elfinanciero.com.mx/nacional/renuncia-de-medina-mora-como-ministro-de-la-corte-es-para-enfrentar-denuncias-ante-fiscalia-amlo/
+
+---
+
+## id 206 — Honduras, 2019 — President (Apex)
+
+**Table description.** Juan Orlando Hernandez, then president of Honduras (2014-2022), was identified as a co-conspirator in the United States drug-trafficking and money-laundering prosecution of his brother, former congressman Juan Antonio Tony Hernandez. In an early-August 2019 court filing in the Southern District of New York (reported around August 2-3, 2019), prosecutors alleged that drug-trafficking proceeds helped finance National Party campaigns and that the president had access to such money. Hernandez denied wrongdoing while in office; he was later extradited to the United States, tried, and in 2024 convicted on drug and weapons charges.
+
+**Detail.** In an August 2019 pre-trial filing ahead of Tony Hernandez's New York trial, U.S. prosecutors identified sitting Honduran president Juan Orlando Hernandez as a co-conspirator, alleging that drug proceeds were funneled to National Party political campaigns and that he had been involved in and benefited from large-scale cocaine trafficking through Honduras. The document referenced figures of drug money reaching the president and his party. Hernandez publicly denied the allegations and remained in office until 2022. He was arrested in early 2022, extradited to the United States, and in March 2024 a Manhattan federal jury convicted him on drug-trafficking and firearms charges; he was sentenced to 45 years in prison. His brother Tony Hernandez had been convicted in October 2019 and sentenced to life in prison.
+
+**Sources.**
+- https://www.justice.gov/usao-sdny/pr/former-honduran-congressman-tony-hern-ndez-sentenced-life-prison-and-ordered-forfeit
+- https://insightcrime.org/honduras-organized-crime-news/juan-orlando-hernandez/
+- https://www.justice.gov/archives/opa/pr/juan-orlando-hern%C3%A1ndez-former-president-honduras-indicted-drug-trafficking
+
+---
+
+## id 211 — Honduras, 2019 — President (Apex)
+
+**Table description.** During the New York drug-trafficking trial of Tony Hernandez, brother of Honduran president Juan Orlando Hernandez, cooperating witness Amilcar Alexander Ardon, a former mayor of El Paraiso and a self-confessed trafficker and killer, testified in early October 2019 that Mexican kingpin Joaquin El Chapo Guzman handed over roughly USD 1 million intended for Hernandez's 2013 presidential campaign. Ardon said Tony Hernandez had promised that cocaine shipments through Honduras would be protected if his brother won the presidency. The testimony deepened accusations that drug money financed the ruling National Party; President Hernandez denied it.
+
+**Detail.** At Tony Hernandez's trial in the Southern District of New York, prosecution witness Amilcar Alexander Ardon Soriano, a former mayor of El Paraiso in Copan and an admitted drug trafficker, testified around October 3, 2019 that Joaquin El Chapo Guzman personally provided about USD 1 million as a contribution to the 2013 presidential campaign of Juan Orlando Hernandez, delivered via his brother Tony. Ardon said Tony Hernandez promised protection for El Chapo's cocaine shipments if Juan Orlando won. The account was widely reported in early to mid October 2019 (the flagging tweet cites October 8, 2019). President Hernandez denied receiving any such money. Tony Hernandez was convicted on October 18, 2019.
+
+**Sources.**
+- https://newsinfo.inquirer.net/1172831/prosecutor-el-chapo-gave-1m-to-honduras-leaders-brother/amp
+- https://www.aljazeera.com/amp/news/2019/10/3/honduras-hernandez-accused-of-taking-drug-money-from-el-chapo
+- https://news.yahoo.com/honduran-presidents-brother-promised-el-011139137.html
+
+---
+
+## id 212 — Panama, 2019 — Other official (Non-Apex)
+
+**Table description.** Spain's National Court (Audiencia Nacional), through investigating judge Ismael Moreno, pursued a case in which the Spanish construction multinational Fomento de Construcciones y Contratas (FCC) was accused as a legal entity of paying bribes of more than 82 million euros to obtain public-works contracts in Panama during the government of Ricardo Martinelli (2010-2014). The payments were allegedly routed through front companies linked to a Martinelli associate to secure metro, hospital, and road projects. Reported around October 2019, the investigation also examined whether Panamanian officials, including people close to the presidency, benefited.
+
+**Detail.** In October 2019 it emerged that Spain's Audiencia Nacional, under Central Court of Instruction No. 2 and judge Ismael Moreno, had charged FCC as a legal entity in connection with bribes to win contracts in Panama. Prosecutors put the bribe figure at more than 82 million euros (about USD 91 million), while Spain's Civil Guard investigative unit (UCO) later estimated total payments as high as USD 178 million, channeled through false service contracts and companies tied to Mauricio Cort, described as a Martinelli proxy. The alleged aim was to secure works launched under Martinelli, including the Ciudad Hospitalaria/Ciudad de la Salud, the Panama Metro, and Avenida Brasil. The probe examined whether high-ranking Panamanian officials, including figures close to the presidency, received funds. Two former FCC executives also confirmed bribe payments to Panamanian prosecutors.
+
+**Sources.**
+- https://www.elespanol.com/espana/tribunales/20191030/fcc-investigada-pagar-odebrecht-millones-comisiones-panama/440706461_0.html
+- https://www.prensa.com/judiciales/fcc-pago-178-millones-en-sobornos-para-llevarse-contratos-en-panama-unidad-central-operativa-de-espana/
+- https://www.eldiario.es/economia/directivos-fcc-ratifican-fiscalia-panama_1_1066016.html
+
+---
+
+## id 214 — Paraguay, 2019 — President (Apex)
+
+**Table description.** On November 19, 2019 (reported around November 20), Brazilian federal judge Marcelo Bretas of Rio de Janeiro issued a preventive arrest order and an Interpol red notice against former Paraguayan president Horacio Cartes (2013-2018), in a case tied to the Lava Jato investigations. Cartes was suspected of aiding Dario Messer, a fugitive money changer accused of running a transnational money-laundering and currency-smuggling network spanning Brazil, Paraguay, and other countries. The order was short-lived: on November 29, 2019 a justice of Brazil's Superior Court of Justice granted habeas corpus and revoked the preventive detention.
+
+**Detail.** Federal judge Marcelo Bretas of the Rio de Janeiro federal court ordered the preventive arrest of Horacio Cartes on November 19, 2019, and requested an Interpol red notice, as part of spinoffs of the Lava Jato investigation. Cartes was suspected of complicity with Dario Messer, the so-called changer of changers (doleiro), who had been arrested in July 2019 and was accused of leading an extortion and money-laundering scheme estimated at some USD 1.65 billion operating across Brazil, Paraguay, and more than a dozen other countries. Prosecutors alleged Cartes helped hide assets and shelter Messer. Ten days later, on November 29, 2019, a minister of Brazil's Superior Tribunal de Justica granted habeas corpus and revoked the preventive prison order.
+
+**Sources.**
+- https://www.ultimahora.com/juez-brasileno-emite-orden-prision-contra-cartes-caso-lava-jato-n2855544
+- https://gestion.pe/mundo/horacio-cartes-juez-de-brasil-ordena-prision-para-el-expresidente-de-paraguay-lava-jato-noticia/
+- https://www.eluniverso.com/noticias/2019/11/19/nota/7611182/emiten-orden-prision-contra-expresidente-paraguay-horacio-cartes/
+
+---
+
+## id 246 — Panama, 2012 — President (Apex)
+
+**Table description.** Panamanian president Ricardo Martinelli (2009-2014) was linked in April 2012 to a corruption scandal centered on Italian businessman Valter Lavitola, who was accused in Italy of bribery connected to figures around former Italian prime minister Silvio Berlusconi. Emails and Italian investigators indicated that commissions were promised in connection with Panama's roughly USD 250 million purchase of helicopters, radars, and digital mapping from the Italian defense group Finmeccanica, with alleged kickbacks near ten percent. Lavitola was detained in Italy in April 2012; he later denied paying Martinelli, and Martinelli denied any wrongdoing.
+
+**Detail.** The scandal surfaced publicly around April 17, 2012, when it emerged that Italian probes into Valter Lavitola and the defense group Finmeccanica touched Panamanian president Ricardo Martinelli. Emails presented earlier (December 2011) by former presidential candidate Balbina Herrera alleged links between Martinelli and Lavitola over overpriced sales of radars and helicopters. Panama had bought from Finmeccanica six helicopters, nineteen radars, and a digital map for roughly USD 250 million; Italian reporting alleged bribes of about USD 23 million, roughly ten percent of the deal, and discussed delivering a helicopter to Martinelli as an advance. Lavitola was arrested at Rome airport in April 2012 and later convicted in Italy in a related matter; he denied paying the Panamanian president, and Martinelli denied taking bribes.
+
+**Sources.**
+- https://es.globalvoices.org/2012/04/17/panama-escandalo-italiano-sacude-al-gobierno-de-ricardo-martinelli/
+- https://www.vozdeamerica.com/a/sobornos_panama_martinelli_lavitola_berlusconi/181755.html
+- https://www.laestrella.com.pa/internacional/mundo/140701/16-meses-valter-lavitola-condenado
+
+---
+
+## id 26 — El Salvador, 2010 — President (Apex)
+
+**Table description.** Elias Antonio Saca, president of El Salvador from 2004 to 2009, was arrested on October 30, 2016 on charges including embezzlement (peculado), illicit association, and money laundering. Prosecutors alleged that during his term he diverted more than USD 246 million in public funds into private and party accounts. Saca later pleaded guilty and in 2018 was sentenced to 10 years in prison; a separate ruling found him liable for illicit enrichment, and he also received an additional sentence for bribery.
+
+**Detail.** Saca, president 2004-2009 for the ARENA party, was captured on October 30, 2016 (arrested at an event, reportedly during a family wedding) along with several former officials. The prosecution accused him of siphoning roughly USD 246 million of public money through the presidency's reserved funds into private and third-party accounts. In September 2018 he pleaded guilty and was sentenced to 10 years for embezzlement and money laundering. A civil/administrative process found him and his wife Ana Ligia de Saca liable for illicit enrichment, ordering restitution of about USD 4.4 million. In September 2019 he received an additional two-year sentence for bribery after offering money to a court employee for information. Note: although the dataset lists 2010, the arrest and charges date to 2016-2018.
+
+**Sources.**
+- https://www.univision.com/noticias/corrupcion/otro-expresidente-salvadoreno-perseguido-por-la-justicia-capturan-a-saca-por-lavado-de-dinero
+- https://feeds.bbci.co.uk/news/world-latin-america-45507582
+- https://www.eleconomista.net/actualidad/El-Salvador-expresidente-Antonio-Saca-cupable-por-enriquecimiento-ilicito-20210105-0030.html
+
+---
+
+## id 270 — Brazil, 2013 — Other official (Non-Apex)
+
+**Table description.** A 2013 Brazilian press headline alleged that a lobbyist implicated a congressional leader of President Dilma Rousseff's governing coalition in a corruption scheme. The specific official and the exact scheme could not be confidently identified from the brief headline alone. The most likely referent is a Workers Party (PT) floor leader tied to lobbyists in Petrobras-related contracting, but the timing and details remain uncertain, so this entry is treated as unverified.
+
+**Detail.** The flagging text is only a bare headline (Lobista envolve lider do governo Dilma em esquema de corrupcao) with no name or outlet, dated to 2013. It could not be matched with confidence to a single documented case. A plausible referent is Candido Vaccarezza, the PT floor leader in the Chamber of Deputies under Lula and Dilma, whom lobbyists (Jorge Luz and his son Bruno Luz) and cooperating witnesses later tied to a Petrobras asphalt-supply scheme involving the U.S. firm Sargeant Marine; however, those specific accusations became public through Operation Lava Jato around 2017, and Vaccarezza had stepped down as government leader in early 2012, so they do not cleanly fit a 2013 date. Other 2013 lobbyist-related episodes touching government figures cannot be ruled out. Because the individual, amounts, and outcome cannot be pinned down, this scandal is left unverified and the description is kept conservative.
+
+**Sources.**
+- https://www.poder360.com.br/justica/ex-deputado-federal-candido-vaccarezza-vira-reu-na-lava-jato/
+- https://especiais.gazetadopovo.com.br/eleicoes/2018/8-escandalos-de-corrupcao-envolvendo-os-governos-pt/
+
+**Note.** Not fully verified from available sources; description is conservative.
+
+---
+
+## id 284 — Paraguay, 2013 — Congressman (Non-Apex)
+
+**Table description.** Victor Bogado, a Paraguayan legislator who served as president of the Chamber of Deputies, was at the center of the nanny of gold (ninera de oro) scandal that the press exposed on October 8, 2013. His family nanny, Gabriela Quintana, was placed on the public payroll of both the binational Itaipu hydroelectric entity and the Chamber of Deputies, drawing two state salaries while working privately for Bogado. The case triggered large public protests; Bogado was eventually convicted and given a one-year suspended prison sentence.
+
+**Detail.** In March 2013, Victor Alcides Bogado Gonzalez arranged for Gabriela Quintana Venialgo, his children's nanny, to be commissioned by Itaipu at his request and simultaneously appointed as a permanent employee of the Chamber of Deputies, so she collected two public salaries (about G. 8.7 million at Itaipu and G. 6.6 million in the Chamber) while working privately for him. Paraguayan media reported the case on October 8, 2013, prompting significant citizen protests. Bogado's parliamentary immunity became a public issue, and he was ultimately convicted of the misuse of public funds and sentenced to one year of imprisonment with the sentence suspended; the nanny was also convicted. He continued to contest the case in later years.
+
+**Sources.**
+- https://es.wikipedia.org/wiki/Caso_de_la_Ni%C3%B1era_de_Oro
+- https://www.ultimahora.com/fiscales-piden-4-anos-carcel-victor-bogado-y-la-ninera-oro-n2817153
+- https://www.abc.com.py/nacionales/2019/12/13/victor-bogado-y-la-ninera-de-oro-ahora-denuncian-al-estado-paraguayo-ante-la-cidh/
+
+---
+
+## id 29 — Mexico, 2011 — Governor (Apex)
+
+**Table description.** On June 24, 2011, Mexican senator Federico Doring presented a video and documents to the federal prosecutor (PGR) accusing Vicente Chaires, a close associate of Coahuila governor Humberto Moreira, of acting as a front man in a scheme involving state finances and media companies (Super Medios de Coahuila). The complaint linked Chaires and Moreira's finance officials to concerns over Coahuila's ballooning public debt, part of the wider Moreirazo scandal. The accusations alleged either diversion of public funds or ties to organized crime.
+
+**Detail.** PAN senator Federico Doring publicly exhibited documents and a video in June 2011 (press conference June 24, 2011) and filed a criminal complaint with the PGR against Vicente Chaires Yanez, a former personal assistant to Coahuila governor Humberto Moreira who had become a shareholder in Super Medios de Coahuila (holding a TV channel and radio stations). Doring alleged Chaires was Moreira's front man, and pointed to Javier Villarreal, Moreira's finance secretary and head of the state tax administration (SAT). The episode was part of the Moreirazo, the scandal over Coahuila's fraudulently inflated public debt run up during Moreira's governorship. Doring framed the choice as either diversion of public funds with Chaires as front man, or involvement in drug trafficking.
+
+**Sources.**
+- https://sinembargo.mx/24-06-2011/5872
+- https://ciam.wordpress.com/2011/06/17/17jun11-doring-que-chaires-presente-su-realidad-en-el-sat/
+- https://www.elagora.com.mx/Enriquece-familia-en-el-moreirazo.html
+
+---
+
+## id 292 — Mexico, 2014 — Other official (Non-Apex)
+
+**Table description.** Jesus Reyna Garcia, former interim governor and secretary of government of Michoacan, Mexico, was detained by the federal prosecutor (PGR) on April 4, 2014 and placed under arraigo (pre-charge detention). He was accused of organized-crime ties to the Knights Templar cartel (Caballeros Templarios) and its leader Servando Gomez, alias La Tuta, based in part on a video showing them together. Reyna was later imprisoned at the Altiplano federal facility; he served about four years and was released in December 2018.
+
+**Detail.** Jose Jesus Reyna Garcia had served as PRI secretary of government of Michoacan and as interim governor between April and October 2013. On April 4, 2014 he was detained by the PGR and held under arraigo, then formally charged with organized crime (in the modality of fostering crimes against health) over alleged links to the Caballeros Templarios cartel and its leader Servando Gomez Martinez, La Tuta. Key evidence included a video showing Reyna meeting La Tuta. He was transferred to the Altiplano (Cefereso No. 1) federal prison in May 2014. After roughly four years in custody he was released from a Morelia prison in December 2018.
+
+**Sources.**
+- https://www.animalpolitico.com/2014/04/detienen-jesus-reyna-exgobernador-de-michoacan
+- https://www.excelsior.com.mx/nacional/2014/05/07/957964
+- https://www.proceso.com.mx/565067/liberan-a-jesus-reyna-exgobernador-interino-de-michoacan
+
+---
+
+## id 303 — El Salvador, 2014 — Other official (Non-Apex)
+
+**Table description.** Juan Miguel Bolanos Torres, a former minister of the interior (Gobernacion) of El Salvador, was convicted in 2014 and sentenced to three years for the crimes of arbitrary acts and bribery (cohecho). The case stemmed from a 2008 vehicle-maintenance contract that his ministry awarded to a private firm, after which he was found to have solicited money from the winning company's representative. Because of the nature of the offense, his prison term was substituted with community service.
+
+**Detail.** Bolanos Torres, who had served as minister of Gobernacion, was tried before the Cuarto Tribunal de Sentencia and in 2014 convicted of arbitrary acts (actos arbitrarios) and improper bribery (cohecho impropio), receiving a three-year sentence. On April 16, 2008 he had awarded a preventive and corrective maintenance contract for the ministry's light vehicles to the firm Martell S.A. de C.V. for about USD 209,685, and on April 24, 2008 he summoned the winning company's representative to a meeting to solicit money. Because of the penalty range for the offense, his sentence was converted to community-service work, which he performed at a parish in Santa Ana.
+
+**Sources.**
+- https://historico.elsalvador.com/historico/178344/exministro-cumple-condena-de-trabajo.html
+- https://www.elsalvador.com/noticias/nacional/sucesos-2021/911424/2021/
+
+---
+
+## id 31 — Peru, 2011 — President (Apex)
+
+**Table description.** Omar Chehade, the second vice president of Peru and a sitting congressman, faced a constitutional accusation presented on October 20, 2011 over the Andahuasi affair. He was accused of meeting with three senior police generals to arrange a forced eviction at the Andahuasi sugar company to benefit the Wong business group, allegedly offering the officers an economic incentive. Charged with illegal sponsorship (patrocinio ilegal), active bribery, and influence peddling, Chehade resigned the vice presidency in January 2012.
+
+**Detail.** Omar Chehade Moya, second vice president under President Ollanta Humala and a member of Congress, was accused of hosting a dinner in early October 2011 at the Brujas de Cachiche restaurant with police generals (including Guillermo Arteta) to coordinate an eviction at the Empresa Agraria Azucarera Andahuasi in favor of the Wong group and against worker-shareholders, allegedly promising the officers a reward. On October 20, 2011 opposition benches (Fuerza 2011, Alianza por el Gran Cambio, and Concertacion Parlamentaria) filed a constitutional accusation. The congressional subcommittee approved charges for illegal sponsorship, active bribery, influence peddling, and generic falsehood. Under mounting pressure, Chehade resigned as second vice president in January 2012.
+
+**Sources.**
+- https://www.connuestroperu.com/actualidad/21284-chehade-con-acusacion-constitucional-por-escandalo-andahuasi
+- https://rpp.pe/politica/actualidad/declaran-procedente-denuncia-contra-omar-chehade-por-cuatro-delitos-noticia-420115
+- https://peru21.pe/voces/estrepitosa-caida-omar-chehade-38577-noticia/
+
+---
+
+## id 316 — Brazil, 2015 — Other official (Non-Apex)
+
+**Table description.** Nestor Cervero, former director of the international division of Petrobras, was arrested by Brazil's Federal Police on January 14, 2015 as part of Operation Lava Jato (Car Wash) upon arriving at Rio de Janeiro's airport. He was accused of money laundering and corruption, including taking bribes tied to Petrobras purchases such as a drillship, allegedly receiving about USD 15 million from a businessman. In May 2015 he was convicted and sentenced to five years in prison, and he later signed a plea bargain implicating senior politicians.
+
+**Detail.** Nestor Cunat Cervero, who had headed Petrobras's international area, was arrested on January 14, 2015 at Rio de Janeiro's Tom Jobim airport on his return from London, as an advance of the Lava Jato investigation. Prosecutors charged him with money laundering and active corruption alongside money changer Alberto Youssef and lobbyist Fernando Soares (Fernando Baiano), tied to bribery in Petrobras deals including the 2006 purchase of a drilling ship, with an alleged USD 15 million charged from businessman Julio Camargo of Toyo Setal. On May 26, 2015 he was sentenced to five years in closed-regime prison for money laundering. He subsequently signed a collaboration (plea) agreement, giving testimony that implicated senior political figures.
+
+**Sources.**
+- https://www.conjur.com.br/2015-jan-14/ex-diretor-petrobras-nestor-cervero-preso-policia-federal/
+- https://agenciabrasil.ebc.com.br/politica/noticia/2015-05/nestor-cervero-e-condenado-cinco-anos-de-prisao-por-lavagem-de-dinheiro
+- https://pt.wikipedia.org/wiki/Nestor_Cerver%C3%B3
+
+---
+
+## id 317 — Argentina, 2017 — Lower judiciary (Non-Apex)
+
+**Table description.** Alberto Nisman, the federal prosecutor leading Argentina's investigation of the 1994 AMIA Jewish center bombing, on January 14, 2015 formally accused President Cristina Fernandez de Kirchner and Foreign Minister Hector Timerman of conspiring to shield Iranian suspects through a 2013 memorandum of understanding with Iran. On January 18, 2015, one day before he was to present the accusation to Congress, Nisman was found dead of a gunshot in his Buenos Aires apartment. Argentine federal courts later ruled the death a homicide tied to his denunciation, though no perpetrators have been convicted.
+
+**Detail.** Alberto Nisman headed the Special Prosecution Unit for the AMIA case (UFI-AMIA), which investigated the 1994 bombing of the Argentine Israelite Mutual Association that killed 85 people. On January 14, 2015 he filed a criminal complaint accusing President Cristina Fernandez de Kirchner, Foreign Minister Hector Timerman and others of a plan to cover up the responsibility of Iranian officials in exchange for commercial benefits, embodied in the 2013 Argentina-Iran memorandum of understanding. On January 18, 2015, hours before he was scheduled to testify before a congressional committee on January 19, Nisman was found dead of a gunshot wound to the head in his apartment in the Le Parc towers, Puerto Madero. The death was initially treated as a possible suicide but was later reclassified; in 2018 the Federal Chamber of Buenos Aires held that Nisman was murdered as a direct consequence of his complaint against Fernandez de Kirchner, and in 2025 the justice system ratified that he was assassinated. As of the reporting the case had not reached trial and no material or intellectual authors had been convicted.
+
+**Sources.**
+- https://chequeado.com/el-explicador/a-10-anos-de-la-muerte-de-alberto-nisman-en-que-estado-se-encuentra-la-causa-por-su-fallecimiento-y-que-paso-con-su-denuncia-contra-cfk/
+- https://www.diariodecuyo.com.ar/argentina/Para-la-Camara-Federal-Nisman-fue-asesinado-por-su-denuncia-contra-CFK-20180601-0089.html
+
+---
+
+## id 318 — Costa Rica, 2015 — Lower judiciary (Non-Apex)
+
+**Table description.** Ana Lorena Brenes, Attorney General (Procuradora General) of Costa Rica, reported that in a January 2015 meeting Deputy Minister of the Presidency Daniel Soley Gutierrez offered her an ambassadorship so she would vacate her post, which critics viewed as improper pressure on an independent state legal office. The affair, known as the caso Soley, forced Soley to resign as Deputy Minister and triggered lengthy legislative hearings that strained President Luis Guillermo Solis's government. It remained a political and ethics scandal rather than a prosecuted crime; Brenes herself said she did not regard the offer as a bribe.
+
+**Detail.** Ana Lorena Brenes Esquivel served as Costa Rica's Procuradora General (Attorney General, head of the state legal counsel office) from 2004 to 2016. Early in 2015, in the first major scandal of Luis Guillermo Solis's administration, it emerged that Deputy Minister of the Presidency Daniel Soley Gutierrez had met with Brenes and apparently offered her an embassy posting so she would leave the Procuraduria, an office the government reportedly found inconvenient. The controversy, dubbed the caso Soley, produced weeks of media coverage and legislative appearances. Soley presented his resignation as Deputy Minister of the Presidency, which President Solis accepted, and the episode led to the departure of three government figures. Brenes publicly stated that she did not view the offer as a bribe (the flagging headline reads 'Yo no vi el ofrecimiento como soborno'). The matter was a political and institutional-independence scandal and did not result in a criminal corruption conviction.
+
+**Sources.**
+- https://www.nacion.com/el-pais/politica/daniel-soley-renuncio-como-viceministro-de-la-presidencia/RIQD7O557VB7XOIZNVG733DGZA/story/
+- https://www.nacion.com/revista-dominical/ana-lorena-brenes-protagonista-de-una-larga-tormenta-por-reunion-con-daniel-soley/OMKSCBPDBNBSHLCVKINGEKMJCM/story/
+- https://crhoy.com/fallecio-ana-lorena-brenes-exprocuradora-que-denuncio-presiones-del-gobierno-de-luis-guillermo-solis/
+
+---
+
+## id 322 — Bolivia, 2015 — Other official (Non-Apex)
+
+**Table description.** Nemesia Achacollo, Bolivia's Minister of Rural Development and Lands and former head of the Fondo Indigena (indigenous development fund), was implicated after a February 2015 Comptroller General report found 153 projects that were paid for but never built. Investigators estimated a loss of roughly 200 million bolivianos and identified thousands of people linked to phantom or fraudulent projects funded by the state fund. Achacollo later faced prosecution and detention, and the case became one of the largest graft scandals of the Evo Morales era.
+
+**Detail.** The Fondo de Desarrollo para los Pueblos Indigenas Originarios y Comunidades Campesinas (Fondo Indigena, or Fondioc) channeled state resources to indigenous and peasant community projects. On February 12, 2015 a report by the Comptroller General of the State (Contraloria General del Estado) revealed 153 projects that had been disbursed and reported as executed but were never completed, many lacking technical files or physical evidence of works and disbursed without supervision. The Comptroller identified more than 2,000 people connected to irregular handling of some 1,100 approved projects and an estimated damage of nearly 200 million bolivianos; later Public Ministry estimates rose substantially (into the hundreds of millions of bolivianos across thousands of projects). Officials tied to the governing Movimiento al Socialismo (MAS) were implicated, most prominently Nemesia Achacollo, then Minister of Rural Development and Lands and former executive of the fund. Achacollo was subsequently prosecuted and detained. The scandal is considered one of the most serious corruption cases of the Morales government.
+
+**Sources.**
+- https://eju.tv/2025/07/fondo-indigena-la-fiscalia-cuenta-con-314-pruebas-30-testigos-y-evidencia-de-153-proyectos-fantasmas/
+- https://www.infobae.com/america/america-latina/2025/12/14/fondo-indigena-el-caso-de-corrupcion-que-llevo-a-luis-arce-a-la-carcel-en-bolivia-una-decada-de-obras-fantasma-y-millones-desviados/
+- https://www.servindi.org/actualidad/146383
+
+---
+
+## id 323 — Honduras, 2015 — Other official (Non-Apex)
+
+**Table description.** Around 2014 and 2015 Honduras's Instituto de la Propiedad (Property Institute), the national land-titling and registry agency, became the focus of a major corruption scandal, and its governing board announced the hiring of an audit firm to investigate irregularities dating to earlier administrations. Reported abuses included falsified signatures, titling of the same land to multiple buyers, privatization of communal (ejidal) land, and use of the registry to launder proceeds of organized crime, with cases documented in Roatan, La Ceiba and other areas. Several cases were later referred to the Public Ministry for prosecution.
+
+**Detail.** The Instituto de la Propiedad (IP) is the Honduran agency responsible for property registration and titling. Beginning around May 2014 and continuing into 2015, numerous acts of corruption were uncovered that had accumulated across administrations, including forged signatures, irregular privatization of ejidal (communal) lands, and the sale of the same plot to different buyers in departments such as Valle, Atlantida (La Ceiba), Cortes (Puerto Cortes) and the Bay Islands. Documented cases included the irregular issuance in Roatan of full ownership titles handled from capital offices, and the titling of roughly 105 plots on privately owned urban land in La Ceiba. The IP's Consejo Directivo announced the contracting of a national or international audit firm to conduct an in-depth internal audit of past administrations, the development flagged by the headline. Reporting also linked the registry to laundering of organized-crime money. By 2016 several IP cases had been taken to court. The scandal is well documented as institutional, though the flagging item does not single out one named official.
+
+**Sources.**
+- https://www.elheraldo.hn/honduras/firma-investigara-corrupcion-en-instituto-de-la-propiedad-ILEH713218
+- https://www.elheraldo.hn/honduras/espantosa-corrupcion-en-instituto-de-la-propiedad-ALEH711265
+- https://insightcrime.org/news/brief/honduras-property-registry-laundered-org-crime-cash/
+
+---
+
+## id 33 — Costa Rica, 2011 — Congressman (Non-Apex)
+
+**Table description.** Jorge Angulo, a National Liberation Party (PLN) deputy in Costa Rica's Legislative Assembly, was charged by the Public Prosecutor's Office on November 29, 2011 before Chamber Three (Sala III) of the Supreme Court with seven crimes, including four counts of concussion (concusion), two of influence peddling and one of extortion. The accusation centered on his alleged interference in JUDESUR, the regional development board managing the Golfito free-trade zone, including charging personal lodging and meals to the entity and pressuring a contractor building a school. After he left Congress on April 30, 2012 his case moved from Sala III to an ordinary court, and he ultimately never faced trial.
+
+**Detail.** Jorge Angulo was a deputy for the province of Puntarenas, elected with the Partido Liberacion Nacional (PLN). On November 29, 2011 the Fiscalia (Public Prosecutor's Office) accused him before Sala III of the Supreme Court of Justice for seven offenses: four counts of concusion (a form of extortion or abuse by a public official), two of trafico de influencias (influence peddling) and one of simple extortion. The facts related to his alleged interference in the Junta de Desarrollo Regional de la Zona Sur (JUDESUR), which administers the Golfito free-trade zone, including a charge of about 971,000 colones for the deputy's lodging and meals at a Golfito hotel being billed to JUDESUR, and alleged pressure to obtain money from the firm COIN KRJ S.A., which was building a school in San Vito, Coto Brus, under a JUDESUR contract. On April 30, 2012 Angulo ceased to be a legislator and, having lost the jurisdictional privilege, his case was transferred from Sala III to an ordinary court. He never ultimately reached trial.
+
+**Sources.**
+- https://www.nacion.com/el-pais/politica/jorge-angulo-el-diputado-acusado-por-corrupcion-que-nunca-llego-a-juicio/RODRDZAWI5D6ZHMKMFHOQTQOOU/story/
+- https://www.nacion.com/el-pais/politica/juicio-a-diputado-jorge-angulo-postergado-para-el-5-de-agosto/PEYCBOBKVFD2HOBW2NNGQF42D4/story/
+
+---
+
+## id 332 — Guatemala, 2015 — Congressman (Non-Apex)
+
+**Table description.** The caso IGSS-Pisa concerned an irregular contract between Guatemala's Social Security Institute (IGSS) and the pharmaceutical firm Pisa for kidney-dialysis services, in which officials were accused of taking illegal commissions and dozens of patients died. Otto Fernando Molina Stalling, son of Supreme Court of Justice magistrate Blanca Stalling, was arrested in May 2015 and charged with illicit association and illegal collection of commissions as an alleged negotiator between the IGSS and Pisa. He was later convicted and sentenced to about six years, and in 2017 his mother, magistrate Blanca Stalling, was removed from the Supreme Court and prosecuted after a judge reported she pressured him to favor her son.
+
+**Detail.** In the caso IGSS-Pisa, on May 20, 2015 the Public Ministry captured members of the board of directors of the Instituto Guatemalteco de Seguridad Social (IGSS) over an irregular contract with the pharmaceutical company Pisa to provide dialysis services to patients with kidney disease; the substandard services were linked to numerous patient deaths. Otto Fernando Molina Stalling, son of Supreme Court of Justice (CSJ) magistrate Blanca Stalling, was charged with asociacion ilicita (illicit association) and cobro ilegal de comisiones (illegal collection of commissions); prosecutors described him as the negotiator between the IGSS and Pisa. A court rejected an additional influence-peddling charge for lack of proof of whom he influenced. Molina Stalling was later convicted and sentenced by the Eleventh Criminal Court to about six years and three months for illegal collection of commissions. In 2017 magistrate Blanca Stalling was separated from the CSJ and prosecuted after Judge Carlos Ruano denounced that she had pressured him to grant house arrest and favor her son. The record classifies this under the Supreme-Court-justice/congressman category via the Stalling connection.
+
+**Sources.**
+- https://www.soy502.com/articulo/caso-igss-esta-resolucion-jueza
+- https://www.prensalibre.com/guatemala/justicia/el-audio-donde-blanca-stalling-pide-a-juez-que-favorezca-a-su-hijo/
+- https://www.prensalibre.com/guatemala/justicia/juez-denuncia-presiones-de-magistrada-blanca-stalling/
+
+---
+
+## id 334 — Panama, 2015 — Other official (Non-Apex)
+
+**Table description.** Cristobal Salerno, a Panamanian businessman linked to the firm Cobranzas del Istmo (CISA), revealed a corruption scheme in which CISA was contracted during Ricardo Martinelli's government to collect delinquent taxes for the national revenue authority. Salerno confessed that he delivered about USD 4 million in bribes to Luis Cucalon, former Director General of Revenue (DGI), and CISA took tens of millions in commissions amid audited irregularities. Salerno was later sentenced to 48 months in prison and Cucalon to a longer term, with orders to repay millions.
+
+**Detail.** Cobranzas del Istmo, S.A. (CISA) was contracted during the government of Ricardo Martinelli (2009-2014) to collect delinquent taxes for the Direccion General de Ingresos (DGI). Businessman Cristobal Salerno, associated with CISA, revealed the corruption scheme; in his sworn declaration he admitted delivering roughly USD 4 million to former DGI Director Luis Enrique Cucalon as bribes. Audits showed CISA received about USD 47.1 million in commissions for collecting some USD 172.9 million in delinquent accounts, with irregularities including withheld collections not remitted, commissions above agreed rates, and duplicated commission payments; the company also received large sums for collecting on behalf of the state airport company Tocumen, S.A. Salerno was sentenced to 48 months in prison for embezzlement (peculado) and corruption of public servants and agreed to return more than USD 20 million; Cucalon received a longer sentence (reported at 96 months) and financial penalties. Courts subsequently ordered Cucalon, Salerno and CISA to pay multimillion-dollar restitution.
+
+**Sources.**
+- https://www.prensa.com/judiciales/Cristobal-Salerno-corrupcion-Cobranzas-Istmo_0_4214578669.html
+- https://www.tvn-2.com/nacionales/politica/cristobal-salerno-martinelli-cobranzas-istmo-video_1_1786482.html
+- https://newsroompanama.com/2026/03/17/luis-enrique-cucalon-cristobal-salerno-and-cobranzas-del-istmo-ordered-by-the-courts-to-pay-4-4-million/
+
+---
+
+## id 340 — Guatemala, 2015 — Congressman (Non-Apex)
+
+**Table description.** Pedro Muadi Menendez, former president of the Congress of Guatemala (2013), was captured in 2015 in one of the early anti-corruption cases brought by the Public Ministry and the CICIG, and amid the scandal saw his bid for reelection as a deputy collapse. He was accused in the plazas fantasma (phantom jobs) scheme of using a company to place nearly 30 people on the congressional payroll who did not actually work, with their salaries funneled back to him, defrauding the state of roughly USD 500,000. In March 2020 he was convicted of embezzlement by deduction, illicit association and money laundering and sentenced to more than 30 years, though he was released from preventive detention in December 2020.
+
+**Detail.** Pedro Muadi Menendez presided over the Congress of Guatemala in 2013. He was captured in 2015 in one of the first cases of the anti-corruption crackdown led by the Public Ministry and the International Commission Against Impunity in Guatemala (CICIG), an event that coincided with the loss of his candidacy for reelection as deputy amid the scandal (the flagging headline reads 'Expresidente del Congreso pierde su candidatura a diputado, tras escandalo de corrupcion'). In the plazas fantasma (phantom positions) case, prosecutors proved he used one of his companies to arrange the hiring of nearly 30 people in Congress who never reported to work, with their salary money deposited into his company's accounts, defrauding the state by approximately USD 500,000. In March 2020 he was convicted of peculado por sustraccion (embezzlement by deduction), asociacion ilicita and money laundering and sentenced to about 30 years and eight months. He was released from preventive detention in December 2020 after roughly six years.
+
+**Sources.**
+- https://www.prensalibre.com/guatemala/justicia/pedro-muadi-expresidente-del-congreso-recupera-su-libertad-tras-permanecer-seis-anos-en-prision-breaking/
+- https://www.abc.com.py/internacionales/2020/03/03/expresidente-del-congreso-de-guatemala-es-condenado-a-30-anos-por-corrupcion/
+- https://insightcrime.org/news/brief/guatemala-congress-leader-latest-to-fall-anti-impunity-crackdown/
+
+---
+
+## id 343 — Guatemala, 2015 — Other official (Non-Apex)
+
+**Table description.** Gustavo Martinez, Secretary General of the Presidency of Guatemala and son-in-law of President Otto Perez Molina, was arrested on July 9, 2015 in the caso Redes. He was charged with illicit association and influence peddling as part of a network that traded official favors, including through the tax administration (SAT) at the Puerto Quetzal customs. He was ordered into pretrial prison without alternative measures, and the case was one of several corruption scandals that contributed to the collapse of the Perez Molina government.
+
+**Detail.** Gustavo Martinez served as Secretary General (secretario privado) of the Presidency of Guatemala and was the son-in-law of President Otto Perez Molina. On July 9, 2015 he was captured by the Public Ministry in the caso Redes and charged with asociacion ilicita (illicit association) and trafico de influencias (influence peddling). Investigators alleged he was part of a network that exchanged favors involving the Ministry of Energy and Mines and the Superintendencia de Administracion Tributaria (SAT) at the Puerto Quetzal customs, and that he managed the president's agenda to arrange meetings for prominent business figures; commissions were linked to companies such as Jaguar Energy and Zeta Gas, along with judicial corruption. He was ordered to prison without the option of an alternative measure. The case unfolded amid the broader wave of corruption scandals (including La Linea) that forced Perez Molina from office in September 2015.
+
+**Sources.**
+- https://www.prensalibre.com/guatemala/justicia/trasciende-captura-de-gustavo-martinez/
+- https://www.telesurtv.net/news/Guatemala-detenido-por-corrupcion-yerno-de-Otto-Perez-Molina--20150709-0051.html
+- https://www.foxnews.com/world/guatemala-arrests-the-son-in-law-of-president-perez-molina-for-alleged-influence-trafficking
+
+---
+
+## id 346 — Brazil, 2015 — Other official (Non-Apex)
+
+**Table description.** Jorge Luiz Zelada, director of the international division of Brazil's state oil company Petrobras from 2008 to 2012, was targeted in Operation Lava Jato. He was arrested on July 2, 2015 in the operation's 15th phase, called Conexao Monaco, and indicted by federal prosecutors in August 2015 over undeclared funds transferred abroad. He was later convicted of passive corruption and money laundering and sentenced to roughly 12 years, and was released in 2019.
+
+**Detail.** Jorge Luiz Zelada, a Brazilian engineer, was director of the international area of Petrobras from 2008 to 2012, succeeding Nestor Cervero. In Operation Lava Jato he was arrested on July 2, 2015 in the operation's 15th phase, named Conexao Monaco, becoming the fourth former Petrobras director detained (after Paulo Roberto Costa, Renato Duque and Cervero). He was held in preventive detention at the Federal Police superintendence in Curitiba and did not explain undeclared money transferred abroad. In August 2015 he was indicted by the Federal Public Ministry (MPF) and summoned before a parliamentary inquiry (CPI). In January 2016 he was convicted to four years for fraud in bidding, and the same year received a sentence of about 12 years in closed regime for passive corruption (corrupcao passiva) and money laundering (lavagem de dinheiro). He was released in June 2019 under a benefit that extinguished his sentence.
+
+**Sources.**
+- https://www.congressoemfoco.com.br/noticia/47578/lava-jato-pf-indicia-o-ex-diretor-da-petrobras-jorge-zelada
+- https://pt.wikipedia.org/wiki/Jorge_Zelada
+
+---
+
+## id 355 — Panama, 2015 — President (Apex)
+
+**Table description.** Ricardo Martinelli, former President of Panama (2009-2014), was the subject of a criminal case opened by the Supreme Court on June 8, 2015 over the illegal wiretapping of about 150 people, including opponents, journalists and businessmen, using the National Security Council. In an October 9, 2015 accusation prosecutors sought a 21-year sentence for interception of communications without authorization, illegal surveillance, embezzlement and abuse of office. Martinelli fled to the United States and was declared in contempt, was extradited in 2018, and was ultimately acquitted in the wiretap case in 2019.
+
+**Detail.** In January 2015 Panama's auxiliary prosecutor opened an investigation after a protected witness reported that electronic surveillance equipment in the Consejo de Seguridad Nacional (National Security Council) was being used to spy on political opponents, union and guild leaders, journalists and businessmen. On June 8, 2015 the Supreme Court of Justice admitted complaints and opened a criminal case against former President Ricardo Martinelli, documenting phone taps on about 150 people carried out roughly from 2012 until May 2014. In an accusation dated October 9, 2015, prosecutor Harry Diaz sought a 21-year prison sentence for four crimes: interception of communications without judicial authorization, surveillance and tracking without authorization, embezzlement (peculado) by misappropriation, and abuse of office. On December 11, 2015 Martinelli failed to appear at a hearing and was declared in contempt, and on December 21 the Court authorized his provisional detention. He had fled to the United States, was extradited to Panama in 2018, and after trial was acquitted in the pinchazos (wiretap) case in August 2019.
+
+**Sources.**
+- https://www.swissinfo.ch/spa/cronolog%c3%ada-del-caso-de-escuchas-ilegales-por-el-que-martinelli-fue-absuelto/47098140
+- https://www.telemetro.com/nacionales/2019/08/10/cronologia-escuchas-martinelli-declarado-inocente/2189322.html
+- https://www.diariolibre.com/usa/actualidad/absuelven-al-expresidente-de-panama-martinelli-por-escuchas-ilegales-KG29854178
+
+---
+
+## id 36 — Mexico, 2012 — Governor (Apex)
+
+**Table description.** Mexico's federal government acknowledged on January 30, 2012 that since 2009 it had been investigating three former governors of Tamaulipas, Manuel Cavazos Lerma, Tomas Yarrington Ruvalcaba and Eugenio Hernandez Flores, for alleged ties to organized crime. U.S. and Mexican authorities shared intelligence on their links to the Gulf Cartel and Los Zetas, and U.S. prosecutors accused Yarrington of laundering at least USD 30 million in drug proceeds through Texas real estate. In December 2012 U.S. authorities seized a luxury property in South Padre Island tied to Yarrington, and he and Hernandez Flores were later arrested and extradited.
+
+**Detail.** On January 30, 2012 the Mexican federal government admitted that since 2009 it had been investigating three former governors of the state of Tamaulipas, all of the PRI, for alleged links to organized crime: Manuel Cavazos Lerma, Tomas Yarrington Ruvalcaba and Eugenio Hernandez Flores. Mexican and U.S. authorities shared information on their alleged ties to the Gulf Cartel and Los Zetas. U.S. federal prosecutors accused Yarrington of accepting millions of dollars from drug trafficking beginning in the late 1990s and laundering at least USD 30 million through real estate in Texas. In December 2012 the U.S. government seized a luxury condominium on South Padre Island, Texas, tied to Yarrington and suspected of being acquired with laundered drug money. Yarrington was later captured in Italy in 2017 and extradited to the United States, and Eugenio Hernandez Flores was also arrested and prosecuted for money laundering and organized-crime ties.
+
+**Sources.**
+- https://www.jornada.com.mx/2012/05/13/politica/005n1pol
+- https://www.elfinanciero.com.mx/nacional/2021/05/19/de-yarrington-a-cabeza-de-vaca-los-gobernadores-tamaulipecos-en-problemas-con-la-ley/
+- https://en.wikipedia.org/wiki/Tom%C3%A1s_Yarrington
+
+---
+
+## id 366 — Colombia, 2016 — Other official (Non-Apex)
+
+**Table description.** Santiago Uribe Velez, a rancher and brother of former Colombian president Alvaro Uribe, was captured in late February 2016 in connection with the paramilitary group known as Los 12 Apostoles, allegedly organized in the 1990s from his family hacienda in Antioquia. He was accused of aggravated homicide and of forming an illegal armed group blamed for numerous killings in the region. He was released in 2018 while the case continued and was later convicted, with higher courts ratifying a prison sentence of 28 years in 2025 and 2026.
+
+**Detail.** Santiago Uribe Velez is a cattle rancher and the brother of former Colombian president Alvaro Uribe Velez. He was captured at the end of February 2016 amid the sharp political rivalry between then-president Juan Manuel Santos and former president Alvaro Uribe (the flagging tweet frames it as the capture of 'the rancher Santiago Uribe'). Prosecutors accused him of leading the paramilitary death squad known as Los 12 Apostoles, said to have operated in the 1990s from the La Carolina hacienda in Antioquia (owned by Santiago Uribe and Manuel Mejia), and of aggravated homicide connected to the group's killings. He was released from detention in 2018 while proceedings continued. He was later convicted; the Tribunal Superior de Antioquia upheld his conviction in November 2025 and the Criminal Chamber of the Supreme Court of Justice ratified a 28-year sentence in 2026, after which he surrendered to authorities. This case is primarily a paramilitary and homicide matter rather than a financial-corruption scheme.
+
+**Sources.**
+- https://www.eltiempo.com/amp/justicia/delitos/santiago-uribe-hermano-del-expresidente-alvaro-uribe-se-entrego-tras-fallo-de-la-corte-suprema-que-ratifica-condena-por-caso-de-los-12-apostoles-3563212
+- https://www.infobae.com/colombia/2025/11/25/santiago-uribe-velez-hermano-del-expresidente-alvaro-uribe-fue-condenado-en-segunda-instancia-por-el-caso-de-los-12-apostoles/
+- https://www.rtvcnoticias.com/justicia/investigacion/hablan-las-victimas-del-grupo-paramilitar-de-santiago-uribe-velez
+
+---
+
+## id 373 — Mexico, 2016 — Other official (Non-Apex)
+
+**Table description.** Emilio Lozoya Austin, former director general of the state oil company Pemex during the government of Enrique Pena Nieto, was linked in April 2016 to the Panama Papers leak of the firm Mossack Fonseca, which showed he had sought to set up an offshore company. Lozoya, who had resigned from Pemex in February 2016, publicly denied any wrongdoing and said he never opened companies or accounts in Panama. He was later separately accused of taking more than 10 million USD in bribes from Odebrecht. He was eventually arrested in Spain in 2020 and extradited to Mexico.
+
+**Detail.** Emilio Lozoya Austin led Pemex from 2012 until he resigned in February 2016. In early April 2016 the Panama Papers investigation revealed a copy of his passport in the Mossack Fonseca archives and reporting that he had explored creating an offshore vehicle (linked to a Dubai venture). Lozoya categorically denied on social media any relationship with Mossack Fonseca or any Panamanian company or account. The Panama Papers episode fed into wider corruption inquiries: he was subsequently accused of receiving more than 10 million USD in Odebrecht bribes (2010-2014) and of the Agronitrogenados fertilizer-plant fraud. He was arrested in Malaga, Spain, in February 2020 and extradited to Mexico in July 2020, where he became a cooperating witness and faced money-laundering and bribery charges.
+
+**Sources.**
+- https://en.wikipedia.org/wiki/Emilio_Lozoya_Austin
+- https://www.forbes.com/sites/doliaestevez/2016/04/11/mexicos-promise-to-investigate-33-individuals-linked-to-the-panama-papers-is-met-with-skepticism/
+- https://www.milenio.com/negocios/emilio-lozoya-se-deslinda-de-panama-papers
+
+---
+
+## id 379 — Brazil, 2016 — Other official (Non-Apex)
+
+**Table description.** Romero Juca, then Planning Minister in Michel Temer's government and a senator, was caught on a secret recording published on 23 May 2016 by the newspaper Folha de S.Paulo. In the taped March 2016 conversation with former Transpetro president Sergio Machado, Juca discussed a pact, including Dilma Rousseff's removal, to stanch the bleeding of the Lava Jato corruption investigation into Petrobras. Amid the outcry Juca stepped aside from the ministry on 24 May 2016 and returned to his Senate seat.
+
+**Detail.** Romero Juca was Planning Minister and one of the closest allies of interim President Michel Temer. On 23 May 2016 Folha de S.Paulo published audio recorded in March 2016 of a conversation between Juca and Sergio Machado, ex-senator and former head of Petrobras subsidiary Transpetro, who was negotiating a plea deal. In the recording Juca spoke of a broad pact among politicians and elements of the judiciary and military to stop the advance of Operation Lava Jato, suggesting that Rousseff's impeachment would help stanch the bleeding. The revelation caused an immediate political crisis; Juca announced on 23-24 May 2016 that he would step aside from the Planning Ministry and returned to the Senate. He continued to be investigated in connection with the Petrobras graft scheme.
+
+**Sources.**
+- https://en.wikipedia.org/wiki/Romero_Juc%C3%A1
+- https://www.aljazeera.com/news/2016/5/24/brazil-minister-romero-juca-quits-over-leaked-call
+- https://feeds.bbci.co.uk/news/world-latin-america-36365781
+
+---
+
+## id 381 — Guatemala, 2016 — Congressman (Non-Apex)
+
+**Table description.** The Plazas Fantasma (ghost jobs) case, presented in 2016 by the Public Ministry and the UN-backed CICIG, targeted members of the Congressional board of directors of Guatemala for 2014-2015. Investigators found that numerous people were placed on the Congress payroll, drawing monthly salaries of roughly 15,000 to 20,000 quetzales, without actually working. Several former deputies, including figures tied to former Congress president Luis Rabbe, were ordered to trial for abuse of authority, illegal appointments and embezzlement; the case was later closed without convictions.
+
+**Detail.** In 2016 the Public Ministry (MP) and the International Commission against Impunity in Guatemala (CICIG) unveiled the Plazas Fantasma case. It established that the leadership boards of Congress in 2014 and 2015 hired people who did not attend work but collected salaries of about 15,000 to 20,000 quetzales per month. Accused ex-deputies and officials included Alfredo Rabbe, Selvin Garcia, Cesar Fajardo, Alexander Castillo, Julio Cesar Lopez Villatoro, Carlos Herrera Quezada, Christian Boussinot and Aristides Crespo, among others, tied to the tenure of former Congress president Luis Rabbe. Charges included abuse of authority, illegal appointments (nombramientos ilegales) and embezzlement by subtraction. Over the following years the prosecution stalled, and by 2023 a judge decreed the closure (sobreseimiento) of the case for the accused, so it ended without convictions.
+
+**Sources.**
+- https://www.cicig.org/comunicados-2016-c/caso-plazas-fantasma-ligados-a-proceso-exdiputados-del-congreso/
+- https://www.prensalibre.com/guatemala/justicia/caso-plazas-fantasma-jueza-declara-sobreseimiento-y-exdiputados-senalados-no-enfrentaran-juicio-breaking/
+- https://www.soy502.com/articulo/caso-plazas-fantasma-jueza-cierra-proceso-contra-exdiputados-101567
+
+---
+
+## id 392 — El Salvador, 2016 — Lower judiciary (Non-Apex)
+
+**Table description.** Luis Martinez, who had been El Salvador's Attorney General (Fiscal General) from 2012 to 2015, was captured by the Attorney General's Office on 22 August 2016. Hours earlier prosecutors had arrested businessman Enrique Rais. Martinez was accused of receiving bribes and other benefits from Rais in exchange for favorable handling of prosecutorial files, along with procedural fraud and breach of duties. He later became the first former Salvadoran Attorney General to be convicted and imprisoned.
+
+**Detail.** Luis Antonio Martinez Gonzalez served as El Salvador's Fiscal General from 2012 to 2015. On 22 August 2016 the Fiscalia General de la Republica (FGR) captured him, having hours earlier arrested wealthy businessman Enrique Rais. Prosecutors alleged a network inside the Attorney General's Office, directed by Martinez, that took bribes and favors from officials and businessmen with interests in cases under investigation; Martinez was accused of favoring Rais in a fraud dispute in exchange for money and benefits (including use of Rais's private aircraft for at least 13 trips), constituting bribery (cohecho), procedural fraud and breach of prosecutorial duties. Investigations later tied him to gifts from Rais and former president Mauricio Funes. Martinez was ultimately convicted, becoming the first former Salvadoran Attorney General sentenced to prison.
+
+**Sources.**
+- https://elfaro.net/es/201608/el_salvador/19143/Ex-fiscal-general-Luis-Mart%C3%ADnez-y-empresario-Enrique-Rais-capturados-por-red-de-corrupci%C3%B3n.htm
+- https://historico.elsalvador.com/historico/545785/luis-martinez-el-primer-exfiscal-general-salvadoreno-condenado-a-carcel.html
+- https://www.contrapunto.com.sv/red-de-corrupcion-de-exfiscal-martinez-recibio-17-millones-en-dadivas-de-funes-y-rais/
+
+---
+
+## id 393 — Guatemala, 2016 — President (Apex)
+
+**Table description.** A corruption case reached the family of Guatemalan President Jimmy Morales, who had won on an anti-graft platform. His brother Samuel Everardo Morales Cabrera and his son Jose Manuel Morales Marroquin were investigated over the Botin Registro de la Propiedad case involving false invoices, notably for Christmas baskets and a food service billed to the Property Registry for about 90,000 quetzales each. The two were detained on 18 January 2017 and sent to trial, and were acquitted in 2019.
+
+**Detail.** In the second half of 2016 the Public Ministry and CICIG opened the Botin Registro de la Propiedad case, alleging embezzlement of state funds through simulated transactions at the General Property Registry. It implicated President Jimmy Morales's brother, Samuel Everardo Morales Cabrera, and his son, Jose Manuel Morales Marroquin, over falsified invoices, including roughly 89,958 quetzales for Christmas baskets in 2013 and about 90,000 quetzales for a food service. Morales publicly acknowledged in 2016 that his brother and son had testified before prosecutors. Both were detained on 18 January 2017 and sent to trial in May 2017 on charges linked to fraud and money laundering. In 2019 a Guatemalan penal court acquitted both Samuel Morales and Jose Manuel Morales.
+
+**Sources.**
+- https://cnnespanol.cnn.com/2017/01/18/detenidos-hermano-e-hijo-del-presidente-de-guatemala-en-investigacion-por-corrupcion/
+- https://www.prensalibre.com/guatemala/justicia/absuelven-a-hijo-y-hermano-de-presidente-jimmy-morales-en-caso-botin-en-el-registro-de-la-propiedad/
+- https://www.univision.com/noticias/corrupcion/el-hermano-y-el-hijo-del-presidente-de-guatemala-detenidos-por-corrupcion
+
+---
+
+## id 395 — El Salvador, 2016 — President (Apex)
+
+**Table description.** The Attorney General's Office of El Salvador accused former president Elias Antonio (Tony) Saca, who governed from 2004 to 2009, together with collaborators Elmer Charlaix, Pablo Gomez and Francisco Rodriguez, of embezzlement (peculado), illicit associations and money laundering. Prosecutors alleged the diversion of hundreds of millions of USD in public funds, largely through the presidential secret discretionary budget. Saca was detained on 30 October 2016 and in 2018 was sentenced to ten years in prison and ordered to repay the state.
+
+**Detail.** In 2016 the Fiscalia General de la Republica (FGR) accused former president Elias Antonio Saca and several close aides, including former private secretary Elmer Charlaix, accountant Pablo Gomez and presidential finance official Francisco Rodriguez Arteaga, of peculado (embezzlement), agrupaciones ilicitas (illicit associations) and money laundering. The scheme involved diverting public money, much of it channeled through the presidency's secret discretionary funds (partida secreta), with figures cited around 246 to 300 million USD. Saca was detained on 30 October 2016. In September 2018 he pleaded guilty and was sentenced to ten years in prison and ordered to reintegrate a large sum to the state; co-defendants such as Charlaix and Gomez also received prison terms.
+
+**Sources.**
+- https://elfaro.net/es/201611/el_salvador/19485/El-uso-arbitrario-de-la-partida-secreta-lleva-a-la-detenci%C3%B3n-del-expresidente-Saca-y-su-equipo.htm
+- https://www.nacion.com/el-mundo/politica/justicia-de-el-salvador-confirma-pena-de-10-anos/EXHMV7VVNBAYVLODMYOTK7QLIA/story/
+- https://en.wikipedia.org/wiki/Antonio_Saca
+
+---
+
+## id 403 — Chile, 2017 — Congressman (Non-Apex)
+
+**Table description.** On 23 January 2017 the investigative outlet CIPER published emails from 2014 showing that Senator Jacqueline Van Rysselberghe, then president of the UDI party, received instructions from Luis Felipe Moncada, head of the Biobio fishing-industry association Asipes, while she chaired the Senate Fisheries Commission during debate of the Fishing Law. The emails contained pre-drafted amendments favorable to the industry, and a company in Asipes had financed part of her campaign. The revelations were a major political scandal, though they did not result in a criminal conviction of the senator.
+
+**Detail.** A CIPER Chile investigation dated 23 January 2017 disclosed a 2014 email exchange between UDI senator Jacqueline Van Rysselberghe and Luis Felipe Moncada, president of the Asociacion de Industriales Pesqueros del Biobio (Asipes). While she presided over the Senate Fisheries Commission handling the Ley de Pesca, Moncada sent her ready-made amendments (indicaciones) and instructions to present, suspend or delay measures opposed by the industrial fishing sector, at the expense of artisanal fishermen. Reporting also noted that a fishing firm linked to Asipes (Camanchaca) had helped finance her campaign. The disclosures formed part of the broader Chilean fishing-industry influence scandals connected to the Ley de Pesca and companies such as Corpesca. The episode was politically damaging but did not, on the available record, lead to a criminal conviction of Van Rysselberghe herself.
+
+**Sources.**
+- https://www.ciperchile.cl/2017/01/23/asi-pauteo-asipes-a-la-senadora-van-rysselberghe-cuando-presidio-la-comision-de-pesca/
+- https://www.elmostrador.cl/noticias/pais/2017/01/24/van-rysselberghe-era-pauteada-por-gremio-pesquero-mientras-se-debatia-la-ley-de-pesca/
+- https://cooperativa.cl/noticias/economia/sectores-productivos/pesca/revelan-correos-entre-pesquera-y-van-rysselberghe-mientras-se-discutia/2017-01-24/073731.html
+
+---
+
+## id 41 — Ecuador, 2012 — Other official (Non-Apex)
+
+**Table description.** The Cofiec case, also called the Duzac case, involved an irregular loan of about 800,000 USD granted in December 2011 by Cofiec, a state-controlled bank, to Argentine businessman Gaston Duzac, without proper financial evaluation or guarantees, and never repaid. The loan was tied to Pedro Delgado, president of the Central Bank board and a cousin of President Rafael Correa, who chaired the trust overseeing Cofiec. The scandal broke publicly in August 2012; Delgado resigned in December 2012 (also admitting a falsified degree) and fled to the United States, and in 2014 he was sentenced to eight years for embezzlement.
+
+**Detail.** The Caso Cofiec (Duzac) centered on a loan of roughly 800,000 USD approved in record time (2 to 7 December 2011) by the state-controlled bank Cofiec, held through the AGD-CFN No Mas Impunidad trust, in favor of Argentine businessman Gaston Duzac, who lacked adequate financial standing and provided no real guarantees; the loan went unpaid. First reported around 20 August 2012, the case implicated Pedro Delgado Campana, president of the board of Ecuador's Central Bank and a cousin of President Rafael Correa, who presided over the public trust controlling Cofiec. In December 2012 Delgado resigned his posts and admitted he had used a false university economics degree for 22 years; he subsequently fled to the United States. On 1 October 2014 an Ecuadorian court sentenced him to eight years in prison for peculado (embezzlement).
+
+**Sources.**
+- https://es.wikipedia.org/wiki/Caso_Cofiec
+- https://en.wikipedia.org/wiki/Pedro_Delgado_Campa%C3%B1a
+- https://www.elcomercio.com/actualidad/negocios/problemas-entrega-de-creditos-pasan.html
+
+---
+
+## id 422 — Brazil, 2017 — Governor (Apex)
+
+**Table description.** On 25 May 2017 Brazil's Federal Police launched Operation Panatenaico and arrested two former governors of the Federal District (Brasilia), Jose Roberto Arruda and Agnelo Queiroz, over corruption in the construction of the Mane Garrincha stadium, the most expensive built for the 2014 World Cup. Investigators, aided by an Andrade Gutierrez plea deal, alleged a scheme that inflated the stadium's cost, with overbilling of nearly 900 million reais. Others arrested included former Terracap and Novacap officials and, in a related move, former deputy governor Tadeu Filippelli.
+
+**Detail.** Operation Panatenaico, carried out on 25 May 2017 by the Brazilian Federal Police, targeted graft in the works for the Mane Garrincha National Stadium in Brasilia, the costliest of the 2014 World Cup venues, whose price rose from an initial 600 million reais to about 1.575 billion reais, with suspected overbilling (superfaturamento) of nearly 900 million reais. Two former governors of the Federal District, Jose Roberto Arruda and Agnelo Queiroz, were arrested, along with businessman Fernando Marcio Queiroz (owner of Via Engenharia) and former presidents of the state companies Terracap and Novacap, Maruska Lima de Souza Holanda and Nilson Martorelli. Former deputy governor Tadeu Filippelli, at the time a special adviser to President Michel Temer, was also arrested and removed from that post. The investigation stemmed from a plea agreement by construction firm Andrade Gutierrez; courts later ordered the release of some defendants during proceedings.
+
+**Sources.**
+- https://www.gazetadopovo.com.br/politica/republica/corrupcao-no-estadio-mais-caro-da-copa-desencadeia-prisao-de-2-ex-governadores-4t5rhuh2b7aln42w1qnkoaf8t/
+- https://www.metropoles.com/distrito-federal/confira-os-nomes-das-pessoas-presas-pela-operacao-da-pf-em-brasilia
+- https://www.poder360.com.br/justica/justica-manda-soltar-ex-governador-do-df-agnelo-queiroz/
+
+---
+
+## id 436 — Argentina, 2017 — Other official (Non-Apex)
+
+**Table description.** Julio De Vido, former Planning Minister under Nestor and Cristina Fernandez de Kirchner, was prosecuted in the Rio Turbio case over irregularities in the bidding, execution and payment of cost overruns for the Rio Turbio coal thermal power plant and mine in Santa Cruz. Federal judge Luis Rodriguez indicted him for fraudulent administration against the state, with an alleged embezzlement of about 265 million pesos, and imposed an embargo of 250 million pesos on 9 November 2017. After Congress stripped his immunity, De Vido was arrested in October 2017 and later sent to oral trial.
+
+**Detail.** The Rio Turbio case investigated irregularities in the tendering, awarding, execution, financing and payment of cost overruns for the construction of the Rio Turbio coal-fired thermal power station and the associated Yacimientos Carboniferos Rio Turbio (YCRT) coal mine in Santa Cruz province. Federal judge Luis Rodriguez summoned Julio De Vido, the former Minister of Federal Planning, and dozens of others to testify and barred them from leaving the country. On 9 November 2017 De Vido was indicted (procesado) for fraudulent administration to the detriment of the public administration, with the alleged fraud around 265 million pesos, and an embargo of 250 million pesos was imposed. The Chamber of Deputies lifted his parliamentary immunity, and he was detained in late October 2017; the case was subsequently elevated to oral trial.
+
+**Sources.**
+- https://www.infobae.com/politica/2017/11/09/procesaron-a-julio-de-vido-por-el-caso-de-rio-turbio-y-lo-embargaron-en-250-millones/
+- https://www.cij.gov.ar/nota-27553-R-o-Turbio--el-juez-Rodr-guez-cit--a-indagatoria-a-Julio-De-Vido-y-a-otras-36-personas-y-les-prohibi--la-salida-del-pa-s.html
+- https://www.rionegro.com.ar/de-vido-va-a-juicio-oral-por-presunta-defraudacion-1102144/
+
+---
+
+## id 437 — Costa Rica, 2017 — Lower judiciary (Non-Apex)
+
+**Table description.** Celso Gamboa Sanchez, a justice of the Third Chamber of Costa Rica's Supreme Court and a former Security Minister, was investigated in 2017 for alleged abuse of authority and influence peddling, and his name became tied to the Cementazo scandal involving favors for businessman Juan Carlos Bolanos. Between August and November 2017 the Public Ministry opened seven criminal investigations against him for offenses including abuse of authority, influence peddling, bribery and prevarication. He was suspended by the Supreme Court in October 2017 and removed by the Legislative Assembly in April 2018.
+
+**Detail.** Celso Gamboa Sanchez rose to be a magistrate of the Sala Tercera (criminal chamber) of Costa Rica's Corte Suprema de Justicia after serving as Minister of Security. In 2017 he became a central figure in the Cementazo scandal, in which a state bank loan and regulatory favors benefited cement importer Juan Carlos Bolanos. Prosecutors investigated whether Gamboa incurred in abuse of authority and influence peddling (trafico de influencias), including on behalf of San Jose figures such as Johnny Araya. Between 8 August and 13 November 2017 the Public Ministry opened seven criminal causes against him for abuse of authority, influence peddling, breach of duties, bribery and prevarication. The Corte Plena suspended him for three months on 19 October 2017, and the Legislative Assembly removed him from the bench on 10 April 2018. He was later prosecuted, and years afterward became the subject of a US extradition request on drug-trafficking allegations.
+
+**Sources.**
+- https://es.wikipedia.org/wiki/Celso_Gamboa
+- https://ameliarueda.com/nota/fiscalia-abrio-siete-causas-penales-a-celso-gamboa-entre-agosto-y-noviembre
+- https://www.nacion.com/data/fiscalia-acusa-penalmente-a-celso-gamboa-por/6KJKZK2OQNDKPEGRGMTTQXSMXA/story/
+
+---
+
+## id 44 — Brazil, 2012 — Other official (Non-Apex)
+
+**Table description.** In November 2012, following the Federal Police probe Operation Porto Seguro, President Dilma Rousseff ordered the dismissal of high-ranking officials after 18 people were detained for running a corruption network that falsified technical reports to serve business interests. Among those implicated were Rosemary Novoa de Noronha, head of the presidency's office in Sao Paulo, and Paulo Rodrigues Vieira, director-general of the National Water Agency (ANA), together with his brother Rubens Vieira at the civil aviation agency ANAC. Rousseff ordered the officials removed on 24 November 2012.
+
+**Detail.** Operation Porto Seguro, run by Brazil's Federal Police in November 2012, uncovered a network that adulterated or fabricated official technical reports and permits to benefit business people. Police detained 18 people. President Dilma Rousseff ordered the immediate dismissal of the government officials involved, announced around 24 November 2012. Central figures included Rosemary Novoa de Noronha, chief of the presidency's regional office in Sao Paulo, whose role was to place allies in public bodies; Paulo Rodrigues Vieira, director-general of the Agencia Nacional de Aguas (ANA, National Water Agency); his brother Rubens Carlos Vieira, an infrastructure director at the civil aviation agency ANAC; and the deputy attorney general of the presidency, Jose Weber Holanda Alves. The scandal touched appointments made under Noronha's influence within federal agencies.
+
+**Sources.**
+- https://www.publico.pt/2012/11/25/mundo/noticia/novo-escandalo-de-corrupcao-no-brasil-envolve-chefe-de-gabinete-da-presidencia-1574905/amp
+- https://www.cmjornal.pt/mundo/detalhe/dilma-demite-altos-funcionarios-do-governo-acusados-de-corrupcao
+- https://www.dn.pt/arquivo/diario-de-noticias/dilma-afasta-do-governo-suspeitos-de-corrupcao.html
+
+---
+
+## id 45 — Bolivia, 2012 — Other official (Non-Apex)
+
+**Table description.** In late November 2012 Bolivia's Ministry of Government revealed a prosecutorial extortion ring in which officials and prosecutors demanded money from prisoners in exchange for their freedom, including a reported demand of 50,000 USD from a detained American businessman, Jacob Ostreicher. The scheme, made public on 27 November 2012 with the first arrests, was allegedly led by ministry legal advisers Fernando Rivera Tardio and Denis Rodas. About a dozen people, including prosecutors, were sent to prison in what became one of the gravest corruption scandals of Evo Morales's government.
+
+**Detail.** On 27 November 2012 Bolivia's Ministerio de Gobierno, under minister Carlos Romero, announced the discovery of an extortion network of officials and prosecutors who preyed on detainees, extracting money in exchange for freedom or favorable legal treatment; among the victims was jailed US businessman Jacob Ostreicher, from whom the ring reportedly demanded 50,000 USD. The first arrests included the ministry's own director and legal adviser, Fernando Rivera Tardio, and adviser Denis Rodas, considered the leaders. Roughly a dozen people, including prosecutors, were imprisoned, with several held at the Palmasola prison in Santa Cruz. The government simultaneously accused a judge and prosecutors of favoring the network. The affair was described as one of the most serious corruption scandals since Evo Morales took power and intersected with high-profile cases such as those of Ostreicher and the Rozsa terrorism investigation.
+
+**Sources.**
+- https://en.wikipedia.org/wiki/Bolivian_prosecutorial_extortion_ring
+- https://www.la-razon.com/nacional/2012/12/05/gobierno-acusa-a-juez-y-fiscales-de-favorecer-a-la-red-extorsiva/
+- https://www.laprensani.com/2012/12/21/internacionales/128138-bolivia-escandalo-por-red-extorsion-en-sistema-de-justicia
+
+---
+
+## id 46 — Argentina, 2013 — President (Apex)
+
+**Table description.** The Ruta del Dinero K (K Money Trail) scandal centered on Lazaro Baez, a construction businessman closely tied to Presidents Nestor Kirchner and Cristina Fernandez de Kirchner and the main public-works contractor in Santa Cruz province. The scheme, exposed on April 14, 2013 by Jorge Lanata on the program Periodismo Para Todos, alleged that roughly USD 55 million tied to public works was laundered abroad through the financial firm SGI, known as La Rosadita. Baez was convicted of aggravated money laundering in February 2021 and sentenced to about 10 to 12 years in prison. Cristina Fernandez de Kirchner was later acquitted in the money-trail case.
+
+**Detail.** On April 14, 2013 the investigative TV program Periodismo Para Todos, led by journalist Jorge Lanata, broadcast reports alleging that businessman Lazaro Baez, a friend of the late former president Nestor Kirchner and one of the largest public-works suppliers in Santa Cruz province, had moved large sums of money out of Argentina to accounts in Switzerland and other jurisdictions. Prosecutors alleged that funds linked to overpriced or fictitious public works were laundered through the financial company SGI (nicknamed La Rosadita), where cash was allegedly counted and routed offshore. Baez was found guilty of aggravated money laundering of approximately USD 55 million (covering roughly 2010 to 2013) in February 2021 and sentenced to about 10 to 12 years. The case also implicated the Kirchner family politically, but Cristina Fernandez de Kirchner was acquitted in the specific money-trail case, and no conviction against Nestor or Cristina Kirchner was reached in that proceeding.
+
+**Sources.**
+- https://en.wikipedia.org/wiki/K_money_trail
+- https://buenosairesherald.com/politics/judiciary/cristina-kirchner-acquitted-in-ruta-del-dinero-case
+- https://www.diariodecuyo.com.ar/argentina/ruta-del-dinero-k-la-corte-confirmo-la-condena-de-lazaro-baez-por-haber-lavado-55-millones-de-dolares-1735173.html
+
+---
+
+## id 464 — Honduras, 2018 — Other official (Non-Apex)
+
+**Table description.** Caso Pandora was a corruption case presented on June 13, 2018 by the OAS-backed Mission Against Corruption and Impunity in Honduras (MACCIH) together with the special prosecutorial unit UFECIC. It revealed the diversion of roughly 282 million lempiras (about USD 11.7 to 12 million) from the Secretariat of Agriculture and Livestock through simulated contracts with the nonprofits Todos Somos Honduras and Dibattista, with the money funneled to finance the 2013 campaigns of the National Party and the Liberal Party. Prosecutors filed 38 charging requests against deputies, former officials and private individuals for embezzlement, fraud, money laundering and document falsification. A judge later ordered the capture of numerous implicated deputies and officials.
+
+**Detail.** On June 13, 2018 MACCIH and the Unidad Fiscal Especial Contra la Impunidad y la Corrupcion (UFECIC) unveiled Caso Pandora, one of the largest political-financing corruption cases in Honduras. According to the investigation, about 282 million lempiras (roughly USD 11.7 to 12 million) were siphoned from the Secretaria de Agricultura y Ganaderia by simulating agricultural-support contracts with two organizations, Todos Somos Honduras and Dibattista, which in theory would run programs for small farmers but instead diverted the funds to political campaigns. The money reportedly benefited campaigns of the National Party and the Liberal Party (and to a lesser extent the Frente Amplio) in the 2013 elections. Prosecutors issued 38 charging requests for abuse of authority, fraud, embezzlement, money laundering and falsification and use of public documents; a judge subsequently ordered the arrest of dozens of implicated deputies and functionaries. The case became emblematic of illicit campaign financing in Honduras.
+
+**Sources.**
+- https://www.oas.org/es/centro_noticias/comunicado_prensa.asp?sCodigo=C-079/18
+- https://a2.latribuna.hn/2018/06/13/maccih-senala-corrupcion-38-funcionarios-diputados-particulares/
+- https://nomada.gt/pais/actualidad/honduras-y-su-caso-pandora-la-primera-gran-captura-de-diputados-explicado-en-5-puntos/
+
+---
+
+## id 466 — Paraguay, 2018 — Congressman (Non-Apex)
+
+**Table description.** The Caseros de Oro (Golden Caretakers) scandal involved Paraguayan deputy Jose Maria Ibanez, who placed three people who worked as caretakers of his private estate onto the payroll of the Chamber of Deputies as ghost administrative employees. First reported around 2013, the case advanced in 2018 when, to avoid an oral public trial, Ibanez publicly and judicially admitted the facts and agreed to restitution. On August 6, 2018 he resigned his seat in the Chamber of Deputies after acknowledging the fraudulent hiring.
+
+**Detail.** The Caseros de Oro case grew out of a journalistic investigation revealing that Paraguayan deputy Jose Maria Ibanez had hired three people who actually worked as caretakers (caseros) of his rural estate but appeared on the Chamber of Deputies payroll as administrative assistants, drawing public salaries for private domestic work. The case surfaced around 2013, and the Public Prosecutor charged Ibanez along with relatives and staff. In 2018 the deputy sought an alternative resolution to avoid an oral and public trial, admitting the facts and offering restitution (reported to include a payment of around 30 million guaranies plus donations such as a generator for a leprosarium). On August 6, 2018 Ibanez presented his resignation from the Chamber after recognizing publicly and before the court that he had arranged the ghost hirings. Efforts to strip him of his seat had been rejected earlier, making his admission and resignation notable.
+
+**Sources.**
+- https://www.paraguay.com/nacionales/ibanez-admite-ser-corrupto
+- https://www.paraguay.com/nacionales/con-salario-de-un-mes-ibanez-se-libera-de-juicio-por-caseros-de-oro-180189
+- https://observador.com.py/jose-maria-ibanez-uno-de-los-casos-de-cobro-indebido-de-honorarios-mas-escandalosos-en-diputados/
+
+---
+
+## id 483 — Honduras, 2018 — Congressman (Non-Apex)
+
+**Table description.** Caso Arca Abierta was a corruption case presented on December 11, 2018 by the UFECIC prosecutorial unit and the OAS mission MACCIH. It targeted five sitting deputies and six former deputies of the Honduran Congress (about 21 people in total) for embezzlement of public funds. Prosecutors alleged the looting of roughly 21.1 million lempiras (about USD 879,000) from the Presidential House, the National Congress and the Finance Secretariat, channeled through the nonprofit Asociacion Planeta Verde in 2015. The funds were meant for social projects but were diverted for personal use.
+
+**Detail.** On December 11, 2018 the Unidad Fiscal Especial Contra la Impunidad y la Corrupcion (UFECIC) of the Public Ministry, together with MACCIH-OAS, presented Caso Arca Abierta, filing a charging request for embezzlement of public funds (malversacion de caudales publicos) against a group that included five current deputies and six former deputies of the National Congress, along with relatives and third parties. According to the investigation, about 21.1 million lempiras (roughly USD 879,000) were diverted in 2015 from the Presidential House, the National Congress and the Secretaria de Finanzas (SEFIN) after resources were transferred to the Asociacion Planeta Verde, a nonprofit used to extract the funds. The money, ostensibly destined for social projects, was diverted for personal benefit. The case became controversial because some accused deputies continued to legislate, and later court rulings and legislative decrees were criticized for favoring impunity.
+
+**Sources.**
+- https://www.oas.org/es/centro_noticias/comunicado_prensa.asp?sCodigo=C-079/18
+- https://www.elheraldo.hn/pais/1241296-466/as%C3%AD-desviaron-los-21-millones-de-lempiras-en-el-caso-arca-abierta
+- https://www.elheraldo.hn/pais/1241289-466/arca-abierta-21-se%C3%B1alados-malversacion-requerimiento-diputados-millones-honduras-
+
+---
+
+## id 49 — Peru, 2013 — President (Apex)
+
+**Table description.** The Ecoteva case involved former Peruvian President Alejandro Toledo (2001 to 2006) and his mother-in-law Eva Fernenbug, mother of former first lady Eliane Karp. On January 31, 2013 prosecutors opened a preliminary investigation into the origin of about USD 5 million used to buy a house and a luxury office in Lima, with the scandal breaking publicly around May 20, 2013. Prosecutors alleged that a Costa Rican shell company called Ecoteva was used to launder more than USD 9 million repatriated to Peru to buy real estate. Fernenbug was charged with money laundering, and Toledo was later denounced and eventually convicted in money-laundering and bribery proceedings.
+
+**Detail.** The Ecoteva scandal began when Peruvian authorities questioned how Eva Fernenbug, the mother-in-law of former president Alejandro Toledo, could have financed high-value real estate in Lima. On January 31, 2013 a prosecutor opened a preliminary investigation into the origin of roughly USD 5 million used to purchase a house and a luxury office, and the matter became a full public scandal around May 20, 2013 after investigative reporting. Prosecutors alleged that a Costa Rica-registered company, Ecoteva, set up in 2012, together with a Panama entity linked to a Peruvian-Israeli businessman close to Toledo, was used to conceal the source of more than USD 9 million that was repatriated to Peru to buy property. Fernenbug was charged with money laundering. Toledo claimed the funds came from inheritance and German reparation payments to Fernenbug, but Peru moved to seize the properties, and in September 2014 Congress voted to denounce Toledo for money laundering. Toledo was later pursued in the broader Odebrecht bribery investigation, extradited from the United States, and convicted, receiving lengthy prison sentences for money laundering and bribery.
+
+**Sources.**
+- https://www.peruviantimes.com/23/toledos-mother-in-law-charged-with-money-laundering/22205/
+- https://perureports.com/alejandro-toledo-indicted-for-money-laundering/
+- https://www.latinpost.com/articles/20938/20140906/peruvian-congress-unanimously-decides-to-denounce-former-president-for-money-laundering.htm
+
+---
+
+## id 493 — Guatemala, 2019 — Other official (Non-Apex)
+
+**Table description.** The Financiamiento UNE case concerned unreported electoral financing for the National Unity of Hope (UNE) party during the 2015 campaign. In August 2019 a judge linked seven people to the proceeding after the Public Ministry, the special prosecutorial unit FECI and the CICIG revealed some 19.5 million quetzales of unregistered financing (a figure later cited as higher). A central figure captured was Gustavo Alejos, former private secretary to President Alvaro Colom (2008 to 2012), accused of unregistered electoral financing and illicit association. Other detainees included a former ministry housing-unit director and a former deputy.
+
+**Detail.** The Caso Financiamiento UNE was presented by the Ministerio Publico, the Fiscalia Especial Contra la Impunidad (FECI) and the UN-backed CICIG, focusing on financing that the UNE party allegedly failed to report during the 2015 electoral campaign, initially quantified at about 19.5 million quetzales. In August 2019 Judge Claudette Dominguez linked seven people to the process. The most prominent was Gustavo Alejos, a party operator who had served as private secretary to former president Alvaro Colom between 2008 and 2012; he was accused of illicit association and unregistered electoral financing, allegedly including a contribution of around 500,000 quetzales by check in May 2015. Other detainees included Victor de Jesus Duarte Mendoza, former director of the Unidad de Desarrollo de Vivienda Popular (Udevipo) of the Ministry of Communications, and former deputy Guillermo Alejandro Sierra. Alejos was already implicated in several other corruption cases and remained in detention.
+
+**Sources.**
+- https://www.prensalibre.com/guatemala/justicia/siete-personas-quedan-ligadas-a-proceso-por-caso-de-financiamiento-a-la-une/
+- https://www.prensalibre.com/guatemala/justicia/mp-y-cicig-efectuan-operativos-por-un-caso-de-corrupcion/
+- https://www.prensalibre.com/guatemala/justicia/capturan-a-exsecretario-privado-de-la-presidencia-gustavo-alejos-por-evasion-ultima-hora/
+
+---
+
+## id 508 — Peru, 2019 — President (Apex)
+
+**Table description.** Faresh Miguel Atala Herrera, former vice president of the state oil company PetroPeru (in office from August 2008 to August 2011), confessed to Peruvian prosecutors in 2019 that he had acted as a front man (testaferro) for former President Alan Garcia to receive about USD 1.3 million in bribes from the Brazilian construction firm Odebrecht. The money was routed through an offshore account of Ammarin Investment in Andorra. Atala came forward after Garcia died by suicide in April 2019 as police prepared to arrest him, becoming a key witness directly implicating the former president. Atala sought a cooperating-witness (colaboracion eficaz) arrangement.
+
+**Detail.** Miguel Atala Herrera served as vice president of PetroPeru between August 3, 2008 and August 19, 2011. In 2019, in testimony to prosecutor Jose Domingo Perez and the special Lava Jato team, Atala confessed that he had acted as a testaferro (front man) for former president Alan Garcia, receiving roughly USD 1.3 million in Odebrecht bribes into an offshore account of the company Ammarin Investment in Andorra and delivering the money in parts to Garcia. Investigators alleged the payments related to Odebrecht public works such as the Lima Metro. Atala said the handovers spanned years, describing dozens of installments. His confession came after Garcia died from a self-inflicted gunshot in April 2019 as officers arrived to arrest him, making Atala the first witness to directly place Garcia as a recipient of the bribes. Atala submitted to a colaboracion eficaz (cooperating witness) process, admitting the crimes in exchange for potential sentencing benefits; an Andorran account tied to the scheme was later blocked.
+
+**Sources.**
+- https://andina.pe/agencia/noticia-quien-es-miguel-atala-confeso-testaferro-alan-garcia-750144.aspx
+- https://larepublica.pe/politica/actualidad/2022/10/07/alan-garcia-bloquean-cuenta-de-testaferro-en-andorra-miguel-atala-herrera-odebrecht-metro-de-lima
+- https://es.wikipedia.org/wiki/Miguel_Atala
+
+---
+
+## id 51 — Argentina, 2013 — Other official (Non-Apex)
+
+**Table description.** General Cesar Milani, named Chief of the General Staff of the Argentine Army by President Cristina Fernandez de Kirchner in July 2013, faced accusations of unjustified illicit enrichment and human-rights complaints. The enrichment allegation stemmed from his inability to justify with his income the June 2010 purchase of a roughly 400 square meter house in San Isidro. He was also investigated over the 1976 disappearance of conscript Alberto Agapito Ledo in La Rioja and Tucuman, including alleged falsification of documents to portray a desertion. In July 2013 Milani presented himself before the courts to deny the accusations. He was later acquitted in the Ledo disappearance case (2019) and of illicit enrichment (2022).
+
+**Detail.** Cesar Milani was appointed head of the Argentine Army by President Cristina Fernandez de Kirchner on July 3, 2013, a promotion clouded by two lines of accusation. First, prosecutors and complainants questioned an alleged illicit enrichment, pointing to his June 2010 purchase of a house of about 400 square meters in the La Horqueta area of San Isidro for around 1,500,000 pesos, which they said his declared income could not justify. Second, human-rights complaints tied him to abuses during the 1976 dictatorship, including the disappearance of conscript Alberto Agapito Ledo while Milani was a sublieutenant in the 141 Engineering Battalion in La Rioja, and alleged falsification of a document portraying Ledo as a deserter. In mid-2013 Milani appeared in court to deny the accusations and place himself at the disposal of justice. Years later he was acquitted: in 2019 in the Ledo disappearance case and in September 2022 by a federal oral court of the illicit-enrichment charge. He was detained in La Rioja in early 2017 during the proceedings.
+
+**Sources.**
+- https://www.infobae.com/politica/2022/09/29/absolvieron-al-ex-jefe-del-ejercito-cesar-milani-por-enriquecimiento-ilicito/
+- https://www.ambito.com/politica/comodoro-py/cesar-milani-el-jefe-ejercito-que-nombro-cristina-y-le-genero-mas-un-dolor-cabeza-n5068582
+- https://diariodecuyo.com.ar/argentina/Absolvieron-a-Cesar-Milani-en-el-juicio-por-la-desaparicion-del-soldado-Ledo-20191129-0073.html
+
+---
+
+## id 511 — Guatemala, 2019 — Other official (Non-Apex)
+
+**Table description.** This entry refers to a Guatemalan vote-buying or electoral-financing matter (referenced as Caso Compra de Votos) said to affect seven political parties during the 2019 electoral year. The closest documented facts are that, around late 2018 and early 2019, the inspector general of the Supreme Electoral Tribunal filed seven criminal complaints against seven parties for obstructing oversight of electoral funds under the Criminal Code, amid broader concern over illicit financing and vote-buying in the 2019 elections. The specific case labeled Compra de Votos affecting seven parties could not be confidently matched to a single, clearly identified prosecution, so details of named officials and outcomes remain uncertain.
+
+**Detail.** The hint references a Guatemalan case tagged Caso Compra de Votos said to strike seven political parties during the 2019 electoral year. Web verification did not produce a single, clearly identified prosecution under that exact label affecting exactly seven parties. The nearest confirmable events are: seven criminal complaints presented around December 2018 and January 2019 by the inspector general of the Tribunal Supremo Electoral (TSE) against seven political parties (reported to include PAN, UCN, Encuentro por Guatemala, URNG, Creo, Winaq, Viva and Todos) for the crime of obstructing the oversight and control of electoral funds (article 407 L of the Criminal Code); and a separate FECI and CICIG line of investigation into vote-buying inside the legislature (2012 to 2015) that led to impeachment requests against Economy Minister Acisclo Valladares Urruela and several congressmen. Because the hint text alone does not disambiguate which specific case is meant, and vote-buying (compra de votos) is legally distinct from obstruction of financial oversight, this entry is left unverified and the description is kept conservative to avoid asserting names, amounts or outcomes that cannot be reliably traced.
+
+**Sources.**
+- https://www.prensalibre.com/guatemala/politica/estos-son-los-partidos-cancelados-y-con-senalamiento-por-financiamiento-electoral-dudoso/
+- https://www.prensalibre.com/guatemala/politica/mp-investiga-a-siete-partidos-politicos-por-impedir-la-fiscalizacion-de-fondos/
+- https://www.cicig.org/case-information/a-legislative-power-subordinated-to-the-executive-branch/?lang=en
+
+**Note.** Not fully verified from available sources; description is conservative.
+
+---
+
+## id 516 — Dominican Republic, 2019 — President (Apex)
+
+**Table description.** This scandal concerns bribes paid by the Brazilian construction firm Odebrecht in the Dominican Republic tied to the Punta Catalina coal-fired power plant, and opposition demands (echoed in a Periodico Hoy report) that President Danilo Medina resign over a roughly USD 39.5 million bribery scheme. Investigations found that between December 2013 and December 2014 Odebrecht made dozens of payments totaling about USD 39.5 million connected to the Punta Catalina contract, valued at roughly USD 1.945 billion. The payments reportedly reached officials and intermediaries. Medina, whose government approved and championed the plant, was not personally charged, and Punta Catalina was ultimately excluded from the main Odebrecht prosecution for lack of evidence, though it drew persistent calls for accountability.
+
+**Detail.** The Dominican branch of the Odebrecht scandal produced sustained pressure on President Danilo Medina, with political and social organizations and the opposition demanding he clarify his links to the company and, as reflected in the Periodico Hoy tweet, calling for his resignation over a bribery scheme of about USD 39.5 million associated with the Punta Catalina thermoelectric plant. Investigations and reporting (including by the International Consortium of Investigative Journalists and Brazilian magazine Epoca) indicated that Odebrecht made roughly 62 payments totaling about USD 39.5 million between December 2013 and December 2014 connected to the Punta Catalina contract, which was valued at approximately USD 1.945 billion and awarded to an Odebrecht-led consortium with Ingenieria Estrella. Some payments allegedly reached figures such as Gonzalo Castillo and CDEEE vice president Ruben Bichara, and consultants tied to the bid. President Medina, whose administration approved and promoted the plant, was not personally charged; Punta Catalina was eventually excluded from the principal Odebrecht case for lack of evidence, although authorities later signaled possible new investigations. Medina completed his term and left office in 2020.
+
+**Sources.**
+- https://www.transparency.org/en/blog/punta-catalina-power-corruption-dominican-republic
+- https://www.diariolibre.com/economia/odebrecht-habria-pagado-us-39-millones-en-soborno-para-construir-punta-catalina-segun-investigacion-GA13200677
+- https://www.connectas.org/asi-opero-odebrecht-en-republica-dominicana-2/
+
+---
+
+## id 542 — Argentina, 2015 — Other official (Non-Apex)
+
+**Table description.** The Fundacion Pensar scandal was an Argentine judicial case (file 9985/2015) opened in 2015 and closed in 2019, targeting Matteo Goretti, former president of the Fundacion Pensar (the think tank linked to the PRO party), and Hernan Lombardi, a former culture minister of the City of Buenos Aires who later became a national minister. Prosecutors alleged a money-laundering scheme in which funds fraudulently diverted from the City of Buenos Aires government, formalized as donations to the foundation via the Fundacion CEPPA and the City cultural-promotion regime, were laundered, with at least about 1.3 million pesos irregularly obtained. In 2019 the federal judge dismissed the defendants, finding the alleged crimes were not established.
+
+**Detail.** The Fundacion Pensar case (causa 9985/2015) was initiated in 2015 and centered on Matteo Goretti, former president of the Fundacion Pensar, the policy foundation associated with the PRO party, and Hernan Lombardi, former Minister of Culture of the City of Buenos Aires (later a national minister). Prosecutors accused them of money laundering (lavado de activos), alleging that money fraudulently diverted from the City of Buenos Aires government was funneled as donations to the Fundacion Pensar, using the Fundacion CEPPA and the City cultural-promotion regime as vehicles; the charging request cited at least around 1,302,153 pesos obtained irregularly. The foundation was also examined in connection with the Cambiemos fake-campaign-donors (aportantes truchos) affair, with its La Plata premises investigated as a possible source of personal data used for people who appeared as campaign contributors. After an extended investigation, in 2019 the federal judge dismissed (sobreseyo) the defendants, concluding that the crimes charged had not been proven.
+
+**Sources.**
+- https://es.wikipedia.org/wiki/Esc%C3%A1ndalo_Fundaci%C3%B3n_Pensar
+- https://www.fiscales.gob.ar/fiscalias/imputaron-a-hernan-lombardi-y-al-presidente-de-la-fundacion-pensar-matteo-goretti-por-lavado-de-activos/
+- https://www.ambito.com/politica/imputan-lombardi-y-goretti-presunto-lavado-activos-n3911153
+
+---
+
+## id 543 — Argentina, 2017 — Other official (Non-Apex)
+
+**Table description.** The Paradise Papers in Argentina refer to the local fallout of the global leak of about 13.4 million documents on offshore companies in tax havens, made public on November 5, 2017. The revelations named officials of President Mauricio Macri government, notably Finance Minister Luis Andres Caputo, who had managed offshore investment vehicles (including entities in the Cayman Islands and the Miami-based Noctua Partners) reportedly handling more than USD 100 million and which he did not fully disclose on taking office in December 2015. Energy Minister Juan Jose Aranguren was also named. Caputo was subsequently denounced and faced accusations including malicious omission and negotiations incompatible with public office.
+
+**Detail.** Following the worldwide release on November 5, 2017 of the Paradise Papers, some 13.4 million leaked documents about offshore holdings, Argentine reporting focused on ministers of the Mauricio Macri administration. The central figure was Luis Andres Caputo, Minister of Finance, who before entering government had administered Noctua Partners LLC, a Miami-based investment manager with branches in Delaware and the Cayman Islands, and was linked to offshore funds reportedly handling more than USD 100 million; critics said he failed to disclose these interests when he assumed public office in December 2015, and noted that offshore vehicles connected to him bought Argentine century bonds from an issuance he signed as minister. Energy Minister Juan Jose Aranguren was also named among those appearing in the leak. Caputo was denounced and faced accusations such as malicious omission in his sworn declarations, negotiations incompatible with the exercise of public function, influence peddling, use of privileged information and money laundering, though the political and legal consequences remained contested.
+
+**Sources.**
+- https://es.wikipedia.org/wiki/Paradise_Papers_en_Argentina
+- https://www.lanacion.com.ar/politica/paradise-papers-denunciaron-a-luis-caputo-por-su-rol-en-un-entramado-offshore-nid2082514/
+- http://cipce.org.ar/basecausas/2738-luis-caputo-paradise-papers
+
+---
+
+## id 57 — El Salvador, 2014 — President (Apex)
+
+**Table description.** Former Salvadoran President Francisco Flores (1999 to 2004) was accused in 2014 of diverting some USD 15 million donated by Taiwan that was intended for survivors of the January and February 2001 earthquakes in El Salvador. Allegations first surfaced in 2013 when then-president Mauricio Funes disclosed a United States Treasury report on suspicious activity; prosecutors alleged that around USD 10 million was routed to accounts in Costa Rica. The Attorney General ordered his arrest; after a period as a fugitive, Flores surrendered in September 2014 and was placed under house arrest in November 2014. He maintained his innocence and died of a stroke in January 2016 while awaiting trial.
+
+**Detail.** Francisco Flores, president of El Salvador from 1999 to 2004, was formally accused on May 2, 2014 of embezzling roughly USD 15 million in donations from Taiwan that were intended for victims of the devastating January and February 2001 earthquakes that struck during his presidency. The allegations had first emerged in 2013 when then-president Mauricio Funes revealed a United States Treasury suspicious-activity report concerning the Taiwanese funds; investigators alleged that about USD 10 million was diverted to bank accounts in Costa Rica. The Attorney General ordered his capture. Flores went into hiding (reportedly in Panama) but appeared unexpectedly with his lawyer at a San Salvador court and turned himself in around September 2014; he was placed under house arrest in November 2014 and later ordered to stand trial. Flores insisted the Taiwanese money had been handled properly. He died in January 2016 after suffering a stroke while awaiting trial, so no final criminal verdict was reached; related civil proceedings continued afterward.
+
+**Sources.**
+- https://insightcrime.org/news/brief/fmr-el-salvador-president-ordered-to-trial-on-corruption-charges/
+- https://feeds.bbci.co.uk/news/world-latin-america-29089877
+- https://www.euronews.com/2016/01/31/former-el-salvador-president-flores-dies-facing-corruption-charges
+
+---
+
+## id 59 — Brazil, 2014 — Other official (Non-Apex)
+
+**Table description.** Operation Lava Jato (Car Wash) was a sweeping Brazilian federal investigation into a bribery and kickback scheme centered on the state oil company Petrobras. It became public in March 2014 and expanded dramatically on November 14, 2014, when the Federal Police, in the phase named Juizo Final, arrested dozens of senior executives of Brazil's largest construction firms, including OAS, Camargo Correa, UTC, Mendes Junior, Engevix and Queiroz Galvao, accused of forming a cartel that paid bribes to Petrobras directors and politicians to win inflated contracts. Prosecutors estimated the scheme moved more than USD 2 billion in bribes, part of it channeled to political parties, including the governing Workers Party. Many executives were later convicted, and the Petrobras director Renato Duque was among those detained.
+
+**Detail.** Operation Lava Jato began publicly in March 2014 from a money-laundering probe centered on a car wash and gas station in Brasilia, and quickly grew into the largest corruption investigation in Brazilian history, led by federal judge Sergio Moro and prosecutors in Curitiba. On November 14, 2014, in the seventh phase (Operacao Juizo Final), the Federal Police arrested dozens of executives of Brazil's leading construction companies, among them OAS, Camargo Correa, UTC, Mendes Junior, Engevix, Galvao Engenharia and Queiroz Galvao, on charges of cartel formation, corruption and money laundering for paying kickbacks to obtain overpriced Petrobras contracts. Former Petrobras director Renato Duque was also detained. Prosecutors alleged the scheme moved more than USD 2 billion in bribes, with a share diverted to political parties including the Workers Party. Over subsequent years the investigation produced numerous convictions of construction bosses (including Marcelo Odebrecht) and Petrobras officials.
+
+**Sources.**
+- https://www.britannica.com/event/Petrobras-scandal
+- https://www.cnbc.com/2014/11/24/how-the-ptrobras-scandal-is-rocking-brazil.html
+- https://www.foxnews.com/world/brazil-police-arrest-presidents-of-2-construction-firms-in-corruption-scheme-at-petrobras.amp
+
+---
+
+## id 61 — Mexico, 2016 — Governor (Apex)
+
+**Table description.** Cesar Duarte Jaquez, PRI governor of the Mexican state of Chihuahua from 2010 to 2016, was accused of embezzlement, illicit enrichment and abuse of functions. The lawyer Jaime Garcia Chavez filed a criminal complaint against him with the federal Attorney General's Office on September 14, 2014, and on March 28, 2017 a state judge issued an arrest warrant, followed by an Interpol red notice. Prosecutors allege he diverted roughly 6 billion pesos and channeled about 250 million pesos into the PRI's 2015 electoral campaign. Duarte fled Mexico, was arrested in Miami in July 2020, and was extradited to Mexico in 2022.
+
+**Detail.** Cesar Horacio Duarte Jaquez governed Chihuahua for the PRI from 2010 to 2016. The lawyer Jaime Garcia Chavez lodged a criminal complaint against him on September 14, 2014, alleging embezzlement, illicit enrichment, abusive exercise of functions and improper use of powers. Chihuahua authorities under his successor Javier Corral pursued the case, and on March 28, 2017 a judge issued the first arrest warrant; Interpol issued a red notice and multiple additional warrants followed. Investigators accused Duarte of diverting roughly 6 billion pesos in public funds and of channeling some 250 million pesos to the PRI's 2015 campaign, among other schemes. Duarte fled Mexico in 2016, was arrested by the US Marshals Service in the Miami area on July 8, 2020, and after fighting extradition was returned to Mexico in 2022, where he faced preventive detention and prosecution.
+
+**Sources.**
+- https://mexiconewsdaily.com/politics/chihuahua-governor-cesar-duarte-arrested-embezzlement/
+- https://feeds.bbci.co.uk/news/world-latin-america-53341768
+- https://www.nbcnews.com/news/world/ex-governor-chihuahua-mexico-wanted-corruption-charges-arrested-miami-n1233284
+
+---
+
+## id 62 — Chile, 2014 — Other official (Non-Apex)
+
+**Table description.** The Penta case, also called Pentagate, was a Chilean fraud and illegal campaign-financing scandal involving the holding company Grupo Penta and officials of the Internal Revenue Service (SII). The controllers of Penta, Carlos Alberto Delano and Carlos Eugenio Lavin, and company managers were accused of using ideologically false invoices and fee receipts to defraud the Chilean treasury and to funnel undeclared money into the campaigns of mainly UDI politicians. The scheme, uncovered from a 2013 tax-fraud probe, became a major public scandal in 2014, with the treasury defrauded of more than 20 billion Chilean pesos. Several Penta executives and associates were later convicted of tax offenses, bribery and money laundering.
+
+**Detail.** The Penta case grew out of a mid-2013 investigation into an SII auditor, Ivan Alvarez, and accountant Sergio Diaz, who inflated tax refunds for scores of taxpayers. By March 2014 investigators had identified more than 120 beneficiaries and estimated the fraud against the Chilean treasury at over 20 billion pesos. The probe reached Grupo Penta, whose principal shareholders Carlos Alberto Delano and Carlos Eugenio Lavin, both close to the political right, were accused of issuing false invoices and boletas to generate funds used for illegal financing of campaigns, predominantly of the UDI party. The scandal produced high-profile fallout in the right-wing parties and, together with the related SQM case, led to reforms of Chile's campaign-finance rules. Penta executives and several associates were convicted of tax crimes, bribery and money laundering, some through abbreviated procedures.
+
+**Sources.**
+- https://en.wikipedia.org/wiki/Penta_case
+- https://en.panampost.com/adriana-peralta/2015/01/16/chiles-penta-case-pulls-dozens-into-corruption-scandal/
+
+---
+
+## id 67 — Panama, 2015 — President (Apex)
+
+**Table description.** Ricardo Martinelli, president of Panama from 2009 to 2014, became the target of a corruption investigation when on January 28, 2015 the Supreme Court of Justice voted unanimously to appoint a special prosecutor and open a probe into alleged crimes against the public administration. The case centered on accusations that Martinelli inflated the value of state contracts, including a food-purchase program for a social plan, and on separate allegations of illegal wiretapping of political opponents. Around the same time former president Ernesto Perez Balladares was also placed under investigation. Martinelli fled to the United States, was arrested in Miami in June 2017 and extradited to Panama in June 2018.
+
+**Detail.** On January 28, 2015 the full Supreme Court of Panama voted to open an investigation into former president Ricardo Martinelli for alleged crimes against the public administration, appointing a special prosecutor after his parliamentary immunity was set aside. The probes included claims that he ordered inflated contracts, such as a roughly USD 45 million program to buy dehydrated food for a social welfare plan, and a high-profile case alleging he illegally wiretapped and spied on more than 150 opponents, journalists and businesspeople. Former president Ernesto Perez Balladares was also investigated in the same period on separate corruption allegations. Martinelli denied wrongdoing, calling it political persecution by President Juan Carlos Varela, and fled to the United States. He was arrested near Miami in June 2017 and extradited to Panama in June 2018; he was acquitted in the wiretapping case in 2019 but later convicted in money-laundering cases.
+
+**Sources.**
+- https://feeds.bbci.co.uk/news/world-latin-america-31037242
+- https://www.foxnews.com/world/source-panama-supreme-court-oks-probe-of-corruption-charges-against-ex-president-martinelli.amp
+- https://feeds.bbci.co.uk/news/world-latin-america-44446238
+
+---
+
+## id 68 — Chile, 2015 — Other official (Non-Apex)
+
+**Table description.** The Caval case was a Chilean influence and financial scandal involving Natalia Compagnon, the wife of Sebastian Davalos, who was the son of President Michelle Bachelet and a senior aide in her government. In February 2015 the magazine Que Pasa revealed that Compagnon's company, Exportadora y de Gestion Caval Limitada, had obtained a loan of about USD 10 million from Banco de Chile, approved in December 2013 just after Bachelet won the presidential runoff, to buy land in Machali for resale after an expected zoning change. The revelation forced Davalos to resign his government post. Compagnon was convicted of tax crimes in 2018 and sentenced to 541 days, though she and Davalos were acquitted in the main strand of the case in 2023.
+
+**Detail.** In early February 2015 Que Pasa magazine reported that Exportadora y de Gestion Caval Limitada, owned by Natalia Compagnon, spouse of Sebastian Davalos, son of President Michelle Bachelet, had received a large loan from Banco de Chile, roughly USD 10 million (about 6.5 billion pesos), approved on December 16, 2013, one day after Bachelet won the presidential runoff. Compagnon and Davalos had met bank vice-chairman Andronico Luksic before the credit was granted; the money was used to buy some 44 hectares in Machali that were expected to rise sharply in value after a change to the regional regulatory plan. Bank executives later testified the loan was highly unusual. The scandal, which damaged Bachelet politically, led Davalos to resign his post as director of the socio-cultural directorate of the presidency. Compagnon was convicted in an oral trial in October 2018 of tax crimes and sentenced to 541 days and a fine; in 2023 courts acquitted Davalos and Compagnon in the final strand of the Caval case.
+
+**Sources.**
+- https://www.foxnews.com/world/chile-president-faces-controversy-over-bank-loan-to-family-members.amp
+- https://bh-compliance.com/en/study-case/caso-caval-2015/
+- https://es.wikipedia.org/wiki/Caso_Caval
+
+---
+
+## id 70 — Guatemala, 2015 — President (Apex)
+
+**Table description.** Otto Perez Molina, president of Guatemala, resigned on September 2, 2015 over his involvement in the La Linea customs-fraud scandal. The scheme, exposed on April 16, 2015 by the UN-backed International Commission against Impunity in Guatemala (CICIG) and state prosecutors, was a network in which importers paid bribes to customs officials to lower their import duties in exchange for kickbacks. Vice President Roxana Baldetti resigned in May 2015 and was arrested, and after Congress stripped Perez Molina of immunity on September 1, 2015 he resigned and was detained. He was indicted on charges of customs fraud, illicit association and bribery.
+
+**Detail.** The La Linea case broke on April 16, 2015 when CICIG and the Public Ministry revealed a customs-fraud ring in which businesses paid bribes to officials to evade import taxes, with the proceeds shared among the network, allegedly reaching the top of government. Vice President Roxana Baldetti resigned in May 2015 and was arrested in August. Investigators presented wiretap and testimonial evidence pointing to President Otto Perez Molina as a leader of the structure. Amid mass protests, Congress voted unanimously on September 1, 2015 to strip him of immunity; he resigned on September 2 (formally accepted by Congress on September 3) and was detained, then indicted on charges of customs fraud, illicit association and passive bribery. He was subsequently held in preventive detention and faced trial, and was later convicted in related proceedings.
+
+**Sources.**
+- https://feeds.bbci.co.uk/news/world-latin-america-34137225
+- https://nisgua.org/guatemalan-president-otto-perez-molina-resigns-detained-on-charges-of-corruption/
+- https://insightcrime.org/news/analysis/guatemala-president-otto-perez-molina-final-hours-trial/
+
+---
+
+## id 71 — Honduras, 2015 — President (Apex)
+
+**Table description.** President Juan Orlando Hernandez of Honduras was implicated in the looting of the Honduran Social Security Institute (IHSS), in which more than USD 300 million was embezzled through overpriced contracts and shell companies. In 2015 it emerged that some of that money, funneled through shell firms, had financed Hernandez's 2013 presidential campaign, and he publicly admitted his campaign had received such funds while denying knowledge of their illicit origin. The revelations, first driven by an Attorney General probe that began in late 2013, sparked mass Marcha de las Antorchas (March of Torches) protests. Public pressure led to the creation of the OAS-backed Support Mission against Corruption and Impunity in Honduras (MACCIH).
+
+**Detail.** Investigations that began at the end of 2013 revealed that managers of the Honduran Social Security Institute (IHSS) had embezzled an estimated USD 300 million or more through overpriced medicine and equipment, fake contracts and money laundering via more than a dozen shell companies. In 2015 it became public that leaders of Hernandez's National Party had received tens of millions from the IHSS through ghost companies, and that a portion reached Hernandez's 2013 campaign. Hernandez admitted in mid-2015 that his campaign had received money linked to the scheme, saying it was done without his knowledge, an admission that triggered the Marcha de las Antorchas protest movement demanding an international anti-corruption body. The crisis led in 2016 to the creation of MACCIH under the Organization of American States. IHSS director Mario Zelaya and others were prosecuted and convicted; Hernandez himself was later, in separate US proceedings, convicted of drug trafficking.
+
+**Sources.**
+- https://insightcrime.org/news/brief/us-arrests-honduras-elite-allegedly-laundering-corruption-proceeds/
+- https://seattleglobalist.com/2015/09/18/honduras-corruption-scandal-ihss/41567
+- https://en.wikipedia.org/wiki/2015_Honduran_protests
+
+---
+
+## id 73 — Honduras, 2015 — Other official (Non-Apex)
+
+**Table description.** The specific Honduran corruption scandal for this entry could not be conclusively identified because the source record contained no descriptive text. The most prominent Honduran corruption case at the official (non-head-of-state) level in 2015 was the looting of the Honduran Social Security Institute (IHSS), in which officials such as former IHSS director Mario Zelaya were arrested and prosecuted for embezzling public health funds through overpriced contracts and shell companies. Because the underlying entry provides no hint, the identification of the intended official and act remains uncertain and is not asserted here.
+
+**Detail.** This record had an empty hint field, so the intended scandal, official name and act cannot be verified with confidence. The dominant Honduran corruption story of 2015 at the ministerial or agency level was the IHSS (social security) embezzlement scandal, which led to the arrest and prosecution of the institute's former director Mario Zelaya and numerous other officials for schemes involving overpriced medicine and equipment and laundering through sham companies, and which also implicated National Party figures and campaign financing. Other 2015 Honduran threads included the arrest of Congress vice-president Lena Gutierrez and family over the sale of poor-quality, inflated-price medicine to the state. Absent any hint text tying this entry to a particular person or case, no specific claim is made; the entry is marked unverified.
+
+**Sources.**
+- https://en.wikipedia.org/wiki/2015_Honduran_protests
+- https://insightcrime.org/news/brief/us-arrests-honduras-elite-allegedly-laundering-corruption-proceeds/
+
+**Note.** Not fully verified from available sources; description is conservative.
+
+---
+
+## id 74 — Mexico, 2016 — Governor (Apex)
+
+**Table description.** Rodrigo Medina de la Cruz, PRI governor of the Mexican state of Nuevo Leon from 2009 to 2015, was investigated under Operacion Tornado, announced on June 3, 2016 by his successor's administration. He and relatives and former collaborators were accused of embezzlement, abuse of functions, illicit enrichment and money laundering, with damages to the state estimated at around 9 billion pesos, tied to schemes such as incentives and an irregular land sale connected to the Kia automotive plant in Pesqueria. Medina was briefly detained. In August 2018 a control judge acquitted him of embezzlement and crimes against state assets, although financial-intelligence complaints over alleged money laundering and tax evasion continued.
+
+**Detail.** Rodrigo Medina de la Cruz governed Nuevo Leon for the PRI from 2009 to 2015. From May 2015 opposition legislators pressed for an investigation, and on June 3, 2016 the incoming administration of Governor Jaime Rodriguez announced Operacion Tornado, a set of roughly a dozen accusations of abuse of power against the previous government. Medina, his father Humberto, his brother Alejandro and his wife Gretta Salinas were named in complaints alleging embezzlement, illicit enrichment, damage to state assets and money laundering, with estimated damages near 9 billion pesos. Central allegations involved incentives granted to the Korean carmaker Kia and the irregular sale of land in Pesqueria where the plant was built. Medina was briefly detained in 2016. In August 2018 a control judge acquitted him of embezzlement and crimes against state property; the Financial Intelligence Unit (UIF) nonetheless pursued complaints over alleged money laundering and tax evasion in later years, which Medina denied.
+
+**Sources.**
+- https://expansion.mx/nacional/2016/07/28/de-que-esta-acusado-rodrigo-medina-exgobernador-de-nuevo-leon
+- https://www.infobae.com/america/mexico/2019/12/29/el-millonario-desvio-de-dinero-por-el-que-la-uif-investiga-a-rodrigo-medina-ex-gobernador-de-nuevo-leon/
+- https://regeneracion.mx/juez-absuelve-a-rodrigo-medina-exgobernador-de-nuevo-leon/
+
+---
+
+## id 75 — Peru, 2015 — President (Apex)
+
+**Table description.** In a scandal that surfaced on May 31, 2015, Peruvian media reported that the Venezuelan company Inversiones Kaysamak C.A. had deposited about USD 87,000 into the accounts of the mother and a close friend of first lady Nadine Heredia, wife of President Ollanta Humala and leader of the governing Nationalist Party. Part of the money was subsequently transferred to Heredia's own accounts. The funds, whose deposits dated to 2005 during the party's formation, were treated by prosecutors as possible undeclared or illicit financing and fed a money-laundering investigation into Heredia. She denied wrongdoing; the matter became part of the broader case that later led to legal action against her and Humala.
+
+**Detail.** On May 31, 2015 Peruvian outlets reported that the Venezuelan firm Inversiones Kaysamak C.A. had deposited roughly USD 87,000 into accounts belonging to Antonia Alarcon, mother of first lady Nadine Heredia, and to Heredia's friend Rocio Calderon; portions were then moved to Heredia's own accounts. The deposits dated to 2005, when the Nationalist Party of Ollanta Humala was being organized, and were characterized by investigators as possible foreign or undeclared financing linked to Humala's early political activity and the 2006 campaign. The revelations intensified a money-laundering investigation into Heredia over unexplained income. Heredia and Humala denied illicit financing. The Kaysamak episode formed part of the wider case in which prosecutors later pursued Humala and Heredia for money laundering tied to Venezuelan and, subsequently, Odebrecht funds, leading to preventive detention in 2017 and a long-running trial.
+
+**Sources.**
+- https://elcomercio.pe/politica/justicia/empresa-venezolana-deposito-us-87-mil-entorno-nadine-384985-noticia/
+- https://www.americatv.com.pe/noticias/actualidad/empresa-venezolana-giro-dinero-al-entorno-nadine-heredia-n183554
+
+---
+
+## id 77 — Mexico, 2015 — Governor (Apex)
+
+**Table description.** Guillermo Padres Elias, PAN governor of the Mexican state of Sonora from 2009 to 2015, was investigated for money laundering, tax fraud and organized crime. In March 2015 the Mexican Attorney General's Office opened a probe, joined by United States authorities, into allegations that Padres and his brother Miguel received millions of dollars linked to a contractor that won government business, including school-uniform contracts. Reports indicated Miguel Padres transferred about USD 8.9 million abroad, including to companies in the Netherlands. Padres was arrested in November 2016 and jailed for more than two years; a judge acquitted him of money laundering and tax fraud in 2018, and he was later freed on bail while other proceedings continued.
+
+**Detail.** Guillermo Padres Elias governed Sonora for the PAN from 2009 to 2015. In March 2015 the Mexican Attorney General's Office, with cooperation from United States authorities, investigated allegations that Padres and his brother Miguel received large sums connected to a businessman who obtained state contracts, including to supply school uniforms. According to Financial Intelligence Unit reporting cited in the press, Miguel Padres moved about USD 8.9 million to accounts abroad, including roughly USD 6.2 million to companies created in the Netherlands (Tenerife CV and Dolphinius CV), and the Wall Street Journal reported he received about USD 3.3 million from the uniform contractor. Sonora authorities also alleged broader embezzlement across his administration. Padres was arrested in November 2016 and held for more than two years. In February 2018 a judge acquitted him of money laundering and tax fraud; he was later released on bail, though appeals and other proceedings continued.
+
+**Sources.**
+- https://mexiconewsdaily.com/news/ex-sonora-governor-padres-freed-on-bail/
+- https://www.eluniversal.com.mx/articulo/nacion/politica/2016/10/12/de-que-acusan-padres-exgobernador-de-sonora/
+- https://www.animalpolitico.com/2018/02/exgobernador-guillermo-padres-lavado-defraudacion
+
+---
+
+## id 8 — Peru, 2008 — Other official (Non-Apex)
+
+**Table description.** The Petroaudios scandal broke in Peru on October 5, 2008, when a television station aired secretly recorded audio in which Alberto Quimper, a board member of the state agency Perupetro, and Romulo Leon Alegria, a prominent politician of the governing APRA party, discussed kickbacks to help the Norwegian firm Discover Petroleum win oil-exploration contracts from the Peruvian state. The recordings, dubbed the petroaudios, forced the resignation of Prime Minister Jorge del Castillo and the fall of the cabinet, which was replaced by one led by Yehude Simon. Quimper, Leon and other defendants were prosecuted but were ultimately acquitted in 2015 to 2016 after courts ruled the intercepted recordings inadmissible.
+
+**Detail.** On October 5, 2008 a Peruvian television program broadcast intercepted telephone recordings in which Alberto Quimper, a director of the state oil-contracting agency Perupetro, and Romulo Leon Alegria, an APRA politician and lobbyist, discussed payments they expected to receive to help the Norwegian company Discover Petroleum secure exploration blocks. The contracts with Discover Petroleum were annulled once the tapes, known as the petroaudios, leaked. The scandal brought down the cabinet: Prime Minister Jorge del Castillo resigned and was replaced by Yehude Simon in October 2008. Prosecutors charged Leon, Quimper, former Petroperu head Cesar Gutierrez, former Perupetro head Daniel Saba, a Discover Petroleum representative and other defendants with corruption, bribery and influence trafficking. In 2015 and 2016, however, courts acquitted the defendants after ruling that the audio recordings and emails obtained from Leon's computer were inadmissible evidence, effectively collapsing the prosecution.
+
+**Sources.**
+- https://en.wikipedia.org/wiki/2008_Peru_oil_scandal
+- https://www.ipsnews.net/2008/10/corruption-peru-officials-charged-in-oil-contract-scandal/
+- https://perureports.com/2016/02/17/peru-officials-absolved-in-petroaudios-oil-scandal-from-2008/
+
+---
+
+## id 80 — Peru, 2015 — President (Apex)
+
+**Table description.** In February 2015 the Peruvian digital outlet Ojo-Publico published previously confidential documents, including a report from Peru's Financial Intelligence Unit (UIF) and a bank suspicious-transaction report, detailing unexplained deposits and economic movements in the accounts of first lady Nadine Heredia, wife of President Ollanta Humala and head of the governing Nationalist Party. According to the UIF, Heredia could not justify income of roughly USD 215,000 between 2006 and 2009 and had presented contracts that were never actually paid. The disclosures revived and expanded a money-laundering investigation by the Public Ministry into Heredia. She denied wrongdoing; the case later broadened into the prosecution of Heredia and Humala.
+
+**Detail.** In February 2015 Ojo-Publico published in full a set of confidential documents, among them a UIF report, a suspicious-operations report from Banco de Credito del Peru and bank balances, showing deposits and money movements in the accounts of first lady Nadine Heredia that she had difficulty explaining. The UIF concluded she could not justify income of up to roughly USD 215,000 between 2006 and 2009 and had submitted service contracts that were never paid, indicators that fueled a money-laundering inquiry by the Public Ministry into the leader of the Nationalist Party. The reporting, alongside the later appearance of Heredia's personal agendas (notebooks) in 2015, deepened suspicions about undeclared foreign financing of the party. Heredia denied illicit enrichment. The investigation grew over subsequent years, incorporating alleged Venezuelan and Odebrecht funds, and led to preventive detention of Heredia and Humala in 2017 and a protracted money-laundering trial.
+
+**Sources.**
+- https://rpp.pe/politica/estado/que-son-las-agendas-de-nadine-heredia-5-claves-para-entender-el-caso-noticia-955050
+- https://elcomercio.pe/politica/gobierno/nadine-heredia-debes-dinero-venezolano-368698-noticia/
+
+---
+
+## id 82 — Honduras, 2015 — Other official (Non-Apex)
+
+**Table description.** Under pressure from the United States Embassy in Tegucigalpa, the Honduran Armed Forces suspended two active-duty captains, Carlos Alberto Maradiaga Izaguirre of the Air Force and Santos Rodriguez Orellana of the Army, in October 2016. The Embassy stated the officers were under United States investigation for alleged ties to drug trafficking and corruption, including allegedly manipulating anti-drug radar to allow narco-flights to land. General Isaias Alvarez Urbina confirmed the men were suspended though not detained while investigations continued. The case formed part of a broader purge in which dozens of Honduran military and naval officers were expelled for suspected links to drug trafficking.
+
+**Detail.** In October 2016 the United States Embassy in Tegucigalpa signaled that two serving captains of the Honduran Armed Forces (FFAA) were under investigation for alleged links to drug trafficking and corruption. In response, the Honduran military high command suspended Air Force captain Carlos Alberto Maradiaga Izaguirre and Army captain Santos Rodriguez Orellana; the chief of the Joint General Staff, General Isaias Alvarez Urbina, stated they were not detained but remained suspended pending the inquiry. Intelligence reports alleged one of the officers managed or manipulated anti-drug radar coverage, cutting signals or issuing late warnings so that narco-aircraft could land or evade interception. The episode was part of a wider pattern: a reported list of 14 officers and 35 members of the Naval Force had been expelled from the Armed Forces since 2010 over similar suspected narco ties, amid growing U.S. scrutiny of Honduran elites.
+
+**Sources.**
+- https://www.laprensa.hn/honduras/suspenden-a-dos-capitanes-de-las-ff-aa-investigados-por-eua-GWLP1007133
+- https://www.elpulso.hn/2016/10/18/el-narcotrafico-y-las-ffaa-hondurenas/
+- https://insightcrime.org/news/analysis/us-investigating-dozens-honduras-elites-drugs-corruption/
+
+---
+
+## id 84 — Argentina, 2015 — President (Apex)
+
+**Table description.** Former President Cristina Fernandez de Kirchner was investigated in the so-called dolar futuro case for fraudulent administration of the State. Beginning in October 2015, prosecutors alleged that Argentinas Central Bank, in the final months of her government, sold United States dollar futures contracts at prices well below the market, causing large losses to the public purse. In May 2016 federal judge Claudio Bonadio indicted Fernandez, her economy minister Axel Kicillof and Central Bank head Alejandro Vanoli, and ordered asset seizures. The case was ultimately dismissed: in April 2021 the Casacion court acquitted the defendants after expert reports found no damage to the State, a ruling later upheld by the Supreme Court.
+
+**Detail.** The 'dolar futuro' case (formally 'Banco Central de la Republica Argentina y otros s/defraudacion por administracion fraudulenta', file 12152/2015) began in October 2015. It alleged that during the final months of Cristina Fernandez de Kirchner's presidency the Central Bank sold US dollar futures contracts at artificially low prices in the Rosario and Buenos Aires markets, generating heavy losses for the State once the peso devalued. In May 2016 federal judge Claudio Bonadio indicted Fernandez for administracion fraudulenta, together with her economy minister Axel Kicillof, former Central Bank president Alejandro Vanoli and about a dozen others, ordering asset embargoes. The matter was heading to oral trial when, in April 2021, the Camara Federal de Casacion Penal dismissed (sobreseyo) Fernandez and Kicillof after court experts concluded in 2020 that there had been no damage to the State per the Central Bank's balance sheets; the Supreme Court later confirmed the dismissal.
+
+**Sources.**
+- https://es.wikipedia.org/wiki/Caso_por_venta_de_d%C3%B3lares_a_futuro
+- https://www.lanacion.com.ar/politica/procesan-y-embargan-a-cristina-kirchner-en-la-causa-del-dolar-futuro-nid1898685/
+- https://www.perfil.com/noticias/politica/dolar-futuro-casacion-sobreseyo-a-cristina-kirchner-y-ordena-el-archivo-de-la-causa.phtml
+
+---
+
+## id 88 — Colombia, 2016 — Other official (Non-Apex)
+
+**Table description.** The Reficar scandal concerns massive cost overruns and alleged embezzlement in the modernization of the Cartagena oil refinery (Reficar), a subsidiary of the state oil company Ecopetrol. The project, begun in 2009 with a budget near USD 4 billion, ballooned to more than USD 8 billion. The scandal broke publicly in January 2016 after a report by Colombias Comptroller General (Contraloria) detailed the losses. In April 2017 the Attorney General charged eight people, including two former presidents of Reficar and representatives of contractor CB and I, for crimes such as embezzlement, improper interest in contracts and document falsification.
+
+**Detail.** Reficar (Refineria de Cartagena), a subsidiary of Colombia's state oil firm Ecopetrol, undertook a major refinery upgrade begun in 2009 with an original budget of roughly USD 3.99 billion that ultimately rose to about USD 8.01 billion, an overrun near USD 4 billion. Although the escalating costs had been discussed for years, the scandal broke formally in January 2016 when the Contraloria General de la Republica issued a report detailing the loss, described as one of the largest corruption cases in Colombian history and equivalent to a significant share of the national budget. The U.S. contractor CB and I (Chicago Bridge and Iron) and its handling of the works drew particular scrutiny, and reports highlighted lavish and improper expenses. In late April 2017 the Fiscalia charged eight people, including two former presidents of Reficar (Reyes Reinoso Yanez and Orlando Jose Cabrales Martinez) and contractor representatives, for improper interest in contracts, embezzlement by appropriation, illicit enrichment and document falsification.
+
+**Sources.**
+- https://colombiareports.com/reficar-colombia-biggest-corruption-scandal-history/
+- https://es.wikipedia.org/wiki/Esc%C3%A1ndalo_de_Reficar_de_2016
+- https://www.eltiempo.com/justicia/servicios/reficar-historia-implicados-y-sanciones-5-anos-despues-619889
+
+---
+
+## id 91 — Bolivia, 2016 — Other official (Non-Apex)
+
+**Table description.** Gabriela Zapata Montano, a former romantic partner of President Evo Morales, served as commercial manager of the Chinese engineering firm CAMC, which had won Bolivian state contracts worth several hundred million USD. The case became public on February 3, 2016 when journalist Carlos Valverde revealed the relationship, raising allegations of influence peddling; she was arrested on February 26, 2016 in La Paz. On May 23, 2017 an anti-corruption court sentenced Zapata to 10 years in prison for money laundering, criminal association and use of falsified documents. A legislative commission separately concluded it found no evidence directly linking Morales to the CAMC contracts.
+
+**Detail.** Gabriela Zapata Montano was the commercial manager (gerente comercial) in Bolivia of the Chinese company CAMC Engineering, which had signed state contracts reportedly worth close to USD 500-600 million. On February 3, 2016 journalist Carlos Valverde publicly revealed that she had been a partner of President Evo Morales and that they had had a child, igniting accusations of trafficking in influence over the CAMC contracts. Police arrested Zapata in La Paz on February 26, 2016. On May 23, 2017 the First Anti-Corruption Sentencing Court sentenced her to 10 years in prison for money laundering (legitimation of illicit gains), criminal association, ideological falsity, use of falsified documents and related offenses. A commission of the Plurinational Legislative Assembly concluded that it found no evidence proving influence trafficking or a link between Morales and the CAMC contracts; the scandal nonetheless damaged Morales politically around the February 2016 constitutional referendum.
+
+**Sources.**
+- https://cnnespanol.cnn.com/2017/05/23/condenan-a-10-anos-de-carcel-a-gabriela-zapata-expareja-de-evo-morales/
+- https://es.wikipedia.org/wiki/Gabriela_Zapata
+- https://eldeber.com.bo/pais/las-10-cosas-que-debes-saber-del-caso-zapata-que-involucro-a-la-expareja-de-evo-morales-y-quien-ahor_256855
+
+---
+
+## id NEW1 — Brazil, 2017 — President (Apex)
+
+**Table description.** Former President Luiz Inacio Lula da Silva was convicted in the Guaruja triplex case, part of the Operation Lava Jato investigation. On July 12, 2017, federal judge Sergio Moro sentenced Lula to nine years and six months in prison for passive corruption and money laundering, ruling that the construction company OAS had provided a beachfront triplex apartment and renovations worth roughly 3.7 million reais as a bribe tied to Petrobras contracts. Lula denied wrongdoing; an appeals court later increased the sentence and he was imprisoned in April 2018. The convictions in this case were annulled in 2021 on jurisdictional grounds.
+
+**Detail.** On July 12, 2017 federal judge Sergio Moro, who oversaw the first-instance Lava Jato cases in Curitiba, convicted former Brazilian President Luiz Inacio Lula da Silva of passive corruption and money laundering and sentenced him to nine years and six months in prison. The court found that the construction firm OAS had provided Lula with a triplex apartment in Guaruja (Sao Paulo state) and financed renovations, an alleged benefit worth roughly 3.7 million reais, as a bribe in connection with contracts OAS obtained from the state oil company Petrobras. Lula denied wrongdoing and called the case political. A federal appeals court (TRF-4) upheld and increased the sentence in early 2018, and Lula was imprisoned in April 2018. In 2021 Brazil's Supreme Federal Tribunal annulled the Lava Jato convictions against him, ruling the Curitiba court lacked jurisdiction and later finding Moro had been biased, restoring his political rights.
+
+**Sources.**
+- https://www.conjur.com.br/2017-jul-12/lula-condenado-nove-anos-prisao-triplex-guaruja/
+- https://agenciabrasil.ebc.com.br/politica/noticia/2018-01/entenda-o-caso-triplex-em-que-lula-foi-condenado
+
+---
+
+## id NEW10 — Guatemala, 2017 — Other official (Non-Apex)
+
+**Table description.** In the case known as Construccion y Corrupcion, Guatemalan prosecutors and the CICIG accused Alejandro Sinibaldi Aparicio, former Minister of Communications, Infrastructure and Housing (MICIVI), of running a bribery scheme. Announced on July 14, 2017, the investigation found that shell companies linked to Sinibaldi received more than USD 10 million in bribes from eight construction firms between 2012 and 2014 in exchange for public works contracts and payment of accumulated debt. Seventeen people were detained in the initial operation. Sinibaldi became a fugitive and later turned himself in, facing multiple corruption charges.
+
+**Detail.** The 'Construccion y Corrupcion' case, presented on July 14, 2017 by Guatemala's Public Ministry (MP) and the International Commission against Impunity in Guatemala (CICIG), targeted the Ministry of Communications, Infrastructure and Housing (MICIVI) under former minister Alejandro Sinibaldi Aparicio. Investigators found that three shell companies linked to Sinibaldi (including Constructora Benellia S.A., Agropecuaria y Constructora Agua Azul S.A. and Agropecuaria El Florido S.A.) received more than USD 10 million in bribes from eight construction firms between 2012 and 2014, billed as simulated services, in exchange for MICIVI paying accrued debts and favoring the firms with contracts. The initial operation led to 17 detentions. Sinibaldi fled and remained a fugitive for years before turning himself in; he faced multiple corruption and money-laundering proceedings. The related tweet noted that companies which paid bribes had received billions of quetzales in state contracts.
+
+**Sources.**
+- https://www.cicig.org/casos/caso-corrupcion-y-construccion/
+- https://republica.com/guatemala/2018-1-29-11-0-5-lo-que-debes-saber-del-caso-construccion-y-corrupcion
+- https://www.publinews.gt/gt/noticias/2017/07/14/sinibaldi-habria-recibido-mas-us10-millones-sobornos-pagos-al-civ.html
+
+---
+
+## id NEW12 — Honduras, 2017 — Other official (Non-Apex)
+
+**Table description.** Devis Leonel Rivera Maradiaga, former leader of the Honduran drug cartel Los Cachiros who surrendered to the United States DEA in December 2015, testified in a New York federal court on March 6, 2017 as a cooperating witness. His testimony formed part of the United States case against Fabio Porfirio Lobo, son of former President Porfirio Lobo Sosa, over collusion between the cartel and Honduran politicians. Rivera Maradiaga stated that Los Cachiros paid bribes and campaign contributions to obtain state contracts and protection from extradition. Fabio Lobo was sentenced on September 5, 2017 to 24 years in prison for a drug trafficking conspiracy.
+
+**Detail.** Devis Leonel Rivera Maradiaga, a former leader of Los Cachiros, one of Honduras's largest drug-trafficking organizations, surrendered to the U.S. Drug Enforcement Administration in December 2015 and became a cooperating witness. On March 6, 2017 he testified in a federal court in the Southern District of New York in the case surrounding Fabio Porfirio Lobo, a son of former Honduran President Porfirio 'Pepe' Lobo Sosa (2010-2014). Rivera Maradiaga described how Los Cachiros paid bribes and made campaign contributions (including an alleged USD 500,000 contribution) to Honduran politicians in exchange for state contracts, protection against extradition and local immunity, and recounted meetings with the Lobo family. Fabio Lobo had been arrested in Haiti in 2015 and brought to the United States; he was sentenced on September 5, 2017 to 24 years in prison plus supervised release and a fine for conspiring to import cocaine. Former president Porfirio Lobo publicly rejected the accusations.
+
+**Sources.**
+- https://contracorriente.red/juiciosny-caso-fabio-lobo/
+- https://proceso.hn/tres-expresidentes-y-un-actual-alto-cargo-del-cn-en-el-relato-de-fabio-lobo-testigo-de-la-fiscalia-de-manhattan/
+- https://www.laprensa.hn/honduras/fabio_lobo-sentencia-narco-corte-nuevayork-eua-trafico_droga-honduras-AVLP1105401
+
+---
+
+## id NEW13 — Honduras, 2014 — Other official (Non-Apex)
+
+**Table description.** The looting of the Honduran Social Security Institute (IHSS) was one of the largest corruption scandals in the countrys history. An intervention commission appointed in early 2014, near the end of President Porfirio Lobos term, issued reports revealing that overvalued contracts, payments to shell companies and other schemes had left the institute with a financial hole of about 6,399 million lempiras. The scheme included the purchase of adulterated medicines and diversion of workers contributions. The institutes former executive director, Mario Zelaya Rojas, was arrested and later convicted and sentenced to lengthy prison terms; part of the diverted funds was alleged to have financed the 2013 campaign of Juan Orlando Hernandez.
+
+**Detail.** The saqueo del IHSS (Instituto Hondureno de Seguridad Social) is regarded as one of the biggest corruption and looting cases in Honduran history. Near the end of Porfirio Lobo Sosa's presidency, authorities appointed an intervention commission (Comision Interventora) and suspended the board and executive director Mario Zelaya Rojas. In its reports of 2014 the commission documented that overvalued contracts, payments to shell companies, tax evasion and illicit internal transfers had left the institute with a debt on the order of 6,399.24 million lempiras; the schemes also included the purchase and distribution of adulterated medicines and withholding of workers' contributions. Only a small fraction of the stolen money was ever recovered. Mario Zelaya was arrested and, in subsequent trials, convicted and sentenced to lengthy prison terms. Portions of the diverted funds were alleged to have been funneled through shell companies into the 2013 presidential campaign of Juan Orlando Hernandez, who publicly acknowledged his campaign received some of the money.
+
+**Sources.**
+- https://laprensa.hn/honduras/1219042-410/saqueo-ihss-casos-corrupcion-mario-zelaya-honduras-robo-
+- https://www.elheraldo.hn/honduras/informe-revela-escandalosa-corrupcion-en-ihss-JKEH702964
+- https://www.laprensa.hn/honduras/red-de-crimen-organizado-fraguo-saqueo-del-ihss-DGLP743473
+
+---
+
+## id NEW14 — Honduras, 2017 — Congressman (Non-Apex)
+
+**Table description.** Red de Diputados was the first case presented by the MACCIH-OAS and UFECIC anti-corruption team, unveiled on December 11, 2017. Investigators found that a network of National Congress deputies illegally appropriated public funds earmarked for social projects, channeling roughly 8.3 million lempiras through a non-governmental organization that then returned the money to the lawmakers for personal use. The deputies charged with embezzlement of public funds included Hector Enrique Padilla Hernandez, Audelia Rodriguez Rodriguez, Augusto Domingo Cruz Ascencio, Dennys Antonio Sanchez Fernandez and Eleazar Alexander Juarez Saravia.
+
+**Detail.** The 'Red de Diputados' case was the first investigation presented publicly by the joint MACCIH-OAS (Mission to Support the Fight against Corruption and Impunity in Honduras) and UFECIC-MP anti-corruption team, on December 11, 2017. The prosecutors found that a network of deputies of the National Congress requested public funds ostensibly for social projects; the money (about 8.3 million lempiras in total) was routed to a non-governmental organization which then transferred it back to the deputies for personal use. The UFECIC filed requests to initiate criminal proceedings for embezzlement of public funds (malversacion de caudales publicos) against deputies Hector Enrique Padilla Hernandez, Audelia Rodriguez Rodriguez, Augusto Domingo Cruz Ascencio, Dennys Antonio Sanchez Fernandez and Eleazar Alexander Juarez Saravia. The case became emblematic of MACCIH's work and of subsequent congressional efforts to shield lawmakers from prosecution.
+
+**Sources.**
+- https://www.mp.hn/publicaciones/caso-de-la-red-de-diputados/
+- https://www.laprensa.hn/honduras/juez-reactiva-caso-red-de-diputados-por-corrupcion-honduras-NF6502618
+- https://criterio.hn/justicia-reactiva-caso-red-de-diputados-con-el-que-la-maccih-inicio-lucha-anticorrupcion/
+
+---
+
+## id NEW15 — Honduras, 2018 — Other official (Non-Apex)
+
+**Table description.** In the case named Caja Chica del Hermano, the Honduran Public Ministry and the MACCIH-OAS team, in its sixth integrated investigation presented in November 2018, accused Ramon Lobo Sosa, brother of former President Porfirio Lobo, and Wilfredo Cerrato Duron, former Secretary of Presidential Administration and Finance. Between 2010 and 2014 Cerrato allegedly issued at least 84 checks of 100,000 lempiras each from a Presidential House account, extracting roughly 8.4 million lempiras that were diverted for personal benefit. The two men were charged with fraud and misappropriation of public funds and placed under house arrest.
+
+**Detail.** The 'Caja Chica del Hermano' (The Brother's Petty Cash) case was the sixth integrated criminal investigation presented by the MACCIH-OAS / UFECIC-MP team, in November 2018, after the Financial Intelligence Unit sent a suspicious-activity report on January 8, 2018. The Public Ministry filed a fiscal requirement before the Supreme Court against Ramon Lobo Sosa, brother of former President Porfirio Lobo Sosa, and Wilfredo Francisco Cerrato Duron, former Secretary of State for Presidential Administration and Finance. Investigators alleged that between 2010 and 2014 Cerrato issued at least 84 checks of 100,000 lempiras each from a Presidential House (Casa Presidencial) account, for an estimated loss of about 8.4 million lempiras that was diverted for the private benefit of the accused. Both men were charged with fraud and misappropriation of public funds and were placed under house arrest.
+
+**Sources.**
+- https://www.oas.org/es/centro_noticias/comunicado_prensa.asp?sCodigo=C-067/18
+- https://www.laprensa.hn/honduras/caja-chica-hermano-maccih-corrupcion-malversacion-fondos-publicos-honduras-LVLP1230931
+- https://www.laprensa.hn/honduras/arresto-domiciliario-ramon-lobo-wilfredo-cerrato-caja-chica-hermano-JVLP1233479
+
+---
+
+## id NEW16 — Mexico, 2015 — Other official (Non-Apex)
+
+**Table description.** In May 2015 the Spanish newspaper eldiario.es published secret audio recordings of executives of OHL Mexico, the local unit of the Spanish construction group OHL, discussing how they would charge inflated cost overruns on the Viaducto Bicentenario toll road in the State of Mexico. Additional recordings suggested the company sought to pay bribes to magistrates to favor its concessions. Executives named included board president Jose Andres Oteyza and representative Pablo Wallentin, who resigned after the leaks. The recordings triggered audits and investigations into the concessions granted by the State of Mexico government.
+
+**Detail.** In May 2015 the Spanish digital newspaper eldiario.es released a series of secretly recorded phone conversations among executives of OHL Mexico, the Mexican subsidiary of the Spanish construction group OHL (Obrascon Huarte Lain). In the audios, figures such as representative Pablo Wallentin Crawford, technical director Jesus Campos Lopez, financial-planning director Jose Luis Munoz and board president Jose Andres Oteyza discussed charging cost overruns on the Viaducto Bicentenario, an elevated toll road in the State of Mexico, effectively inflating the amounts recovered from users and the state. Further recordings between Wallentin and legal director Gerardo Fernandez suggested payments to magistrates/judges arranged so as not to be registered in the accounting. Pablo Wallentin resigned following the disclosures. The concession dated from the administration of Enrique Pena Nieto as governor of the State of Mexico, and the scandal prompted external audits and regulatory scrutiny of OHL's Mexican concessions.
+
+**Sources.**
+- https://www.eldiario.es/economia/varias-grabaciones-ohl-gobierno-mexico_1_2693219.html
+- https://forbes.com.mx/viaducto-bicentenario-un-escandalo-mortal-para-ohl/
+- https://www.jornada.com.mx/2015/05/27/economia/022n1eco
+
+---
+
+## id NEW18 — Mexico, 2017 — Governor (Apex)
+
+**Table description.** On February 20, 2017, Veracruz state police discovered a warehouse in Cordoba, Veracruz filled with goods belonging to fugitive former Governor Javier Duarte de Ochoa and his wife Karime Macias. The cache included social-assistance items such as wheelchairs and food baskets that had apparently been diverted, along with luxury goods, artwork and notebooks containing Macias handwritten notes describing schemes to divert public resources. Duarte, who had fled office in October 2016, was captured in Guatemala on April 15, 2017. He was later convicted of criminal association and money laundering and sentenced to nine years in prison.
+
+**Detail.** Javier Duarte de Ochoa was governor of the Mexican state of Veracruz (2010-2016) and became emblematic of state-level corruption, accused of diverting public funds through networks of shell companies. On February 20, 2017 police in Cordoba, Veracruz found a warehouse (bodega) stocked with items tied to Duarte and his wife Karime Macias: social-assistance goods such as wheelchairs and food baskets that had apparently never been distributed, alongside luxury items including artwork, fine tableware and golf clubs, plus notebooks (Mont Blanc and Moleskine) with handwritten notes. Notes attributed to Macias listed bank accounts, properties and schemes for diverting public resources. Duarte had requested leave from office and fled in October 2016 while under investigation; he was captured in Guatemala on April 15, 2017 and extradited to Mexico. In 2018 he pleaded guilty and was convicted of criminal association and money laundering (operations with illicit resources) and sentenced to nine years in prison.
+
+**Sources.**
+- https://forbes.com.mx/bodega-bienes-javier-duarte-asegurada-cordoba/
+- https://www.animalpolitico.com/2017/02/bodega-duarte-karime-veracruz
+- https://es.wikipedia.org/wiki/Javier_Duarte_de_Ochoa
+
+---
+
+## id NEW2 — Brazil, 2016 — President (Apex)
+
+**Table description.** Former Brazilian president Luiz Inacio Lula da Silva (in office 2003 to 2010) had his home in Sao Bernardo do Campo raided at dawn on March 4, 2016 by the Federal Police in the 24th phase of Operation Car Wash (Lava Jato), codenamed Aletheia. Lula was taken under coercive custody to Congonhas airport and questioned for several hours over allegations that he benefited from undeclared assets, including a beachfront triplex in Guaruja and a country house in Atibaia, tied to the Petrobras bribery scheme. He was released the same day and was not formally arrested at that time, but the raid marked a turning point that later led to his conviction and imprisonment in 2018.
+
+**Detail.** On March 4, 2016 the Brazilian Federal Police executed Operation Aletheia (the 24th phase of Lava Jato), mobilizing roughly 200 officers and 30 tax auditors across Sao Paulo, Rio de Janeiro and Bahia. Officers searched Lula's residence in Sao Bernardo do Campo and escorted him to a room at Congonhas airport in Sao Paulo, where prosecutors questioned him for about three to four hours under a conducao coercitiva (coercive questioning order) issued by judge Sergio Moro's task force. Investigators alleged that Lula received hidden benefits, notably renovations to a triplex apartment in Guaruja attributed to construction firm OAS and works at the Atibaia country property, linked to kickbacks from the Petrobras corruption scheme. Lula publicly denounced the operation as politically motivated. He was not detained on that date, but the investigations culminated in his July 2018 conviction and imprisonment in the triplex case.
+
+**Sources.**
+- https://www.aljazeera.com/amp/economy/2016/3/4/brazils-ex-president-lula-detained-in-corruption-probe
+- https://www.nbcnews.com/news/latino/brazilian-police-raid-ex-president-lula-s-home-corruption-probe-n531826
+- https://en.m.wikinews.org/wiki/Former_President_of_Brazil,_Luiz_In%C3%A1cio_Lula_da_Silva,_detained_as_part_of_corruption_investigations
+
+---
+
+## id NEW20 — Mexico, 2017 — Governor (Apex)
+
+**Table description.** On March 27, 2017 authorities in the Mexican state of Chihuahua arrested Javier Garfio Pacheco, former municipal president (mayor) of Chihuahua city, and Gerardo Villegas Madriles, former administrator of the state Treasury (Secretaria de Hacienda), both accused of embezzlement (peculado). The arrests were announced by Governor Javier Corral as part of his drive to prosecute corruption committed during the administration of his predecessor, former governor Cesar Duarte Jaquez. A judge later ordered eight months of preventive detention for the former mayor, and Villegas Madriles was among Duarte-era officials who ultimately admitted guilt for peculado.
+
+**Detail.** As part of Governor Javier Corral's anti-corruption offensive against the government of former Chihuahua governor Cesar Duarte Jaquez (2010 to 2016), state prosecutors arrested several ex-officials on March 27, 2017. Among them were Javier Garfio Pacheco, who had served as municipal president (mayor) of the city of Chihuahua, and Gerardo Villegas Madriles, former administrator in the state Secretaria de Hacienda; both were accused of peculado (embezzlement of public funds). A judge subsequently imposed eight months of preventive prison on the former mayor. The arrests were presented at a press conference the same afternoon and framed as the start of criminal accountability for diversion of state resources under Duarte, who himself later became a fugitive and faced arrest warrants before his eventual capture and extradition. In October 2017 one former Chihuahua official publicly accepted guilt for peculado in the wider case.
+
+**Sources.**
+- https://www.proceso.com.mx/nacional/estados/2017/3/27/dictan-prision-preventiva-por-ocho-meses-exalcalde-de-chihuahua-por-peculado-181215.html
+- https://proceso.com.mx/545450/detienen-a-otro-excolaborador-de-cesar-duarte-por-desvio-del-erario
+- https://www.jornada.com.mx/2017/10/21/estados/024n1est
+
+---
+
+## id NEW21 — Mexico, 2015 — Governor (Apex)
+
+**Table description.** Eugenio Hernandez Flores, former PRI governor of the Mexican state of Tamaulipas (2005 to 2010), became the target of a United States federal arrest warrant issued in 2015 by a court for the Southern District of Texas on money laundering charges, prompting an Interpol red notice that year. United States prosecutors alleged that between 2008 and 2015 Hernandez and his brother-in-law Oscar Manuel Gomez Guerra laundered around 30 million USD by buying real estate in McAllen and Austin, Texas. He faced charges of conspiracy to launder money, operating an unlicensed money-transmitting business and bank fraud conspiracy, carrying potential sentences of up to 25 years, and Mexico later granted his extradition.
+
+**Detail.** Eugenio Javier Hernandez Flores governed Tamaulipas from 2005 to 2010 for the PRI. In 2015 a United States federal court in the Southern District of Texas issued an arrest warrant against him for money laundering, and Interpol placed a red notice. According to United States prosecutors, from 2008 to 2015 Hernandez and his brother-in-law Oscar Manuel Gomez Guerra laundered approximately 30 million USD of illicit origin through purchases of real estate in McAllen and Austin, Texas. The imputed offenses were conspiracy to commit money laundering, operating an unlicensed money transmission business and conspiracy to commit bank fraud, with a maximum exposure of about 25 years in prison. He was also prosecuted in Mexico for peculado and served time; on March 2, 2018 Mexico's foreign ministry issued an agreement granting his extradition to face the Texas charges.
+
+**Sources.**
+- https://24-horas.mx/mexico/politica/gobernadores/eu-emite-nueva-orden-de-aprehension-contra-eugenio-hernandez-ex-gobernador-de-tamaulipas/
+- https://www.sopitas.com/noticias/caso-eugenio-hernandez-flores-tamaulipas-gobernador/
+- https://www.infobae.com/mexico/2023/08/25/ex-gobernador-de-tamaulipas-obtuvo-libertad-condicional-tras-seis-anos-preso-por-delito-de-peculado/
+
+---
+
+## id NEW22 — Mexico, 2016 — Governor (Apex)
+
+**Table description.** In 2016 the Mexican magazine Expansion, together with the watchdog organization Mexicanos Contra la Corrupcion y la Impunidad, published an investigation titled Los Piratas de Borge exposing an institutional machinery of public officials and notaries sponsored by Roberto Borge Angulo, PRI governor of Quintana Roo (2011 to 2016). The scheme systematically stripped ejido holders, individuals and businesses of land and property through rigged labor lawsuits, falsified documents and undervalued sales of state assets. Borge was later arrested in Panama in 2017, extradited to Mexico and prosecuted; in May 2019 he was bound over for trial for illicit use of public power and other charges.
+
+**Detail.** Los Piratas de Borge was a journalistic investigation by Expansion magazine in alliance with Mexicanos Contra la Corrupcion y la Impunidad, published in 2016. It documented how the government of Quintana Roo governor Roberto Borge Angulo used a network of public officials, notaries, PRI and Green Party politicians and state labor boards to dispossess ejidatarios, private owners and businessmen of coastal real estate and money, including through simulated labor suits and document falsification, and to sell or transfer state properties at a fraction of their value. The reporting also detailed lavish spending, including more than 1,000 million pesos on air travel. Borge fled Mexico, was detained in Panama in June 2017, extradited to Mexico in January 2018, and on May 14, 2019 a judge bound him over to trial for aprovechamiento ilicito del poder (illicit use of public power); he faced additional proceedings for embezzlement and improper handling of state assets.
+
+**Sources.**
+- https://expansion.mx/politica/2017/08/15/los-piratas-de-borge-y-el-robo-del-tesoro-16-000-millones
+- https://contralacorrupcion.mx/piratasdeborge/
+- https://politica.expansion.mx/mexico/2019/05/14/roberto-borge-es-vinculado-a-proceso-por-aprovechamiento-ilicito-del-poder
+
+---
+
+## id NEW23 — Mexico, 2017 — Congressman (Non-Apex)
+
+**Table description.** The source record for this entry contains no descriptive text (the flagging hint is empty), so the specific Mexican Supreme Court justice or federal legislator and the alleged corrupt act for 2017 could not be identified. No factual claims are made because there is insufficient information to trace a particular scandal to reliable sources. This item should be treated as unverified pending recovery of the original headline or additional identifying detail.
+
+**Detail.** The scandal object for id NEW23 (Mexico, 2017, position sc_judge_congressman) has an empty hint field, leaving no name, institution or event description to anchor a search. Without at least a name, a case label or a distinguishing detail, it is not possible to confidently match this record to a real, verifiable corruption scandal involving a Supreme Court justice or a member of Congress in Mexico during 2017, and fabricating one would violate the requirement that every fact be real and traceable. The entry is therefore left unverified.
+
+**Sources.**
+
+**Note.** Not fully verified from available sources; description is conservative.
+
+---
+
+## id NEW24 — Mexico, 2017 — Other official (Non-Apex)
+
+**Table description.** On June 19, 2017 The New York Times reported, based on forensic analysis by Citizen Lab, Article 19, R3D and SocialTic, that Mexican government agencies used Pegasus spyware made by Israel's NSO Group to target journalists, human rights lawyers and anti-corruption activists. Researchers documented dozens of infection attempts sent between 2015 and 2016 to prominent figures, several of whom were investigating alleged corruption by President Enrique Pena Nieto and abuses by the government. NSO sells Pegasus only to governments for use against criminals and terrorists; Pena Nieto acknowledged the state had purchased the software but denied ordering illegal surveillance, and prosecutors opened an investigation.
+
+**Detail.** A New York Times investigation published June 19, 2017 revealed that Pegasus, an intrusion tool developed by the Israeli firm NSO Group and sold exclusively to governments, had been deployed in Mexico against journalists, lawyers and activists rather than solely against criminal targets. Digital forensics groups Citizen Lab, Article 19, Red en Defensa de los Derechos Digitales (R3D) and SocialTic documented that dozens of SMS messages carrying malicious Pegasus links were sent between January 2015 and August 2016 to at least eleven targets, including well-known journalists such as Carmen Aristegui and her teenage son, plus civil society figures probing the president's alleged conflicts of interest and human rights cases. NSO Group states its clients must agree to use the tool only against terrorists and criminals. President Enrique Pena Nieto denied his administration spied on the targets while admitting the government had purchased the technology, and the federal Attorney General's office opened an inquiry, though critics said it lacked independence.
+
+**Sources.**
+- https://www.occrp.org/en/news/mexico-targets-journalistsactivists-with-spyware-reserved-for-criminals
+- https://rsf.org/en/mexican-journalists-targeted-pegasus-spyware
+- https://feeds.bbci.co.uk/news/world-latin-america-40337770
+
+---
+
+## id NEW25 — Nicaragua, 2018 — Other official (Non-Apex)
+
+**Table description.** On July 5, 2018 the United States Treasury imposed Global Magnitsky sanctions on three senior figures of Daniel Ortega's government in Nicaragua, among them Francisco Javier Diaz Madriz, deputy director general of the National Police and an in-law (consuegro) of Ortega and Rosario Murillo, and Jose Francisco Lopez Centeno, treasurer of the ruling Sandinista Front (FSLN) and head of the Alba de Nicaragua business group. Diaz was designated for directing police repression of the protests that began in April 2018, while Lopez was cited for corruption and for controlling assets tied to Venezuelan ALBA funds. The sanctions froze their United States assets and barred United States dealings with them; Ortega later promoted Diaz to head of the National Police.
+
+**Detail.** In response to the violent crackdown on Nicaragua's April 2018 protests, the United States Treasury Office of Foreign Assets Control on July 5, 2018 sanctioned three Ortega-aligned officials under the Global Magnitsky framework. Francisco Javier Diaz Madriz was deputy director general (subdirector) of the Nicaraguan National Police and a consuegro of President Daniel Ortega and Vice President Rosario Murillo; he was designated for his role in directing police repression that left many dead. Jose Francisco Lopez Centeno was treasurer of the Frente Sandinista de Liberacion Nacional (FSLN) and executive of Alba de Nicaragua S.A. (Albanisa), the entity that channeled Venezuelan oil-cooperation money, and was cited for corruption and self-enrichment. The third was Fidel Antonio Moreno Briones, secretary general of the Managua mayor's office. The measures blocked their property under United States jurisdiction and prohibited transactions with them. In August 2018 Ortega named Diaz director general of the National Police despite the sanction.
+
+**Sources.**
+- https://www.infobae.com/america/america-latina/2018/08/25/daniel-ortega-nombro-jefe-de-la-policia-nacional-de-nicaragua-a-su-consuegro-francisco-diaz-sancionado-por-eeuu/
+- https://www.nacion.com/el-mundo/conflictos/estados-unidos-sanciona-a-jefe-policial-de/2PLIYI4H6BAIJJETJ7JAVMNVJQ/story/
+- https://www.elnuevodiario.com.ni/nacionales/468910-ley-magnitsky-estados-unidos-sanciones-nicaragua/
+
+---
+
+## id NEW26 — Panama, 2014 — SC Justice (Apex)
+
+**Table description.** Alejandro Moncada Luna, a justice of Panama's Supreme Court of Justice appointed in January 2010 by then president Ricardo Martinelli, was suspended in October 2014 and investigated for unjustified enrichment, money laundering and document falsehood. He pleaded guilty in February 2015 to unjustified enrichment and ideological falsehood of public documents, admitting his acquisition of two luxury apartments exceeded his lawful income by an estimated 2.09 million USD according to the Comptroller General. On March 5, 2015 he was convicted and sentenced to five years (60 months) in prison, accepted forfeiture of the two apartments and was barred from public office.
+
+**Detail.** Alejandro Moncada Luna was named magistrate of the Corte Suprema de Justicia of Panama in January 2010 under President Ricardo Martinelli. In October 2014 the National Assembly and judicial authorities suspended him and opened an investigation into unjustified enrichment, money laundering, document falsehood and corruption of public servants. The Comptroller General estimated that the purchase of two high-value apartments surpassed the economic capacity of Moncada Luna and his wife by roughly 2.09 million USD. In February 2015 he pleaded guilty to unjustified enrichment (enriquecimiento injustificado) and ideological falsehood of public documents, avoiding a possible 20-year exposure. On March 5, 2015 he was declared guilty and sentenced to 60 months (five years) of imprisonment, agreed to the forfeiture (decomiso) of the two apartments, and received the accessory penalty of disqualification from holding public office. He was one of the first high Panamanian judicial figures convicted in the wave of accountability that followed the Martinelli administration.
+
+**Sources.**
+- https://www.prensa.com/impresa/panorama/Moncada-declara-culpable_0_4149335107.html
+- https://www.prensa.com/politica/Condenado-anos_0_4156084528.html
+- https://www.critica.com.pa/nacional/moncada-luna-condenado-60-meses-de-prision-380696
+
+---
+
+## id NEW27 — Paraguay, 2009 — Lower judiciary (Non-Apex)
+
+**Table description.** Fanny Paola Villalba Solaeche, a prosecutor (agente fiscal) of the criminal unit of Coronel Oviedo in Paraguay, was charged in late September 2009 together with her partner over an alleged solicitation of a bribe (coima). Prosecutors imputed her with aggravated passive bribery (cohecho pasivo agravado) and extortion, and the Jury for the Prosecution of Magistrates (Jurado de Enjuiciamiento de Magistrados) moved to strip her of her immunities so she could be investigated. The case concerned money allegedly demanded in exchange for a favorable procedural outcome.
+
+**Detail.** According to reporting by ABC Color dated September 28, 2009, Fanny Paola Villalba Solaeche, an agente fiscal in the criminal (penal) unit of Coronel Oviedo, Paraguay, was imputed along with her partner (pareja) for allegedly requesting a bribe. The charges cited were cohecho pasivo agravado (aggravated passive bribery) and extorsion. The Jurado de Enjuiciamiento de Magistrados subsequently acted to remove her fueros (functional immunity) so that ordinary prosecution could proceed. The available public reporting establishes the imputation and the immunity-stripping step but does not, in the sources reviewed, fully document the amount demanded or the final judicial outcome, so those specifics are left conservative.
+
+**Sources.**
+- https://www.abc.com.py/articulos/la-fiscala-paola-villalba-y-su-pareja-son-imputados-por-supuesta-coima-25003.html
+- https://www.observador.com.py/jem-despoja-de-fueros-a-fiscala-de-coronel-oviedo-imputada-por-un-presunto-pedido-de-coima/
+
+---
+
+## id NEW28 — Paraguay, 2011 — Lower judiciary (Non-Apex)
+
+**Table description.** The flagging report states that in 2011 a prosecutor (fiscal) in Ciudad del Este, Paraguay, was detained for allegedly charging a bribe (cobro de supuesta coima). The original note is a brief breaking-news item that does not name the prosecutor or give the amount, and a specific contemporaneous news article confirming the 2011 Ciudad del Este case could not be located with confidence. The entry is therefore left unverified, and no names, figures or outcomes are asserted beyond the general claim in the original report.
+
+**Detail.** The original hint reads that a fiscal of Ciudad del Este was detained for the collection of an alleged coima, with the note that details would be expanded shortly. Searches of Paraguayan outlets (ABC Color, Ultima Hora, Ministerio Publico) surfaced numerous coima cases involving prosecutors and judicial officials in Paraguay across different years and localities, but did not return a clearly matching, datable 2011 Ciudad del Este prosecutor arrest that could be confidently tied to this record. Because no name, amount or judicial outcome could be traced to a reliable source, the scandal is marked unverified and the description is kept conservative rather than risk attributing false specifics.
+
+**Sources.**
+
+**Note.** Not fully verified from available sources; description is conservative.
+
+---
+
+## id NEW29 — Paraguay, 2013 — Other official (Non-Apex)
+
+**Table description.** The flagging report states that in 2013 the administrative director of Paraguay's Secretaria del Ambiente (SEAM, the state environmental agency) was detained over an alleged bribe (coima). The original note does not provide the official's name, the amount or the specific act, and a contemporaneous news article confirming this particular 2013 SEAM arrest could not be located with confidence. The entry is therefore left unverified, with no names, figures or outcomes asserted beyond the general claim in the original report.
+
+**Detail.** The original hint reports the detention of an administrative director (directora administrativa) of the SEAM for a presumed coima in 2013. Environmental licensing at Paraguay's SEAM has been publicly associated with corruption complaints, and searches returned related material (including later testimony by a former SEAM official about attempted bribes in the licensing process), but no reliable source clearly documented the specific 2013 arrest of a SEAM administrative director referenced here, including a name, amount or legal outcome. To avoid fabricating traceable facts, this scandal is marked unverified and described only at the level supported by the original report.
+
+**Sources.**
+
+**Note.** Not fully verified from available sources; description is conservative.
+
+---
+
+## id NEW3 — Chile, 2015 — Other official (Non-Apex)
+
+**Table description.** The Caso Penta (Pentagate) in Chile centered on emails that prosecutors seized during raids on the offices of the Penta financial group, whose controllers were the businessmen Carlos Alberto Delano and Carlos Eugenio Lavin, both linked to the right-wing UDI party. The messages, made public in early 2015, revealed a scheme of tax evasion using false invoices and irregular, illegal financing of electoral campaigns for numerous UDI politicians. Executive Hugo Bravo admitted his role and described how Penta funneled money to candidates; Delano and Lavin were formally charged (formalizados) for tax and financing offenses, in one of the cases that exposed illicit money in Chilean politics.
+
+**Detail.** The Penta case, also called Pentagate, grew out of a tax-fraud inquiry into the Penta group and expanded into a major political financing scandal in Chile. Prosecutors carried out raids in mid-2015 on Penta offices and seized computers belonging to executives Hugo Bravo, Marcos Castro and Horacio Pena as well as controllers Carlos Alberto Delano and Carlos Eugenio Lavin, both UDI-linked businessmen. The seized emails, some published by CIPER and other outlets in January 2015, showed politicians soliciting money for campaigns and revealed a system of ideologically false invoices and boletas used to evade taxes and to channel irregular, illegal financing to UDI candidates. Former Penta executive Hugo Bravo declared to prosecutors and detailed contributions benefiting figures such as Laurence Golborne, Pablo Zalaquett, Ena von Baer, Ernesto Silva and Ivan Moreira. Delano and Lavin were formalized and detained in connection with tax and electoral-financing offenses, and the case became a landmark in Chilean debates over money in politics.
+
+**Sources.**
+- https://www.ciperchile.cl/2015/01/05/caso-penta-la-caja-negra-de-las-platas-politicas-que-sacude-a-la-udi/
+- https://radio.uchile.cl/2015/01/04/caso-penta-salen-a-la-luz-correos-de-parlamentarios-en-que-piden-dinero-para-sus-campanas/
+- https://www.latercera.com/noticia/rol-hugo-bravo-caso-penta/
+
+---
+
+## id NEW30 — Paraguay, 2016 — Congressman (Non-Apex)
+
+**Table description.** In May 2016 an audio recording released by attorney Paraguayo Cubas implicated a son of Sindulfo Blanco, a justice of Paraguay's Supreme Court of Justice, in an alleged bribery scheme. In the recording, Dixon Kennedy, a member of the Consejo de Superintendencia or judicial ethics body, described giving one of Blanco's sons a Mercedes Benz vehicle to obtain a favorable ruling in a case linked to the Yacyreta binational entity. The son publicly denied receiving the car as a bribe. Sindulfo Blanco was separately charged that year with malfeasance (prevaricato) and was ultimately removed from the Supreme Court by the Senate through political trial in November 2018.
+
+**Detail.** In May 2016 lawyer Paraguayo Cubas made public an audio in which Dixon Kennedy admitted having bribed a son of Supreme Court justice Sindulfo Blanco with a Mercedes Benz vehicle to secure a favorable judicial decision in a matter connected to the Entidad Binacional Yacyreta. According to the recording, Kennedy financed the vehicle using proceeds (about 550,000,000 guaranies) from the sale of property belonging to his wife. Blanco's son publicly denied that the car was a bribe. Around the same period Blanco became, per Paraguayan reporting, the first sitting minister of the Corte Suprema de Justicia to be charged while in office, when the anti-corruption prosecutor imputed him for prevaricato (malfeasance). On November 14, 2018 the Senate removed Sindulfo Blanco from the Supreme Court via juicio politico with 30 votes in favor of his destitution.
+
+**Sources.**
+- https://www.abc.com.py/nacionales/acusan-de-coimero-a-un-hijo-del-ministro-blanco-1482963.html
+- https://www.abc.com.py/edicion-impresa/politica/denuncian-que-hijo-de-ministro-blanco-recibio-auto-por-un-favor-en-un-juicio-1483062.html
+- https://www.lanacion.com.py/politica/2018/11/14/destituyen-a-sindulfo-blanco-de-la-corte-suprema/
+
+---
+
+## id NEW32 — Paraguay, 2018 — Lower judiciary (Non-Apex)
+
+**Table description.** On July 5, 2018, Rafael Ramirez Doldan, a judicial official (relator) of the Paraguayan Supreme Court of Justice, was arrested by prosecutors and police outside the Palace of Justice in Asuncion after being caught receiving part of a bribe he had solicited. He allegedly demanded roughly USD 50,000 to secure favorable votes from justices of the Civil Chamber in a lawsuit involving a lime company against the state cement institute. He was later convicted, and former Supreme Court minister Miguel Oscar Bajac was also prosecuted and sentenced to three years for aggravated passive bribery.
+
+**Detail.** Rafael Ramirez Doldan, who presented himself as a court rapporteur (relator) at the Paraguayan Supreme Court, was detained on July 5, 2018 in a sting operation at the Plaza de la Justicia in front of the Palace of Justice, caught with part of the money he had requested. The complaint was filed by litigant Felipe Nery Paez, who said Ramirez solicited about USD 50,000 in exchange for obtaining the votes of Civil Chamber justices to rule favorably in a case pitting the company Cal Agro against the National Cement Industry (INC). The scheme reached to a sitting-era Supreme Court figure: a Tribunal later convicted former Supreme Court minister Miguel Oscar Ramon Bajac Albertini, sentencing him to three years in prison for aggravated passive bribery (2023), while Ramirez Doldan received a term of two years and six months for the same offense.
+
+**Sources.**
+- https://www.lanacion.com.py/pais/2018/07/05/detienen-a-funcionario-de-la-corte-suprema-por-pedir-coima/
+- https://www.abc.com.py/nacionales/2023/07/31/condenan-al-exministro-miguel-oscar-bajac-a-3-anos-de-carcel/
+- https://www.ultimahora.com/dos-funcionarios-del-poder-judicial-caen-por-pedido-de-coima
+
+---
+
+## id NEW33 — Peru, 2017 — President (Apex)
+
+**Table description.** In February 2017, Marcelo Odebrecht, former CEO of the Brazilian construction firm Odebrecht, confirmed to Brazilian prosecutors under a plea deal that the company delivered about USD 3 million to the 2011 presidential campaign of Ollanta Humala, president of Peru from 2011 to 2016. The money was funneled at the request of former Brazilian finance minister Antonio Palocci through Odebrecht's Division of Structured Operations. The disclosure deepened Peru's Lava Jato investigation, and in July 2017 Humala and his wife Nadine Heredia were ordered into pretrial detention.
+
+**Detail.** Under his delacao premiada (plea bargain) with Brazilian justice, Marcelo Odebrecht stated with certainty that Odebrecht handed about USD 3 million to Ollanta Humala's 2011 presidential campaign, which defeated Keiko Fujimori in the runoff. According to documents signed by Brazilian Supreme Court justice Edson Fachin, the payment was made at the request of former finance minister Antonio Palocci of the Workers' Party and channeled through Odebrecht's clandestine Division of Structured Operations. Odebrecht's former Peru chief Jorge Barata corroborated the account. The revelation, reported by Peruvian media in February 2017, was central to the Odebrecht/Lava Jato case in Peru; on July 13, 2017 a judge ordered 18 months of pretrial detention for Humala and Heredia for alleged money laundering.
+
+**Sources.**
+- https://www.infobae.com/america/america-latina/2017/02/23/delator-de-odebrecht-revelo-que-la-empresa-aporto-usd-3-millones-para-la-campana-de-ollanta-humala/
+- https://larepublica.pe/politica/1174571-marcelo-odebrecht-con-certeza-a-ollanta-humala-le-di-3-millones-de-dolares
+- https://rpp.pe/lima/judiciales/marcelo-odebrecht-confeso-que-entrego-us-3-millones-a-la-campana-de-humala-noticia-1043612
+
+---
+
+## id NEW35 — Dominican Republic, 2017 — Other official (Non-Apex)
+
+**Table description.** On May 29, 2017, Dominican Attorney General Jean Alain Rodriguez formally charged fourteen men, among them businessmen, politicians (including a minister) and a lawyer, as part of the Odebrecht bribery scheme in the Dominican Republic. Odebrecht had admitted paying about USD 92 million in bribes to Dominican officials over roughly 2001 to 2014. A special Supreme Court judge ordered ten of the fourteen defendants held in pretrial detention pending trial for money laundering, false statements and bribery.
+
+**Detail.** The Odebrecht case in the Dominican Republic stemmed from the company's December 2016 US settlement, in which it admitted paying about USD 92 million in bribes to Dominican officials to secure public works contracts. On May 29, 2017, Attorney General Jean Alain Rodriguez presented formal accusations against fourteen people, describing the case as unprecedented for the number of crimes and the power of those involved; ten of the accused were arrested. A special preliminary-hearings judge of the Supreme Court, Francisco Ortega Polanco, found sufficient evidence for trial and ordered pretrial detention for ten of the fourteen defendants, who faced charges of money laundering, submitting false statements and bribery.
+
+**Sources.**
+- https://www.occrp.org/en/news/dominican-republic-arrests-12-in-odebrecht-corruption-scandal
+- https://insightcrime.org/news/brief/arrests-state-officials-odebrecht-ties-spotlights-corruption-dr-elites/
+- https://en.wikipedia.org/wiki/Odebrecht_case_in_the_Dominican_Republic
+
+---
+
+## id NEW36 — Guatemala, 2018 — Other official (Non-Apex)
+
+**Table description.** In January 2018, Manuel Baldizon, a former Guatemalan congressman and presidential candidate (LIDER party, runner-up in the 2015 election), was arrested by US authorities at Miami airport on an Interpol alert stemming from a Guatemalan warrant. Guatemalan prosecutors alleged he received more than USD 3 million in Odebrecht bribes, funneled through former communications minister Alejandro Sinibaldi and a lawyer who set up bank accounts. Baldizon initially sought US asylum, then withdrew the request; he was convicted in the United States of money laundering and later returned to Guatemala.
+
+**Detail.** Manuel Baldizon, leader of the Libertad Democratica Renovada (LIDER) party and the losing candidate in Guatemala's 2015 presidential runoff, was detained by US Homeland Security agents at Miami airport in January 2018 after arriving from the Dominican Republic, following an Interpol alert based on a Guatemalan arrest warrant. Guatemalan prosecutors accused him of receiving more than USD 3 million in bribes from Odebrecht, channeled through former infrastructure and communications minister Alejandro Sinibaldi and a lawyer who created bank accounts to move the funds. Baldizon requested political asylum in the US claiming political persecution, then withdrew the request; he was convicted in the US on a money laundering charge, served about 28 months in federal prison, was transferred to ICE custody and ultimately returned to face charges in Guatemala.
+
+**Sources.**
+- https://www.prensalibre.com/guatemala/politica/manuel-baldizon-detenido-captura-estados-unidos-caso-odebrecht-corrupcion-capturado/
+- https://insightcrime.org/news/brief/guatemala-powerbroker-withdraws-us-asylum-plea-face-criminal-charges/
+- https://en.wikipedia.org/wiki/Manuel_Baldiz%C3%B3n
+
+---
+
+## id NEW37 — Mexico, 2017 — Other official (Non-Apex)
+
+**Table description.** In August 2017, three former Odebrecht executives told prosecutors that Emilio Lozoya Austin, former director general of Mexico's state oil company Pemex (2012 to 2016) and a close collaborator of President Enrique Pena Nieto, received about USD 10 million in bribes from Odebrecht between 2012 and 2016, allegedly linked to a contract at the Tula refinery. Lozoya denied the accusations. He was later charged, an arrest warrant was issued in 2019, and he was extradited from Spain to Mexico in 2020.
+
+**Detail.** The accusation was reported on August 8, 2017 by the Mexican outlet Animal Politico: former Odebrecht executives Luis Alberto de Meneses (Luiz Antonio Mameri) and colleagues, including Hilberto Mascarenhas da Silva, provided prosecutors with dates, names, amounts and bank accounts indicating that Emilio Lozoya, then recently departed head of Pemex, received roughly USD 10 million in bribes between 2012 and 2016 in connection with a bidding process for the Tula refinery in Hidalgo. Lozoya, who had also chaired Pemex under Pena Nieto, denied wrongdoing. An arrest warrant was issued in 2019 in the Odebrecht and Agro Nitrogenados cases; he was detained in Spain and extradited to Mexico in 2020, where he became a cooperating witness.
+
+**Sources.**
+- https://www.animalpolitico.com/2017/08/odebrecht-lozoya-sobornos/
+- https://www.elfinanciero.com.mx/mundo/emilio-lozoya-recibio-10-mdd-en-sobornos-de-odebrecht-segun-exidirectivos/
+- https://feeds.bbci.co.uk/news/world-latin-america-48891030
+
+---
+
+## id NEW38 — Peru, 2019 — Lower judiciary (Non-Apex)
+
+**Table description.** On August 21, 2019, a Peruvian supreme judge opened a criminal trial against Pedro Chavarry, former Attorney General of Peru (Fiscal de la Nacion), for the alleged crime of real concealment (encubrimiento real). The charge arose from his December 31, 2018 decision to remove prosecutors Rafael Vela and Jose Domingo Perez from the Lava Jato/Odebrecht special team, a move he reversed days later after mass protests. Congress had approved the constitutional accusation in July 2019, and the court ordered simple appearance for Chavarry.
+
+**Detail.** Pedro Gonzalo Chavarry served as Peru's Attorney General (Fiscal de la Nacion) and became a central figure of controversy when, hours before the end of 2018, he removed prosecutors Rafael Vela and Jose Domingo Perez, the two lead prosecutors of the Odebrecht/Lava Jato special team; he reversed the decision on January 3, 2019 amid nationwide protests. Peru's Congress approved a constitutional accusation against him on July 24, 2019, and on August 21, 2019 supreme judge Hugo Nunez Julca opened a criminal proceeding for the crime of real concealment (encubrimiento real), following a complaint by Attorney General Zoraida Avalos. The court ordered only simple appearance rather than any restrictive measure.
+
+**Sources.**
+- https://elcomercio.pe/politica/pedro-chavarry-juez-decidio-abrir-proceso-penal-exfiscal-nacion-noticia-667455-noticia/
+- https://www.aa.com.tr/es/mundo/abren-proceso-penal-contra-el-exfiscal-de-la-naci%C3%B3n-de-per%C3%BA-por-encubrimiento/1561835
+- https://es.wikipedia.org/wiki/Pedro_Ch%C3%A1varry
+
+---
+
+## id NEW4 — Dominican Republic, 2016 — Other official (Non-Apex)
+
+**Table description.** In March 2016, a Wall Street Journal report exposed the Super Tucano scandal in the Dominican Republic: Brazilian aircraft maker Embraer had paid about USD 3.5 million in bribes to Dominican officials to win a contract worth roughly USD 92 to 94 million for eight Super Tucano military aircraft purchased in 2008 and 2009. Consultant Elio Moti Sonnenfeld acknowledged the payments. In 2017 Dominican prosecutors charged six people, including former defense minister Rafael Pena Antonio and a former air force projects director, Carlos Piccini Nunez.
+
+**Detail.** The Casos Tucanos (Super Tucano) affair concerned the Dominican Republic's 2008 purchase of eight A-29 Super Tucano light attack aircraft from Brazil's Embraer for nearly USD 94 million. Embraer's consultant Elio Moti Sonnenfeld admitted to prosecutors paying roughly USD 3.5 million in bribes to a Dominican official to steer the tender, part of Embraer's broader global bribery settlement (about USD 205 million with US and Brazilian authorities in late 2016, covering Saudi Arabia, the Dominican Republic and Mozambique). In 2017 the Dominican Public Ministry charged six individuals and three companies under anti-bribery and money-laundering laws, including former defense minister Rafael Pena Antonio and the former special projects director of the Dominican Air Force, Carlos Piccini Nunez; the case suffered lengthy delays and ended in penal extinction in 2023.
+
+**Sources.**
+- https://listindiario.com/la-republica/justicia/20230612/caso-super-tucano-conocerse-cero-explicado-paso-paso_758396.html
+- https://eldia.com.do/embraer-admite-que-pago-soborno-en-rd-por-tucano/
+- https://pgr.gob.do/pepca-deposita-acusacion-formal-por-sobornos-para-facilitar-compra-de-aviones-super-tucano/
+
+---
+
+## id NEW5 — Ecuador, 2016 — Other official (Non-Apex)
+
+**Table description.** Alecksey Mosquera, former Ecuadorian Minister of Electricity and Renewable Energy (2007 to 2009) under President Rafael Correa, became the first person detained in Ecuador's Odebrecht investigation. The Odebrecht case in Ecuador broke publicly in December 2016 after the company's US plea deal, and Mosquera was arrested on April 22, 2017 for allegedly receiving about USD 1 million from Odebrecht, prosecuted as money laundering. He was subsequently tried and convicted in the case.
+
+**Detail.** Alecksey Mosquera Endara served as Ecuador's Minister of Electricity and Renewable Energy from June 2007 to July 2009, promoting major hydroelectric projects. After Odebrecht's December 2016 US settlement triggered investigations across Latin America, Ecuador's Attorney General moved against local figures; Mosquera was the first detained, arrested on April 22, 2017 together with his relative, businessman Marcelo Endara. Prosecutors alleged Odebrecht paid about USD 1 million linked to expediting a project, and Mosquera faced money-laundering proceedings; he was later convicted. Note: the record year of 2016 corresponds to when the Ecuadorian Odebrecht case broke publicly, while the actual arrest occurred in April 2017.
+
+**Sources.**
+- https://gestion.pe/peru/politica/caso-odebrecht-exministro-correa-primer-detenido-ecuador-133580-noticia/
+- https://www.contraloria.gob.ec/CentralMedios/PrensaDia/17516
+- https://www.elcomercio.com/actualidad/seguridad/claves-caso-odebrecht-ecuador-sobornos/
+
+---
+
+## id NEW6 — Ecuador, 2017 — Other official (Non-Apex)
+
+**Table description.** On June 2, 2017, Ecuadorian authorities detained Ricardo Rivera, uncle of Vice President Jorge Glas, in Guayaquil as part of the Odebrecht investigation. Prosecutors alleged Rivera acted as the liaison who collected bribes from Odebrecht on behalf of his nephew. He was later convicted of illicit association and sentenced to six years in prison, the same term given to Glas. The scandal hint names him Ricardo Ramirez, which is an error; the individual is Ricardo Rivera.
+
+**Detail.** Ricardo Rivera, uncle of Ecuadorian Vice President Jorge Glas, was arrested at his Guayaquil home on June 2 to 3, 2017 after being followed by officers for about two weeks. Prosecutors identified him as the intermediary who received Odebrecht bribes destined for his nephew, then vice president. In December 2017 a court found that Glas acted as the authority and Rivera as the liaison in Odebrecht securing contracts in exchange for illegal payments; Rivera was convicted of illicit association (asociacion ilicita) and sentenced to six years, matching the six-year term imposed on Glas and others (Edgar Arias, Ramiro Carrillo, Carlos Villamarin). Rivera died of COVID-19 in January 2022. The tweet hint's reference to Ricardo Ramirez is a naming error for Ricardo Rivera.
+
+**Sources.**
+- https://gk.city/2017/06/03/ricardo-rivera-detenido/
+- https://insightcrime.org/news/brief/ecuador-vice-president-detained-probe-alleged-odebrecht-links/
+- https://www.ecuavisa.com/politica/ricardo-rivera-rinde-su-version-por-asociacion-ilicita-en-caso-odebrecht-20170928-0004.html
+
+---
+
+## id NEW7 — Ecuador, 2017 — Lower judiciary (Non-Apex)
+
+**Table description.** In 2017, evidence surfaced implicating Carlos Polit, Ecuador's Comptroller General (Contralor General del Estado, 2007 to 2017), in the Odebrecht scheme. Around early August 2017, leaked audio recordings between Odebrecht's local representative Jose Santos and Polit, together with documents released by the company, indicated Polit received roughly USD 10 million in bribes to suppress audit findings against the firm. Polit fled to the United States; an Ecuadorian court later sentenced him to six years for concussion, and in 2024 a US federal jury convicted him of money laundering.
+
+**Detail.** Carlos Polit Faggioni was Ecuador's Comptroller General from 2007 through 2017, spanning Rafael Correa's presidency. In early August 2017 audio recordings leaked of conversations between Jose Conceicao Santos, Odebrecht's representative in Ecuador, and Polit, discussing bribe deliveries to the comptroller, to Vice President Jorge Glas and to Glas's uncle; these audios and documentary evidence provided by Odebrecht led Ecuador's Attorney General to build cases. Prosecutors alleged Polit received about USD 10.1 million in bribes to eliminate audit observations worth tens of millions against Odebrecht. Polit fled to Miami; an Ecuadorian court sentenced him to six years for the crime of concussion (concusion), which he did not serve, and in 2024 a jury in the US Southern District of Florida convicted him of money laundering and related charges.
+
+**Sources.**
+- https://www.primicias.ec/noticias/politica/carlos-polit-contraloria-juicio-ecuador/
+- https://www.infobae.com/america/america-latina/2024/04/23/el-ex-contralor-general-de-ecuador-carlos-polit-fue-declarado-culpable-de-lavado-de-dinero-en-estados-unidos/
+- https://gk.city/2022/05/04/quien-es-carlos-polit-ex-contralor-general-ecuador/
+
+---
+
+## id NEW8 — Guatemala, 2015 — President (Apex)
+
+**Table description.** In August 2015, Guatemala's International Commission against Impunity (CICIG) and the Public Ministry presented wiretap recordings and other evidence directly implicating President Otto Perez Molina as a leader of the La Linea customs fraud network, identifying him within the structure as the number one. On August 21, 2015 Attorney General Thelma Aldana requested the removal of his immunity (antejuicio) for illicit association and passive bribery. Perez Molina resigned on September 2, 2015 and was jailed pending trial.
+
+**Detail.** The La Linea case, revealed in April 2015, exposed a customs fraud ring in Guatemala's ports whose members took bribes to lower import duties. On August 21, 2015 CICIG and the Public Ministry presented new evidence, including wiretapped conversations between President Otto Perez Molina and members of the structure (such as a conversation with tax superintendent Carlos Munoz), arguing that intelligence pointed to Perez Molina as the ring's leader, denoted as the number 1. Attorney General Thelma Aldana filed a second antejuicio request to strip his immunity for illicit association and passive bribery, backed by tens of thousands of wiretaps, thousands of emails and numerous raids. Congress lifted his immunity on September 1, 2015; he resigned on September 2, 2015 and was ordered into pretrial detention.
+
+**Sources.**
+- https://www.cicig.org/casos/a-prision-preventiva-ex-presidente-otto-perez-molina/
+- https://www.prensalibre.com/guatemala/justicia/caso-la-linea-otto-perez-molina-queda-demostrado-que-es-un-caso-politico/
+- https://elfaro.net/es/201508/internacionales/17300/Presidente-de-Guatemala-se-queda-solo-ante-acusaciones-de-corrupci%C3%B3n.htm
+
+---
+
+## id NEW9 — Guatemala, 2016 — President (Apex)
+
+**Table description.** On April 15, 2016, Guatemala's CICIG and the special prosecutor FECI revealed the TCQ case, alleging that former president Otto Perez Molina and former vice president Roxana Baldetti received about USD 24.5 million in bribes between 2012 and 2015 from the Terminal de Contenedores Quetzal (TCQ) shipping consortium. The payments were allegedly made in exchange for a 25-year usufruct concession to build and operate a private container terminal at Puerto Quetzal. Seventeen people were linked to the case and nine were captured at the time.
+
+**Detail.** The Caso TCQ, unveiled on April 15, 2016 by CICIG and the Fiscalia Especial contra la Impunidad (FECI), alleged that a criminal group organized between January 2012 and April 2015 to profit from the irregular award of a contract assigning land at the state-run Puerto Quetzal for a private container terminal. According to the Public Ministry and CICIG, the Terminal de Contenedores Quetzal (TCQ, linked to a Spanish shipping group) paid about USD 24.5 million in bribes to former president Otto Perez Molina and former vice president Roxana Baldetti, among others, in exchange for a 25-year usufruct. Seventeen people were linked to the case and nine were captured in the initial operation. The disclosure came about a year after the original La Linea case and a day after Baldetti's former secretary Juan Carlos Monzon was accepted as an effective collaborator.
+
+**Sources.**
+- https://www.cicig.org/casos/caso-tcq/
+- https://www.prensalibre.com/guatemala/justicia/usufructo-de-puerto-quetzal-significo-us245-millones-en-sobornos/
+- https://www.soy502.com/articulo/asi-operaba-otto-perez-roxana-baldetti-caso-puerto-quetzal
+
+---
+
+## id TWNEWLATIN12 — Colombia, 2018 — Other official (Non-Apex)
+
+**Table description.** In June 2018, Colombian Attorney General Nestor Humberto Martinez publicly detailed a national electoral corruption network operating in service of political campaigns during the March 2018 legislative elections. The Prosecutor's Office described operations such as Casa Blanca, in which voters were paid for their votes, and announced requests to the Supreme Court to investigate several elected members of Congress along with deputies, mayors, councilmen and businessmen. The revelations implicated politicians across at least five departments.
+
+**Detail.** On June 21, 2018 Attorney General Nestor Humberto Martinez presented the findings of the Fiscalia's investigation into a national electoral corruption network tied to the March 11, 2018 legislative elections. He detailed schemes, including Operation Casa Blanca, in which a criminal enterprise paid voters in exchange for their ballots in service of political campaigns, potentially involving more than seven members of Congress plus deputies, mayors, councilmen and businessmen across at least five departments. The prosecutor announced requests to the Supreme Court to open investigations of elected congress members (including Lilibeth Llinas, Fabian Castillo and Margarita Restrepo) and said charges would follow against individuals such as Julian Gutierrez for voter coercion and corruption. Martinez served as Attorney General from 2016 to 2019.
+
+**Sources.**
+- https://www.vanguardia.com/politica/elecciones/2018/06/21/estas-son-las-revelaciones-de-la-fiscalia-sobre-la-red-nacional-de-corrupcion-electoral/
+- https://www.semana.com/nacion/articulo/rueda-de-prensa-del-fiscal-general-sobre-corrupcion-electoral/572349/
+- https://en.wikipedia.org/wiki/N%C3%A9stor_Humberto_Mart%C3%ADnez
+
+---
+
+## id TWNEWLATIN15 — Nicaragua, 2018 — Other official (Non-Apex)
+
+**Table description.** On July 5, 2018, the United States Treasury imposed Global Magnitsky sanctions on two senior Nicaraguan officials tied to Daniel Ortega. Francisco Diaz, deputy director of the National Police and an in-law of Ortega (their children married), was sanctioned for directing violent repression of protesters during the 2018 crisis. Francisco Lopez Centeno, treasurer of the ruling FSLN party and vice president of the ALBA-linked firm Albanisa, was sanctioned for using his positions and family-owned companies to win government contracts for personal enrichment. The measures froze their US assets and barred dealings with them.
+
+**Detail.** On July 5, 2018 the US Department of the Treasury Office of Foreign Assets Control designated three Nicaraguan officials under the Global Magnitsky program. Two of them match the flagged report: Francisco Javier Diaz Madriz, deputy director general of the Policia Nacional and a consuegro of President Daniel Ortega and Rosario Murillo (his daughter married their son), cited for the police force directing lethal repression of demonstrators after April 2018; and Francisco Lopez Centeno, treasurer of the Frente Sandinista de Liberacion Nacional (FSLN) and a vice president of Alba de Nicaragua (Albanisa), cited for using his official positions and personally owned companies to obtain state contracts and enrich himself and his family. The third designee that day was Fidel Moreno, secretary general of the Managua mayor office. The sanctions blocked their property under US jurisdiction and prohibited US persons from transacting with them.
+
+**Sources.**
+- https://nicaraguainvestiga.com/politica/4594-el-tesorero-del-fsln-afectado-por-sancion-de-ee-uu-sale-del-gobierno-de-nicaragua/
+- https://www.articulo66.com/2020/07/17/crece-a-23-la-lista-de-operadores-orteguistas-sancionados-por-estados-unidos/
+
+---
+
+## id TWNEWLATINO1 — Argentina, 2017 — Other official (Non-Apex)
+
+**Table description.** In July 2017, a hidden-camera video broadcast by Argentine television showed Facundo Prades, the mayor (intendente) of Caleta Olivia in Santa Cruz province, allegedly receiving a cash bribe of at least two million pesos. The payment was tied to a transaction involving public or fiscal land intended for a supermarket project linked to foreign investors. The footage, reported on July 24, 2017, prompted a formal complaint and judicial investigation. Prades denied the accusations.
+
+**Detail.** On July 24, 2017 the program broadcast by TN aired a covertly filmed video showing Facundo Prades, intendente of Caleta Olivia (Santa Cruz), allegedly taking cash described as a coima (bribe) of at least two million pesos, with claims the total could have reached five million pesos, paid in installments during trips to Buenos Aires in March and May 2017. The alleged payments related to the handover of fiscal or public land connected to a plan by investors to install supermarkets. The recording was reportedly supplied by an operative connected to a senator office who acted as intermediary. A denuncia was filed and the matter went to justice; Prades rejected the accusations and denied knowledge of the hotel where the exchange supposedly occurred.
+
+**Sources.**
+- https://www.youtube.com/watch?v=GjABde7fi0o
+- https://periodicolasheras.com.ar/filman-y-denuncian-por-coima-al-intendente-de-caleta-olivia/
+
+---
+
+## id TWNEWLATINO10 — Colombia, 2017 — Lower judiciary (Non-Apex)
+
+**Table description.** On June 27, 2017, Luis Gustavo Moreno Rivera, national director of the Anti-Corruption Unit of Colombia's Fiscalia General, was arrested by prosecutors with DEA support. He was accused of soliciting bribes from former Cordoba governor Alejandro Lyons in exchange for shielding him from investigation, part of a broader scheme dubbed the Cartel de la Toga involving high-court magistrates. Moreno was extradited to the United States on May 17, 2018, pleaded guilty to money laundering conspiracy, and was later sentenced to four years in prison.
+
+**Detail.** Luis Gustavo Moreno Rivera, the top anti-corruption prosecutor (director nacional anticorrupcion) of Colombia's Fiscalia General de la Nacion, was captured on June 27, 2017 in an operation supported by the US DEA, under an Interpol red-notice framework for conspiracy to launder money. He was accused of asking former Cordoba governor Alejandro Lyons for money in exchange for information and favorable handling that would obstruct the case against Lyons; the affair connected to the Cartel de la Toga scandal involving magistrates of the high courts. Moreno was extradited to the United States on May 17, 2018, pleaded guilty in a US federal court to money laundering conspiracy in August 2018, and in January 2019 was sentenced to four years in prison; his associate lawyer Leonardo Pinilla received two years. He also faced proceedings and sentencing in Colombia.
+
+**Sources.**
+- https://www.elheraldo.co/colombia/2017/06/27/capturan-a-director-anticorrupcion-de-fiscalia-por-pedir-sobornos-a-lyons-376539/
+- https://www.infobae.com/america/eeuu/2018/08/14/el-ex-fiscal-anticorrupcion-de-colombia-se-declaro-culpable-de-lavado-de-activos-en-eeuu/
+- https://es.wikipedia.org/wiki/Luis_Gustavo_Moreno
+
+---
+
+## id TWNEWLATINO11 — Colombia, 2017 — Other official (Non-Apex)
+
+**Table description.** In 2017, audio recordings surfaced showing that Inassa, the Latin American subsidiary of Spain's Canal de Isabel II, bribed Colombian politicians and financed political campaigns to secure lucrative water and public-service contracts. Diego Garcia Arias, head of Inassa, was identified as the person who handled the bribes, which touched mayoral and presidential campaigns and involved the takeover of the Barranquilla utility Triple A. The case was linked to Spain's Operation Lezo; Garcia was detained at Bogota airport in August 2017.
+
+**Detail.** Reporting in 2017, notably by El Tiempo, exposed audio recordings indicating that Inassa (Interamericana de Aguas y Servicios), the Latin American arm of the Spanish company Canal de Isabel II, paid bribes to Colombian politicians and sponsored campaigns in exchange for public-service contracts and tax-collection concessions in Colombia and elsewhere. In one recording, an executive stated that Inassa chief Diego Garcia Arias handled the bribes and had paid for presidential and mayoral campaigns; the scheme was tied to the acquisition of the Barranquilla utility Sociedad de Acueducto, Alcantarillado y Aseo (Triple A). The investigation connected to Spain's Operation Lezo, which probed corruption at Canal de Isabel II. International arrest warrants were issued against Inassa executives for fraud, money laundering, embezzlement and bribery, and Diego Garcia was detained at Bogota airport in August 2017 while trying to travel to Mexico.
+
+**Sources.**
+- https://www.eltiempo.com/justicia/investigacion/audios-prueban-que-inassa-soborno-a-politicos-colombianos-93026
+- https://www.eltiempo.com/justicia/investigacion/caso-de-canal-isabel-ii-toca-a-empresas-de-colombia-79634
+- https://www.publico.es/politica/guardia-civil-anticorrupcion-registran-filial-canal-colombia.html
+
+---
+
+## id TWNEWLATINO14 — Ecuador, 2016 — Other official (Non-Apex)
+
+**Table description.** The source record for this entry contains no descriptive hint text, only the country Ecuador, the year 2016, and the position category others. Without any identifying detail about the official or the alleged act, a specific corruption scandal could not be confidently identified or verified through web search. No factual claims are asserted here.
+
+**Detail.** This flagged item had an empty hint field, providing no name, office, act, date or keyword to anchor a search. Ecuador in 2016 saw several corruption matters (for example the Petroecuador bribery cases involving officials such as Alex Bravo and Carlos Pareja Yannuzzelli), but there is no basis in the given record to determine which, if any, this entry refers to. It is therefore left unverified to avoid inventing facts.
+
+**Sources.**
+
+**Note.** Not fully verified from available sources; description is conservative.
+
+---
+
+## id TWNEWLATINO16 — Panama, 2015 — Other official (Non-Apex)
+
+**Table description.** In late 2014 and 2015, statements by Rafael Guardia and Giacomo Tamburelli, both former directors of Panama's National Aid Program (Programa de Ayuda Nacional, PAN), described a corruption scheme in which PAN funds were misused and inflated-price purchases were ordered. Tamburelli stated the instructions came from then-president Ricardo Martinelli, implicating people close to him. Investigators calculated a state loss of roughly 45 million USD tied to dehydrated-food and other PAN contracts. In January 2015 an anti-corruption prosecutor moved to have the Supreme Court investigate Martinelli, and Tamburelli was later convicted and imprisoned for embezzlement.
+
+**Detail.** The confessions and declarations of Rafael Guardia Jaen and Giacomo Tamburelli, successive directors of Panama's Programa de Ayuda Nacional (PAN) during the Martinelli administration (2009-2014), exposed a scheme in which PAN money was diverted and purchases were made at inflated prices, including dehydrated food. Tamburelli, in statements to prosecutors around December 2014, said nothing moved within the PAN without approval from above and pointed directly to former president Ricardo Martinelli as giving the instructions; the disclosures also implicated other associates of Martinelli. In January 2015 an anti-corruption fiscal announced a request for the Supreme Court to investigate Martinelli over the inflated PAN purchases. The Comptroller General estimated a patrimonial loss of about 45 million USD. Tamburelli and others were subsequently convicted and sentenced to prison (eight years) for peculado (embezzlement) linked to using PAN funds improperly.
+
+**Sources.**
+- https://tvn-2.com/nacionales/politica/Confesiones-corrupcion-PAN-Martinelli-Obarrio_0_4126087417.html
+- https://en.wikipedia.org/wiki/Giacomo_Tamburelli
+- https://www.midiario.com/nacionales/editorial-tamburelli-y-yunito-vega-condenados-por-usar-los-fondos-del-pan-como-caja-menuda-de-cambio-democratico/
+
+---
+
+## id TWNEWLATINO22 — Chile, 2013 — Congressman (Non-Apex)
+
+**Table description.** In 2013, Chilean investigative outlet CIPER revealed that Corpesca, a fishing company of the Angelini group, paid about 25 million pesos to then-deputy Marta Isasi around the time Congress debated the Fisheries Law (the so-called Ley Longueira). The money was routed through her chief of staff, Georgio Carrillo, as payment for fictitious consulting, and Corpesca reportedly supplied a draft the deputy was to present as her own. The Chamber Ethics Commission sanctioned Isasi in December 2013, and prosecutors investigated her for possible bribery.
+
+**Detail.** In May 2013 CIPER Chile published that Georgio Carrillo, the former chief of staff of deputy Marta Isasi, admitted receiving payments from Corpesca (a fishing firm of the Angelini group) for fictitious consulting services, with roughly 25 million pesos intended for the deputy. The payments were made around the time Congress debated the Ley de Pesca (Ley Longueira) that set fishing quotas, and Corpesca allegedly provided a text the deputy was to present as her own initiative. The Comision de Etica of the Camara de Diputados sanctioned Isasi with its maximum penalty in December 2013 for misuse of allocations, while the Ministerio Publico investigated her for possible cohecho (bribery). The affair fed into the broader Corpesca case on illegal financing of politics tied to the fisheries law.
+
+**Sources.**
+- https://www.ciperchile.cl/2013/05/10/ex-asesor-de-diputada-marta-isasi-revela-pagos-de-corpesca-para-financiar-campanas-politicas/
+- https://radio.uchile.cl/2013/12/17/comision-de-etica-sanciona-a-marta-isasi-por-haber-recibido-pagos-durante-discusion-de-la-ley-de-pesca/
+- https://www.ciperchile.cl/2015/04/22/financiamiento-ilegal-de-la-politica-los-pagos-de-las-pesqueras/
+
+---
+
+## id TWNEWLATINO23 — Brazil, 2013 — Lower judiciary (Non-Apex)
+
+**Table description.** The flagged text is a June 2013 statement by Roberto Gurgel, then Brazil's Prosecutor General (Procurador-Geral da Republica), remarking that society was tired of impunity and defending the street protests of that period. Gurgel was the prosecutor who led the Mensalao (Acao Penal 470) case, not the target of a corruption accusation. Because the item flags the anti-corruption prosecutor rather than a corrupt official, no scandal attributable to a specific official could be verified from it.
+
+**Detail.** Roberto Gurgel served as Procurador-Geral da Republica from July 2009 to August 2013 and was the lead prosecutor in the Mensalao trial (Acao Penal 470), which resulted in convictions of numerous defendants for a vote-buying and public-money scheme. The quoted tweet reflects Gurgel commenting, during the June 2013 protests, that Brazilian society was tired of impunity and defending demonstrations. This is a statement by the anti-corruption authority, not evidence of a corrupt act by Gurgel or another named official. As such, the flag does not correspond to a verifiable corruption scandal involving a specific official, and it is left unverified rather than fabricating an accusation.
+
+**Sources.**
+- https://en.wikipedia.org/wiki/Roberto_Gurgel
+- https://www.conjur.com.br/2013-jan-10/roberto-gurgel-afirma-esquema-mensalao-maior-julgado/
+
+**Note.** Not fully verified from available sources; description is conservative.
+
+---
+
+## id TWNEWLATINO3 — Bolivia, 2013 — Other official (Non-Apex)
+
+**Table description.** In June 2013, Bolivian authorities detained eight officials of the state oil company YPFB in Riberalta on alleged corruption charges. Among those apprehended were regional managers Freddy Villan Cabezas and Jorge Luis Troncoso Mollo. The case involved irregular contracting, including employees who set up their own companies to award themselves YPFB services such as catering and advertising, with related contracts estimated to have caused a loss of roughly 2.5 million bolivianos. The detainees faced prosecution by the Ministerio Publico.
+
+**Detail.** In June 2013 police in Riberalta (Beni department) apprehended eight officials of Yacimientos Petroliferos Fiscales Bolivianos (YPFB) on allegations of corruption, according to prosecutor Cinthia Natusch. Those named in the investigation included Jorge Luis Troncoso Mollo, Freddy Villan Cabezas, Carmen Saavedra Castro, Hugo Mejia Chambi, Geraldine Vargas Mejia, Elizabeth Saavedra Castro, Hugo Luis Lopez Pereda and Carlos Enrique Aranibar Soto, among others. Reporting indicated that YPFB employees created their own companies to award themselves services such as catering and advertising in irregular fashion, with the economic damage from those contracts estimated at about 2.5 million bolivianos. The detentions were reported via El Deber and other Bolivian outlets in 2013.
+
+**Sources.**
+- https://eju.tv/2013/06/corrupcin-aprehenden-a-ocho-funcionarios-de-ypfb-riberalta/
+- https://eju.tv/2014/12/ms-detalles-de-la-corruptela-empleados-de-ypfb-crearon-sus-propias-empresas-para-adjudicarse-servicios-de-catering-y-publicidad/
+
+---
+
+## id TWNEWLATINO4 — Bolivia, 2016 — Other official (Non-Apex)
+
+**Table description.** In 2016, Juan Ramon Quintana, Minister of the Presidency under Evo Morales, was accused of influence peddling (trafico de influencias) in connection with the CAMC affair. Journalist Carlos Valverde reported in February 2016 that Gabriela Zapata, a former partner of Morales, served as commercial manager of the Chinese firm CAMC, which had been awarded Bolivian state contracts worth more than 500 million USD. Opposition deputy Norma Pierola pushed for Quintana to appear before the Chamber of Deputies to answer the influence-peddling allegations; Quintana denied wrongdoing and accused Valverde of acting as a US Embassy agent.
+
+**Detail.** The scandal erupted in February 2016 when journalist Carlos Valverde revealed that Gabriela Zapata Montano, a former partner of President Evo Morales, worked as commercial manager of the Chinese company CAMC Engineering, which held Bolivian state contracts reported to exceed 500 million USD (figures cited up to about 560 million USD). This raised allegations of trafico de influencias reaching senior officials. Juan Ramon Quintana, Morales's powerful Minister of the Presidency, was summoned for interpelacion in the Camara de Diputados over the CAMC influence-peddling accusations, a push associated with opposition deputy Norma Pierola. Quintana rejected the accusations and publicly accused Valverde of being a covert agent of the US Embassy. The CAMC-Zapata affair became one of the most damaging corruption controversies of the Morales government and figured in the February 2016 referendum period.
+
+**Sources.**
+- https://www.noticiasfides.com/nacional/politica/ministro-quintana-acusa-a-carlos-valverde-de-ser-agente-encubierto-de-la-embajada-de-eeuu-362729-362655
+- https://ibce.org.bo/principales-noticias-bolivia/noticias-nacionales-detalle.php?id=65568&idPeriodico=22&fecha=2016-05-20
+
+---
+
+## id TWNEWLATINO5 — Bolivia, 2017 — Other official (Non-Apex)
+
+**Table description.** On July 31, 2017, Jorge Bohorquez Torrez, national director of Bolivia's property registry (Derechos Reales), was detained in Tarija on accusations of corruption and extortion. He allegedly used intermediaries to collect money from judges by threatening to include them on a circulated list of about 140 judges supposedly linked to wrongdoing, demanding payment or favors to keep them in their posts. Prosecutors charged him with improper use of influence, benefits by reason of office, extortion and passive bribery, and on August 2, 2017 a court ordered his preventive detention in Palmasola prison.
+
+**Detail.** Jorge Bohorquez Torrez, director nacional de Derechos Reales (the property/records registry), was arrested in Tarija on July 31, 2017 following denuncias of corruption and extortion. According to the accusations, he acted through third parties to extort money from judges: a roster of roughly 140 judges purportedly tied to irregularities was circulated, and those on it were then contacted and asked for money or favors in exchange for being removed from the list and keeping their positions. The Ministerio Publico charged him with uso indebido de influencias, beneficios en razon del cargo, extorsion and cohecho pasivo, among others, and named alongside him members of the Consejo de la Magistratura (Roxana Orellana, Orlando Rios and Osvaldo Patino). On August 2, 2017 a judge ordered his preventive detention, and he was sent to Palmasola prison.
+
+**Sources.**
+- https://correodelsur.com/seguridad/20170731/detienen-a-director-de-derechos-reales-denunciado-por-actos-de-corrupcion.html
+- https://www.la-razon.com/nacional/2017/08/02/justicia-dicta-detencion-preventiva-para-el-director-de-derechos-reales/
+- https://www.lostiempos.com/actualidad/nacional/20170803/mandan-carcel-director-ddrr
+
+---
+
+## id TWNEWLATINO6 — Brazil, 2016 — Other official (Non-Apex)
+
+**Table description.** On May 30, 2016, Fabiano Silveira resigned as Brazil's Minister of Transparency, Oversight and Control (the anti-corruption ministry) in Michel Temer's government after leaked recordings surfaced. In audio recorded by former Transpetro president Sergio Machado as part of a plea deal, Silveira was heard advising Senate President Renan Calheiros and Machado on how to defend themselves against the Lava Jato investigation and criticizing the prosecutors. He had held the post only since May 12, 2016. Ministry staff blocked his entry and dozens of regional heads threatened to quit before he stepped down.
+
+**Detail.** Fabiano Silveira served as Ministro da Transparencia, Fiscalizacao e Controle in President Michel Temer's cabinet from May 12 to May 30, 2016. He resigned after the disclosure of secret recordings made by Sergio Machado, former president of the Petrobras subsidiary Transpetro, who had recorded conversations as part of a plea agreement (delacao premiada) with Lava Jato investigators. In the recordings, Silveira gave advice to people under investigation, including Senate President Renan Calheiros and Machado, on how to defend themselves from Operation Lava Jato, and disparaged the prosecutors as lost. The revelation prompted ministry employees to block his entry to the building and some 26 regional heads to threaten resignation, and he stepped down on May 30, 2016. He was the second minister in Temer's new government to fall over leaked recordings, a week after Planning Minister Romero Juca.
+
+**Sources.**
+- https://rr.pt/noticia/mundo/2016/05/31/brasil-ministro-da-transparencia-pede-demissao-apos-divulgacao-de-escutas/55429/
+- https://en.wikipedia.org/wiki/Fabiano_Silveira
+- https://feeds.bbci.co.uk/news/world-latin-america-36414882
+
+---
+
+## id TWNEWLATINO7 — Chile, 2015 — Other official (Non-Apex)
+
+**Table description.** Hugo Bravo Lopez, a former senior executive and manager of Chile's Grupo Penta financial holding, was charged by the Public Prosecutor's Office in the Caso Penta scandal. Prosecutors sought his formalizacion for tax fraud, bribery (cohecho) and money laundering tied to a scheme in which Penta used ideologically false invoices and fees to illegally finance politicians and evade taxes. The case surfaced in 2014 through a labor complaint Bravo filed against Penta owners Carlos Alberto Delano and Carlos Eugenio Lavin, and Bravo became a key cooperating witness. He was formalized in March 2015 and briefly held in preventive detention.
+
+**Detail.** Hugo Bravo Lopez was for years one of the closest executives to Grupo Penta founders Carlos Alberto Delano ('Choclo') and Carlos Eugenio Lavin, holding directorships in Penta affiliates such as Banco Penta, Penta Security and Banmedica-linked entities. The Caso Penta corruption case exploded in Chile after Bravo filed a complaint over his dismissal, which exposed a scheme of ideologically false invoices (boletas and facturas) used to defraud the Chilean Treasury and to funnel irregular financing to political campaigns, principally of the right-wing UDI party. In January 2015 the prosecution accused Delano and Lavin of bribery and tax crimes. In early March 2015 the Fiscalia Nacional led the formalization of ten defendants, including Bravo, on charges of tax offenses, bribery/soborno and money laundering; Bravo, Delano and Lavin were among those who spent time in preventive detention before being released on cautionary measures. Bravo cooperated extensively with prosecutors and his testimony and documents were central to the investigation of the political-financing dimension of the case.
+
+**Sources.**
+- https://www.emol.com/noticias/Nacional/2017/02/26/846861/Hugo-Bravo-el-ex-gerente-que-fue-clave-en-la-investigacion-del-caso-Penta.html
+- https://www.fiscaliadechile.cl/index.php/actualidad/noticias/nacionales/caso-penta-fiscal-nacional-lidero-formalizacion-de-cargos-contra
+- https://www.elmostrador.cl/mercados/destacados-mercado/2015/01/09/la-caida-de-dos-grandes-fiscalia-acusa-a-choclo-delano-y-carlos-lavin-de-soborno-y-delito-tributario/
+
+---
+
+## id TWNEWLATINO8 — Colombia, 2011 — Other official (Non-Apex)
+
+**Table description.** Officials of Colombia's national tax and customs agency (DIAN) were arrested in July 2011 in the 'Cartel de las Devoluciones del IVA' scandal, a scheme to obtain fraudulent value-added-tax (IVA) refunds. Using shell companies and falsified invoices, the network simulated non-existent exports (such as scrap-metal sales abroad) to claim IVA refunds that were never owed, defrauding the state of more than 16 billion Colombian pesos. The ring was broken on July 13, 2011, when Blanca Jazmin Becerra and about a dozen associates were captured; those detained were to be charged with five crimes. Several DIAN officials and private accomplices were later convicted.
+
+**Detail.** The Cartel de las Devoluciones del IVA was a corruption network operating inside Colombia's Direccion de Impuestos y Aduanas Nacionales (DIAN). Lawyers, accountants and DIAN officials created fictitious companies and falsified invoices to simulate exports (notably of scrap metal / chatarra) to non-existent foreign buyers, thereby generating fake IVA credits and obtaining illegal tax refunds. The scheme was dismantled beginning July 13, 2011, with the capture of Blanca Jazmin Becerra and roughly 13 employees of the front firm R and B Consultores; in total around 19 people were arrested, including DIAN employees, former officials and a person linked to the Bogota Chamber of Commerce. Prosecutors announced they would charge the detainees with five offenses (reported variously as five to six crimes, including embezzlement/peculado, illicit enrichment, falsification of documents, criminal conspiracy and fraud). A specialized criminal court in Bogota later convicted nine people over a fraud that exceeded 16 billion pesos.
+
+**Sources.**
+- https://www.eltiempo.com/archivo/documento/CMS-9902044
+- https://www.elespectador.com/judicial/asi-funcionaba-en-la-dian-el-cartel-de-las-devoluciones-ilegales-del-iva-article-492375/
+- https://www.elpais.com.co/colombia/seis-delitos-seran-imputados-a-los-capturados-por-desfalco-a-la-dian.html
+
+---
+
+## id TWNEWLATINO9 — Colombia, 2015 — Other official (Non-Apex)
+
+**Table description.** In the PetroTiger case, U.S. authorities and the FBI revealed video evidence of bribery paid by executives of the oil-services firm PetroTiger Ltd to David Orlando Duran, a former official of Colombia's state oil company Ecopetrol. Three former PetroTiger executives paid Duran roughly 333,500 USD in bribes so that Ecopetrol would award and maintain an oil-services contract worth about 40 million USD. The Wall Street Journal reported the FBI video in 2015. Duran was later convicted in Colombia and sentenced to 16 years in prison and barred from public office.
+
+**Detail.** PetroTiger Ltd, a British Virgin Islands oil-services company, was investigated by the U.S. Department of Justice and the FBI under the Foreign Corrupt Practices Act. Former co-CEO Knut Hammarskjold and general counsel Gregory Weisman pleaded guilty, and former co-CEO Joseph Sigelman was prosecuted (arrested in the Philippines in early 2015) for paying approximately 333,500 USD in bribes to David Orlando Duran, a superintendent/engineering official at Ecopetrol, to secure a services contract valued at roughly 39 to 40 million USD. Unusually, Ecopetrol declared itself a victim and cooperated, having reported the conduct. In 2015 the Wall Street Journal published FBI video said to prove the bribery. In Colombia, Duran received payments (reported at around 615 to 790 million pesos) through installments; he was destituted and barred for 14 years by the Procuraduria and criminally convicted, with a 16-year prison sentence confirmed on appeal, and ordered together with his wife Hihanna Navarro to return the funds.
+
+**Sources.**
+- https://www.eltiempo.com/archivo/documento/CMS-13346626
+- https://www.semana.com/caso-petrotiger-siete-capturados-por-corrupcion-en-ecopetrol/420638-3/
+- https://www.lafm.com.co/judicial/caso-petrotiger-confirman-condena-exfuncionario-de-ecopetrol
+
+## id 451 -- Guatemala, 2018 -- President (Apex)
+**Table description.** Former president Alvaro Colom (2008 to 2012) was arrested on 13 February 2018 in the Transurbano case, together with most of his former cabinet. Prosecutors and the CICIG alleged that his government defrauded the state of about USD 35 million through the Transurbano urban-transport prepaid-card program, awarding it irregularly to a private consortium. Colom, former finance minister Juan Alberto Fuentes Knight, and other ex-ministers were charged with embezzlement and fraud.
+**Detail.** On 13 February 2018 Guatemala's Public Ministry and the UN-backed CICIG captured ex-president Alvaro Colom (UNE, 2008-2012) and most of his cabinet in the "Transurbano" case after 14 raids. The scheme concerned the state prepaid-card urban-transport system; the CICIG alleged roughly US$35 million was diverted from the treasury and awarded irregularly to a private bus consortium. Those detained included former finance minister (and later Oxfam International chair) Juan Alberto Fuentes Knight, ex-interior minister Salvador Gandara, and several other former ministers, charged with embezzlement (peculado) and fraud.
+**Sources.**
+- Prensa Libre: https://www.prensalibre.com/guatemala/justicia/alvaro-colom-capturado-caso-corrupcion-transurbano-exministros-une/
+- CNN en Espanol (13 Feb 2018): https://cnnespanol.cnn.com/2018/02/13/detienen-a-alvaro-colom-expresidente-de-guatemala/
+- elPeriodico: https://elperiodico.com.gt/nacion/2018/02/13/el-expresidente-alvaro-colom-ha-sido-capturado-por-caso-el-caso-transurbano/
+
+## id NEW19 -- Mexico, 2019 -- Lower judiciary (Non-Apex)
+**Table description.** On 17 May 2019 the U.S. Treasury sanctioned sitting Mexican federal magistrate Isidro Avelar Gutierrez, alleging that he accepted bribes from the Jalisco New Generation Cartel (CJNG) and the allied Los Cuinis organization in exchange for favourable judicial rulings. The same action designated former Nayarit governor Roberto Sandoval Castaneda for misappropriating state assets and taking cartel bribes, along with six other individuals and several companies.
+**Detail.** On 17 May 2019 the U.S. Treasury's Office of Foreign Assets Control (OFAC) designated sitting federal magistrate Isidro Avelar Gutierrez under the Foreign Narcotics Kingpin Act, alleging he received bribes from the Cartel de Jalisco Nueva Generacion (CJNG) and Los Cuinis in exchange for favourable rulings for senior members. The same day, under Global Magnitsky Executive Order 13818, OFAC designated Roberto Sandoval Castaneda, former governor of Nayarit (2011-2017), for misappropriating state assets and taking cartel bribes; further individuals and companies linked to the two were also sanctioned. The paper codes this scandal to the judiciary (the sitting magistrate).
+**Sources.**
+- U.S. Treasury press release SM692 (17 May 2019): https://home.treasury.gov/news/press-releases/sm692
+- Mexico News Daily: https://mexiconewsdaily.com/news/ex-governor-judge-sanctioned-by-us/
+- U.S. Embassy Mexico: https://mx.usembassy.gov/treasury-works-with-government-of-mexico-against-perpetrators-of-corruption-and-their-networks/
+

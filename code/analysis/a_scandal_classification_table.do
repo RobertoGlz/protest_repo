@@ -81,6 +81,12 @@ import delimited using "${datfin}/scandals_classified.csv", ///
 keep id country summary position
 drop if country == "Venezuela"
 
+/* (0) enriched descriptions for 168 scandals (auto-generated from the research
+   workflow; full detail and sources in paper/scandal_descriptions_sources.md).
+   Runs first so the blank-description back-fills below still fire on the four
+   empty summaries, and the sample block (1b) overrides where present. --------- */
+do "scandal_enriched_descriptions.do"
+
 /* (1) populate the four blank descriptions from the raw news source --------- */
 replace summary = "Fabio Lobo, son of former Honduran president Porfirio Lobo, was arrested on 20 May 2015 for involvement in a drug-trafficking and corruption network." ///
 	if id == "73" & country == "Honduras" & summary == ""
