@@ -399,18 +399,12 @@ remained under investigation.
 ---
 
 ## id 153 — Ecuador, 2017 — Other official (Non-Apex)
-
-**Table description.** The source record for this entry (Ecuador, 2017, a non-apex official) contained no descriptive text, so the specific scandal could not be identified with confidence. Ecuador in 2017 saw several corruption cases involving non-apex officials, most prominently the Odebrecht bribery investigations. Among the earliest arrests, in April 2017, was former Electricity Minister Alecksey Mosquera, accused of receiving Odebrecht bribes, but it cannot be confirmed that this entry refers to him rather than another Ecuadorian official.
-
-**Detail.** This scandal object had an empty hint field, leaving only country (Ecuador), year (2017), and position category (others, meaning a non-apex official such as a minister, agency head, or mayor). Ecuador in 2017 was dominated by the Odebrecht (Lava Jato) fallout: former Electricity and Renewable Energy Minister Alecksey Mosquera was among the first arrested in April 2017 for allegedly receiving about USD 1 million from Odebrecht; other implicated figures that year included former Comptroller Carlos Polit, former Petroecuador officials, and Ricardo Rivera (uncle of Vice President Jorge Glas). Because no hint text is available to disambiguate which official and scheme this record was meant to capture, the entry is left unverified. Any of the above cases is plausible, but assigning one would be speculation.
-
+**Table description.** On 3 June 2017 Ecuador's Attorney General charged six people in the transnational Odebrecht case, including Ricardo Rivera, uncle of then vice-president Jorge Glas. After multiple raids, investigators alleged that Rivera was the main intermediary for collecting at least 13.5 million dollars in bribes from the Brazilian construction firm in exchange for government contracts. Both Rivera and Vice-President Glas were later arrested and sentenced to six years in prison for illicit association.
+**Detail.** On 3 June 2017 Ecuador's Fiscalia General charged six people in the Odebrecht bribery macro-case, among them Ricardo Rivera, uncle of Vice-President Jorge Glas. Rivera was alleged to be the principal go-between for at least US$13.5 million in Odebrecht bribes routed to secure public-works contracts. The scandal reached the vice-presidency: both Rivera and Glas were arrested and, in December 2017, sentenced to six years for illicit association (asociacion ilicita).
 **Sources.**
-- https://cuencahighlife.com/odebrecht-scandal-rearranges-the-political-landscape-in-ecuador-and-latin-america/
-- https://www.icij.org/investigations/bribery-division/bribery-division-what-is-odebrecht-who-is-involved/
-
-**Note.** Not fully verified from available sources; description is conservative.
-
----
+- https://www.bbc.com/news/world-latin-america-42346881
+- https://www.dw.com/en/ecuadors-vp-jorge-glas-jailed-for-six-years-over-odebrecht-kickbacks/a-41788039
+- https://www.occrp.org/en/news/odebrecht-case-ecuador-vp-sentenced-to-six-years-in-prison
 
 ## id 155 — Argentina, 2017 — Other official (Non-Apex)
 
@@ -1553,18 +1547,12 @@ remained under investigation.
 ---
 
 ## id 73 — Honduras, 2015 — Other official (Non-Apex)
-
-**Table description.** The specific Honduran corruption scandal for this entry could not be conclusively identified because the source record contained no descriptive text. The most prominent Honduran corruption case at the official (non-head-of-state) level in 2015 was the looting of the Honduran Social Security Institute (IHSS), in which officials such as former IHSS director Mario Zelaya were arrested and prosecuted for embezzling public health funds through overpriced contracts and shell companies. Because the underlying entry provides no hint, the identification of the intended official and act remains uncertain and is not asserted here.
-
-**Detail.** This record had an empty hint field, so the intended scandal, official name and act cannot be verified with confidence. The dominant Honduran corruption story of 2015 at the ministerial or agency level was the IHSS (social security) embezzlement scandal, which led to the arrest and prosecution of the institute's former director Mario Zelaya and numerous other officials for schemes involving overpriced medicine and equipment and laundering through sham companies, and which also implicated National Party figures and campaign financing. Other 2015 Honduran threads included the arrest of Congress vice-president Lena Gutierrez and family over the sale of poor-quality, inflated-price medicine to the state. Absent any hint text tying this entry to a particular person or case, no specific claim is made; the entry is marked unverified.
-
+**Table description.** On 20 May 2015 Fabio Lobo, son of former Honduran president Porfirio Pepe Lobo, was arrested in Haiti in a DEA undercover operation and extradited to the United States on drug-trafficking charges. He was accused of using his family standing to broker deals between the Los Cachiros trafficking organization and senior government and police officials in exchange for bribes. A U.S. federal court in the Southern District of New York sentenced him to 24 years in prison in 2017.
+**Detail.** Fabio Lobo, son of ex-president Porfirio Pepe Lobo (2010-2014), was lured to Haiti and arrested there on 20 May 2015 by the U.S. DEA, then extradited to New York. Prosecutors said he used his connections to link the Los Cachiros cartel to Honduran government and police officials for bribes and protection. He pleaded guilty in 2016 and was sentenced by the U.S. Southern District of New York to 24 years in prison in 2017; the case became emblematic of Honduras's narco-politics.
 **Sources.**
-- https://en.wikipedia.org/wiki/2015_Honduran_protests
-- https://insightcrime.org/news/brief/us-arrests-honduras-elite-allegedly-laundering-corruption-proceeds/
-
-**Note.** Not fully verified from available sources; description is conservative.
-
----
+- https://www.justice.gov/usao-sdny/pr/son-former-president-honduras-sentenced-24-years-prison-conspiring-import-cocaine
+- https://insightcrime.org/news/brief/son-of-honduras-ex-president-arrested-for-drug-trafficking/
+- https://english.elpais.com/international/2022-07-15/lobo-the-surname-that-encapsulates-all-of-honduras-ills.html
 
 ## id 74 — Mexico, 2016 — Governor (Apex)
 
@@ -1837,16 +1825,12 @@ remained under investigation.
 ---
 
 ## id NEW23 — Mexico, 2017 — Congressman (Non-Apex)
-
-**Table description.** The source record for this entry contains no descriptive text (the flagging hint is empty), so the specific Mexican Supreme Court justice or federal legislator and the alleged corrupt act for 2017 could not be identified. No factual claims are made because there is insufficient information to trace a particular scandal to reliable sources. This item should be treated as unverified pending recovery of the original headline or additional identifying detail.
-
-**Detail.** The scandal object for id NEW23 (Mexico, 2017, position sc_judge_congressman) has an empty hint field, leaving no name, institution or event description to anchor a search. Without at least a name, a case label or a distinguishing detail, it is not possible to confidently match this record to a real, verifiable corruption scandal involving a Supreme Court justice or a member of Congress in Mexico during 2017, and fabricating one would violate the requirement that every fact be real and traceable. The entry is therefore left unverified.
-
+**Table description.** In June 2017 a corruption network dubbed La Ecuacion Corrupta hit the San Luis Potosi state congress after a video surfaced of PAN deputy Enrique Flores Flores detailing an extortion scheme against municipal mayors. Trending nationally on 21 June 2017 after a report on Denise Maerker's newscast, it showed legislators from several parties and state Audit Office (ASE) officials demanding large kickbacks from mayors in exchange for erasing irregularities from their public accounts. The implicated legislators resigned and were barred from office, and the state audit body was restructured.
+**Detail.** A leaked video showed San Luis Potosi state deputy Enrique Flores Flores (PAN) describing a scheme in which legislators and officials of the state Audit Office (Auditoria Superior del Estado) extracted large kickbacks (moches) from municipal mayors in return for clearing irregularities in their accounts. It went national on 21 June 2017 after a report on Denise Maerker's newscast, forcing resignations and disqualifications of the implicated legislators and a restructuring of the state audit body.
 **Sources.**
-
-**Note.** Not fully verified from available sources; description is conservative.
-
----
+- https://www.elfinanciero.com.mx/bajio/exhiben-corrupcion-en-el-congreso-de-san-luis-potosi/
+- https://aristeguinoticias.com/1206/mexico/exhiben-corrupcion-en-congreso-de-slp-pan-adelanta-expulsion-de-diputado-video/
+- https://planoinformativo.com/578982/destapan-nueva-red-de-corrupcion-en-el-congreso
 
 ## id NEW24 — Mexico, 2017 — Other official (Non-Apex)
 
@@ -2159,16 +2143,13 @@ remained under investigation.
 ---
 
 ## id TWNEWLATINO14 — Ecuador, 2016 — Other official (Non-Apex)
-
-**Table description.** The source record for this entry contains no descriptive hint text, only the country Ecuador, the year 2016, and the position category others. Without any identifying detail about the official or the alleged act, a specific corruption scandal could not be confidently identified or verified through web search. No factual claims are asserted here.
-
-**Detail.** This flagged item had an empty hint field, providing no name, office, act, date or keyword to anchor a search. Ecuador in 2016 saw several corruption matters (for example the Petroecuador bribery cases involving officials such as Alex Bravo and Carlos Pareja Yannuzzelli), but there is no basis in the given record to determine which, if any, this entry refers to. It is therefore left unverified to avoid inventing facts.
-
+**Table description.** On 16 May 2016 Alex Bravo, former manager of Ecuador's state oil company Petroecuador, was arrested in Tumbaco on initial charges of influence peddling, shortly after resigning. The case broke open after the Panama Papers leaks revealed that Bravo ran a network of offshore shell companies through which he allegedly received more than 12 million dollars in bribes to award energy-infrastructure contracts. He was later convicted of bribery, organized crime, and illicit enrichment.
+**Detail.** Alex Bravo, ex-manager (gerente) of Petroecuador, was arrested in Tumbaco on 16 May 2016 for influence peddling shortly after resigning. The investigation, energized by the Panama Papers, alleged he ran offshore shell firms that received over US$12 million in bribes for energy-infrastructure contracts under the Correa government; he was later convicted of bribery, organized crime, and illicit enrichment.
+**Note.** This appears to be the SAME scandal as id 108 (Alex Bravo / Petroecuador, also dated 16 May 2016) -- a likely duplicate in the panel; decide whether to keep both or drop/merge one.
 **Sources.**
-
-**Note.** Not fully verified from available sources; description is conservative.
-
----
+- https://www.eluniverso.com/noticias/2016/05/16/nota/5584275/fiscalia-anuncia-detencion-alex-b-exgerente-petroecuador/
+- https://www.elcomercio.com/actualidad/seguridad/alexbravo-personaje-petroecuador-carcel-panamapapers/
+- https://cnnespanol.cnn.com/2016/11/30/investigan-a-80-personas-por-corrupcion-en-petroecuador
 
 ## id TWNEWLATINO16 — Panama, 2015 — Other official (Non-Apex)
 

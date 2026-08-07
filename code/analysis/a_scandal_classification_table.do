@@ -88,13 +88,13 @@ drop if country == "Venezuela"
 do "scandal_enriched_descriptions.do"
 
 /* (1) populate the four blank descriptions from the raw news source --------- */
-replace summary = "Fabio Lobo, son of former Honduran president Porfirio Lobo, was arrested on 20 May 2015 for involvement in a drug-trafficking and corruption network." ///
+replace summary = "On 20 May 2015 Fabio Lobo, son of former Honduran president Porfirio Pepe Lobo, was arrested in Haiti in a DEA undercover operation and extradited to the United States on drug-trafficking charges. He was accused of using his family standing to broker deals between the Los Cachiros trafficking organization and senior government and police officials in exchange for bribes. A U.S. federal court in the Southern District of New York sentenced him to 24 years in prison in 2017." ///
 	if id == "73" & country == "Honduras" & summary == ""
-replace summary = "Ecuador's Prosecutor's Office charged six people on 3 June 2017 in the Odebrecht case, among them Ricardo Rivera, uncle of Vice-President Jorge Glas." ///
+replace summary = "On 3 June 2017 Ecuador's Attorney General charged six people in the transnational Odebrecht case, including Ricardo Rivera, uncle of then vice-president Jorge Glas. After multiple raids, investigators alleged that Rivera was the main intermediary for collecting at least 13.5 million dollars in bribes from the Brazilian construction firm in exchange for government contracts. Both Rivera and Vice-President Glas were later arrested and sentenced to six years in prison for illicit association." ///
 	if id == "153" & country == "Ecuador" & summary == ""
-replace summary = "A former manager of Petroecuador (Alex Bravo) was detained on 16 May 2016 for alleged influence peddling." ///
+replace summary = "On 16 May 2016 Alex Bravo, former manager of Ecuador's state oil company Petroecuador, was arrested in Tumbaco on initial charges of influence peddling, shortly after resigning. The case broke open after the Panama Papers leaks revealed that Bravo ran a network of offshore shell companies through which he allegedly received more than 12 million dollars in bribes to award energy-infrastructure contracts. He was later convicted of bribery, organized crime, and illicit enrichment." ///
 	if id == "TWNEWLATINO14" & country == "Ecuador" & summary == ""
-replace summary = "Alleged corruption network involving diputados (congressmen) in San Luis Potosi, Mexico; trended nationally on 21 June 2017 after a Denise Maerker report." ///
+replace summary = "In June 2017 a corruption network dubbed La Ecuacion Corrupta hit the San Luis Potosi state congress after a video surfaced of PAN deputy Enrique Flores Flores detailing an extortion scheme against municipal mayors. Trending nationally on 21 June 2017 after a report on Denise Maerker's newscast, it showed legislators from several parties and state Audit Office (ASE) officials demanding large kickbacks from mayors in exchange for erasing irregularities from their public accounts. The implicated legislators resigned and were barred from office, and the state audit body was restructured." ///
 	if id == "NEW23" & country == "Mexico" & summary == ""
 
 /* (1b) enriched descriptions -- rewritten to a uniform who/what/when/outcome
