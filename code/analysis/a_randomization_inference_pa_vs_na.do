@@ -75,6 +75,11 @@ local sample_list  = "pa na"
    ============================================================ */
 use "${work}/temp/MM/MMclean_full_bydate.dta", clear
 drop if country == "Venezuela"
+capture confirm variable id
+if _rc==0 {
+	drop if id == "TWNEWLATINO14" & country == "Ecuador"   // duplicate of scandal 108 (Alex Bravo, Petroecuador)
+	drop if id == "TWNEWLATINO23" & country == "Brazil"     // Gurgel statement, not a corruption scandal
+}
 rename num_violent  num_violent_MM
 rename num_peaceful num_peaceful_MM
 rename num_protests num_protests_MM
@@ -117,6 +122,11 @@ save `cls'
 
 use "${datfin}/protests_scandals_30days_v3", clear
 drop if country == "Venezuela"
+capture confirm variable id
+if _rc==0 {
+	drop if id == "TWNEWLATINO14" & country == "Ecuador"   // duplicate of scandal 108 (Alex Bravo, Petroecuador)
+	drop if id == "TWNEWLATINO23" & country == "Brazil"     // Gurgel statement, not a corruption scandal
+}
 merge m:1 id country using `cls', keep(1 3) generate(_mclass)
 
 gen byte in_pa = 0

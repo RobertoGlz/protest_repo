@@ -65,6 +65,11 @@ local win_list "30 60 90"
    ============================================================ */
 use "${datfin}/protests_scandals_30days_v3", clear
 drop if country == "Venezuela"
+capture confirm variable id
+if _rc==0 {
+	drop if id == "TWNEWLATINO14" & country == "Ecuador"   // duplicate of scandal 108 (Alex Bravo, Petroecuador)
+	drop if id == "TWNEWLATINO23" & country == "Brazil"     // Gurgel statement, not a corruption scandal
+}
 merge m:1 id country using `cls', keep(1 3) nogenerate
 gen byte in_pa = 0
 replace in_pa = 1 if position == "president"
@@ -117,6 +122,11 @@ foreach p in corrpa corrna football deprec {
 	if inlist("`p'","corrpa","corrna") {
 		use "${datfin}/protests_scandals_30days_v3", clear
 		drop if country == "Venezuela"
+		capture confirm variable id
+		if _rc==0 {
+			drop if id == "TWNEWLATINO14" & country == "Ecuador"   // duplicate of scandal 108 (Alex Bravo, Petroecuador)
+			drop if id == "TWNEWLATINO23" & country == "Brazil"     // Gurgel statement, not a corruption scandal
+		}
 		merge m:1 id country using `cls', keep(1 3) nogenerate
 		gen byte in_pa = 0
 		replace in_pa = 1 if position == "president"
@@ -132,12 +142,22 @@ foreach p in corrpa corrna football deprec {
 	else if "`p'"=="football" {
 		use "${datfin}/protests_scandals_30days_football_v3", clear
 		drop if country == "Venezuela"
+		capture confirm variable id
+		if _rc==0 {
+			drop if id == "TWNEWLATINO14" & country == "Ecuador"   // duplicate of scandal 108 (Alex Bravo, Petroecuador)
+			drop if id == "TWNEWLATINO23" & country == "Brazil"     // Gurgel statement, not a corruption scandal
+		}
 		gen byte keepall = 1
 		local flag "keepall"
 	}
 	else {
 		use "${datfin}/protests_scandals_30days_depreciation_v3", clear
 		drop if country == "Venezuela"
+		capture confirm variable id
+		if _rc==0 {
+			drop if id == "TWNEWLATINO14" & country == "Ecuador"   // duplicate of scandal 108 (Alex Bravo, Petroecuador)
+			drop if id == "TWNEWLATINO23" & country == "Brazil"     // Gurgel statement, not a corruption scandal
+		}
 		gen byte keepall = 1
 		local flag "keepall"
 	}
@@ -195,6 +215,11 @@ foreach idx in polyarchy libdem {
 
 	use "${datfin}/protests_scandals_30days_v3", clear
 	drop if country == "Venezuela"
+	capture confirm variable id
+	if _rc==0 {
+		drop if id == "TWNEWLATINO14" & country == "Ecuador"   // duplicate of scandal 108 (Alex Bravo, Petroecuador)
+		drop if id == "TWNEWLATINO23" & country == "Brazil"     // Gurgel statement, not a corruption scandal
+	}
 	merge m:1 country using `vd', keep(1 3) nogenerate
 	preserve
 		keep if !missing(demo_index)
@@ -247,6 +272,11 @@ foreach idx in polyarchy libdem {
    ============================================================ */
 use "${datfin}/protests_scandals_30days_v3", clear
 drop if country == "Venezuela"
+capture confirm variable id
+if _rc==0 {
+	drop if id == "TWNEWLATINO14" & country == "Ecuador"   // duplicate of scandal 108 (Alex Bravo, Petroecuador)
+	drop if id == "TWNEWLATINO23" & country == "Brazil"     // Gurgel statement, not a corruption scandal
+}
 merge m:1 id country using `cls', keep(1 3) nogenerate
 gen byte in_pa = 0
 replace in_pa = 1 if position == "president"

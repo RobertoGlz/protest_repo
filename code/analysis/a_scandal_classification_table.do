@@ -80,6 +80,8 @@ import delimited using "${datfin}/scandals_classified.csv", ///
 	clear varnames(1) bindquotes(strict)
 keep id country summary position
 drop if country == "Venezuela"
+drop if id == "TWNEWLATINO14" & country == "Ecuador"   // duplicate of scandal 108 (Alex Bravo, Petroecuador)
+drop if id == "TWNEWLATINO23" & country == "Brazil"     // Gurgel statement, not a corruption scandal
 
 /* (0) enriched descriptions for 168 scandals (auto-generated from the research
    workflow; full detail and sources in paper/scandal_descriptions_sources.md).

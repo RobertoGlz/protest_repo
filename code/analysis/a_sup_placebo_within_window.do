@@ -66,6 +66,11 @@ local firstyear    = 2008
 /* --- Base panel --- */
 use "${datfin}/protests_scandals_30days_v3", clear
 drop if country == "Venezuela"
+capture confirm variable id
+if _rc==0 {
+	drop if id == "TWNEWLATINO14" & country == "Ecuador"   // duplicate of scandal 108 (Alex Bravo, Petroecuador)
+	drop if id == "TWNEWLATINO23" & country == "Brazil"     // Gurgel statement, not a corruption scandal
+}
 egen grupo_dias = group(s_lag30 s_lag60 s_lag90 s_lag120 ///
                         s_lead30 s_lead60 s_lead90 s_lead120)
 tempfile base_panel

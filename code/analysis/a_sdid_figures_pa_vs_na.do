@@ -59,6 +59,11 @@ tempfile cls
 save `cls'
 use "${datfin}/protests_scandals_30days_v3", clear
 drop if country == "Venezuela"
+capture confirm variable id
+if _rc==0 {
+	drop if id == "TWNEWLATINO14" & country == "Ecuador"   // duplicate of scandal 108 (Alex Bravo, Petroecuador)
+	drop if id == "TWNEWLATINO23" & country == "Brazil"     // Gurgel statement, not a corruption scandal
+}
 merge m:1 id country using `cls', keep(3) nogenerate
 gen byte in_pa = inlist(position,"president","governor") | ///
 	(position=="sc_judge_congressman" & inlist(id,"202","NEW26","NEW30","332"))
@@ -88,6 +93,11 @@ foreach s in pa na {
 /* ---- daily panel ---- */
 use "${datfin}/panel_country_day", clear
 drop if country == "Venezuela"
+capture confirm variable id
+if _rc==0 {
+	drop if id == "TWNEWLATINO14" & country == "Ecuador"   // duplicate of scandal 108 (Alex Bravo, Petroecuador)
+	drop if id == "TWNEWLATINO23" & country == "Brazil"     // Gurgel statement, not a corruption scandal
+}
 keep if inrange(date, `dlo', `dhi')
 keep country date mm_violent mm_nonviolent scandal_today
 tempfile daily

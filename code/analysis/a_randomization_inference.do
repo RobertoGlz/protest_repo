@@ -106,6 +106,11 @@ local n_reps       = 1000                 /* # of placebo replications */
    ============================================================ */
 use "${work}/temp/MM/MMclean_full_bydate.dta", clear
 drop if country == "Venezuela"
+capture confirm variable id
+if _rc==0 {
+	drop if id == "TWNEWLATINO14" & country == "Ecuador"   // duplicate of scandal 108 (Alex Bravo, Petroecuador)
+	drop if id == "TWNEWLATINO23" & country == "Brazil"     // Gurgel statement, not a corruption scandal
+}
 rename num_violent  num_violent_MM
 rename num_peaceful num_peaceful_MM
 rename num_protests num_protests_MM
@@ -149,6 +154,11 @@ save `day_panel'
    ============================================================ */
 use "${datfin}/protests_scandals_30days_v3", clear
 drop if country == "Venezuela"
+capture confirm variable id
+if _rc==0 {
+	drop if id == "TWNEWLATINO14" & country == "Ecuador"   // duplicate of scandal 108 (Alex Bravo, Petroecuador)
+	drop if id == "TWNEWLATINO23" & country == "Brazil"     // Gurgel statement, not a corruption scandal
+}
 
 /* Cluster group variable (needed for the observed-beta SE later) */
 egen grupo_dias = group(s_lag30 s_lag60 s_lag90 s_lag120 ///

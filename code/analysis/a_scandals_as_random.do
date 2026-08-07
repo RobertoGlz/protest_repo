@@ -75,6 +75,11 @@ save `elec'
         each scandal's disclosure.  Reduce to a country-day indicator. ---- */
 use "${datfin}/protests_scandals_30days_v3", clear
 drop if country == "Venezuela"
+capture confirm variable id
+if _rc==0 {
+	drop if id == "TWNEWLATINO14" & country == "Ecuador"   // duplicate of scandal 108 (Alex Bravo, Petroecuador)
+	drop if id == "TWNEWLATINO23" & country == "Brazil"     // Gurgel statement, not a corruption scandal
+}
 gen double _sd = date if window == 0
 bysort country id: egen double scandate = max(_sd)
 keep country id scandate
@@ -99,6 +104,11 @@ save `scountries'
 use "${datfin}/panel_country_day", clear
 keep if inrange(year, 2008, 2019)
 drop if country == "Venezuela"
+capture confirm variable id
+if _rc==0 {
+	drop if id == "TWNEWLATINO14" & country == "Ecuador"   // duplicate of scandal 108 (Alex Bravo, Petroecuador)
+	drop if id == "TWNEWLATINO23" & country == "Brazil"     // Gurgel statement, not a corruption scandal
+}
 merge m:1 country using `scountries', keep(3) nogenerate    /* countries at risk */
 keep country country_id date year month dow
 merge 1:1 country date using `scand', keep(1 3) nogenerate
