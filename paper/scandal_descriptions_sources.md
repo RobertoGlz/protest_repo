@@ -881,18 +881,11 @@ remained under investigation.
 ---
 
 ## id 270 — Brazil, 2013 — Other official (Non-Apex)
-
-**Table description.** A 2013 Brazilian press headline alleged that a lobbyist implicated a congressional leader of President Dilma Rousseff's governing coalition in a corruption scheme. The specific official and the exact scheme could not be confidently identified from the brief headline alone. The most likely referent is a Workers Party (PT) floor leader tied to lobbyists in Petrobras-related contracting, but the timing and details remain uncertain, so this entry is treated as unverified.
-
-**Detail.** The flagging text is only a bare headline (Lobista envolve lider do governo Dilma em esquema de corrupcao) with no name or outlet, dated to 2013. It could not be matched with confidence to a single documented case. A plausible referent is Candido Vaccarezza, the PT floor leader in the Chamber of Deputies under Lula and Dilma, whom lobbyists (Jorge Luz and his son Bruno Luz) and cooperating witnesses later tied to a Petrobras asphalt-supply scheme involving the U.S. firm Sargeant Marine; however, those specific accusations became public through Operation Lava Jato around 2017, and Vaccarezza had stepped down as government leader in early 2012, so they do not cleanly fit a 2013 date. Other 2013 lobbyist-related episodes touching government figures cannot be ruled out. Because the individual, amounts, and outcome cannot be pinned down, this scandal is left unverified and the description is kept conservative.
-
+**Table description.** In April 2013 the lobbyist Gilberto Silva, alias Ze Formiga, implicated Arlindo Chinaglia, then the government's leader in Brazil's Chamber of Deputies, in a corruption network that allegedly defrauded about 1 billion reais through rigged tenders at the Ministries of Health and of Cities. Hidden recordings pointed to an influence-peddling scheme to steer public contracts; Chinaglia and the Workers Party (PT) denied the accusations, which they cast as an attempt to damage the Dilma Rousseff government.
+**Detail.** The accusations came from lobbyist Gilberto Silva (Ze Formiga) and circulated in April-June 2013. He alleged that Arlindo Chinaglia, the PT floor leader (lider do governo) in the Chamber of Deputies, was tied to a scheme rigging procurement at the Ministries of Health and Cities, on the order of 1 billion reais. Chinaglia and the PT rejected the claims and framed them as politically motivated against the Rousseff administration.
 **Sources.**
-- https://www.poder360.com.br/justica/ex-deputado-federal-candido-vaccarezza-vira-reu-na-lava-jato/
-- https://especiais.gazetadopovo.com.br/eleicoes/2018/8-escandalos-de-corrupcao-envolvendo-os-governos-pt/
-
-**Note.** Not fully verified from available sources; description is conservative.
-
----
+- https://www.brasil247.com/poder/lobista-cita-chinaglia-em-esquema-de-desvio/
+- https://noticias.uol.com.br/album/2013/06/07/arlindo-chinaglia-no-poder-e-politica.htm
 
 ## id 284 — Paraguay, 2013 — Congressman (Non-Apex)
 
@@ -1411,19 +1404,11 @@ remained under investigation.
 ---
 
 ## id 511 — Guatemala, 2019 — Other official (Non-Apex)
-
-**Table description.** This entry refers to a Guatemalan vote-buying or electoral-financing matter (referenced as Caso Compra de Votos) said to affect seven political parties during the 2019 electoral year. The closest documented facts are that, around late 2018 and early 2019, the inspector general of the Supreme Electoral Tribunal filed seven criminal complaints against seven parties for obstructing oversight of electoral funds under the Criminal Code, amid broader concern over illicit financing and vote-buying in the 2019 elections. The specific case labeled Compra de Votos affecting seven parties could not be confidently matched to a single, clearly identified prosecution, so details of named officials and outcomes remain uncertain.
-
-**Detail.** The hint references a Guatemalan case tagged Caso Compra de Votos said to strike seven political parties during the 2019 electoral year. Web verification did not produce a single, clearly identified prosecution under that exact label affecting exactly seven parties. The nearest confirmable events are: seven criminal complaints presented around December 2018 and January 2019 by the inspector general of the Tribunal Supremo Electoral (TSE) against seven political parties (reported to include PAN, UCN, Encuentro por Guatemala, URNG, Creo, Winaq, Viva and Todos) for the crime of obstructing the oversight and control of electoral funds (article 407 L of the Criminal Code); and a separate FECI and CICIG line of investigation into vote-buying inside the legislature (2012 to 2015) that led to impeachment requests against Economy Minister Acisclo Valladares Urruela and several congressmen. Because the hint text alone does not disambiguate which specific case is meant, and vote-buying (compra de votos) is legally distinct from obstruction of financial oversight, this entry is left unverified and the description is kept conservative to avoid asserting names, amounts or outcomes that cannot be reliably traced.
-
+**Table description.** In May 2019 an investigation by Guatemala's Public Ministry and the CICIG uncovered a scheme dubbed Subordination of the Legislative to the Executive, in which congressmen from seven political parties allegedly received bribes to deliver their votes for government-backed legislation during the election year. The case implicated figures including former vice-president Roxana Baldetti in paying for legislative approvals, and reached presidential and parliamentary candidates.
+**Detail.** Made public in May 2019 by the Public Ministry and the CICIG, the case (Caso Subordinacion del Poder Legislativo al Ejecutivo) alleged that deputies from seven parties were paid to vote for legislation favouring the executive during the 2019 electoral year, a form of vote-buying inside Congress. Former vice-president Roxana Baldetti was among those linked to paying for legislative approvals.
 **Sources.**
-- https://www.prensalibre.com/guatemala/politica/estos-son-los-partidos-cancelados-y-con-senalamiento-por-financiamiento-electoral-dudoso/
-- https://www.prensalibre.com/guatemala/politica/mp-investiga-a-siete-partidos-politicos-por-impedir-la-fiscalizacion-de-fondos/
-- https://www.cicig.org/case-information/a-legislative-power-subordinated-to-the-executive-branch/?lang=en
-
-**Note.** Not fully verified from available sources; description is conservative.
-
----
+- https://www.cicig.org/casos/caso-subordinacion-del-poder-legislativo-al-ejecutivo/
+- https://www.prensalibre.com/guatemala/politica/oficialismo-retiene-el-poder-de-un-congreso-de-pocos-resultados-y-muchos-intereses-politicos-dicen-analistas/
 
 ## id 516 — Dominican Republic, 2019 — President (Apex)
 
@@ -1915,28 +1900,18 @@ remained under investigation.
 ---
 
 ## id NEW28 — Paraguay, 2011 — Lower judiciary (Non-Apex)
-
-**Table description.** The flagging report states that in 2011 a prosecutor (fiscal) in Ciudad del Este, Paraguay, was detained for allegedly charging a bribe (cobro de supuesta coima). The original note is a brief breaking-news item that does not name the prosecutor or give the amount, and a specific contemporaneous news article confirming the 2011 Ciudad del Este case could not be located with confidence. The entry is therefore left unverified, and no names, figures or outcomes are asserted beyond the general claim in the original report.
-
-**Detail.** The original hint reads that a fiscal of Ciudad del Este was detained for the collection of an alleged coima, with the note that details would be expanded shortly. Searches of Paraguayan outlets (ABC Color, Ultima Hora, Ministerio Publico) surfaced numerous coima cases involving prosecutors and judicial officials in Paraguay across different years and localities, but did not return a clearly matching, datable 2011 Ciudad del Este prosecutor arrest that could be confidently tied to this record. Because no name, amount or judicial outcome could be traced to a reliable source, the scandal is marked unverified and the description is kept conservative rather than risk attributing false specifics.
-
+**Table description.** In August 2011 Miguel Angel Kunzle, a state prosecutor (fiscal) in Ciudad del Este, Paraguay, was arrested in his own office in a hidden-camera sting by the Economic Crimes and Anti-corruption Unit. He was caught receiving a 5,000-dollar cash bribe he had demanded from a lawyer in exchange for filing criminal charges against the tenants of a closed shopping arcade. He was dismissed immediately and later sentenced to two years in prison for passive bribery.
+**Detail.** The sting was run by Paraguay's Unidad de Delitos Economicos y Anticorrupcion, which filmed prosecutor Miguel Angel Kunzle taking a USD 5,000 cash bribe in his office in August 2011. The money had been demanded from a lawyer in return for filing a criminal complaint against tenants of a shuttered commercial gallery. Kunzle was removed from office and a court later confirmed a two-year prison sentence for cohecho pasivo (passive bribery).
 **Sources.**
-
-**Note.** Not fully verified from available sources; description is conservative.
-
----
+- https://www.abc.com.py/nacionales/fiscal-de-ciudad-del-este-es-detenido-por-cobro-de-supuesta-coima-293110.html
+- https://www.ultimahora.com/camara-ratifica-pena-dos-anos-ex-fiscal-coima-n1098485
 
 ## id NEW29 — Paraguay, 2013 — Other official (Non-Apex)
-
-**Table description.** The flagging report states that in 2013 the administrative director of Paraguay's Secretaria del Ambiente (SEAM, the state environmental agency) was detained over an alleged bribe (coima). The original note does not provide the official's name, the amount or the specific act, and a contemporaneous news article confirming this particular 2013 SEAM arrest could not be located with confidence. The entry is therefore left unverified, with no names, figures or outcomes asserted beyond the general claim in the original report.
-
-**Detail.** The original hint reports the detention of an administrative director (directora administrativa) of the SEAM for a presumed coima in 2013. Environmental licensing at Paraguay's SEAM has been publicly associated with corruption complaints, and searches returned related material (including later testimony by a former SEAM official about attempted bribes in the licensing process), but no reliable source clearly documented the specific 2013 arrest of a SEAM administrative director referenced here, including a name, amount or legal outcome. To avoid fabricating traceable facts, this scandal is marked unverified and described only at the level supported by the original report.
-
+**Table description.** In May 2013 Silvia Evangelina Melo, director general of administration and finance at Paraguay's environment secretariat (SEAM), was arrested in Asuncion in a hidden-camera operation for taking a bribe. She allegedly also ran an extortion scheme forcing SEAM employees to hand over half of their salaries, and was charged with aggravated passive bribery and extortion.
+**Detail.** Silvia Evangelina Melo, SEAM's director general of administration and finance, was detained in Asuncion in May 2013 after being filmed taking a bribe. Beyond the single payment, prosecutors alleged she extorted subordinates, requiring them to hand over roughly half their salaries, and charged her with aggravated passive bribery (cohecho pasivo agravado) and extortion. The episode also prompted protests demanding the SEAM head's removal.
 **Sources.**
-
-**Note.** Not fully verified from available sources; description is conservative.
-
----
+- https://www.abc.com.py/nacionales/directora-administrativa-de-la-seam-detenida-por-coima-579065.html
+- https://www.ultimahora.com/detienen-presunta-coima-directora-administrativa-la-seam-n623646
 
 ## id NEW3 — Chile, 2015 — Other official (Non-Apex)
 
@@ -2222,18 +2197,11 @@ remained under investigation.
 ---
 
 ## id TWNEWLATINO23 — Brazil, 2013 — Lower judiciary (Non-Apex)
-
-**Table description.** The flagged text is a June 2013 statement by Roberto Gurgel, then Brazil's Prosecutor General (Procurador-Geral da Republica), remarking that society was tired of impunity and defending the street protests of that period. Gurgel was the prosecutor who led the Mensalao (Acao Penal 470) case, not the target of a corruption accusation. Because the item flags the anti-corruption prosecutor rather than a corrupt official, no scandal attributable to a specific official could be verified from it.
-
-**Detail.** Roberto Gurgel served as Procurador-Geral da Republica from July 2009 to August 2013 and was the lead prosecutor in the Mensalao trial (Acao Penal 470), which resulted in convictions of numerous defendants for a vote-buying and public-money scheme. The quoted tweet reflects Gurgel commenting, during the June 2013 protests, that Brazilian society was tired of impunity and defending demonstrations. This is a statement by the anti-corruption authority, not evidence of a corrupt act by Gurgel or another named official. As such, the flag does not correspond to a verifiable corruption scandal involving a specific official, and it is left unverified rather than fabricating an accusation.
-
+**Table description.** During Brazil's June 2013 protests, Prosecutor-General Roberto Gurgel declared that society was tired of impunity, publicly backing the demonstrations alongside former Supreme Court justice Ayres Britto. Their stance helped pressure Congress to shelve PEC 37, a proposed constitutional amendment that would have stripped the public prosecutor's office of its investigative powers.
+**Detail.** This entry flags not a corruption accusation against an official but a June 2013 statement by Prosecutor-General Roberto Gurgel, who said society was tired of impunity and, with former STF justice Ayres Britto, endorsed the mass street protests. The intervention added pressure that led Congress to shelve PEC 37, an amendment that would have removed the public prosecutor's power to run its own investigations. Note: the flagged figure is the anti-corruption prosecutor himself, not the subject of a scandal.
 **Sources.**
-- https://en.wikipedia.org/wiki/Roberto_Gurgel
-- https://www.conjur.com.br/2013-jan-10/roberto-gurgel-afirma-esquema-mensalao-maior-julgado/
-
-**Note.** Not fully verified from available sources; description is conservative.
-
----
+- https://www1.folha.uol.com.br/cotidiano/2013/06/1297130-sociedade-esta-cansada-de-impunidade-diz-roberto-gurgel.shtml
+- https://m.folha.uol.com.br/poder/2013/06/1297387-congresso-adia-projeto-que-tira-poder-de-procuradores.shtml
 
 ## id TWNEWLATINO3 — Bolivia, 2013 — Other official (Non-Apex)
 
