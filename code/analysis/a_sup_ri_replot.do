@@ -104,12 +104,27 @@ foreach T in 30 60 90 120 {
 	local xlo_t = floor(`xlo' / `xstep') * `xstep'
 	local xhi_t = ceil( `xhi' / `xstep') * `xstep'
 
+	/* tallest histogram bar (percent), so the observed line spans the plot */
+	quietly count
+	local _Ntot = r(N)
+	quietly summarize beta_placebo
+	local _bw = (r(max) - r(min)) / 50
+	if `_bw' <= 0 local _bw = 1
+	capture drop _hbin _hcnt
+	gen long _hbin = min(floor((beta_placebo - r(min)) / `_bw'), 49)
+	bysort _hbin: gen long _hcnt = _N
+	quietly summarize _hcnt
+	local ytop = 100 * r(max) / `_Ntot' * 1.05
+	capture drop _hbin _hcnt
+
+	/* observed-beta line drawn as the LAST layer (pci) so it sits IN FRONT of
+	   the histogram; xline() would render behind the bars. */
 	twoway (histogram beta_placebo, percent bin(50) ///
 	            color(gs13) lcolor(gs10)) ///
 	       (line _leg_beta beta_placebo, lcolor("128 0 0") lwidth(medthick)) ///
-	       (line _leg_p    beta_placebo, lcolor(none)), ///
-		xline(`observed_beta_T', lcolor("128 0 0") lwidth(medthick) ///
-		     lpattern(solid)) ///
+	       (line _leg_p    beta_placebo, lcolor(none)) ///
+	       (pci 0 `observed_beta_T' `ytop' `observed_beta_T', ///
+	            lcolor("128 0 0") lwidth(medthick)), ///
 		xline(0, lcolor(black) lwidth(vthin) lpattern(dot)) ///
 		xtitle("Effect on `outlbl'", size(medium)) ///
 		ytitle("Percent", size(medium)) ///

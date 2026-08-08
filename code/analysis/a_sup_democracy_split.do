@@ -94,7 +94,7 @@ save `vdem_2008'
    ============================================================ */
 use "${datfin}/protests_scandals_30days_v3", clear
 drop if country == "Venezuela"
-capture confirm variable id
+capture confirm string variable id
 if _rc==0 {
 	drop if id == "TWNEWLATINO14" & country == "Ecuador"   // duplicate of scandal 108 (Alex Bravo, Petroecuador)
 	drop if id == "TWNEWLATINO23" & country == "Brazil"     // Gurgel statement, not a corruption scandal
