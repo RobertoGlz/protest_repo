@@ -19,8 +19,9 @@
         on the x-axis, angled labels; estimate + 90% CI on the y-axis).  A red
         line marks the coefficient on all scandals; a faint black line marks 0.
 
-    Outputs (paper/figures/): loo_scandal_beta_<grp>_violent_w30.pdf for
-        grp in {apex, nonapex, pres, oa, ona, high, med, low}.
+    Outputs (paper/figures/): loo_scandal_beta_<grp>_<out>_w30.pdf for
+        grp in {apex, nonapex, pres, oa, ona, high, med, low} and
+        out in {violent, peaceful}.
 ---------------------------------------------------------------------------- */
 
 set more off
@@ -42,8 +43,8 @@ global figout  "${identity}/Corrupcion/protest_repo/paper/figures"
 
 local firstyear = 2008
 local WIN       = 30
-local OUTCOME   = "num_violent_MM"
 local zcrit     = invnormal(0.95)
+/* OUTCOME is set by the outer loop below (violent then peaceful). */
 
 /* --------------- Load + attach classification --------------- */
 import delimited using "${datfin}/scandals_classified.csv", ///
@@ -151,31 +152,8 @@ gen byte post_low  = post * (terc3 == 1)
 tempfile base
 save `base'
 
-/* ---- full-sample coefficients (red reference lines) ---- */
-use `base', clear
-reghdfe `OUTCOME' post_pa post_na i.month i.day ///
-	if year >= `firstyear' & abs(window) <= `WIN' & (in_pa == 1 | in_na == 1), ///
-	absorb(i.country_id#i.year) vce(cluster i.country_id#i.year#i.grupo_dias)
-scalar b_apex    = _b[post_pa]
-scalar b_nonapex = _b[post_na]
-
-use `base', clear
-reghdfe `OUTCOME' post_pres post_oa post_ona i.month i.day ///
-	if year >= `firstyear' & abs(window) <= `WIN' & !missing(apex_cat), ///
-	absorb(i.country_id#i.year) vce(cluster i.country_id#i.year#i.grupo_dias)
-scalar b_pres = _b[post_pres]
-scalar b_oa   = _b[post_oa]
-scalar b_ona  = _b[post_ona]
-
-use `base', clear
-reghdfe `OUTCOME' post_high post_med post_low i.month i.day ///
-	if year >= `firstyear' & abs(window) <= `WIN' & !missing(terc3), ///
-	absorb(i.country_id#i.year) vce(cluster i.country_id#i.year#i.grupo_dias)
-scalar b_high = _b[post_high]
-scalar b_med  = _b[post_med]
-scalar b_low  = _b[post_low]
-
-/* ---- per-group settings ---- */
+/* ---- per-group settings (outcome-independent; DEFINED ONCE, before the outer
+   loop -- Stata throws --Break-- r(1) if a program is defined inside a loop) --- */
 capture program drop grpset
 program define grpset
 	args grp
@@ -252,6 +230,40 @@ program define grpset
 		global g_ytit "Leave-one-out estimate"
 	}
 end
+
+/* ============================================================
+   OUTER LOOP over outcome: build the leave-one-out figures for BOTH
+   violent and peaceful protests (identical design; filenames carry the
+   outcome token, ..._violent_... vs ..._peaceful_...).
+   ============================================================ */
+foreach OUTCOME in num_violent_MM num_peaceful_MM {
+local vout "peaceful"
+if "`OUTCOME'" == "num_violent_MM" local vout "violent"
+di as txt _n "==================== LOO outcome: `OUTCOME' (`vout') ===================="
+
+/* ---- full-sample coefficients (red reference lines) ---- */
+use `base', clear
+reghdfe `OUTCOME' post_pa post_na i.month i.day ///
+	if year >= `firstyear' & abs(window) <= `WIN' & (in_pa == 1 | in_na == 1), ///
+	absorb(i.country_id#i.year) vce(cluster i.country_id#i.year#i.grupo_dias)
+scalar b_apex    = _b[post_pa]
+scalar b_nonapex = _b[post_na]
+
+use `base', clear
+reghdfe `OUTCOME' post_pres post_oa post_ona i.month i.day ///
+	if year >= `firstyear' & abs(window) <= `WIN' & !missing(apex_cat), ///
+	absorb(i.country_id#i.year) vce(cluster i.country_id#i.year#i.grupo_dias)
+scalar b_pres = _b[post_pres]
+scalar b_oa   = _b[post_oa]
+scalar b_ona  = _b[post_ona]
+
+use `base', clear
+reghdfe `OUTCOME' post_high post_med post_low i.month i.day ///
+	if year >= `firstyear' & abs(window) <= `WIN' & !missing(terc3), ///
+	absorb(i.country_id#i.year) vce(cluster i.country_id#i.year#i.grupo_dias)
+scalar b_high = _b[post_high]
+scalar b_med  = _b[post_med]
+scalar b_low  = _b[post_low]
 
 /* ============================================================
    PASS 1 - run each LOO, store estimates
@@ -400,8 +412,10 @@ foreach grp in apex nonapex pres oa ona high med low {
 		note("Red line: coefficient estimated on all scandals.", size(small)) ///
 		graphregion(color(white) fcolor(white)) scheme(s2color) ///
 		xsize(`wd') ysize(4.3)
-	graph export "${figout}/loo_scandal_beta_`grp'_violent_w`WIN'.pdf", replace
-	display in green "loo_scandal_beta_`grp'_violent_w`WIN'.pdf written"
+	graph export "${figout}/loo_scandal_beta_`grp'_`vout'_w`WIN'.pdf", replace
+	display in green "loo_scandal_beta_`grp'_`vout'_w`WIN'.pdf written"
 }
+
+}   /* end outer outcome loop (violent, peaceful) */
 
 display in green "a_loo_scandal_pa_vs_na.do finished OK"
