@@ -364,7 +364,7 @@ We show that our results are robust to a discontinuity-in-time design, using the
     \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $h=90$.}
         \includegraphics[width=\textwidth]{rd_time_num_peaceful_MM_na_h90.pdf}\end{subfigure}
     \end{center}
-    \footnotesize{As \autoref{fig:sup_rd_time}, but for peaceful protest counts. Binned means residualised on the country-by-year, month-of-year, and day-of-week fixed effects, in 5-day bins of the running variable, with local-linear fits on each side of the disclosure cutoff, at the $h=30$ (top row), $h=60$ (middle), and $h=90$ (bottom) bandwidths. Neither the apex (left column) nor the non-apex (right column) fit shows a discontinuity at $w_{s,t}=0$. Common vertical scale across all regression-discontinuity figures. Sample period 2008--2019; Venezuela excluded.}
+    \footnotesize{This figure shows 5-day binned means of the peaceful protest counts, partialled-out on country-year, month-of-the-year, and day-of-the-week fixed effects, with local-linear fits on each side of the disclosure cutoff at the $h=30-, 60-, 90$-day horizons. Subfigures on the left-hand side show estimates on the Apex subsample, and subfigures on the right-hand side show estimates on the Non-Apex subsample. Common vertical scale across all regression-discontinuity figures. Sample period 2008--2019; Venezuela excluded.}
 \end{figure}
 
 \begin{figure}[htb!]
@@ -386,7 +386,7 @@ We show that our results are robust to a discontinuity-in-time design, using the
     \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $h=90$.}
         \includegraphics[width=\textwidth]{rd_time_quad_num_violent_MM_na_h90.pdf}\end{subfigure}
     \end{center}
-    \footnotesize{As \autoref{fig:sup_rd_time}, but with local-\emph{quadratic} fits on each side of the disclosure cutoff, at the $h=30$ (top row), $h=60$ (middle), and $h=90$ (bottom) bandwidths. Binned means of the violent-protest count, residualised on the country-by-year, month-of-year, and day-of-week fixed effects, in 5-day bins of the running variable. For apex scandals (left column) the count jumps upward at $w_{s,t}=0$; for non-apex scandals (right column) the fit is continuous through the cutoff. Common vertical scale across all regression-discontinuity figures. Sample period 2008--2019; Venezuela excluded.}
+    \footnotesize{This figure shows 5-day binned means of the violent protest counts, partialled-out on country-year, month-of-the-year, and day-of-the-week fixed effects, with local-quadratic fits on each side of the disclosure cutoff at the $h=30-, 60-, 90$-day horizons. Subfigures on the left-hand side show estimates on the Apex subsample, and subfigures on the right-hand side show estimates on the Non-Apex subsample. Common vertical scale across all regression-discontinuity figures. Sample period 2008--2019; Venezuela excluded.}
 \end{figure}
 
 \begin{figure}[htb!]
@@ -408,7 +408,7 @@ We show that our results are robust to a discontinuity-in-time design, using the
     \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $h=90$.}
         \includegraphics[width=\textwidth]{rd_time_quad_num_peaceful_MM_na_h90.pdf}\end{subfigure}
     \end{center}
-    \footnotesize{As \autoref{fig:sup_rd_time_quad}, but for peaceful protest counts, with local-\emph{quadratic} fits on each side of the disclosure cutoff. Neither the apex (left column) nor the non-apex (right column) fit jumps at $w_{s,t}=0$. Common vertical scale across all regression-discontinuity figures. Sample period 2008--2019; Venezuela excluded.}
+    \footnotesize{This figure shows 5-day binned means of the peaceful protest counts, partialled-out on country-year, month-of-the-year, and day-of-the-week fixed effects, with local-quadratic fits on each side of the disclosure cutoff at the $h=30-, 60-, 90$-day horizons. Subfigures on the left-hand side show estimates on the Apex subsample, and subfigures on the right-hand side show estimates on the Non-Apex subsample. Common vertical scale across all regression-discontinuity figures. Sample period 2008--2019; Venezuela excluded.}
 \end{figure}
 
 The result is robust to the polynomial choice---the local-quadratic estimates are in \autoref{tab:sup_rd_time}, and \autoref{fig:sup_rd_time_quad} plots the corresponding local-quadratic fits, which likewise jump upward at disclosure for apex scandals only---and to a fully non-parametric fit: the ``Nonparametric'' rows of \autoref{tab:sup_rd_time} report a local-polynomial regression-discontinuity estimate~\citep{calonico2014robust}, computed within each window with an MSE-optimal, data-driven bandwidth and a triangular kernel on the fixed-effect-residualised outcome, and \autoref{fig:sup_rd_time_np} shows the corresponding local-linear fits with 90\% confidence bands. The apex violent discontinuity is positive at every window; with the wider robust confidence bands it is not always individually significant, while the non-apex and peaceful estimates remain null throughout.
@@ -443,7 +443,7 @@ The result is robust to the polynomial choice---the local-quadratic estimates ar
     \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $\pm90$.}
         \includegraphics[width=\textwidth]{rd_time_np_num_violent_MM_na_h90.pdf}\end{subfigure}
     \end{center}
-    \footnotesize{Local-linear fits (triangular kernel, MSE-optimal data-driven bandwidth) with 90\% confidence bands, and binned means (12 per side), of the violent-protest count residualised on the country-by-year, month-of-year, and day-of-week fixed effects, on each side of the disclosure cutoff. Each row restricts estimation to a $\pm30$ (top), $\pm60$ (middle), or $\pm90$ (bottom) day window, within which \texttt{rdrobust} selects its own MSE-optimal bandwidth; the legend reports the resulting discontinuity estimate $\tau$ and its $p$-value. Apex scandals in the left column, non-apex in the right. Common vertical scale across all regression-discontinuity figures. Sample period 2008--2019; Venezuela excluded.}
+    \footnotesize{This figure shows binned means (12 per side) of the violent protest counts, partialled-out on country-year, month-of-the-year, and day-of-the-week fixed effects, with non-parametric local-linear fits (triangular kernel, MSE-optimal data-driven bandwidth) and 90\% confidence bands on each side of the disclosure cutoff at the $\pm30-, \pm60-, \pm90$-day windows. Subfigures on the left-hand side show estimates on the Apex subsample, and subfigures on the right-hand side show estimates on the Non-Apex subsample; the legend in each reports the discontinuity estimate $\tau$ and its $p$-value. Common vertical scale across all regression-discontinuity figures. Sample period 2008--2019; Venezuela excluded.}
 \end{figure}
 
 \begin{figure}[htb!]
@@ -465,7 +465,7 @@ The result is robust to the polynomial choice---the local-quadratic estimates ar
     \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $\pm90$.}
         \includegraphics[width=\textwidth]{rd_time_np_num_peaceful_MM_na_h90.pdf}\end{subfigure}
     \end{center}
-    \footnotesize{As \autoref{fig:sup_rd_time_np}, but for peaceful protest counts: local-linear fits (triangular kernel, MSE-optimal data-driven bandwidth) with 90\% confidence bands and binned means (12 per side), residualised on the country-by-year, month-of-year, and day-of-week fixed effects. The legend reports the discontinuity estimate $\tau$ and its $p$-value; both the apex and non-apex estimates are null. Common vertical scale across all regression-discontinuity figures. Sample period 2008--2019; Venezuela excluded.}
+    \footnotesize{This figure shows binned means (12 per side) of the peaceful protest counts, partialled-out on country-year, month-of-the-year, and day-of-the-week fixed effects, with non-parametric local-linear fits (triangular kernel, MSE-optimal data-driven bandwidth) and 90\% confidence bands on each side of the disclosure cutoff at the $\pm30-, \pm60-, \pm90$-day windows. Subfigures on the left-hand side show estimates on the Apex subsample, and subfigures on the right-hand side show estimates on the Non-Apex subsample; the legend in each reports the discontinuity estimate $\tau$ and its $p$-value. Common vertical scale across all regression-discontinuity figures. Sample period 2008--2019; Venezuela excluded.}
 \end{figure}
 
 % ---------------------------------------------------------------------
