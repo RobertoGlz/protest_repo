@@ -150,12 +150,30 @@ replace summary = ustrregexra(summary, " +", " ")
 replace summary = strtrim(summary)
 replace summary = "(no summary available)" if summary == ""
 
-/* ---- truncate to ~300 chars at a word boundary (vectorised) -------------- */
-gen byte _long = ustrlen(summary) > 300
-replace summary = usubstr(summary, 1, 300)                            if _long
-replace summary = usubstr(summary, 1, ustrrpos(summary, " ") - 1)    if _long & ustrrpos(summary, " ") > 1
-replace summary = summary + "..."                                    if _long
-drop _long
+/* ---- keep WHOLE sentences up to ~300 chars, always ending in a full stop ---
+   Per request: every description must finish in a full stop, even at the cost
+   of dropping a trailing partial sentence.  A sentence boundary is a period
+   followed by a space and a CAPITAL letter; this excludes mid-sentence
+   abbreviations ("U.S.", "C.A.", always followed by a lowercase word) and
+   decimals ("19.5", no space).  We mark each real boundary with a sentinel
+   char occupying the SAME character position as its period, locate the last
+   boundary within budget with ustrrpos, and cut the ORIGINAL string there. */
+local SENT = char(1)
+local BUD  = 300
+/* boundary = a sentence-ending char (lowercase letter, digit, or ")") then
+   ". " then a capital.  Requiring lowercase/digit/")" BEFORE the period excludes
+   initials and abbreviations whose period follows a CAPITAL ("U.S. Treasury",
+   "U.S. District Court", "C.A.", "D. Trump"); decimals ("19.5") have no space. */
+gen marked      = ustrregexra(summary, "([a-z0-9)])\. ([A-Z])", "$1`SENT' $2")
+gen byte _long  = ustrlen(summary) > `BUD'
+gen long _lp    = ustrrpos(usubstr(marked, 1, `BUD'), "`SENT'")   /* last boundary within budget */
+gen long _fp    = ustrpos(marked, "`SENT'")                       /* first boundary (fallback)   */
+gen long _cut   = cond(_lp > 0, _lp, _fp)
+replace summary = usubstr(summary, 1, _cut) if _long & _cut > 0
+/* guarantee a trailing full stop (covers short entries and the rare
+   single-sentence-over-budget case that has no interior boundary) */
+replace summary = summary + "." if usubstr(summary, ustrlen(summary), 1) != "."
+drop marked _long _lp _fp _cut
 
 /* ---- escape LaTeX specials ON THE VARIABLE ------------------------------
    Crucial for "$": doing this on a local via subinstr("`d'", ...) fails
@@ -192,7 +210,7 @@ file write _t "\begingroup" _n
 file write _t "\setstretch{1.0}\footnotesize" _n
 file write _t "\setlength{\LTcapwidth}{\linewidth}" _n
 file write _t "\begin{longtable}{@{}l c p{15.5cm} l@{}}" _n
-file write _t "\caption{Classification of the 176 scandals in the event-window panel. Rows are in order of occurrence (by disclosure date); this is the same position the leave-one-out figures use to label each scandal. A scandal is \textit{Apex} when the implicated official is a president, governor, or Supreme Court justice, and \textit{Non-Apex} otherwise.}\label{tab:sup_scandal_list}\\" _n
+file write _t "\caption{Classification and Description of the scandals in our analysis sample in chronological order. Rows are ordered by disclosure date, which is also the position the leave-one-out figures use to label each scandal. A scandal is classified as \textit{Apex} when the implicated official is a president, governor, or Supreme Court justice, and as \textit{Non-Apex} otherwise.}\label{tab:sup_scandal_list}\\" _n
 file write _t "\toprule" _n
 file write _t "\textbf{Country} & \textbf{Year} & \textbf{Description} & \textbf{Class} \\" _n
 file write _t "\midrule" _n
