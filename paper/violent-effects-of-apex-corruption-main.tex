@@ -219,13 +219,13 @@ We classify each of the 176 scandals in our panel by the position of the implica
 
 
 
-Our identification rests on the exact calendar date of a scandal's disclosure being as-good-as-randomly distributed \emph{within} a country-year. We ask whether the day a scandal is disclosed can be told apart from the other days of the \emph{same} country-year using calendar structure and the electoral cycle. We estimate a conditional---on country-by-year fixed-effects---logit and measure discrimination with the within-country-year AUC. That is, the probability the model ranks the true scandal-day above a random non-scandal-day of the same country-year.
+Our identification rests on the exact calendar date of a scandal's disclosure being as-good-as-randomly distributed within a country-year. We ask whether the day a scandal is disclosed can be told apart from the other days of the \emph{same} country-year using calendar structure and the electoral cycle. We estimate a conditional---on country-by-year fixed effects---logit and measure discrimination with the within-country-year AUC. That is, the probability the model ranks the true scandal-day above a random non-scandal-day of the same country-year.
 
 \begin{table}[htb!]
-    \caption{Predicting the exact disclosure date within a country-year.}
+    \caption{Scandal disclosure dates are as-good-as-random}
     \label{tab:scandal_random}
     \begin{center}\input{scandals_as_random}\end{center}
-    \footnotesize{This table shows how well the exact disclosure date of a corruption scandal can be predicted \emph{within} a country-year, using progressively richer sets of predictors. Each column is a conditional (country-by-year fixed-effects) logit of an indicator for a scandal being disclosed on a given country-day, on the day of the week, the month of the year, the day of the month, and proximity to a national election (indicators for a day falling 0--30, 31--60, 61--90, or 91--120 days before an election), with each column adding one predictor set to the previous. An observation is a country-day; conditioning on country-by-year restricts the comparison to the 79 country-years that contain a scandal (28{,}852 country-days), and our 176 scandals fall on 171 distinct country-days. ``Joint test $p$-value'' is the Wald test that the predictors added in that column jointly matter. ``Within-year AUC'' is Harrell's $c$ restricted to within-country-year comparisons---the probability the model ranks the true scandal-day above a random non-scandal-day of the same country-year, where $0.5$ is a coin flip---and the out-of-sample row trains on a random half of the country-days and evaluates on the held-out half. Sample period 2008--2019; Venezuela excluded.}
+    \footnotesize{This table shows how well the exact disclosure date of a corruption scandal can be predicted within a country-year, using progressively richer sets of predictors. Each column is a conditional---country-by-year fixed effects---logit of an indicator for a scandal being disclosed on a given country-day, on the day of the week, the month of the year, the day of the month, and proximity to a national election (indicators for a day falling 0--30, 31--60, 61--90, or 91--120 days before an election), with each column adding one predictor set to the previous. An observation is a country-day; conditioning on country-by-year restricts the comparison to the 79 country-years that contain a scandal (28{,}852 country-days). ``Joint test $p$-value'' is the Wald test that the predictors added in that column are jointly different than 0. ``Within-year AUC'' is the probability the model ranks the true scandal-day above a random non-scandal-day of the same country-year, where $0.5$ is a coin flip---and the out-of-sample row trains on a random half of the country-days and evaluates on the held-out half. Sample period 2008--2019; Venezuela excluded.}
 \end{table}
 
 % ---------------------------------------------------------------------
@@ -255,7 +255,7 @@ We re-estimate the OLS specification at every event-window width $T \in \{15, 30
         \includegraphics[width=\textwidth]{sup_window_sensitivity_ols_num_peaceful_MM_na.pdf}
     \end{subfigure}
     \end{center}
-    \footnotesize{For each $T \in \{15, 30, \dots, 150\}$ we re-estimate the OLS specification on the event-window panel restricted to $|w_{st}|\leq T$, separately on the 63 Apex and 113 Non-Apex scandals. Vertical bars are 90\% confidence intervals; the markers at $T=30, 60, 90$ (the widths in Table~\ref{tab:uniquetocorruption}) are highlighted in red. All four panels share a common y-axis. Sample period 2008--2019; Venezuela excluded.}
+    \footnotesize{This table shows estimates of our OLS specification for each window-width $T \in \{15, 30, \dots, 150\}$. Vertical bars are 90\% confidence intervals; the estimates at $T=30, 60, 90$ (the widths in Table~\ref{tab:uniquetocorruption}) are shown with red diamonds. Sample period 2008--2019; Venezuela excluded.}
 \end{figure}
 
 % ---------------------------------------------------------------------
@@ -283,7 +283,7 @@ We complement the headline estimates with a randomization-inference (permutation
     \begin{subfigure}{0.32\textwidth}\caption{Non-Apex, $\pm 90$.}
         \includegraphics[width=\textwidth]{randomization_inference_hist_num_violent_MM_w90_na.pdf}\end{subfigure}
     \end{center}
-    \footnotesize{Randomization inference for violent protests. Each histogram is the distribution of 1{,}000 placebo estimates of the post-scandal effect, obtained by redrawing each scandal's disclosure date at random within its own country-year and re-estimating the OLS specification on the $\pm T$ event window. Top row: Apex subsample; bottom row: Non-Apex; columns are the $\pm 30$, $\pm 60$, and $\pm 90$ day windows. The maroon vertical line (drawn on top) marks the observed $\hat\beta$ from the corresponding cell of Table~\ref{tab:uniquetocorruption}; the top-right legend reports that observed $\hat\beta$ and the two-sided randomization-inference $p$-value. Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2019; Venezuela excluded.}
+    \footnotesize{This figure shows randomization inference for violent protests. Each histogram is the distribution of 1{,}000 placebo estimates of the post-scandal effect, obtained by redrawing each scandal's disclosure date at random within its own country-year and re-estimating the OLS specification on the $\pm T$ event window. Top row uses the Apex subsample. The bottom row uses the Non-Apex subsample. Columns are the $\pm 30$, $\pm 60$, and $\pm 90$ day windows. The maroon vertical line (drawn on top) marks the observed $\hat\beta$ from the corresponding cell of Table~\ref{tab:uniquetocorruption}; the top-right legend reports that observed $\hat\beta$ and the two-sided randomization-inference $p$-value. Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2019; Venezuela excluded.}
 \end{figure}
 
 \begin{figure}[htb!]
@@ -303,16 +303,16 @@ We complement the headline estimates with a randomization-inference (permutation
     \begin{subfigure}{0.32\textwidth}\caption{Non-Apex, $\pm 90$.}
         \includegraphics[width=\textwidth]{randomization_inference_hist_num_peaceful_MM_w90_na.pdf}\end{subfigure}
     \end{center}
-    \footnotesize{Randomization inference for peaceful protests. Each histogram is the distribution of 1{,}000 placebo estimates of the post-scandal effect, obtained by redrawing each scandal's disclosure date at random within its own country-year and re-estimating the OLS specification on the $\pm T$ event window. Top row: Apex subsample; bottom row: Non-Apex; columns are the $\pm 30$, $\pm 60$, and $\pm 90$ day windows. The maroon vertical line (drawn on top) marks the observed $\hat\beta$ from the corresponding cell of Table~\ref{tab:main}; the top-right legend reports that observed $\hat\beta$ and the two-sided randomization-inference $p$-value. Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2019; Venezuela excluded.}
+    \footnotesize{This figure shows randomization inference for peaceful protests. Each histogram is the distribution of 1{,}000 placebo estimates of the post-scandal effect, obtained by redrawing each scandal's disclosure date at random within its own country-year and re-estimating the OLS specification on the $\pm T$ event window. Top row uses the Apex subsample. The bottom row uses the Non-Apex subsample. Columns are the $\pm 30$, $\pm 60$, and $\pm 90$ day windows. The maroon vertical line (drawn on top) marks the observed $\hat\beta$ from the corresponding cell of Table~\ref{tab:uniquetocorruption}; the top-right legend reports that observed $\hat\beta$ and the two-sided randomization-inference $p$-value. Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2019; Venezuela excluded.}
 \end{figure}
 
 % ---------------------------------------------------------------------
 \clearpage
 \section{Regression discontinuity in event time}\label{sup:rd}
 
-An alternative to the event-study and difference-in-differences designs treats the scandal disclosure as a \emph{regression discontinuity in time}: the running variable is the number of days since the scandal ($w_{s,t}$), the cutoff is the disclosure date ($w_{s,t}=0$), and treatment is $\text{Post}_{st}=\mathbf{1}\{w_{s,t}\ge 0\}$. A polynomial in the running variable, allowed to differ on each side of the cutoff, models the smooth pre- and post-scandal trend; the discontinuity at $0$ is the immediate effect of disclosure, net of that trend. This handles the incoming pre-scandal trend transparently and needs none of the staggered-DiD machinery.
+We show that our results are robust to a discontinuity-in-time design, using the number of days since/to a given scandal as the running variable and setting the disclosure date as the cutoff value. We allow the polynomial on each side of the cutoff to differ in shape but not in degree. We partial-out month-of-the-year, day-of-the-week and country-year fixed effects.
 
-\autoref{tab:sup_rd_time} reports the estimated jump for the apex and non-apex subsamples, on violent and peaceful protests, for bandwidths $h\in\{30,60,90\}$ days and local-linear and local-quadratic polynomials. The local-linear estimate---the standard, and preferred over higher-order polynomials---shows a clear positive discontinuity in violent protests for apex scandals (0.034 at $h=30$, 0.067 at $h=60$) and no discontinuity for non-apex scandals or on the peaceful margin. \autoref{fig:sup_rd_time} plots the two violent-protest discontinuities: for apex scandals the residualised protest count jumps sharply upward at disclosure, whereas for non-apex scandals the fit is continuous through the cutoff. Reassuringly, the apex pre-scandal trend is, if anything, \emph{downward}, so the upward jump is not an artefact of a rising pre-trend.
+\autoref{tab:sup_rd_time} reports the estimated immediate effect for the apex and non-apex subsamples, on violent and peaceful protests, for bandwidths $h\in\{30,60,90\}$ days and local-linear, local-quadratic polynomials, and a non-parametric fit. \autoref{fig:sup_rd_time} plots the two violent-protest discontinuities: for apex scandals the residualised protest count jumps sharply upward at disclosure, whereas for non-apex scandals the fit is continuous through the cutoff. 
 
 \begin{table}[htb!]
     \caption{Regression discontinuity in event time: jump at disclosure.}
@@ -320,7 +320,7 @@ An alternative to the event-study and difference-in-differences designs treats t
     \begin{center}
         \scriptsize{\input{sup_rd_time}}
     \end{center}
-    \footnotesize{Estimated discontinuity ($\tau$, standard error in parentheses) in the daily protest count at the disclosure cutoff ($w_{s,t}=0$), from $Y_{c(s)t} = \tau\,\text{Post}_{st} + f(w_{s,t}) + \text{Post}_{st}\cdot g(w_{s,t}) + \alpha_d + \lambda_m + \theta_{cy} + \varepsilon_{c(s)t}$, where the polynomials $f,g$ are local-linear or local-quadratic in the running variable and, the running variable being centred at $0$, the coefficient on $\text{Post}$ is exactly the jump at the cutoff. The ``Nonparametric'' rows instead report a local-polynomial estimate (\texttt{rdrobust}: MSE-optimal data-driven bandwidth, triangular kernel) computed within the $\pm h$ window on the fixed-effect-residualised outcome. Estimated separately on the apex and non-apex subsamples, on violent and peaceful protest counts, at bandwidths/windows $h\in\{30,60,90\}$ days. The foot of each panel reports the MSE-optimal bandwidth and the effective (in-bandwidth) observations for the nonparametric estimate, the number of observations and distinct scandals entering each column, and the mean of the outcome in the pre-scandal days ($w_{s,t}<0$). All specifications include country-by-year, month-of-year, and day-of-week fixed effects; standard errors clustered at the country $\times$ year $\times$ day-bin level. Sample period 2008--2019; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+    \footnotesize{This table shows estimates of $\tau$ in $Y_{c(s)t} = \tau\,\text{Post}_{st} + f(w_{s,t}) + \text{Post}_{st}\cdot g(w_{s,t}) + \alpha_d + \lambda_m + \theta_{cy} + \varepsilon_{c(s)t}$, where the polynomials $f,g$ are local-linear or local-quadratic in the running variable and, the running variable being centred at $0$. The ``Nonparametric'' rows report estimates using a local-polynomial with MSE-optimal data-driven bandwidth and a triangular kernel, computed within the $\pm h$ window on the partialed-out outcome. We estimate each effect separately on each of the Apex and Non-Apex subsamples, on violent and peaceful protest counts, and at windows $h\in\{30,60,90\}$ days. All specifications include country-by-year, month-of-year, and day-of-week fixed effects; standard errors (in parentheses) clustered at the country $\times$ year $\times$ day-bin level. Sample period 2008--2019; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
 \end{table}
 
 \begin{figure}[htb!]
@@ -342,7 +342,29 @@ An alternative to the event-study and difference-in-differences designs treats t
     \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $h=90$.}
         \includegraphics[width=\textwidth]{rd_time_num_violent_MM_na_h90.pdf}\end{subfigure}
     \end{center}
-    \footnotesize{Binned means of the violent-protest count---residualised on the country-by-year, month-of-year, and day-of-week fixed effects---in 5-day bins of the running variable (days since scandal), with local-linear fits on each side of the disclosure cutoff, at the $h=30$ (top row), $h=60$ (middle), and $h=90$ (bottom) bandwidths. For apex scandals (left column) the count jumps upward at $w_{s,t}=0$ at every bandwidth; for non-apex scandals (right column) the fit is continuous through the cutoff. All regression-discontinuity figures share a common vertical scale so the discontinuities can be compared by eye. Sample period 2008--2019; Venezuela excluded.}
+    \footnotesize{This figure shows 5-day binned means of the violent protest counts, partialled-out on country-year, month-of-the-year, and day-of-the-week fixed effects, with local-linear fits on each side of the disclosure cutoff at the $h=30-, 60-, 90$-day horizons. Subfigures on the left-hand side show estimates on the Apex subsample, and subfigures on the right-hand side show estimates on the Non-Apex subsample. Sample périod 2008--2019; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Regression discontinuity in event time, peaceful protests, at $h=30/60/90$-day bandwidths.}
+    \label{fig:sup_rd_time_peaceful}
+    \begin{center}
+    \begin{subfigure}{0.45\textwidth}\caption{Apex, $h=30$.}
+        \includegraphics[width=\textwidth]{rd_time_num_peaceful_MM_pa_h30.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $h=30$.}
+        \includegraphics[width=\textwidth]{rd_time_num_peaceful_MM_na_h30.pdf}\end{subfigure}
+
+    \begin{subfigure}{0.45\textwidth}\caption{Apex, $h=60$.}
+        \includegraphics[width=\textwidth]{rd_time_num_peaceful_MM_pa_h60.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $h=60$.}
+        \includegraphics[width=\textwidth]{rd_time_num_peaceful_MM_na_h60.pdf}\end{subfigure}
+
+    \begin{subfigure}{0.45\textwidth}\caption{Apex, $h=90$.}
+        \includegraphics[width=\textwidth]{rd_time_num_peaceful_MM_pa_h90.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $h=90$.}
+        \includegraphics[width=\textwidth]{rd_time_num_peaceful_MM_na_h90.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{As \autoref{fig:sup_rd_time}, but for peaceful protest counts. Binned means residualised on the country-by-year, month-of-year, and day-of-week fixed effects, in 5-day bins of the running variable, with local-linear fits on each side of the disclosure cutoff, at the $h=30$ (top row), $h=60$ (middle), and $h=90$ (bottom) bandwidths. Neither the apex (left column) nor the non-apex (right column) fit shows a discontinuity at $w_{s,t}=0$. Common vertical scale across all regression-discontinuity figures. Sample period 2008--2019; Venezuela excluded.}
 \end{figure}
 
 \begin{figure}[htb!]
@@ -365,6 +387,28 @@ An alternative to the event-study and difference-in-differences designs treats t
         \includegraphics[width=\textwidth]{rd_time_quad_num_violent_MM_na_h90.pdf}\end{subfigure}
     \end{center}
     \footnotesize{As \autoref{fig:sup_rd_time}, but with local-\emph{quadratic} fits on each side of the disclosure cutoff, at the $h=30$ (top row), $h=60$ (middle), and $h=90$ (bottom) bandwidths. Binned means of the violent-protest count, residualised on the country-by-year, month-of-year, and day-of-week fixed effects, in 5-day bins of the running variable. For apex scandals (left column) the count jumps upward at $w_{s,t}=0$; for non-apex scandals (right column) the fit is continuous through the cutoff. Common vertical scale across all regression-discontinuity figures. Sample period 2008--2019; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Regression discontinuity in event time, local-quadratic fit, peaceful protests, at $h=30/60/90$-day bandwidths.}
+    \label{fig:sup_rd_time_quad_peaceful}
+    \begin{center}
+    \begin{subfigure}{0.45\textwidth}\caption{Apex, $h=30$.}
+        \includegraphics[width=\textwidth]{rd_time_quad_num_peaceful_MM_pa_h30.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $h=30$.}
+        \includegraphics[width=\textwidth]{rd_time_quad_num_peaceful_MM_na_h30.pdf}\end{subfigure}
+
+    \begin{subfigure}{0.45\textwidth}\caption{Apex, $h=60$.}
+        \includegraphics[width=\textwidth]{rd_time_quad_num_peaceful_MM_pa_h60.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $h=60$.}
+        \includegraphics[width=\textwidth]{rd_time_quad_num_peaceful_MM_na_h60.pdf}\end{subfigure}
+
+    \begin{subfigure}{0.45\textwidth}\caption{Apex, $h=90$.}
+        \includegraphics[width=\textwidth]{rd_time_quad_num_peaceful_MM_pa_h90.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $h=90$.}
+        \includegraphics[width=\textwidth]{rd_time_quad_num_peaceful_MM_na_h90.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{As \autoref{fig:sup_rd_time_quad}, but for peaceful protest counts, with local-\emph{quadratic} fits on each side of the disclosure cutoff. Neither the apex (left column) nor the non-apex (right column) fit jumps at $w_{s,t}=0$. Common vertical scale across all regression-discontinuity figures. Sample period 2008--2019; Venezuela excluded.}
 \end{figure}
 
 The result is robust to the polynomial choice---the local-quadratic estimates are in \autoref{tab:sup_rd_time}, and \autoref{fig:sup_rd_time_quad} plots the corresponding local-quadratic fits, which likewise jump upward at disclosure for apex scandals only---and to a fully non-parametric fit: the ``Nonparametric'' rows of \autoref{tab:sup_rd_time} report a local-polynomial regression-discontinuity estimate~\citep{calonico2014robust}, computed within each window with an MSE-optimal, data-driven bandwidth and a triangular kernel on the fixed-effect-residualised outcome, and \autoref{fig:sup_rd_time_np} shows the corresponding local-linear fits with 90\% confidence bands. The apex violent discontinuity is positive at every window; with the wider robust confidence bands it is not always individually significant, while the non-apex and peaceful estimates remain null throughout.
@@ -400,6 +444,28 @@ The result is robust to the polynomial choice---the local-quadratic estimates ar
         \includegraphics[width=\textwidth]{rd_time_np_num_violent_MM_na_h90.pdf}\end{subfigure}
     \end{center}
     \footnotesize{Local-linear fits (triangular kernel, MSE-optimal data-driven bandwidth) with 90\% confidence bands, and binned means (12 per side), of the violent-protest count residualised on the country-by-year, month-of-year, and day-of-week fixed effects, on each side of the disclosure cutoff. Each row restricts estimation to a $\pm30$ (top), $\pm60$ (middle), or $\pm90$ (bottom) day window, within which \texttt{rdrobust} selects its own MSE-optimal bandwidth; the legend reports the resulting discontinuity estimate $\tau$ and its $p$-value. Apex scandals in the left column, non-apex in the right. Common vertical scale across all regression-discontinuity figures. Sample period 2008--2019; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Regression discontinuity in event time, non-parametric fit, peaceful protests, at $\pm30/60/90$-day windows.}
+    \label{fig:sup_rd_time_np_peaceful}
+    \begin{center}
+    \begin{subfigure}{0.45\textwidth}\caption{Apex, $\pm30$.}
+        \includegraphics[width=\textwidth]{rd_time_np_num_peaceful_MM_pa_h30.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $\pm30$.}
+        \includegraphics[width=\textwidth]{rd_time_np_num_peaceful_MM_na_h30.pdf}\end{subfigure}
+
+    \begin{subfigure}{0.45\textwidth}\caption{Apex, $\pm60$.}
+        \includegraphics[width=\textwidth]{rd_time_np_num_peaceful_MM_pa_h60.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $\pm60$.}
+        \includegraphics[width=\textwidth]{rd_time_np_num_peaceful_MM_na_h60.pdf}\end{subfigure}
+
+    \begin{subfigure}{0.45\textwidth}\caption{Apex, $\pm90$.}
+        \includegraphics[width=\textwidth]{rd_time_np_num_peaceful_MM_pa_h90.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $\pm90$.}
+        \includegraphics[width=\textwidth]{rd_time_np_num_peaceful_MM_na_h90.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{As \autoref{fig:sup_rd_time_np}, but for peaceful protest counts: local-linear fits (triangular kernel, MSE-optimal data-driven bandwidth) with 90\% confidence bands and binned means (12 per side), residualised on the country-by-year, month-of-year, and day-of-week fixed effects. The legend reports the discontinuity estimate $\tau$ and its $p$-value; both the apex and non-apex estimates are null. Common vertical scale across all regression-discontinuity figures. Sample period 2008--2019; Venezuela excluded.}
 \end{figure}
 
 % ---------------------------------------------------------------------
@@ -465,6 +531,7 @@ The result is robust to the polynomial choice---the local-quadratic estimates ar
 \end{figure}
 \end{comment}
 
+\begin{comment}
 % ---------------------------------------------------------------------
 \clearpage
 \section{Event studies by subsample in the $\pm30$- and $60$-day windows}\label{sup:es_windows}
@@ -502,6 +569,7 @@ The result is robust to the polynomial choice---the local-quadratic estimates ar
     \end{center}
     \footnotesize{OLS event study estimated separately on the Apex and Non-Apex subsamples, on 15-day event-time bin indicators over the $\pm 90$-day window. The four panels are violent and peaceful protests $\times$ Apex and Non-Apex; the reference bin (the 15 days before disclosure) is normalized to zero and shown at its position, and the faint thick vertical line marks the disclosure cutoff. All four panels share a common y-axis. Vertical bars are 90\% confidence intervals; standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2019; Venezuela excluded.}
 \end{figure}
+\end{comment}
 
 \begin{comment}
 \begin{figure}[htb!]
@@ -1147,6 +1215,7 @@ If the effect really begins at the public-disclosure date and there is no antici
 % \end{table}
 \end{comment}
 
+\begin{comment}
 % ---------------------------------------------------------------------
 \clearpage
 \section{Apex scandals and democracy over time}\label{sup:dem_scandals}
@@ -1176,5 +1245,6 @@ As a descriptive complement to the cross-sectional democracy split, \autoref{fig
     \end{center}
     \footnotesize{This figure reproduces \autoref{fig:sup_dem_scandals} using V-Dem's Liberal Democracy Index (\texttt{v2x\_libdem}) in place of the Electoral Democracy Index. The solid black line is the country's Liberal Democracy Index by year, and the two short-dashed reference lines are the bottom- (cranberry) and top-tercile (navy) means formed from its 2008 value; the gray vertical lines again mark the year-month of each apex-corruption scandal. All panels share a common vertical scale. Sample period 2008--2019; Venezuela excluded.}
 \end{figure}
+\end{comment}
 
 \end{document}
