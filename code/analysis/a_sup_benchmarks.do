@@ -192,12 +192,12 @@ foreach est in ols poi {
 		esttab m1 m2 m3 m4 m5 m6 using "${tables}/bench_`est'_`p'_temp.tex", ///
 			replace booktabs nonotes nogaps b(3) se(3) `eformopt' ///
 			star(* 0.10 ** 0.05 *** 0.01) ///
-			mtitles("\shortstack{Violent\Protests}" ///
-			        "\shortstack{Peaceful\Protests}" ///
-			        "\shortstack{Violent\Protests}" ///
-			        "\shortstack{Peaceful\Protests}" ///
-			        "\shortstack{Violent\Protests}" ///
-			        "\shortstack{Peaceful\Protests}") ///
+			mtitles("\shortstack{Violent\\Protests}" ///
+			        "\shortstack{Peaceful\\Protests}" ///
+			        "\shortstack{Violent\\Protests}" ///
+			        "\shortstack{Peaceful\\Protests}" ///
+			        "\shortstack{Violent\\Protests}" ///
+			        "\shortstack{Peaceful\\Protests}") ///
 			mgroups("$\pm 30$-Day Window" "$\pm 60$-Day Window" ///
 			        "$\pm 90$-Day Window", ///
 			        pattern(1 0 1 0 1 0) ///
