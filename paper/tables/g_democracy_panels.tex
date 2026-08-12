@@ -1,0 +1,35 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{6}{c}}
+\toprule
+&\multicolumn{2}{c}{$\pm 30$-Day Window}    &\multicolumn{2}{c}{$\pm 60$-Day Window}    &\multicolumn{2}{c}{$\pm 90$-Day Window}    \\\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
+&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}&\multicolumn{1}{c}{\shortstack{Violent\\Protests}}&\multicolumn{1}{c}{\shortstack{Peaceful\\Protests}}\\
+\midrule \multicolumn{7}{l}{\textbf{\textit{Panel A: Corruption-related protests}}} \\
+Post $\times$ Medium+High Democracy (2008)&       0.007         &       0.006         &       0.010\sym{**} &       0.006         &       0.003         &       0.002         \\
+&     (0.005)         &     (0.005)         &     (0.004)         &     (0.006)         &     (0.004)         &     (0.005)         \\
+Post $\times$ Low Democracy (2008)&       0.007\sym{*}  &       0.002         &       0.007\sym{*}  &       0.001         &      -0.001         &      -0.001         \\
+&     (0.004)         &     (0.014)         &     (0.004)         &     (0.016)         &     (0.004)         &     (0.012)         \\
+\midrule
+p-value: Medium+High $=$ Low&       0.954         &       0.766         &       0.614         &       0.799         &       0.469         &       0.834         \\
+p-value: Medium+High $>$ Low (one-sided)&       0.523         &       0.383         &       0.307         &       0.400         &       0.234         &       0.417         \\
+Mean (Pre-Scandal)&       0.008         &       0.031         &       0.008         &       0.026         &       0.009         &       0.025         \\
+Observations&       10614         &       10614         &       21054         &       21054         &       31494         &       31494         \\
+Number of Scandals&         174         &         174         &         174         &         174         &         174         &         174         \\
+R-squared   &       0.107         &       0.347         &       0.105         &       0.280         &       0.089         &       0.235         \\
+\midrule
+\multicolumn{7}{l}{\textbf{\textit{Panel B: Unrelated to corruption}}} \\
+Post $\times$ Medium+High Democracy (2008)&       0.009         &       0.007         &       0.011         &      -0.007         &       0.014\sym{*}  &      -0.007         \\
+&     (0.006)         &     (0.006)         &     (0.008)         &     (0.006)         &     (0.008)         &     (0.005)         \\
+Post $\times$ Low Democracy (2008)&       0.005         &       0.005         &       0.003         &       0.003         &       0.003         &       0.004         \\
+&     (0.005)         &     (0.004)         &     (0.004)         &     (0.008)         &     (0.003)         &     (0.009)         \\
+\midrule
+p-value: Medium+High $=$ Low&       0.682         &       0.773         &       0.421         &       0.304         &       0.207         &       0.274         \\
+p-value: Medium+High $>$ Low (one-sided)&       0.341         &       0.387         &       0.210         &       0.848         &       0.103         &       0.863         \\
+Mean (Pre-Scandal)&       0.012         &       0.025         &       0.013         &       0.034         &       0.015         &       0.035         \\
+Observations&       10614         &       10614         &       21054         &       21054         &       31494         &       31494         \\
+Number of Scandals&         174         &         174         &         174         &         174         &         174         &         174         \\
+R-squared   &       0.189         &       0.584         &       0.175         &       0.489         &       0.153         &       0.433         \\
+\bottomrule
+\end{tabular}
+}

@@ -1294,4 +1294,259 @@ Because our outcome counts \emph{all} violent protests at the country-day level,
 
 We read this as follows. The response remains squarely \emph{apex-specific}: non-apex scandals move neither the corruption-related nor the unrelated violent-protest count, in any window. What the split adds is that an apex-corruption disclosure is followed not only by protests explicitly framed around the scandal but by a broader rise in violent mobilization, consistent with apex corruption acting as a shock to the political environment rather than triggering narrowly anti-corruption protest alone. Two caveats temper the corruption-vs-unrelated contrast. First, the MM descriptions are terse, so a protest that is part of the scandal-driven wave but not explicitly framed as anti-corruption is coded ``unrelated''; the classifier therefore likely \emph{understates} the corruption-related share, which should be read as a lower bound on the scandal-attributable response. Second, the assignment is keyword-based and inherently coarse. The apex/non-apex contrast---robust across both columns and both margins---remains the more reliable comparison.
 
+% =====================================================================
+% GRIEVANCE-SPLIT REPLICATION OF THE MAIN EVIDENCE
+% =====================================================================
+\clearpage
+\section{Grievance-split replication of the main evidence}\label{sup:grievance_repl}
+
+Building on the grievance classification of \autoref{sup:grievance}, this section reproduces each of the paper's main pieces of evidence separately for corruption/accountability-related and unrelated protests, to check whether the apex-vs.-non-apex pattern persists within each grievance class. For every \emph{table} we add grievance panels while keeping the original column layout; for every \emph{figure} we overlay the two classes---corruption-related in a solid black line with circle markers, unrelated in a short-dashed grey line with square markers. The verdict is that the paper's structure survives the split: the rise in violent protest after apex scandals, and its absence after non-apex scandals, holds within the corruption-related count and---somewhat more strongly---within the unrelated count, while the peaceful margin stays flat in both. Apex corruption is followed by a broad wave of violent mobilization that includes, but is not limited to, protests explicitly about the scandal.
+
+\subsection{Main interaction}
+
+\begin{table}[htb!]
+    \caption{\autoref{tab:main} split by protest grievance.}
+    \label{tab:g_interaction}
+    \begin{center}
+        \scriptsize{\input{g_interaction_panels}}
+    \end{center}
+    \footnotesize{This table re-estimates \autoref{eq:main} (the two-group interaction of \autoref{tab:main}) separately on corruption-related protests (Panel A) and unrelated protests (Panel B). Columns are violent/peaceful protest counts at the $\pm30/60/90$-day windows. Standard errors (in parentheses) clustered at the country $\times$ year $\times$ day-bin level; all specifications include country-year, month-of-the-year, and day-of-the-week fixed effects. Sample period 2008--2019; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+\end{table}
+
+\autoref{tab:g_interaction} is the panelled counterpart of the summary in \autoref{tab:grievance_split}. In both grievance panels the daily count of violent protests rises after \emph{apex} scandals and is flat after non-apex ones: the Post $\times$ Apex coefficient on violent protests is $0.014$ (corruption-related) and $0.036$ (unrelated) in the 30-day window, each significant, with non-apex coefficients indistinguishable from zero. The peaceful margin does not respond in either panel.
+
+\subsection{Protest dynamics}
+
+\begin{figure}[htb!]
+    \caption{\autoref{fig:dynamics} split by protest grievance.}
+    \label{fig:g_dynamics}
+    \begin{center}
+    \begin{subfigure}{0.45\textwidth}\caption{Violent, Apex.}
+        \includegraphics[width=\textwidth]{g_dynamics_violent_pa.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Apex.}
+        \includegraphics[width=\textwidth]{g_dynamics_peaceful_pa.pdf}\end{subfigure}
+
+    \begin{subfigure}{0.45\textwidth}\caption{Violent, Non-Apex.}
+        \includegraphics[width=\textwidth]{g_dynamics_violent_na.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Non-Apex.}
+        \includegraphics[width=\textwidth]{g_dynamics_peaceful_na.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{As \autoref{fig:dynamics}, but each panel overlays corruption-related protests (solid black line, circle markers) and unrelated protests (short-dashed grey line, square markers), estimated separately on the Apex and Non-Apex subsamples over the $\pm60$-day window in 15-day bins. The two series are dodged horizontally so their 90\% confidence spikes do not overlap; the bin immediately before disclosure is the omitted reference and the faint vertical band marks the cutoff. Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2019; Venezuela excluded.}
+\end{figure}
+
+\subsection{Specificity benchmarks}
+
+\begin{table}[htb!]
+    \caption{\autoref{tab:uniquetocorruption} split by protest grievance.}
+    \label{tab:g_benchmarks}
+    \begin{center}
+        \scriptsize{\input{g_benchmarks_panels}}
+    \end{center}
+    \footnotesize{As \autoref{tab:uniquetocorruption}, but the Apex and Non-Apex samples are each split by grievance class, giving four corruption/rank panels; the football and currency-depreciation panels use the total protest counts, as in the main table. Each cell is the post-event OLS coefficient (standard error in parentheses) on the relevant outcome, at the $\pm30/60/90$-day windows, with country-year, month-of-the-year, and day-of-the-week fixed effects and clustering at the country $\times$ year $\times$ day-bin level. Sample period 2008--2019; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+\end{table}
+
+\subsection{Heterogeneity by the level of democracy}
+
+\begin{table}[htb!]
+    \caption{\autoref{tab:sup_democracy_lmh} split by protest grievance.}
+    \label{tab:g_democracy}
+    \begin{center}
+        \scriptsize{\input{g_democracy_panels}}
+    \end{center}
+    \footnotesize{As \autoref{tab:sup_democracy_lmh} (the Low vs.\ Medium+High 2008-democracy split), re-estimated separately on corruption-related protests (Panel A) and unrelated protests (Panel B). Columns, fixed effects, clustering and sample as in \autoref{tab:g_interaction}. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+\end{table}
+
+\subsection{Sensitivity to the event-window width}
+
+\begin{figure}[htb!]
+    \caption{\autoref{fig:sup_window} split by protest grievance.}
+    \label{fig:g_window}
+    \begin{center}
+    \begin{subfigure}{0.48\textwidth}\caption{Violent, Apex.}
+        \includegraphics[width=\textwidth]{g_window_violent_pa.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}\caption{Violent, Non-Apex.}
+        \includegraphics[width=\textwidth]{g_window_violent_na.pdf}\end{subfigure} \\
+    \begin{subfigure}{0.48\textwidth}\caption{Peaceful, Apex.}
+        \includegraphics[width=\textwidth]{g_window_peaceful_pa.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}\caption{Peaceful, Non-Apex.}
+        \includegraphics[width=\textwidth]{g_window_peaceful_na.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{As \autoref{fig:sup_window}: the OLS post-event estimate against the event-window width $T\in\{15,30,\dots,150\}$, but each panel overlays corruption-related (solid black, circle markers) and unrelated (short-dashed grey, square markers) protests, with 90\% confidence bars. Panels share a common vertical scale. Sample period 2008--2019; Venezuela excluded.}
+\end{figure}
+
+\subsection{Regression discontinuity in event time}
+
+\begin{table}[htb!]
+    \caption{\autoref{tab:sup_rd_time} split by protest grievance.}
+    \label{tab:g_rd_time}
+    \begin{center}
+        \scriptsize{\input{g_rd_time_panels}}
+    \end{center}
+    \footnotesize{As \autoref{tab:sup_rd_time} (the discontinuity $\tau$ at the disclosure cutoff), re-estimated separately on corruption-related protests (Panel A) and unrelated protests (Panel B), for the local-linear, local-quadratic, and nonparametric fits at $h=30/60/90$ days. Standard errors clustered at the country $\times$ year $\times$ day-bin level (nonparametric: robust bias-corrected). Sample period 2008--2019; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+\end{table}
+
+\begin{figure}[htb!]
+    \caption{Regression discontinuity in event time, violent protests, split by grievance.}
+    \label{fig:g_rd_violent}
+    \begin{center}
+    \begin{subfigure}{0.45\textwidth}\caption{Apex, $h=30$.}
+        \includegraphics[width=\textwidth]{g_rd_violent_pa_h30.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $h=30$.}
+        \includegraphics[width=\textwidth]{g_rd_violent_na_h30.pdf}\end{subfigure}
+
+    \begin{subfigure}{0.45\textwidth}\caption{Apex, $h=60$.}
+        \includegraphics[width=\textwidth]{g_rd_violent_pa_h60.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $h=60$.}
+        \includegraphics[width=\textwidth]{g_rd_violent_na_h60.pdf}\end{subfigure}
+
+    \begin{subfigure}{0.45\textwidth}\caption{Apex, $h=90$.}
+        \includegraphics[width=\textwidth]{g_rd_violent_pa_h90.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $h=90$.}
+        \includegraphics[width=\textwidth]{g_rd_violent_na_h90.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{Local-linear RD-in-event-time plots of the fixed-effect-residualised \emph{violent} protest count, overlaying corruption-related (black circles, solid black fits) and unrelated (grey squares, short-dashed grey fits) protests on each side of the disclosure cutoff, at $h=30/60/90$ days. Common vertical scale across all panels. Sample period 2008--2019; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Regression discontinuity in event time, peaceful protests, split by grievance.}
+    \label{fig:g_rd_peaceful}
+    \begin{center}
+    \begin{subfigure}{0.45\textwidth}\caption{Apex, $h=30$.}
+        \includegraphics[width=\textwidth]{g_rd_peaceful_pa_h30.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $h=30$.}
+        \includegraphics[width=\textwidth]{g_rd_peaceful_na_h30.pdf}\end{subfigure}
+
+    \begin{subfigure}{0.45\textwidth}\caption{Apex, $h=60$.}
+        \includegraphics[width=\textwidth]{g_rd_peaceful_pa_h60.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $h=60$.}
+        \includegraphics[width=\textwidth]{g_rd_peaceful_na_h60.pdf}\end{subfigure}
+
+    \begin{subfigure}{0.45\textwidth}\caption{Apex, $h=90$.}
+        \includegraphics[width=\textwidth]{g_rd_peaceful_pa_h90.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Non-Apex, $h=90$.}
+        \includegraphics[width=\textwidth]{g_rd_peaceful_na_h90.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{As \autoref{fig:g_rd_violent}, but for \emph{peaceful} protests. Sample period 2008--2019; Venezuela excluded.}
+\end{figure}
+
+\subsection{Leave-one-out by scandal}
+
+\begin{figure}[htb!]
+    \caption{Leave-one-out by scandal, violent protests, split by grievance.}
+    \label{fig:g_loo_violent}
+    \begin{center}
+    \begin{subfigure}{\textwidth}\caption{Apex, corruption-related.}
+        \includegraphics[width=\textwidth]{g_loo_apex_gcorr_v.pdf}\end{subfigure} \\[4pt]
+    \begin{subfigure}{\textwidth}\caption{Apex, unrelated.}
+        \includegraphics[width=\textwidth]{g_loo_apex_gunrel_v.pdf}\end{subfigure} \\[4pt]
+    \begin{subfigure}{\textwidth}\caption{Non-Apex, corruption-related.}
+        \includegraphics[width=\textwidth]{g_loo_nonapex_gcorr_v.pdf}\end{subfigure} \\[4pt]
+    \begin{subfigure}{\textwidth}\caption{Non-Apex, unrelated.}
+        \includegraphics[width=\textwidth]{g_loo_nonapex_gunrel_v.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{As \autoref{fig:sup_loo}, but for the grievance-split \emph{violent} outcomes: leave-one-out estimates of the Post $\times$ Apex (top two panels) and Post $\times$ Non-Apex (bottom two) coefficients on corruption-related and unrelated violent protests, $\pm30$-day window, dropping each scandal in turn. Vertical bars are 90\% confidence intervals; the red line is the coefficient on all scandals. Standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2019; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Leave-one-out by scandal, peaceful protests, split by grievance.}
+    \label{fig:g_loo_peaceful}
+    \begin{center}
+    \begin{subfigure}{\textwidth}\caption{Apex, corruption-related.}
+        \includegraphics[width=\textwidth]{g_loo_apex_gcorr_p.pdf}\end{subfigure} \\[4pt]
+    \begin{subfigure}{\textwidth}\caption{Apex, unrelated.}
+        \includegraphics[width=\textwidth]{g_loo_apex_gunrel_p.pdf}\end{subfigure} \\[4pt]
+    \begin{subfigure}{\textwidth}\caption{Non-Apex, corruption-related.}
+        \includegraphics[width=\textwidth]{g_loo_nonapex_gcorr_p.pdf}\end{subfigure} \\[4pt]
+    \begin{subfigure}{\textwidth}\caption{Non-Apex, unrelated.}
+        \includegraphics[width=\textwidth]{g_loo_nonapex_gunrel_p.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{As \autoref{fig:g_loo_violent}, but for \emph{peaceful} protests. Sample period 2008--2019; Venezuela excluded.}
+\end{figure}
+
+\subsection{Randomization inference}
+
+The grievance-split randomization-inference histograms (one per grievance outcome, Apex/Non-Apex $\times$ $\pm30/60/90$) are produced by \texttt{g\_randomization\_inference.do}; they are included below.
+
+\begin{comment}
+\begin{figure}[htb!]
+    \caption{Randomization inference: corruption-related violent protests.}
+    \label{fig:g_ri_corr_violent}
+    \begin{center}
+    \begin{subfigure}{0.32\textwidth}\caption{Apex, $\pm30$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gcorr_v_w30_pa.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.32\textwidth}\caption{Apex, $\pm60$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gcorr_v_w60_pa.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.32\textwidth}\caption{Apex, $\pm90$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gcorr_v_w90_pa.pdf}\end{subfigure} \\
+    \begin{subfigure}{0.32\textwidth}\caption{Non-Apex, $\pm30$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gcorr_v_w30_na.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.32\textwidth}\caption{Non-Apex, $\pm60$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gcorr_v_w60_na.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.32\textwidth}\caption{Non-Apex, $\pm90$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gcorr_v_w90_na.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{As \autoref{fig:sup_ri_violent}, but for corruption-related violent protests: each histogram is the distribution of 1{,}000 placebo estimates (disclosure dates redrawn within country-year); the maroon line marks the observed estimate and the legend reports the two-sided randomization-inference $p$-value. Sample period 2008--2019; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Randomization inference: unrelated violent protests.}
+    \label{fig:g_ri_unrel_violent}
+    \begin{center}
+    \begin{subfigure}{0.32\textwidth}\caption{Apex, $\pm30$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gunrel_v_w30_pa.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.32\textwidth}\caption{Apex, $\pm60$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gunrel_v_w60_pa.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.32\textwidth}\caption{Apex, $\pm90$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gunrel_v_w90_pa.pdf}\end{subfigure} \\
+    \begin{subfigure}{0.32\textwidth}\caption{Non-Apex, $\pm30$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gunrel_v_w30_na.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.32\textwidth}\caption{Non-Apex, $\pm60$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gunrel_v_w60_na.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.32\textwidth}\caption{Non-Apex, $\pm90$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gunrel_v_w90_na.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{As \autoref{fig:g_ri_corr_violent}, but for unrelated violent protests.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Randomization inference: corruption-related peaceful protests.}
+    \label{fig:g_ri_corr_peaceful}
+    \begin{center}
+    \begin{subfigure}{0.32\textwidth}\caption{Apex, $\pm30$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gcorr_p_w30_pa.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.32\textwidth}\caption{Apex, $\pm60$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gcorr_p_w60_pa.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.32\textwidth}\caption{Apex, $\pm90$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gcorr_p_w90_pa.pdf}\end{subfigure} \\
+    \begin{subfigure}{0.32\textwidth}\caption{Non-Apex, $\pm30$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gcorr_p_w30_na.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.32\textwidth}\caption{Non-Apex, $\pm60$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gcorr_p_w60_na.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.32\textwidth}\caption{Non-Apex, $\pm90$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gcorr_p_w90_na.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{As \autoref{fig:g_ri_corr_violent}, but for corruption-related peaceful protests.}
+\end{figure}
+
+\begin{figure}[htb!]
+    \caption{Randomization inference: unrelated peaceful protests.}
+    \label{fig:g_ri_unrel_peaceful}
+    \begin{center}
+    \begin{subfigure}{0.32\textwidth}\caption{Apex, $\pm30$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gunrel_p_w30_pa.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.32\textwidth}\caption{Apex, $\pm60$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gunrel_p_w60_pa.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.32\textwidth}\caption{Apex, $\pm90$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gunrel_p_w90_pa.pdf}\end{subfigure} \\
+    \begin{subfigure}{0.32\textwidth}\caption{Non-Apex, $\pm30$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gunrel_p_w30_na.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.32\textwidth}\caption{Non-Apex, $\pm60$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gunrel_p_w60_na.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.32\textwidth}\caption{Non-Apex, $\pm90$.}
+        \includegraphics[width=\textwidth]{g_ri_hist_gunrel_p_w90_na.pdf}\end{subfigure}
+    \end{center}
+    \footnotesize{As \autoref{fig:g_ri_corr_violent}, but for unrelated peaceful protests.}
+\end{figure}
+\end{comment}
+
 \end{document}
