@@ -39,6 +39,15 @@ Enrique Seira\thanks{University of Notre Dame, Department of Economics and Kello
 
 \begin{document}
 
+% \autoref to an appendix section must read "Supplementary Materials S#".
+% Set here (right after \begin{document}, so after hyperref's and babel's
+% \AtBeginDocument setup) so it applies to the BODY footnotes that reference
+% appendix sections too -- \autoref resolves the name at the point of use, and
+% hyperref uses \appendixautorefname for a \section that appears after \appendix.
+\renewcommand{\sectionautorefname}{Supplementary Materials}
+\renewcommand{\subsectionautorefname}{Supplementary Materials}
+\renewcommand{\appendixautorefname}{Supplementary Materials}
+
 \maketitle
 
 % =====================================================================
@@ -186,13 +195,6 @@ Our empirical analyses have some limitations worth noting. Our identification st
 % SUPPLEMENTARY MATERIALS
 % =====================================================================
 \clearpage
-
-% \autoref to an appendix section should read "Supplementary Materials S#"
-% (redefined here, after hyperref's \AtBeginDocument setup, so it is not
-%  overwritten). Only section-level names are changed; Table/Figure are intact.
-\renewcommand{\sectionautorefname}{Supplementary Materials}
-\renewcommand{\subsectionautorefname}{Supplementary Materials}
-\renewcommand{\appendixautorefname}{Supplementary Materials}
 
 \appendix
 \renewcommand{\thesection}{S\arabic{section}}
