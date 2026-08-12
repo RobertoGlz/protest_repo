@@ -1275,4 +1275,23 @@ As a descriptive complement to the cross-sectional democracy split, \autoref{fig
 \end{figure}
 \end{comment}
 
+% ---------------------------------------------------------------------
+\clearpage
+\section{Protest grievance: corruption-related vs.\ unrelated}\label{sup:grievance}
+
+Because our outcome counts \emph{all} violent protests at the country-day level, a natural question is whether the apex effect operates through protests \emph{about} the scandal or through a broader wave of mobilization whose grievances need not concern corruption (\autoref{sup:protests_examples} gives examples of both). To probe this, we classify each Mass Mobilization protest as \emph{corruption/accountability-related} or \emph{unrelated} using its coded demand and its free-text description: a protest is corruption-related if the MM \texttt{notes} mention corruption or malfeasance (e.g.\ ``corruption'', ``bribe'', ``embezzlement'', ``Odebrecht'', ``Lava Jato''), if its coded demand is ``removal of politician'', or if the notes call for a resignation or impeachment; all other protests are coded unrelated. About a quarter of the protests in our sample-country panel are corruption-related by this rule. We rebuild the daily counts separately for the two grievance classes---which by construction sum to the totals used throughout the paper---and re-estimate \autoref{eq:main} on each.
+
+\begin{table}[htb!]
+    \caption{Effect on violent and peaceful protests, split by whether the protest's grievance is corruption-related.}
+    \label{tab:grievance_split}
+    \begin{center}
+        \scriptsize{\input{grievance_split}}
+    \end{center}
+    \footnotesize{This table re-estimates \autoref{eq:main} separately on daily counts of corruption/accountability-related and unrelated protests. A protest is corruption-related if its Mass Mobilization \texttt{notes} mention corruption or malfeasance, if its coded demand is ``removal of politician'', or if the notes call for a resignation or impeachment; otherwise it is unrelated. Columns 1--2 are violent protests (corruption-related, then unrelated); columns 3--4 are peaceful protests. Each panel uses a $\pm h$-day window. Two-sided $p$-values in brackets, computed from standard errors clustered at the country $\times$ year $\times$ day-bin level. All specifications include country-year, month-of-the-year, and day-of-the-week fixed effects. The corruption-related and unrelated counts sum to the totals in \autoref{tab:main}. Sample period 2008--2019; Venezuela excluded. Significance: $^{*}$ $p<0.1$, $^{**}$ $p<0.05$, $^{***}$ $p<0.01$.}
+\end{table}
+
+\autoref{tab:grievance_split} shows two patterns. First, the apex effect on violent protests is present in the corruption-related count: for apex scandals the daily count of corruption-related violent protests rises by $0.014$ (p$=0.029$) in the 30-day window and $0.011$ (p$=0.016$) in the 60-day window, while the non-apex estimates are indistinguishable from zero. Second, a comparable---indeed somewhat larger---share of the apex effect appears in protests our classifier labels unrelated to corruption ($0.037$, $0.029$, and $0.023$ at the 30-, 60-, and 90-day windows, each significant), again with no response for non-apex scandals. Across windows the two components sum to the headline apex violent-protest effect ($0.014+0.037\approx0.051$ at 30 days, $0.011+0.029=0.040$ at 60 days, $0.003+0.023=0.026$ at 90 days). The peaceful margin does not respond to apex scandals in either grievance class.
+
+We read this as follows. The response remains squarely \emph{apex-specific}: non-apex scandals move neither the corruption-related nor the unrelated violent-protest count, in any window. What the split adds is that an apex-corruption disclosure is followed not only by protests explicitly framed around the scandal but by a broader rise in violent mobilization, consistent with apex corruption acting as a shock to the political environment rather than triggering narrowly anti-corruption protest alone. Two caveats temper the corruption-vs-unrelated contrast. First, the MM descriptions are terse, so a protest that is part of the scandal-driven wave but not explicitly framed as anti-corruption is coded ``unrelated''; the classifier therefore likely \emph{understates} the corruption-related share, which should be read as a lower bound on the scandal-attributable response. Second, the assignment is keyword-based and inherently coarse. The apex/non-apex contrast---robust across both columns and both margins---remains the more reliable comparison.
+
 \end{document}
