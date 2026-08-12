@@ -1,3 +1,4 @@
++
 \documentclass[11pt]{article}
 
 \input{preamble}
@@ -129,18 +130,16 @@ where $\mathrm{Apex}_s$ ($\mathrm{Non-Apex}_s$) indicates a Apex (Non-Apex) scan
     \caption{Protest dynamics: Apex vs.\ Non-Apex ($\pm 60$-day window, 15-day bins).}
     \label{fig:dynamics}
     \begin{center}
-    \begin{subfigure}{0.48\textwidth}
-        \caption{Violent protests.}
-        \includegraphics[width=\textwidth]{es_pooled_num_violent_MM_w60_b15_ols_90ci.pdf}
-        \label{fig:dynamics:violent}
-    \end{subfigure}\hfill
-    \begin{subfigure}{0.48\textwidth}
-        \caption{Peaceful protests.}
-        \includegraphics[width=\textwidth]{es_pooled_num_peaceful_MM_w60_b15_ols_90ci.pdf}
-        \label{fig:dynamics:peaceful}
-    \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}\caption{Violent, Apex.}
+        \includegraphics[width=\textwidth]{es_num_violent_MM_w60_b15_pa_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Apex.}
+        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w60_b15_pa_ols_90ci.pdf}\end{subfigure} \\
+    \begin{subfigure}{0.45\textwidth}\caption{Violent, Non-Apex.}
+        \includegraphics[width=\textwidth]{es_num_violent_MM_w60_b15_na_ols_90ci.pdf}\end{subfigure}\hfill
+    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Non-Apex.}
+        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w60_b15_na_ols_90ci.pdf}\end{subfigure}
     \end{center}
-    \footnotesize{OLS estimates of the event-time coefficients $\{\beta^{\text{Apex}}_k\}$ (navy circles) and $\{\beta^{\text{NA}}_k\}$ (maroon diamonds) from a pooled event-study specification that interacts 15-day event-time bin indicators with the apex and non-apex flags, estimated \emph{jointly} on the pooled sample. The bin immediately preceding disclosure ($w_{s,t}\in[-15,-1]$) is the omitted reference for each group; the faint vertical band marks the disclosure cutoff. Vertical bars are 90\% confidence intervals; standard errors clustered at country $\times$ year $\times$ day-bin. An observation is a country-scandal-date. Sample period 2008--2018; Venezuela excluded.}
+    \footnotesize{OLS event study estimated separately on the Apex and Non-Apex subsamples, on 15-day event-time bin indicators over the $\pm 60$-day window. The four panels are violent and peaceful protests $\times$ Apex and Non-Apex; the reference bin (the 15 days before disclosure) is normalized to zero and shown at its position, and the faint thick vertical line marks the disclosure cutoff. All four panels share a common y-axis. Vertical bars are 90\% confidence intervals; standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
 \end{figure}
 
 \subsection{The protest response is specific to apex corruption}
@@ -351,6 +350,24 @@ We re-estimate the headline OLS specification at every event-window width $T \in
 \end{figure}
 
 \begin{figure}[htb!]
+    \caption{Protest dynamics: Apex vs.\ Non-Apex ($\pm 60$-day window, 15-day bins).}
+    \label{fig:dynamics}
+    \begin{center}
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Violent protests.}
+        \includegraphics[width=\textwidth]{es_pooled_num_violent_MM_w60_b15_ols_90ci.pdf}
+        \label{fig:dynamics:violent}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.48\textwidth}
+        \caption{Peaceful protests.}
+        \includegraphics[width=\textwidth]{es_pooled_num_peaceful_MM_w60_b15_ols_90ci.pdf}
+        \label{fig:dynamics:peaceful}
+    \end{subfigure}
+    \end{center}
+    \footnotesize{OLS estimates of the event-time coefficients $\{\beta^{\text{Apex}}_k\}$ (navy circles) and $\{\beta^{\text{NA}}_k\}$ (maroon diamonds) from a pooled event-study specification that interacts 15-day event-time bin indicators with the apex and non-apex flags, estimated \emph{jointly} on the pooled sample. The bin immediately preceding disclosure ($w_{s,t}\in[-15,-1]$) is the omitted reference for each group; the faint vertical band marks the disclosure cutoff. Vertical bars are 90\% confidence intervals; standard errors clustered at country $\times$ year $\times$ day-bin. An observation is a country-scandal-date. Sample period 2008--2018; Venezuela excluded.}
+\end{figure}
+
+\begin{figure}[htb!]
     \caption{Pooled event study, $\pm 90$-day window (15-day bins).}
     \label{fig:sup_es_pooled_w90}
     \begin{center}
@@ -396,21 +413,7 @@ We re-estimate the headline OLS specification at every event-window width $T \in
     \footnotesize{OLS event study estimated separately on the Apex and Non-Apex subsamples, on 15-day event-time bin indicators over the $\pm 30$-day window (\autoref{eq:main} with the post indicator replaced by a saturated set of event-time bins). The four panels are violent and peaceful protests $\times$ Apex and Non-Apex; the reference bin (the 15 days before disclosure) is normalized to zero and shown at its position, and the faint thick vertical line marks the disclosure cutoff. All four panels share a common y-axis. Vertical bars are 90\% confidence intervals; standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
 \end{figure}
 
-\begin{figure}[htb!]
-    \caption{Event studies, $\pm 60$-day window (15-day bins).}
-    \label{fig:sup_es_w60}
-    \begin{center}
-    \begin{subfigure}{0.45\textwidth}\caption{Violent, Apex.}
-        \includegraphics[width=\textwidth]{es_num_violent_MM_w60_b15_pa_ols_90ci.pdf}\end{subfigure}\hfill
-    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Apex.}
-        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w60_b15_pa_ols_90ci.pdf}\end{subfigure} \\
-    \begin{subfigure}{0.45\textwidth}\caption{Violent, Non-Apex.}
-        \includegraphics[width=\textwidth]{es_num_violent_MM_w60_b15_na_ols_90ci.pdf}\end{subfigure}\hfill
-    \begin{subfigure}{0.45\textwidth}\caption{Peaceful, Non-Apex.}
-        \includegraphics[width=\textwidth]{es_num_peaceful_MM_w60_b15_na_ols_90ci.pdf}\end{subfigure}
-    \end{center}
-    \footnotesize{OLS event study estimated separately on the Apex and Non-Apex subsamples, on 15-day event-time bin indicators over the $\pm 60$-day window. The four panels are violent and peaceful protests $\times$ Apex and Non-Apex; the reference bin (the 15 days before disclosure) is normalized to zero and shown at its position, and the faint thick vertical line marks the disclosure cutoff. All four panels share a common y-axis. Vertical bars are 90\% confidence intervals; standard errors clustered at country $\times$ year $\times$ day-bin. Sample period 2008--2018; Venezuela excluded.}
-\end{figure}
+
 
 \begin{figure}[htb!]
     \caption{Event studies, $\pm 90$-day window (15-day bins).}
